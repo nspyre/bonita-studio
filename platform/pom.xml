@@ -9,6 +9,11 @@
 	<version>6.0-Beta</version>
 	<packaging>eclipse-target-definition</packaging>
 
+	<properties>
+		<tychoVersion>0.16.0</tychoVersion>
+		<tychoExtrasVersion>0.16.0</tychoExtrasVersion>
+	</properties>
+
 	<build>
 		<plugins>
 			<plugin>
