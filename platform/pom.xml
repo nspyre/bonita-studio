@@ -62,7 +62,7 @@
 				<configuration>
 					<target>
 						<artifact>
-							<groupId>org.bonitasoft.studio.platform</groupId>
+							<groupId>org.bonitasoft.studio</groupId>
 							<artifactId>platform</artifactId>
 							<version>6.0-Beta</version>
 							<classifier>platform</classifier>
