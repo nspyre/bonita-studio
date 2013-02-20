@@ -50,7 +50,7 @@
 							<targetFiles>
 								<param>${project.artifactId}.target</param>
 							</targetFiles>
-							<failOnError>true</failOnError>
+							<failOnError>false</failOnError>
 						</configuration>
 					</execution>
 				</executions>
