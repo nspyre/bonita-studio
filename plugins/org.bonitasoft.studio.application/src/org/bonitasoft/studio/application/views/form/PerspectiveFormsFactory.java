@@ -79,5 +79,10 @@ public class PerspectiveFormsFactory extends AbstractPerspectiveFactory {
 	public String getID() {
 		return FORM_PERSPECTIVE_ID;
 	}
+	
+	protected void configureIntroView(IPageLayout layout) {
+		layout.getViewLayout("org.eclipse.ui.internal.introview").setCloseable(false);
+		layout.getViewLayout("org.eclipse.ui.internal.introview").setMoveable(false);
+	}
 
 }

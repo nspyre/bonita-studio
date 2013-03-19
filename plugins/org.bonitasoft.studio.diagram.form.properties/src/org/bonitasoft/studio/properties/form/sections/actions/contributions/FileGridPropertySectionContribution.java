@@ -132,10 +132,10 @@ public class FileGridPropertySectionContribution implements IExtensibleGridPrope
         radioComposite.setLayoutData(GridDataFactory.fillDefaults().align(SWT.FILL,SWT.CENTER).grab(true, false).span(3, 1).create());
         radioComposite.setLayout(GridLayoutFactory.fillDefaults().numColumns(col).margins(0, 0).create()) ;
 
-        if(!ModelHelper.isAnEntryPageFlowOnAPool(ModelHelper.getParentForm(element))){
+        FileWidgetInputType initialInputType = element.getInputType();
+		if(!ModelHelper.isAnEntryPageFlowOnAPool(ModelHelper.getParentForm(element))){
             useDocumentButton = widgetFactory.createButton(radioComposite, Messages.useDocument, SWT.RADIO) ;
             useDocumentButton.addSelectionListener(new SelectionAdapter() {
-
 
                 @Override
                 public void widgetSelected(org.eclipse.swt.events.SelectionEvent e) {
@@ -159,6 +159,8 @@ public class FileGridPropertySectionContribution implements IExtensibleGridPrope
                     }
                 }
             });
+        }else{
+        	initialInputType = FileWidgetInputType.URL;
         }
 
         useURLButton = widgetFactory.createButton(radioComposite, Messages.useUrl, SWT.RADIO) ;
@@ -219,13 +221,13 @@ public class FileGridPropertySectionContribution implements IExtensibleGridPrope
         initialValueSection.setLayoutData(GridDataFactory.fillDefaults().grab(true,true).span(3, 1).create()) ;
         initialValueSection.setExpanded(true) ;
 
-        if(element.getInputType() == FileWidgetInputType.DOCUMENT){
+        if(initialInputType == FileWidgetInputType.DOCUMENT){
             useDocumentButton.setSelection(true);
             useDocumentButton.notifyListeners(SWT.Selection,new Event());
-        }else if(element.getInputType() == FileWidgetInputType.URL){
+        }else if(initialInputType == FileWidgetInputType.URL){
             useURLButton.setSelection(true);
             useURLButton.notifyListeners(SWT.Selection,new Event());
-        }else if(element.getInputType() == FileWidgetInputType.RESOURCE){
+        }else if(initialInputType == FileWidgetInputType.RESOURCE){
             useResourceButton.setSelection(true);
             useResourceButton.notifyListeners(SWT.Selection,new Event());
         }
@@ -376,20 +378,6 @@ public class FileGridPropertySectionContribution implements IExtensibleGridPrope
         GridData gData = new GridData(SWT.BEGINNING, SWT.CENTER, false, false);
         gData.widthHint = 200;
         inputDocumentViewer.getControl().setLayoutData(gData);
-
-        //      List<Data> data = ModelHelper.getAccessibleData(element, ProcessPackage.eINSTANCE.getAttachmentType());
-        //      for (Data data2 : data) {
-        //          String name = data2.getName();
-        //          if(data2.isMultiple()){
-        //              name = GroovyUtil.GROOVY_PREFIX + name + GroovyUtil.GROOVY_SUFFIX;
-        //          }
-        //          inputDocumentViewer.add(name,0);
-        //      }
-
-        //        ControlDecoration cd = new ControlDecoration(inputDocumentViewer.getControl(), SWT.LEFT);
-        //        cd.setDescriptionText(Messages.data_tooltip_file);
-        //        cd.setImage(Pics.getImage(PicsConstants.hint));
-
         return client ;
     }
 

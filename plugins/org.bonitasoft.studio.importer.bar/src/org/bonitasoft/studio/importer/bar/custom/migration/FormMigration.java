@@ -21,6 +21,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.bonitasoft.studio.common.ExpressionConstants;
 import org.bonitasoft.studio.importer.bar.i18n.Messages;
 import org.bonitasoft.studio.migration.migrator.ReportCustomMigration;
 import org.bonitasoft.studio.migration.utils.StringToExpressionConverter;
@@ -37,6 +38,7 @@ import org.eclipse.emf.edapt.migration.Model;
 public class FormMigration extends ReportCustomMigration {
 
 	private Map<String, List<Instance>> formActions = new HashMap<String,List<Instance>>();
+	private Map<String, String> formLabels = new HashMap<String,String>();
 	
 	@Override
 	public void migrateBefore(Model model, Metamodel metamodel)
@@ -53,7 +55,11 @@ public class FormMigration extends ReportCustomMigration {
 				}
 				formActions.put(form.getUuid(), operations);
 			}
-			
+			String pageLabel = form.get("pageLabel");
+			form.set("pageLabel", null);
+			if(pageLabel != null && !pageLabel.trim().isEmpty()){
+				formLabels.put(form.getUuid(), pageLabel);
+			}
 		}
 	}
 	
@@ -63,10 +69,31 @@ public class FormMigration extends ReportCustomMigration {
 		for(Instance form : model.getAllInstances("form.Form")){
 			if(formActions.containsKey(form.getUuid())){
 				for(Instance operation : formActions.get(form.getUuid())){
+					Instance actionExp = operation.get("rightOperand");
+					if(actionExp != null){
+						 if(ExpressionConstants.SCRIPT_TYPE.equals(actionExp.get("type"))){
+							Instance leftExp = operation.get("leftOperand");
+							if(leftExp!= null){
+								actionExp.set("returnType",leftExp.get("returnType"));
+							}
+						}
+					}
 					form.add("actions", operation);
 				}
 				addReportChange((String) form.get("name"),form.getEClass().getName(), form.getUuid(), Messages.formActionsMigrationDescription, Messages.actionProperty, IStatus.WARNING);
 			}
+			
+			Instance expression = null;
+			if(formLabels.containsKey(form.getUuid())){
+				expression = getConverter(model,getScope(form)).parse(formLabels.get(form.getUuid()), String.class.getName(), true);
+				if(ExpressionConstants.SCRIPT_TYPE.equals(expression.get("type"))){
+					expression.set("name", "displayLabelScript");
+				}
+				addReportChange((String) form.get("name"),form.getEClass().getName(), form.getUuid(), Messages.displayLabelMigrationDescription, Messages.generalProperty, StringToExpressionConverter.getStatusForExpression(expression));
+			}else{
+				expression = StringToExpressionConverter.createExpressionInstance(model, "", "", String.class.getName(), ExpressionConstants.CONSTANT_TYPE, true);
+			}
+			form.set("pageLabel", expression);
 		}
 	}
 	

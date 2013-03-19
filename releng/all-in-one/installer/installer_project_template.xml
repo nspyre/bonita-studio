@@ -39,6 +39,142 @@
             <code>fr</code>
             <file>i18n/messages_fr.properties</file>
         </language>
+        <language>
+            <code>ar</code>
+            <file>i18n/messages.properties</file>
+        </language>
+        <language>
+            <code>bg</code>
+            <file>i18n/messages.properties</file>
+        </language>
+        <language>
+            <code>ca</code>
+            <file>i18n/messages.properties</file>
+        </language>
+        <language>
+            <code>da</code>
+            <file>i18n/messages.properties</file>
+        </language>
+        <language>
+            <code>nl</code>
+            <file>i18n/messages.properties</file>
+        </language>
+        <language>
+            <code>cs</code>
+            <file>i18n/messages.properties</file>
+        </language>
+        <language>
+            <code>cy</code>
+            <file>i18n/messages.properties</file>
+        </language>
+        <language>
+            <code>va</code>
+            <file>i18n/messages.properties</file>
+        </language>
+        <language>
+            <code>zh_CN</code>
+            <file>i18n/messages.properties</file>
+        </language>
+         <language>
+            <code>zh_TW</code>
+            <file>i18n/messages.properties</file>
+        </language>
+         <language>
+            <code>et</code>
+            <file>i18n/messages.properties</file>
+        </language>
+         <language>
+            <code>fi</code>
+            <file>i18n/messages.properties</file>
+        </language>
+         <language>
+            <code>de</code>
+            <file>i18n/messages.properties</file>
+        </language>
+     	 <language>
+            <code>el</code>
+            <file>i18n/messages.properties</file>
+        </language>
+         <language>
+            <code>de</code>
+            <file>i18n/messages.properties</file>
+        </language>
+         <language>
+            <code>es</code>
+            <file>i18n/messages.properties</file>
+        </language>
+         <language>
+            <code>es_AR</code>
+            <file>i18n/messages.properties</file>
+        </language>
+         <language>
+            <code>he</code>
+            <file>i18n/messages.properties</file>
+        </language>
+         <language>
+            <code>hr</code>
+            <file>i18n/messages.properties</file>
+        </language>
+         <language>
+            <code>it</code>
+            <file>i18n/messages.properties</file>
+        </language>
+         <language>
+            <code>ja</code>
+            <file>i18n/messages.properties</file>
+        </language>
+         <language>
+            <code>ko</code>
+            <file>i18n/messages.properties</file>
+        </language>
+	    <language>
+            <code>pl</code>
+            <file>i18n/messages.properties</file>
+        </language>
+         <language>
+            <code>pt_BR</code>
+            <file>i18n/messages.properties</file>
+        </language>
+         <language>
+            <code>pt</code>
+            <file>i18n/messages.properties</file>
+        </language>
+         <language>
+            <code>ro</code>
+            <file>i18n/messages.properties</file>
+        </language>
+		<language>
+            <code>ru</code>
+            <file>i18n/messages.properties</file>
+        </language>
+         <language>
+            <code>no</code>
+            <file>i18n/messages.properties</file>
+        </language>
+	    <language>
+            <code>sl</code>
+            <file>i18n/messages.properties</file>
+        </language>
+         <language>
+            <code>sk</code>
+            <file>i18n/messages.properties</file>
+        </language>
+         <language>
+            <code>sq</code>
+            <file>i18n/messages.properties</file>
+        </language>
+         <language>
+            <code>sq</code>
+            <file>i18n/messages.properties</file>
+        </language>
+        <language>
+            <code>sv</code>
+            <file>i18n/messages.properties</file>
+        </language>
+         <language>
+            <code>tr</code>
+            <file>i18n/messages.properties</file>
+        </language> 
     </customLanguageFileList>
 	<preShowHelpActionList>
 		<setInstallerVariable>
@@ -294,12 +430,12 @@
             <postShowPageActionList>
                 <showProgressDialog>
                     <title>${msg(workspace.setup)}</title>
-                    <height>75</height>
+                    <height>100</height>
                     <width>400</width>
                     <actionList>
                         <runProgram>
                             <program>${java_executable}</program>
-                            <programArguments>-jar "${installdir}/plugins/org.eclipse.equinox.launcher_1.2.0.v20110502.jar" -application org.bonitasoft.studio.application.InitializerApplication -data "${installdir}/workspace"</programArguments>
+                            <programArguments>-Xmx512m -XX:MaxPermSize=512m -jar "${installdir}/plugins/org.eclipse.equinox.launcher_1.2.0.v20110502.jar" -application org.bonitasoft.studio.application.InitializerApplication -data "${installdir}/workspace"</programArguments>
                             <progressText>${msg(initializing.progressMessage)} ${product_fullname}...</progressText>
                             <ruleList>
                                 <isFalse>
@@ -313,7 +449,7 @@
                         </runProgram>
                         <runProgram>
                             <program>${java_executable}</program>
-                            <programArguments>-XstartOnFirstThread -jar "${installdir}/plugins/org.eclipse.equinox.launcher_1.2.0.v20110502.jar" -application org.bonitasoft.studio.application.InitializerApplication -data "${installdir}/workspace"</programArguments>
+                            <programArguments>-Xmx512m -XX:MaxPermSize=512m  -XstartOnFirstThread -jar "${installdir}/plugins/org.eclipse.equinox.launcher_1.2.0.v20110502.jar" -application org.bonitasoft.studio.application.InitializerApplication -data "${installdir}/workspace"</programArguments>
                             <progressText>${msg(initializing.progressMessage)} ${product_fullname}...</progressText>
                             <ruleList>
                                 <isFalse>
@@ -345,11 +481,14 @@
 			<mustBeWritable>1</mustBeWritable>
 			<mustExist>1</mustExist>
 			<ruleList>
-				<compareValues>
-                    <logic>equals</logic>
-                    <value1>${retrieveWorksapce}</value1>
-                    <value2>true</value2>
-                </compareValues>
+					 <isFalse>
+                            <value>true</value>
+                        </isFalse>
+<!-- 				<compareValues> -->
+<!--                     <logic>equals</logic> -->
+<!--                     <value1>${retrieveWorksapce}</value1> -->
+<!--                     <value2>true</value2> -->
+<!--                 </compareValues> -->
             </ruleList>
 			<validationActionList>
 				<findFile>
@@ -362,12 +501,12 @@
 			<postShowPageActionList>
 			<showProgressDialog>
                     <title>${msg(workspace.setup)}</title>
-                    <height>75</height>
+                    <height>100</height>
                     <width>400</width>
                     <actionList>
 		               <runProgram>
 							<program>${java_executable}</program>
-							<programArguments>-jar "${installdir}/plugins/org.eclipse.equinox.launcher_1.2.0.v20110502.jar" -application org.bonitasoft.studio.application.WorkspaceRecovery -data "${Oldworkspace}/studio/workspace" -newWorkspaceLocation "${installdir}/workspace"</programArguments>
+							<programArguments>-jar "${installdir}/plugins/org.eclipse.equinox.launcher_1.2.0.v20110502.jar" -Xmx512m -XX:MaxPermSize=512m -application org.bonitasoft.studio.application.WorkspaceRecovery -data "${Oldworkspace}/studio/workspace" -newWorkspaceLocation "${installdir}/workspace"</programArguments>
 							<progressText>${msg(workspace.recovery.progressMessage)}</progressText>
 							<ruleList>
 								<platformTest>
@@ -381,7 +520,7 @@
 						</runProgram>
 						<runProgram>
 							<program>${java_executable}</program>
-							<programArguments>-jar "${installdir}/plugins/org.eclipse.equinox.launcher_1.2.0.v20110502.jar" -application org.bonitasoft.studio.application.InitializerApplication -data "${installdir}/workspace"</programArguments>
+							<programArguments>-jar "${installdir}/plugins/org.eclipse.equinox.launcher_1.2.0.v20110502.jar" -Xmx512m -XX:MaxPermSize=512m -application org.bonitasoft.studio.application.InitializerApplication -data "${installdir}/workspace"</programArguments>
 							<progressText>${msg(initializing.progressMessage)} ${product_fullname}...</progressText>
 							<ruleList>
 								<platformTest>
@@ -392,7 +531,7 @@
 						</runProgram>
 						<runProgram>
 							<program>${java_executable}</program>
-							<programArguments>-XstartOnFirstThread -jar "${installdir}/plugins/org.eclipse.equinox.launcher_1.2.0.v20110502.jar" -application org.bonitasoft.studio.application.WorkspaceRecovery -data "${Oldworkspace}/studio/workspace" -newWorkspaceLocation "${installdir}/workspace"</programArguments>
+							<programArguments>-XstartOnFirstThread -jar "${installdir}/plugins/org.eclipse.equinox.launcher_1.2.0.v20110502.jar" -Xmx512m -XX:MaxPermSize=512m -application org.bonitasoft.studio.application.WorkspaceRecovery -data "${Oldworkspace}/studio/workspace" -newWorkspaceLocation "${installdir}/workspace"</programArguments>
 							<progressText>${msg(workspace.recovery.progressMessage)}</progressText>
 							<ruleList>
 								<platformTest>
@@ -406,7 +545,7 @@
 						<runProgram>
 							<program>${java_executable}</program>
 							<!-- Change bundle version when Equinox version change -->
-							<programArguments>-XstartOnFirstThread -jar "${installdir}/plugins/org.eclipse.equinox.launcher_1.2.0.v20110502.jar" -application org.bonitasoft.studio.application.InitializerApplication -data "${installdir}/workspace"</programArguments>
+							<programArguments>-XstartOnFirstThread -jar "${installdir}/plugins/org.eclipse.equinox.launcher_1.2.0.v20110502.jar" -Xmx512m -XX:MaxPermSize=512m -application org.bonitasoft.studio.application.InitializerApplication -data "${installdir}/workspace"</programArguments>
 							<progressText>${msg(initializing.progressMessage)} ${product_fullname}...</progressText>
 							<ruleList>
 								<platformTest>

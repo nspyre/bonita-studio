@@ -61,7 +61,7 @@ public class TestImportXPDL extends TestCase {
 
     @Test
     public void testCarpool() throws Exception {
-        File destFile = new File("dest" + System.currentTimeMillis() + ".proc");
+        File destFile = new File("destCarPool" + System.currentTimeMillis() + ".proc");
         destFile.createNewFile();
         destFile.deleteOnExit();
         URL xpdlResource = FileLocator.toFileURL(getClass().getResource("carpool.xpdl"));
@@ -107,12 +107,12 @@ public class TestImportXPDL extends TestCase {
         for (Task task : tasks) {
             assertEquals("Task has no group", group, task.getActor());
         }
-
+        destFile.delete();
     }
 
     @Test
     public void testApprovalWorkflow() throws Exception {
-        File destFile = new File("dest" + System.currentTimeMillis() + ".proc");
+        File destFile = new File("destApprovalWorkflow" + System.currentTimeMillis() + ".proc");
         destFile.createNewFile();
         destFile.deleteOnExit();
         URL xpdlResource = FileLocator.toFileURL(getClass().getResource("ApprovalWorkflow.xpdl"));
@@ -170,11 +170,12 @@ public class TestImportXPDL extends TestCase {
         for (Task task : tasks) {
             assertNotNull("Task has no group",  task.getActor());
         }
+        destFile.delete();
     }
 
     @Test
     public void testWebSale() throws Exception {
-        File destFile = new File("dest" + System.currentTimeMillis() + ".proc");
+        File destFile = new File("destWebSale" + System.currentTimeMillis() + ".proc");
         destFile.createNewFile();
         destFile.deleteOnExit();
         URL xpdlResource = FileLocator.toFileURL(getClass().getResource("WebSale.xpdl"));
@@ -233,12 +234,12 @@ public class TestImportXPDL extends TestCase {
         for (Task task : tasks) {
             assertNotNull("Task has no group",task.getActor());
         }
-
+        destFile.delete();
     }
 
     @Test
     public void testSubFlow() throws Exception {
-        File destFile = new File("dest" + System.currentTimeMillis() + ".proc");
+        File destFile = new File("destSubFlow" + System.currentTimeMillis() + ".proc");
         destFile.createNewFile();
         destFile.deleteOnExit();
         URL xpdlResource = FileLocator.toFileURL(getClass().getResource("subflow_proed.xpdl"));
@@ -262,11 +263,12 @@ public class TestImportXPDL extends TestCase {
         }
         assertEquals("Wrong subflow name", "subflow", subprocess.getCalledActivityName().getContent());
         assertEquals("Wrong number of gateways", 2, gateways.size());
+        destFile.delete();
     }
     
     @Test
     public void testImportWithWhiteSpace() throws IOException{
-    	File destFile = new File("dest" + System.currentTimeMillis() + ".proc");
+    	File destFile = new File("destImportWithWhiteSpace" + System.currentTimeMillis() + ".proc");
         destFile.createNewFile();
         destFile.deleteOnExit();
         URL xpdlResource = FileLocator.toFileURL(getClass().getResource("Approval Workflow.xpdl"));
@@ -278,11 +280,12 @@ public class TestImportXPDL extends TestCase {
         MainProcess mainProcess = (MainProcess)resource.getContents().get(0);
         
         assertNotNull("xpdl diagram \"Approval workflow\" was not exported correctly",mainProcess);
+        destFile.delete();
     }
 
     @Ignore
     public void testMultiInstantiation() throws Exception {
-        File destFile = new File("dest" + System.currentTimeMillis() + ".proc");
+        File destFile = new File("destMultiInstantiation" + System.currentTimeMillis() + ".proc");
         destFile.createNewFile();
         destFile.deleteOnExit();
         URL xpdlResource = FileLocator.toFileURL(getClass().getResource("multiInstantiation.xpdl"));
@@ -300,6 +303,8 @@ public class TestImportXPDL extends TestCase {
                 activity = (Activity)item;
             }
         }
+        
         assertNotNull("Missing a multiinstantiation", activity.getMultiInstantiation());
+        destFile.delete();
     }
 }

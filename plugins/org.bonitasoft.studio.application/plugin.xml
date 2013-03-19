@@ -354,7 +354,7 @@
             </separator>
             <command
                   commandId="org.eclipse.ui.help.aboutAction"
-                  icon="icons/about.png"
+                  icon="icons/bonitasoft-icon-16-16-transparent.png"
                   style="push">
             </command>
             <visibleWhen
@@ -776,6 +776,9 @@
       <contribution
             class="org.bonitasoft.studio.application.contribution.StudioPropertiesContributor"
             priority="0">
+      </contribution>
+      <contribution
+            class="org.bonitasoft.studio.application.contribution.CheckJavaVersionPostStartupContribution">
       </contribution>
    </extension>
    <extension

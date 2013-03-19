@@ -41,7 +41,6 @@ import org.bonitasoft.studio.model.process.SourceElement;
 import org.bonitasoft.studio.model.process.TargetElement;
 import org.bonitasoft.studio.model.process.decision.DecisionTable;
 import org.bonitasoft.studio.model.process.decision.DecisionTableAction;
-import org.bonitasoft.studio.model.process.decision.DecisionTableCondition;
 import org.bonitasoft.studio.model.process.decision.DecisionTableLine;
 import org.bonitasoft.studio.model.process.decision.transitions.TakeTransitionAction;
 import org.bonitasoft.studio.model.process.decision.transitions.TransitionsFactory;
@@ -156,6 +155,7 @@ public class TransitionCondition implements IExtensibleGridPropertySectionContri
             expression.setType(ExpressionConstants.CONDITION_TYPE);
             editingDomain.getCommandStack().execute(SetCommand.create(editingDomain, transition, ProcessPackage.Literals.SEQUENCE_FLOW__CONDITION,expression)) ;
         }
+        conditionViewer.setContext(transition);
         conditionViewer.setInput(transition) ;
         conditionViewer.getControl().setLayoutData(GridDataFactory.fillDefaults().align(SWT.FILL,SWT.CENTER).grab(true, false).create());
 
@@ -230,15 +230,13 @@ public class TransitionCondition implements IExtensibleGridPropertySectionContri
         return client ;
     }
 
-    private void createLine(Composite parent, List<DecisionTableCondition> conditions, DecisionTableAction decisionTableAction) {
+    private void createLine(Composite parent, List<Expression> conditions, DecisionTableAction decisionTableAction) {
         final Composite row = widgetFactory.createComposite(parent) ;
         row.setLayoutData(GridDataFactory.fillDefaults().grab(true,false).create()) ;
         row.setLayout(RowLayoutFactory.fillDefaults().spacing(0).type(SWT.HORIZONTAL).create()) ;
 
-        for(DecisionTableCondition condition : conditions){
-            widgetFactory.createLabel(row,	condition.getOperand1(), SWT.NONE) ;
-            widgetFactory.createLabel(row, condition.getOperator(), SWT.NONE) ;
-            widgetFactory.createLabel(row, condition.getOperand2(), SWT.NONE) ;
+        for(Expression condition : conditions){
+            widgetFactory.createLabel(row,	condition.getContent(), SWT.NONE) ;
             if(conditions.indexOf(condition) != conditions.size()-1){
                 widgetFactory.createLabel(row, " ", SWT.NONE) ;
                 widgetFactory.createLabel(row, Messages.and, SWT.NONE) ;

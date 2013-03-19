@@ -546,7 +546,7 @@
                   severity="WARNING"
                   statusCode="1">
                <message>
-                  %Validation_nomessage
+                  {0}
                </message>
                <target
                      class="AbstractCatchMessageEvent">
@@ -765,6 +765,84 @@
                            name="name">
                      </feature>
                   </event>
+               </target>
+            </constraint>
+            <constraint
+                  class="org.bonitasoft.studio.validation.constraints.GroovyCompilationOnScriptExpressionConstraint"
+                  id="org.bonitasoft.studio.validation.constraint.groovyCompilationFailure"
+                  lang="java"
+                  mode="Batch"
+                  name="Groovy script compilation failures"
+                  severity="WARNING"
+                  statusCode="1">
+               <message>
+                  {0}
+               </message>
+               <target
+                     class="Expression">
+               </target>
+               <target
+                     class="Connector">
+               </target>
+            </constraint>
+            <constraint
+                  class="org.bonitasoft.studio.validation.constraints.BPMN2ValidationConstraint"
+                  id="org.bonitasoft.studio.validation.constraints.bpmn2"
+                  lang="java"
+                  mode="Batch"
+                  name="BPMN2 compliance"
+                  severity="INFO"
+                  statusCode="1">
+               <message>
+                  {0}
+               </message>
+               <target
+                     class="ConnectableElement">
+               </target>
+            </constraint>
+            <constraint
+                  class="org.bonitasoft.studio.validation.constraints.process.EndingPageflowConstraint"
+                  id="org.bonitasoft.studio.validation.ex.constraint.pageflow"
+                  lang="java"
+                  mode="Batch"
+                  name="Pageflow"
+                  severity="WARNING"
+                  statusCode="1">
+               <message>
+                  {0}
+               </message>
+               <target
+                     class="PageFlow">
+               </target>
+            </constraint>
+            <constraint
+                  class="org.bonitasoft.studio.validation.constraints.process.OutputTransitionConstraint"
+                  id="org.bonitasoft.studio.validation.outputTransitions"
+                  lang="java"
+                  mode="Batch"
+                  name="Output transitions"
+                  severity="INFO"
+                  statusCode="1">
+               <message>
+                  {0}
+               </message>
+               <target
+                     class="SourceElement">
+               </target>
+            </constraint>
+            <constraint
+                  class="org.bonitasoft.studio.validation.constraints.process.InternalDocumentConstraint"
+                  id="org.bonitasoft.studio.validation.constraints.document"
+                  lang="java"
+                  mode="Batch"
+                  name="Document default file"
+                  severity="WARNING"
+                  statusCode="1">
+               <message>
+                  {0}
+               </message>
+               <target
+                     class="Pool">
                </target>
             </constraint>
          </constraints>

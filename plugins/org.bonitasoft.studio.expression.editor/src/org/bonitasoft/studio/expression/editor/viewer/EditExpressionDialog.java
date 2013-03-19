@@ -38,6 +38,7 @@ import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.jface.dialogs.DialogTray;
 import org.eclipse.jface.dialogs.TrayDialog;
 import org.eclipse.jface.layout.GridDataFactory;
+import org.eclipse.jface.viewers.ColumnViewerToolTipSupport;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
@@ -46,6 +47,7 @@ import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerFilter;
 import org.eclipse.jface.viewers.ViewerSorter;
+import org.eclipse.jface.window.ToolTip;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.BusyIndicator;
 import org.eclipse.swt.graphics.Point;
@@ -183,6 +185,7 @@ public class EditExpressionDialog extends TrayDialog {
         if(viewerTypeFilters != null){
             expressionTypeViewer.setFilters(viewerTypeFilters);
         }
+        ColumnViewerToolTipSupport.enableFor(expressionTypeViewer, ToolTip.NO_RECREATE);
         expressionTypeViewer.setInput(context) ;
         expressionTypeViewer.addSelectionChangedListener(new ISelectionChangedListener() {
 
@@ -206,10 +209,13 @@ public class EditExpressionDialog extends TrayDialog {
                 getShell().layout(true, true) ;
             }
         }) ;
-
-
     }
 
+    @Override
+    protected boolean isResizable() {
+    	return true;
+    }
+    
     protected void expressionTypeChanged(ISelection selection) {
         if(!selection.isEmpty()){
             final IExpressionProvider provider =  (IExpressionProvider) ((StructuredSelection) selection).getFirstElement() ;

@@ -34,11 +34,9 @@ import org.bonitasoft.studio.common.repository.Repository;
 import org.bonitasoft.studio.common.repository.filestore.EMFFileStore;
 import org.bonitasoft.studio.common.repository.model.IRepositoryStore;
 import org.bonitasoft.studio.migration.MigrationPlugin;
-import org.bonitasoft.studio.model.process.MainProcess;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.common.command.BasicCommandStack;
 import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.edapt.history.Release;
 import org.eclipse.emf.edapt.migration.MigrationException;
@@ -64,7 +62,6 @@ import org.eclipse.gmf.runtime.emf.core.GMFEditingDomainFactory;
 public abstract class AbstractEMFRepositoryStore<T extends EMFFileStore> extends AbstractRepositoryStore<T> implements IRepositoryStore<T> {
 
     private static final String MIGRATION_HISTORY_PATH = "process.history";
-	private static final String PROCESS_NS_URI = "http://www.bonitasoft.org/ns/studio/process";
     private AdapterFactoryLabelProvider labelProvider;
     private final ComposedAdapterFactory adapterFactory;
     private Migrator migrator;
@@ -99,8 +96,16 @@ public abstract class AbstractEMFRepositoryStore<T extends EMFFileStore> extends
     @Override
     protected InputStream handlePreImport(String fileName, InputStream inputStream) {
         final InputStream is = super.handlePreImport(fileName, inputStream);
+        if(fileName.endsWith(".properties") 
+        		|| fileName.toLowerCase().endsWith(".png") 
+        		|| fileName.toLowerCase().endsWith(".jpg")
+        		|| fileName.toLowerCase().endsWith(".gif")
+        		|| fileName.toLowerCase().endsWith(".jpeg")){//not an emf resource
+        	return is;
+        }
         final CopyInputStream copyIs = new CopyInputStream(is);
         final InputStream originalStream = copyIs.getCopy();
+
         final Resource resource = getTmpEMFResource(fileName,copyIs.getCopy());
         if(resource == null){
             BonitaStudioLog.debug("Failed to retrieve EMF Resource for migration", CommonRepositoryPlugin.PLUGIN_ID);
@@ -118,22 +123,19 @@ public abstract class AbstractEMFRepositoryStore<T extends EMFFileStore> extends
         }
 
         if (targetMigrator != null) {
-        	 Release release = null;
-        	if(nsURI.equals(PROCESS_NS_URI)){
-        		release = getRelease(targetMigrator,resource);
-             }else{
-            	 release = targetMigrator.getRelease(resourceURI).iterator().next();
-             }
-            if (!release.isLatestRelease()) {
+        	 Release release =  getRelease(targetMigrator,resource);
+            if (release != null && !release.isLatestRelease()) {
                 try {
                     performMigration(targetMigrator, resourceURI, release);
+                } catch (MigrationException e) {
+                    BonitaStudioLog.error(e, CommonRepositoryPlugin.PLUGIN_ID);
+                }
+                try{
                     copyIs.close();
                     final FileInputStream newIs = new FileInputStream(tmpFile);
                     tmpFile.delete();
                     return newIs;
-                } catch (MigrationException e) {
-                    BonitaStudioLog.error(e, CommonRepositoryPlugin.PLUGIN_ID);
-                } catch (FileNotFoundException e) {
+                }catch (FileNotFoundException e) {
                     BonitaStudioLog.error(e, CommonRepositoryPlugin.PLUGIN_ID);
                 }
             }
@@ -144,18 +146,8 @@ public abstract class AbstractEMFRepositoryStore<T extends EMFFileStore> extends
         return originalStream;
     }
 
-    private Release getRelease(Migrator targetMigrator, Resource resource) {
-		for(Release release : targetMigrator.getReleases()){
-			for(EObject root : resource.getContents()){
-				if(root instanceof MainProcess){
-					String modelVersion = ((MainProcess) root).getBonitaModelVersion();
-					if(release.getLabel().equals(modelVersion)){
-						return release;
-					}
-				}
-			}
-		}
-		return targetMigrator.getReleases().iterator().next(); //First release of all time
+    protected Release getRelease(Migrator targetMigrator, Resource resource) {
+		return targetMigrator.getRelease(resource.getURI()).iterator().next();
 	}
 
 	private void performMigration(Migrator migrator, URI resourceURI, Release release) throws MigrationException {
@@ -165,8 +157,8 @@ public abstract class AbstractEMFRepositoryStore<T extends EMFFileStore> extends
                 null, Repository.NULL_PROGRESS_MONITOR);
     }
 
-    private Resource getTmpEMFResource(String fileName,InputStream inputStream) {
-        final TransactionalEditingDomain editingDomain = GMFEditingDomainFactory.INSTANCE.createEditingDomain();
+    protected Resource getTmpEMFResource(String fileName,InputStream inputStream) {
+        final EditingDomain editingDomain = getEditingDomain();
         FileOutputStream fos = null;
         File tmpFile = null ;
         try{

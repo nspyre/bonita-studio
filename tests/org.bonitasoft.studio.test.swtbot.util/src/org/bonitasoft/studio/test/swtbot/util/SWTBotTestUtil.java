@@ -32,6 +32,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.bonitasoft.studio.common.ExpressionConstants;
+import org.bonitasoft.studio.common.emf.tools.ModelHelper;
 import org.bonitasoft.studio.common.jface.FileActionDialog;
 import org.bonitasoft.studio.common.jface.SWTBotConstants;
 import org.bonitasoft.studio.common.log.BonitaStudioLog;
@@ -39,6 +40,7 @@ import org.bonitasoft.studio.diagram.custom.editPolicies.NextElementEditPolicy;
 import org.bonitasoft.studio.diagram.custom.editPolicies.UpdateSizePoolSelectionEditPolicy;
 import org.bonitasoft.studio.engine.command.RunProcessCommand;
 import org.bonitasoft.studio.expression.editor.viewer.ExpressionViewer;
+import org.bonitasoft.studio.model.process.ProcessPackage;
 import org.bonitasoft.studio.model.process.diagram.edit.parts.PoolEditPart;
 import org.bonitasoft.studio.model.process.diagram.form.edit.parts.FormEditPart;
 import org.eclipse.core.commands.ExecutionException;
@@ -46,6 +48,7 @@ import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.draw2d.IFigure;
+import org.eclipse.draw2d.PositionConstants;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.EditPart;
@@ -83,8 +86,7 @@ import org.hamcrest.Description;
 import org.junit.Assert;
 
 public class SWTBotTestUtil implements SWTBotConstants{
-
-
+	
     public static final int CONTEXTUALPALETTE_STEP = 0;
     public static final int CONTEXTUALPALETTE_GATEWAY = 1;
     public static final int CONTEXTUALPALETTE_SEQUENCEFLOW = 2;
@@ -327,8 +329,53 @@ public class SWTBotTestUtil implements SWTBotConstants{
         toolbarFigure.translateToAbsolute(location);
         gmfEditor.drag(location.x, location.y, dropLocation.x,dropLocation.y);
     }
+    
+    public static void selectElementInContextualPaletteAndDragIt(SWTBotGefEditor gmfEditor,String selectedElementName,int elementIndex, int position){
+        SWTBotGefEditPart gep = gmfEditor.getEditPart(selectedElementName);
+        Assert.assertNotNull("Error: No Edit Part \'"+selectedElementName+"\' found.", gep);
+        SWTBotGefEditPart element = gep.parent();
+        element.select();
+        IGraphicalEditPart graphicalEditPart = (IGraphicalEditPart) element.part();
+        NextElementEditPolicy nextElementEditPolicy = (NextElementEditPolicy)graphicalEditPart.getEditPolicy(NextElementEditPolicy.NEXT_ELEMENT_ROLE);
 
-    /**
+        IFigure toolbarFigure = nextElementEditPolicy.getFigure(elementIndex);
+        Point dropLocation = null;
+        
+        
+        int yPaletteDelta = computeYPaletteDelta(elementIndex);
+        		
+        final Rectangle bounds = graphicalEditPart.getFigure().getBounds();
+        switch (position) {
+        case PositionConstants.NORTH:dropLocation = bounds.getTop().getCopy().translate(-20, -70);break;
+        case PositionConstants.SOUTH:dropLocation = bounds.getBottom().getCopy().translate(-20, 70);break;
+        case PositionConstants.WEST:dropLocation = bounds.getLeft().getCopy().translate(-80, yPaletteDelta);break;
+        case PositionConstants.EAST:dropLocation = bounds.getRight().getCopy().translate(80,yPaletteDelta);break;
+
+        case PositionConstants.NORTH_EAST:dropLocation = bounds.getTopRight().getCopy().translate(80, -70);break;
+        case PositionConstants.NORTH_WEST:dropLocation = bounds.getTopLeft().getCopy().translate(-80, 70);break;
+        case PositionConstants.SOUTH_EAST:dropLocation = bounds.getBottomRight().getCopy().translate(80, 70);break;
+        case PositionConstants.SOUTH_WEST:dropLocation = bounds.getBottomLeft().getCopy().translate(-80,-70);break;
+
+        default: throw new RuntimeException("Invalid position specified") ;
+        }
+        
+        Point location = toolbarFigure.getBounds().getCenter().getCopy();
+        toolbarFigure.translateToAbsolute(location);
+        
+        gmfEditor.drag(location.x, location.y, dropLocation.x,dropLocation.y);
+    }
+
+    private static int computeYPaletteDelta(int elementIndex) {
+    	switch (elementIndex) {
+		case CONTEXTUALPALETTE_EVENT:return -8;
+		case CONTEXTUALPALETTE_GATEWAY:return 5;
+		case CONTEXTUALPALETTE_SEQUENCEFLOW:return -5;
+		case CONTEXTUALPALETTE_STEP:return 8;
+		default:return 0;
+		}
+	}
+
+	/**
      * 
      * @param gmfEditor
      * @param selectedElementName
@@ -417,12 +464,39 @@ public class SWTBotTestUtil implements SWTBotConstants{
      * @param startElementName
      * @param endElementName
      */
-    public static void addSequenceFlow(SWTGefBot bot,SWTBotGefEditor gmfEditor,String startElementName,String endElementName){
+    public static void addSequenceFlow(SWTGefBot bot,final SWTBotGefEditor gmfEditor,final String startElementName,final String endElementName,int targetAnchorPosition){
+    	final int nbConnection = ModelHelper.getAllItemsOfType(((IGraphicalEditPart)gmfEditor.mainEditPart().part()).resolveSemanticElement(),ProcessPackage.Literals.SEQUENCE_FLOW).size();
         final IGraphicalEditPart gep =  (IGraphicalEditPart) gmfEditor.getEditPart(endElementName).parent().part();
         IFigure figure = gep.getFigure();
-        Rectangle dest = figure.getBounds().getCopy();
-        figure.translateToAbsolute(dest);
-        selectElementInContextualPaletteAndDragIt(gmfEditor, startElementName, CONTEXTUALPALETTE_SEQUENCEFLOW, dest.getLocation());
+        Point targetLocation = null;
+        final Rectangle bounds = figure.getBounds();
+		switch (targetAnchorPosition) {
+		case PositionConstants.NORTH: targetLocation = bounds.getTop().getCopy().translate(-10, 10); break;
+		case PositionConstants.SOUTH: targetLocation = bounds.getBottom().getCopy().translate(-10, -10); break;
+		case PositionConstants.EAST: targetLocation = bounds.getRight().getCopy().translate(-10, 8);break;
+		case PositionConstants.WEST: targetLocation = bounds.getLeft().getCopy().translate(10, 8);break;
+		default:throw new RuntimeException("Unhandled position : "+targetAnchorPosition);
+		}
+
+        figure.translateToAbsolute(targetLocation);
+        gmfEditor.mainEditPart().part().getViewer().findObjectAt(targetLocation);
+
+        selectElementInContextualPaletteAndDragIt(gmfEditor, startElementName, CONTEXTUALPALETTE_SEQUENCEFLOW, targetLocation);
+        bot.waitUntil(new ICondition() {
+			
+			@Override
+			public boolean test() throws Exception {
+				return nbConnection + 1 == ModelHelper.getAllItemsOfType(((IGraphicalEditPart)gmfEditor.mainEditPart().part()).resolveSemanticElement(),ProcessPackage.Literals.SEQUENCE_FLOW).size();
+			}
+			
+			@Override
+			public void init(SWTBot bot) {}
+			
+			@Override
+			public String getFailureMessage() {			
+				return "Failed to create the sequenceflow between "+startElementName+" and "+endElementName;
+			}
+		}, 5000,1000);
     }
 
 
@@ -571,7 +645,7 @@ public class SWTBotTestUtil implements SWTBotConstants{
 	
 	
 	public static StyleRange getTextStyleInEditExpressionDialog(SWTGefBot bot,String expressionType, int line,int column){
-	    bot.sleep(1000);
+	    bot.sleep(1500);
 		return bot.styledText().getStyle(line,column);
 	}
 	
@@ -791,13 +865,30 @@ public class SWTBotTestUtil implements SWTBotConstants{
     	bot.button(IDialogConstants.NEXT_LABEL).click();
     	
     	// 6th page
-    	Assert.assertTrue("Error : Next button is not enable in Connectors Wizard.", bot.button(IDialogConstants.NEXT_LABEL).isEnabled());
-    	bot.button(IDialogConstants.NEXT_LABEL).click();
-    	
-    	// 7th page
     	Assert.assertTrue("Error : Next button is not enable in Connectors Wizard.", bot.button(IDialogConstants.FINISH_LABEL).isEnabled());
     	bot.button(IDialogConstants.FINISH_LABEL).click();
      	
     	
 	}
+
+	public static Point computeTargetLocation(SWTBotGefEditor gmfEditor, String sourceElement, int position) {
+		SWTBotGefEditPart gep = gmfEditor.getEditPart(sourceElement);
+        Assert.assertNotNull("Error: No Edit Part \'"+sourceElement+"\' found.", gep);
+        SWTBotGefEditPart element = gep.parent();
+        IGraphicalEditPart graphicalEditPart = (IGraphicalEditPart) element.part();
+	
+        switch (position) {
+        case PositionConstants.NORTH: return graphicalEditPart.getFigure().getBounds().getTop().getCopy().translate(-20, -70);
+		case PositionConstants.SOUTH: return graphicalEditPart.getFigure().getBounds().getBottom().getCopy().translate(-20, 70);
+		case PositionConstants.WEST: return graphicalEditPart.getFigure().getBounds().getLeft().getCopy().translate(-80, 10);
+		case PositionConstants.EAST: return graphicalEditPart.getFigure().getBounds().getRight().getCopy().translate(80,10);
+		case PositionConstants.NORTH_EAST:return graphicalEditPart.getFigure().getBounds().getTopRight().getCopy().translate(80, -70);
+		case PositionConstants.NORTH_WEST:return graphicalEditPart.getFigure().getBounds().getTopLeft().getCopy().translate(-80, 70);
+		case PositionConstants.SOUTH_EAST:return graphicalEditPart.getFigure().getBounds().getBottomRight().getCopy().translate(-80, 70);
+		case PositionConstants.SOUTH_WEST:return graphicalEditPart.getFigure().getBounds().getBottomLeft().getCopy().translate(80,-70);
+		default: throw new RuntimeException("Invalid position specified") ;
+		}
+        
+	}
+	
 }

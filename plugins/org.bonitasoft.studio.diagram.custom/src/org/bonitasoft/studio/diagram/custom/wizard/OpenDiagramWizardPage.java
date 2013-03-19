@@ -98,28 +98,7 @@ public class OpenDiagramWizardPage extends WizardPage implements IWizardPage {
         
         
         final LabelProvider fileStoreLabelProvider = new FileStoreLabelProvider();
-        ifileTree.getViewer().setLabelProvider(new StyledCellLabelProvider() {
-
-        	@Override
-        	public void update(ViewerCell cell) {
-                if (cell.getElement() instanceof DiagramFileStore) {
-                	DiagramFileStore filseStore = (DiagramFileStore) cell.getElement();
-                    StyledString styledString = new StyledString();
-
-                    styledString.append(fileStoreLabelProvider.getText(filseStore), null);
-                    if(filseStore.getMigrationReport() != null){
-                    	  styledString.append(" -- ",StyledString.DECORATIONS_STYLER) ;
-                    	  styledString.append( Messages.migrationOngoing ,StyledString.COUNTER_STYLER) ;
-                    }
-                
-                    cell.setText(styledString.getString());
-                    cell.setImage(fileStoreLabelProvider.getImage(filseStore)) ;
-                    cell.setStyleRanges(styledString.getStyleRanges());
-                }
-        		super.update(cell);
-        	}
-        	
-		}) ;
+        ifileTree.getViewer().setLabelProvider(new DiagramLabelProvider(fileStoreLabelProvider));
         ifileTree.getViewer().addSelectionChangedListener(new ISelectionChangedListener() {
 
             public void selectionChanged(SelectionChangedEvent event) {
@@ -183,7 +162,10 @@ public class OpenDiagramWizardPage extends WizardPage implements IWizardPage {
         					}
 
         					ifileTree.getViewer().setInput(new Object());
-        					PlatformUtil.openIntroIfNoOtherEditorOpen();
+        					if(PlatformUtil.isIntroOpen()){
+        						PlatformUtil.closeIntro();
+        						PlatformUtil.openIntro();
+        					}
         				}
         			} catch (Exception e1) {
         				BonitaStudioLog.error(e1);

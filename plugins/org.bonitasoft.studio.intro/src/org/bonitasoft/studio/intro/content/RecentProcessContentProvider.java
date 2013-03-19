@@ -21,6 +21,7 @@ import java.io.PrintWriter;
 
 import org.bonitasoft.studio.common.repository.RepositoryManager;
 import org.bonitasoft.studio.common.repository.model.IRepositoryFileStore;
+import org.bonitasoft.studio.diagram.custom.repository.DiagramFileStore;
 import org.bonitasoft.studio.diagram.custom.repository.DiagramRepositoryStore;
 import org.bonitasoft.studio.intro.actions.OpenSpecificProcessAction;
 import org.eclipse.swt.widgets.Composite;
@@ -74,28 +75,12 @@ public class RecentProcessContentProvider implements IIntroXHTMLContentProvider 
     public void createContent(String id, Element parent) {
         DiagramRepositoryStore diagramSotre = (DiagramRepositoryStore) RepositoryManager.getInstance().getRepositoryStore(DiagramRepositoryStore.class) ;
         int nbProc = Integer.parseInt(id.split(",")[0]);
-        //        final List<DiagramFileStore> allArtifacts = diagramSotre.getChildren() ;
-        //        nbProc = Math.min(nbProc, allArtifacts.size());
         Document doc = parent.getOwnerDocument();
         Element ul = doc.createElement("ul");
         parent.appendChild(ul);
         if (nbProc == 0) {
             return;
         }
-        //        PriorityQueue<IRepositoryFileStore> queue = new PriorityQueue<IRepositoryFileStore>(nbProc, new Comparator<IRepositoryFileStore>() {
-        //            public int compare(IRepositoryFileStore arg0, IRepositoryFileStore arg1) {
-        //                final long lastModifiedArg1 = arg1.getResource().getLocation().toFile().lastModified();
-        //                final long lastModifiedArg0 = arg0.getResource().getLocation().toFile().lastModified();
-        //                return Long.valueOf(lastModifiedArg1).compareTo(Long.valueOf(lastModifiedArg0));
-        //            }
-        //        });
-        //        for (IRepositoryFileStore proc : allArtifacts) {
-        //            if(queue.size() == nbProc) {
-        //                break;
-        //            }
-        //            queue.add(proc);
-        //        }
-        //        Assert.isTrue(nbProc == queue.size());
         if(diagramSotre != null){
         	for (IRepositoryFileStore proc : diagramSotre.getRecentChildren(nbProc)) {
         		Element li = doc.createElement("li");
@@ -103,13 +88,21 @@ public class RecentProcessContentProvider implements IIntroXHTMLContentProvider 
         		li.appendChild(a);
         		a.setAttribute("href", createOpenProcessHref(proc));
         		String displayNameForLabelProvider = proc.getDisplayName();
+        		DiagramFileStore diagram = (DiagramFileStore)proc;
+        		
         		a.setAttribute("title", displayNameForLabelProvider) ;
-        		if (displayNameForLabelProvider.length() > 100) {
-        			displayNameForLabelProvider = displayNameForLabelProvider.substring(0,100 ) + "...";
+        		if (displayNameForLabelProvider.length() > 82) {
+        			displayNameForLabelProvider = displayNameForLabelProvider.substring(0,82 ) + "...";
         		}
         		Text procName = doc.createTextNode(displayNameForLabelProvider);
         		a.appendChild(procName);
-
+        		if (diagram.getMigrationReport()!=null){
+        			Element style = doc.createElement("font");
+        			a.appendChild(style);
+        			style.setAttribute("color", "#01A8CE");
+        			Text migrationOngoing=doc.createTextNode(" Migration ongoing");
+        			style.appendChild(migrationOngoing);
+        		}
         		ul.appendChild(li);
         	}
         }

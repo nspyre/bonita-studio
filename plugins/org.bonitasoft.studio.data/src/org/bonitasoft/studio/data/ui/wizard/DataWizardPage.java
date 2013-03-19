@@ -17,7 +17,6 @@ package org.bonitasoft.studio.data.ui.wizard;
 import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashSet;
@@ -163,7 +162,6 @@ public class DataWizardPage extends WizardPage {
 	private Text classText;
 	private IViewerObservableValue observeSingleSelectionTypeCombo;
 	private IViewerObservableValue observeSingleSelectionDefaultValueExpression;
-	private Object oldTypeObservableValue = null;
 	final private String multipleReturnType = List.class.getName();
 
 	private final ViewerFilter typeViewerFilter = new ViewerFilter() {
@@ -445,17 +443,26 @@ public class DataWizardPage extends WizardPage {
 		final UpdateValueStrategy startegy = new UpdateValueStrategy();
 		final IObservableValue returnTypeObservable = EMFObservables.observeValue( data.getDefaultValue(), ExpressionPackage.Literals.EXPRESSION__RETURN_TYPE);
 		final IObservableValue typeObservable = EMFObservables.observeValue( data.getDefaultValue(), ExpressionPackage.Literals.EXPRESSION__TYPE);
+		final IObservableValue interpreterObservable = EMFObservables.observeValue( data.getDefaultValue(), ExpressionPackage.Literals.EXPRESSION__INTERPRETER);
 		startegy.setConverter(new Converter(Boolean.class,String.class){
+
+			private Object previousExpressionType;
 
 			@Override
 			public Object convert(Object input) {
 				if((Boolean)input){
-					oldTypeObservableValue = typeObservable.getValue();
+					previousExpressionType = typeObservable.getValue();
 					typeObservable.setValue(ExpressionConstants.SCRIPT_TYPE);
+					interpreterObservable.setValue(ExpressionConstants.GROOVY);
+					defaultValueViewer.refresh();
 					return multipleReturnType;
 				}else{
-					if(oldTypeObservableValue != null){
-						typeObservable.setValue(oldTypeObservableValue);
+					if(previousExpressionType != null){
+						typeObservable.setValue(previousExpressionType);
+						if(!ExpressionConstants.SCRIPT_TYPE.equals(previousExpressionType)){
+							interpreterObservable.setValue(null);
+						}
+						defaultValueViewer.refresh();
 					}
 					return getSelectedReturnType();
 				}
@@ -723,7 +730,7 @@ public class DataWizardPage extends WizardPage {
 		defaultValueViewer = new ExpressionViewer(parent, SWT.BORDER, ProcessPackage.Literals.DATA__DEFAULT_VALUE);
 		defaultValueViewer.getControl().setLayoutData(GridDataFactory.fillDefaults().grab(true, false).span(2, 1).create());
 		defaultValueViewer.setContext(container);
-		defaultValueViewer.setInput(data);
+
 
 		final Set<String> availableDataNames = new HashSet<String>();
 		if(!(container instanceof AbstractProcess)){
@@ -744,6 +751,7 @@ public class DataWizardPage extends WizardPage {
 				return selected;
 			}
 		});
+		defaultValueViewer.setInput(data);
 	}
 
 	protected void createTypeChooser(final Composite parent) {

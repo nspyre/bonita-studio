@@ -34,6 +34,11 @@ public class TextEditorPerspectiveFactory extends AbstractPerspectiveFactory {
 	public void createInitialLayout(IPageLayout layout) {
 		//no layout
 	}
+	
+	protected void configureIntroView(IPageLayout layout) {
+		layout.getViewLayout("org.eclipse.ui.internal.introview").setCloseable(false);
+		layout.getViewLayout("org.eclipse.ui.internal.introview").setMoveable(false);
+	}
 
 	/* (non-Javadoc)
 	 * @see org.bonitasoft.studio.common.perspectives.AbstractPerspectiveFactory#isRelevantFor(org.eclipse.ui.IEditorPart)

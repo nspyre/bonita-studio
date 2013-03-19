@@ -16,7 +16,9 @@
  */
 package org.bonitasoft.studio.properties.form.provider;
 
+import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.bonitasoft.studio.common.ExpressionConstants;
@@ -30,12 +32,18 @@ import org.bonitasoft.studio.model.form.Form;
 import org.bonitasoft.studio.model.form.FormField;
 import org.bonitasoft.studio.model.form.NextFormButton;
 import org.bonitasoft.studio.model.form.SubmitFormButton;
+import org.bonitasoft.studio.model.form.TextFormField;
 import org.bonitasoft.studio.model.form.Widget;
 import org.bonitasoft.studio.model.form.WidgetDependency;
+import org.bonitasoft.studio.model.process.AbstractPageFlow;
 import org.bonitasoft.studio.model.process.PageFlow;
+import org.bonitasoft.studio.model.process.ProcessPackage;
+import org.bonitasoft.studio.model.process.RecapFlow;
+import org.bonitasoft.studio.model.process.ViewPageFlow;
 import org.bonitasoft.studio.pics.Pics;
 import org.bonitasoft.studio.pics.PicsConstants;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
 import org.eclipse.emf.edit.ui.provider.AdapterFactoryLabelProvider;
@@ -79,10 +87,12 @@ public class FormFieldExpressionProvider implements IExpressionProvider {
 			}
 
 			//Add all widgets from the pageflow not in the same form
-			final PageFlow pageFlow = ModelHelper.getPageFlow((Widget) relevantParent);
+
+			final AbstractPageFlow pageFlow = ModelHelper.getPageFlow((Widget) relevantParent);
 			if (pageFlow != null ) {
+				List<? extends Form> forms= getForms(pageFlow, ModelHelper.getForm((Widget) relevantParent));
 				Form parentForm = ModelHelper.getParentForm(relevantParent);
-				for (Form f : pageFlow.getForm()){
+				for (Form f : forms){
 					if(!f.equals(parentForm)){
 						for (Widget w : ModelHelper.getAllWidgetInsideForm(f)) {
 							if (w instanceof FormField || w instanceof NextFormButton){
@@ -93,14 +103,46 @@ public class FormFieldExpressionProvider implements IExpressionProvider {
 				}
 			}
 		}else  if (relevantParent instanceof Form && relevantParent.eContainer() != null) {
-			if(relevantParent.eContainer() instanceof PageFlow){
+			if(relevantParent.eContainer() instanceof AbstractPageFlow){
 				// get all fields from pageflow
-				final PageFlow pageFlow = (PageFlow) relevantParent.eContainer();
+				final AbstractPageFlow pageFlow = (AbstractPageFlow) relevantParent.eContainer();
 				if(pageFlow != null){
-					for (Form f : pageFlow.getForm()){
+					List<? extends Form> forms= getForms(pageFlow, (Form) relevantParent);					
+					for (Form f : forms){
 						for (Widget w : ModelHelper.getAllWidgetInsideForm(f)) {
 							if (w instanceof FormField){
 								result.add( createExpression(w) ) ;
+							}
+						}
+					}
+				}
+			}
+		}else if(relevantParent instanceof AbstractPageFlow){
+			// get all fields from pageflow
+			if(relevantParent instanceof PageFlow){
+				if(relevantParent != null){
+					for (Form f : ((PageFlow) relevantParent).getForm()){
+						for (Widget w : ModelHelper.getAllWidgetInsideForm(f)) {
+							if (w instanceof FormField || w instanceof NextFormButton){
+								result.add( createExpression(w) ) ;
+							}
+						}
+					}
+					if(relevantParent instanceof ViewPageFlow){
+						for (Form f : ((ViewPageFlow) relevantParent).getViewForm()){
+							for (Widget w : ModelHelper.getAllWidgetInsideForm(f)) {
+								if (w instanceof FormField || w instanceof NextFormButton){
+									result.add( createExpression(w) ) ;
+								}
+							}
+						}
+					}
+					if(relevantParent instanceof RecapFlow){
+						for (Form f : ((RecapFlow) relevantParent).getRecapForms()){
+							for (Widget w : ModelHelper.getAllWidgetInsideForm(f)) {
+								if (w instanceof FormField || w instanceof NextFormButton){
+									result.add( createExpression(w) ) ;
+								}
 							}
 						}
 					}
@@ -110,6 +152,18 @@ public class FormFieldExpressionProvider implements IExpressionProvider {
 
 
 		return result;
+	}
+
+	private List<? extends Form> getForms(AbstractPageFlow pageFlow, Form form) {
+		EStructuralFeature eContainingFeature = form.eContainingFeature();
+		if(ProcessPackage.Literals.PAGE_FLOW__FORM.equals(eContainingFeature)){
+			return ((PageFlow) pageFlow).getForm();
+		} else if(ProcessPackage.Literals.VIEW_PAGE_FLOW__VIEW_FORM.equals(eContainingFeature)){
+			return ((ViewPageFlow) pageFlow).getViewForm();
+		} else if(ProcessPackage.Literals.RECAP_FLOW__RECAP_FORMS.equals(eContainingFeature)){
+			return ((RecapFlow) pageFlow).getRecapForms();
+		}
+		return Collections.emptyList();
 	}
 
 	private EObject getRelevantParent(EObject context) {
@@ -125,7 +179,7 @@ public class FormFieldExpressionProvider implements IExpressionProvider {
 		exp.setType(getExpressionType()) ;
 		exp.setContent("field_"+w.getName()) ;
 		exp.setName("field_"+w.getName()) ;
-		if(w.getReturnTypeModifier() != null ){
+		if(w instanceof TextFormField && w.getReturnTypeModifier() != null ){
 			exp.setReturnType(w.getReturnTypeModifier()) ;
 		}else{
 			exp.setReturnType(w.getAssociatedReturnType()) ;

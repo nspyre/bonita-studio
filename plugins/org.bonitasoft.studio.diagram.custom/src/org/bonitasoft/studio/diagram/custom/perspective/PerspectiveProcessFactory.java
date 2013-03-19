@@ -38,10 +38,9 @@ public class PerspectiveProcessFactory extends AbstractPerspectiveFactory {
 	public void createInitialLayout(IPageLayout layout) {
 		// Editors are placed for free.
 		String editorArea = layout.getEditorArea();
-
 		// Bottom left.
 		IFolderLayout bottomLeft = layout.createFolder(
-				"bottomLeft", IPageLayout.BOTTOM, (float) (400. / 650.),//$NON-NLS-1$
+				"bottomLeft", IPageLayout.BOTTOM, (float) 0.65,//$NON-NLS-1$
 				editorArea);//$NON-NLS-1$
 		bottomLeft.addView("org.bonitasoft.studio.views.overview");
 		bottomLeft.setProperty(VIEW_KIND, BONITA_OVERVIEW);
@@ -66,11 +65,16 @@ public class PerspectiveProcessFactory extends AbstractPerspectiveFactory {
 		bottomRight.addView("org.bonitasoft.studio.validation.view");
 	}
 
+	protected void configureIntroView(IPageLayout layout) {
+		layout.getViewLayout("org.eclipse.ui.internal.introview").setCloseable(false);
+		layout.getViewLayout("org.eclipse.ui.internal.introview").setMoveable(false);
+	}
+
 	protected void createLeftViewFolder(IPageLayout layout, String editorArea) {
 		IFolderLayout left = layout.createFolder(
 				"left",
 				IPageLayout.LEFT,
-				(float) 0.15,
+				(float) 0.1,
 				editorArea);
 		left.addView(PaletteView.ID);
 		left.addPlaceholder("org.bonitasoft.studio.migration.view");

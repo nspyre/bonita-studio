@@ -70,7 +70,7 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="readOnly" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
         defaultValueLiteral="false"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="labelPosition" eType="#//LabelPosition"
-        defaultValueLiteral="0"/>
+        defaultValueLiteral="Up"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="realHtmlAttributes" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="documentation" value="the name have &quot;real&quot; prefix because, for historic reason, htmlAttributes is used for style attribute"/>
@@ -93,7 +93,8 @@
         containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="injectWidgetScript" eType="ecore:EClass expression.ecore#//Expression"
         containment="true"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="returnTypeModifier" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="returnTypeModifier" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        defaultValueLiteral="java.lang.String"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="WidgetDependency">
     <eStructuralFeatures xsi:type="ecore:EReference" name="widget" lowerBound="1"

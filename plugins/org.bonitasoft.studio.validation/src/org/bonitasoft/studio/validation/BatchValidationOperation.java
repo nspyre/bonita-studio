@@ -18,6 +18,7 @@ package org.bonitasoft.studio.validation;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -69,19 +70,28 @@ public class BatchValidationOperation implements IRunnableWithProgress {
 		Display.getDefault().syncExec(new Runnable() {
 
 			public void run() {	
-//				if(!toValidate.isEmpty()){
-//					Diagram view = toValidate.iterator().next();
-//					IFile target = view.eResource() != null ? WorkspaceSynchronizer.getFile(view.eResource()) : null;
-//					if (target != null) {
-//						ProcessMarkerNavigationProvider.deleteMarkers(target);
-//						org.bonitasoft.studio.model.process.diagram.providers.ProcessMarkerNavigationProvider.deleteMarkers(target);
-//					}
-//				}
+				if(!toValidate.isEmpty()){
+					Iterator<Diagram> it = toValidate.iterator();
+					while( it.hasNext() ){
+						Diagram d = it.next();
+						DiagramEditPart de = getDiagramEditPart(d);
+						if(de != null){
+							EObject resolvedSemanticElement = de.resolveSemanticElement();
+							if(resolvedSemanticElement instanceof Form){
+								IFile target = d.eResource() != null ? WorkspaceSynchronizer.getFile(d.eResource()) : null;
+								if (target != null) {
+									ProcessMarkerNavigationProvider.deleteMarkers(target);
+									break;
+								}
+							}
+						}
+					}
+				}
 				for(Diagram d : toValidate){
 					DiagramEditPart de = getDiagramEditPart(d);
 					if( de != null ){
 						EObject resolvedSemanticElement = de.resolveSemanticElement();
-						if(resolvedSemanticElement instanceof MainProcess){
+						if(resolvedSemanticElement instanceof MainProcess ){
 							ValidateAction.runValidation(de,d);
 						}else if(resolvedSemanticElement instanceof Form){
 							org.bonitasoft.studio.model.process.diagram.form.part.ValidateAction.runValidation(de, d);
@@ -155,27 +165,37 @@ public class BatchValidationOperation implements IRunnableWithProgress {
 		for(IMarker m : target.findMarkers(ProcessMarkerNavigationProvider.MARKER_TYPE, true, IResource.DEPTH_ZERO)){
 			int severity = (Integer) m.getAttribute(IMarker.SEVERITY);
 			String location =  (String) m.getAttribute(IMarker.LOCATION);
-			if(severity == IStatus.WARNING || severity == IStatus.INFO || severity == IStatus.ERROR){
+			if(severity == IMarker.SEVERITY_WARNING || severity == IMarker.SEVERITY_INFO || severity == IMarker.SEVERITY_ERROR){
 				String message = (String) m.getAttribute(IMarker.MESSAGE);
 				String fullMessage = fileName + ":" +location +" : " + message;
 				if(!statusExists(result,fullMessage)){
-					result.add(new Status(severity, Activator.PLUGIN_ID, fullMessage));
+					result.add(new Status(toStatusSeverity(severity), Activator.PLUGIN_ID, fullMessage));
 				}
 			}
 		}
 		for(IMarker m : target.findMarkers(org.bonitasoft.studio.model.process.diagram.providers.ProcessMarkerNavigationProvider.MARKER_TYPE, true, IResource.DEPTH_ZERO)){
 			int severity = (Integer) m.getAttribute(IMarker.SEVERITY);
-			if(severity == IStatus.WARNING || severity == IStatus.INFO || severity == IStatus.ERROR){
+			if(severity == IMarker.SEVERITY_WARNING || severity == IMarker.SEVERITY_INFO || severity == IMarker.SEVERITY_ERROR){
 				String message = (String) m.getAttribute(IMarker.MESSAGE);
 				String location =  (String) m.getAttribute(IMarker.LOCATION);
 				String fullMessage = fileName + ":" +location +" : " + message;
 				if(!statusExists(result, fullMessage)){
-					result.add(new Status(severity, Activator.PLUGIN_ID, fullMessage));
+					result.add(new Status(toStatusSeverity(severity), Activator.PLUGIN_ID, fullMessage));
 				}
 			}
 		}
 		fileProcessed.add(target);
 	}
+
+	private int toStatusSeverity(int markerSeverity) {
+		switch (markerSeverity) {
+		case IMarker.SEVERITY_INFO: return IStatus.INFO;
+		case IMarker.SEVERITY_WARNING:return IStatus.WARNING;
+		case IMarker.SEVERITY_ERROR:return IStatus.ERROR;
+		default: return IStatus.INFO;
+		}
+	}
+
 
 	private boolean statusExists(MultiStatus multi, String message){
 		for(IStatus s : multi.getChildren()){

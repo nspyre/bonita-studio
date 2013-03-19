@@ -27,6 +27,7 @@ import org.bonitasoft.studio.diagram.test.TestUndoRedoStackLimit;
 import org.bonitasoft.studio.preferences.BonitaPreferenceConstants;
 import org.bonitasoft.studio.preferences.BonitaStudioPreferencesPlugin;
 import org.bonitasoft.studio.properties.test.TestConditionExpression;
+import org.bonitasoft.studio.properties.test.TestDecisionTable;
 import org.bonitasoft.studio.properties.test.TestThrowCatchMessage;
 import org.bonitasoft.studio.tests.IHeapDumper;
 import org.bonitasoft.studio.tests.bug.TestBugsSWTBot;
@@ -67,6 +68,7 @@ import org.junit.runners.Suite;
 @Suite.SuiteClasses({
     TestBugsSWTBot.class,
     DiagramTests.class,
+    TestLoadSaveConnectorConfiguration.class,
     TestConditionExpression.class,
     TestConfigurationDialog.class,
     OrganizationCreationTest.class,
@@ -76,14 +78,13 @@ import org.junit.runners.Suite;
     ActorFilterEditionTest.class,
     ActorFilterImplementationTest.class,
     SWTBotActorFilterExportTests.class,
-    ConnectorDefinitionTranslationsTest.class,
     ConnectorEditionTest.class,
     ConnectorDefinitionWizardPageTest.class,
     ConnectorImplementationTest.class,
-    TestLoadSaveConnectorConfiguration.class,
     TestTextAreaInConnectorWizard.class,
     SWTBotConnectorExportTests.class,
     SWTBotConnectorDefinitionTest.class,
+    TestDecisionTable.class,
     TestThrowCatchMessage.class,
     TestWebPurchase.class,
     TestAddValidatorToProcessAndRun.class,
@@ -92,7 +93,9 @@ import org.junit.runners.Suite;
     TestData.class,
     TestUndoRedoStackLimit.class,
     TestOpenDiagram.class,
-    TestDeleteTaskWithForm.class
+    TestDeleteTaskWithForm.class,
+    //WORKAROUND: put at the end otherwise when doing a new run after, it fails
+    ConnectorDefinitionTranslationsTest.class
 })
 public class AllSWTBotTests {
 

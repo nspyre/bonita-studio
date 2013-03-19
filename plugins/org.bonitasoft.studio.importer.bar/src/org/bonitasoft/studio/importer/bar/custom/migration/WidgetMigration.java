@@ -16,6 +16,7 @@
  */
 package org.bonitasoft.studio.importer.bar.custom.migration;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -71,6 +72,20 @@ public class WidgetMigration extends ReportCustomMigration {
 				storeInjectWidgetScripts(widget);
 			}
 		}
+	}
+
+	private String getDefaultReturnTypeForWidget(Instance widget) {
+		if(widget.instanceOf("form.CheckBoxMultipleFormField")
+				|| widget.instanceOf("form.DynamicTable")){
+			return List.class.getName();
+		}
+		if(widget.instanceOf("form.CheckBoxSingleFormField")){
+			return Boolean.class.getName();
+		}
+		if(widget.instanceOf("form.DateFormField")){
+			return Date.class.getName();
+		}
+		return String.class.getName();
 	}
 
 	private void storeDisplayLabels(Instance widget) {
@@ -263,8 +278,11 @@ public class WidgetMigration extends ReportCustomMigration {
 			expression = getConverter(model,getScope(widget)).parse(widgetInputs.get(widget.getUuid()), String.class.getName(), false);
 			if(ExpressionConstants.VARIABLE_TYPE.equals(expression.get("type"))){
 				expression.set("returnType", StringToExpressionConverter.getDataReturnType(((List<Instance>) expression.get("referencedElements")).get(0)));
-				if(widget.getContainer().getContainer().instanceOf("process.AbstractProcess")){
+				if(getParentPageFlow(widget).instanceOf("process.Pool")){
+					model.delete(expression);
+					widget.set("inputExpression", StringToExpressionConverter.createExpressionInstance(model, "", "", String.class.getName(), ExpressionConstants.CONSTANT_TYPE, false));
 					addReportChange((String) widget.get("name"),widget.getEClass().getName(), widget.getUuid(), Messages.widgetDataInputAtProcessLevelMigrationDescription, Messages.dataProperty, IStatus.ERROR);
+					return;
 				}else{
 					addReportChange((String) widget.get("name"),widget.getEClass().getName(), widget.getUuid(), Messages.widgetDataInputMigrationDescription, Messages.dataProperty, IStatus.OK);
 				}
@@ -281,6 +299,14 @@ public class WidgetMigration extends ReportCustomMigration {
 		widget.set("inputExpression", expression);
 	}
 
+	private Instance getParentPageFlow(Instance widget) {
+		Instance current =  widget.getContainer();
+		while(current != null && !current.instanceOf("process.AbstractPageFlow")){
+			current = current.getContainer();
+		}
+		return current;
+	}
+
 	private void setReturnTypeModifier(Instance widget) {
 		if(!widget.instanceOf("form.TextFormField")){
 			return;
@@ -289,26 +315,42 @@ public class WidgetMigration extends ReportCustomMigration {
 		boolean added = false ; 
 		if(operation != null){
 			final Instance leftOperand = operation.get("leftOperand");
+			final Instance rightOperand = operation.get("rightOperand");
 			if(leftOperand != null){
 				final List<Instance> elements = leftOperand.get("referencedElements");
 				if(!elements.isEmpty()){
 					final Instance dataInstance = elements.get(0);
 					if(dataInstance.instanceOf("process.Data")){
-						widget.set("returnTypeModifier", StringToExpressionConverter.getDataReturnType(dataInstance));
+						String returnType = StringToExpressionConverter.getDataReturnType(dataInstance);
+						widget.set("returnTypeModifier", returnType);
+						if(rightOperand != null){
+							rightOperand.set("returnType", returnType);
+						}
 						added = true ;
 						addReportChange((String) widget.get("name"),widget.getType().getEClass().getName(), widget.getUuid(), Messages.widgetModifierMigrationDescription, Messages.dataProperty, IStatus.OK);
 					}
 				}
 			}
 		}
-		if(!added && !widget.instanceOf("form.FormButton")){
-			addReportChange((String) widget.get("name"),widget.getType().getEClass().getName(), widget.getUuid(), Messages.widgetModifierNotSetMigrationDescription, Messages.dataProperty, IStatus.ERROR);
+		if(!added){
+			widget.set("returnTypeModifier", String.class.getName());
 		}
 	}
 
 	private void setWidgetActions(Instance widget) {
 		if(widgetActions.containsKey(widget.getUuid())){
 			Instance action = widgetActions.get(widget.getUuid());
+			Instance actionExp = action.get("rightOperand");
+			if(actionExp != null){
+				if(ExpressionConstants.FORM_FIELD_TYPE.equals(actionExp.get("type"))){
+					actionExp.set("returnType", getDefaultReturnTypeForWidget(widget));
+				}else if(ExpressionConstants.SCRIPT_TYPE.equals(actionExp.get("type"))){
+					Instance leftExp = action.get("leftOperand");
+					if(leftExp!= null){
+						actionExp.set("returnType",leftExp.get("returnType"));
+					}
+				}
+			}
 			widget.set("action", action);
 			if(!widget.instanceOf("form.Info")){
 				addReportChange((String) widget.get("name"),widget.getType().getEClass().getName(), widget.getUuid(), Messages.widgetActionsMigrationDescription, Messages.dataProperty, StringToExpressionConverter.getStatusForExpression((Instance) action.get("rightOperand")));

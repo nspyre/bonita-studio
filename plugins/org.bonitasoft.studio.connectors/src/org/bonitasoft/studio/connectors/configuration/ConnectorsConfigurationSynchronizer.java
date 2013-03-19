@@ -20,6 +20,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.bonitasoft.studio.common.ExpressionConstants;
 import org.bonitasoft.studio.common.FragmentTypes;
 import org.bonitasoft.studio.common.emf.tools.ModelHelper;
 import org.bonitasoft.studio.common.repository.RepositoryManager;
@@ -38,6 +39,7 @@ import org.bonitasoft.studio.model.configuration.ConfigurationPackage;
 import org.bonitasoft.studio.model.configuration.DefinitionMapping;
 import org.bonitasoft.studio.model.configuration.Fragment;
 import org.bonitasoft.studio.model.configuration.FragmentContainer;
+import org.bonitasoft.studio.model.expression.Expression;
 import org.bonitasoft.studio.model.kpi.DatabaseKPIBinding;
 import org.bonitasoft.studio.model.kpi.KpiPackage;
 import org.bonitasoft.studio.model.process.AbstractProcess;
@@ -73,6 +75,12 @@ public class ConnectorsConfigurationSynchronizer extends AbstractConnectorConfig
 		for(Connector c : connectors){
 			if(c instanceof ActorFilter){
 				toRemove.add(c);
+			}
+			if(c.eContainer() instanceof Expression){
+				Expression exp = (Expression) c.eContainer() ;
+				if(!ExpressionConstants.CONNECTOR_TYPE.equals(exp.getType())){
+					toRemove.add(c);
+				}
 			}
 		}
 		connectors.removeAll(toRemove);
@@ -134,25 +142,32 @@ public class ConnectorsConfigurationSynchronizer extends AbstractConnectorConfig
 			String defaultDriver = fileStore.getDefault();
 			List<String> jars = fileStore.getJarList();
 			boolean autoAddDriver = fileStore.getAutoAddDriver() || forceDriver;
+			Configuration conf = (Configuration) connectorContainer.eContainer().eContainer();
+			FragmentContainer otherDependencies = null;
+			for(FragmentContainer c : conf.getProcessDependencies()){
+				if(FragmentTypes.OTHER.equals(c.getId())){
+					otherDependencies = c;
+				}
+			}
 			for (String jar : jars){
 				boolean exists = false ;
-				for(Fragment dep : connectorContainer.getFragments()){
+				for(Fragment dep : otherDependencies.getFragments()){
 					if(dep.getValue().equals(jar)){
 						exists = true ;
 						break ;
 					}
 				}
 				if (!exists){
-					 Fragment depFragment = ConfigurationFactory.eINSTANCE.createFragment() ;
-					 if (jar.equals(defaultDriver) && autoAddDriver){
-						 depFragment.setExported(true) ;
-					 } else {
-						 depFragment.setExported(false);
-					 }
-		                depFragment.setKey(implementation.getImplementationId() +" -- " + implementation.getImplementationVersion()) ;
-		                depFragment.setValue(jar) ;
-		                depFragment.setType(getFragmentContainerId()) ;
-		                editingDomain.getCommandStack().execute(AddCommand.create(editingDomain, connectorContainer, ConfigurationPackage.Literals.FRAGMENT_CONTAINER__FRAGMENTS, depFragment)) ;
+					Fragment depFragment = ConfigurationFactory.eINSTANCE.createFragment() ;
+					if (jar.equals(defaultDriver) && autoAddDriver){
+						depFragment.setExported(true) ;
+					} else {
+						depFragment.setExported(false);
+					}
+					depFragment.setKey(implementation.getImplementationId() +" -- " + implementation.getImplementationVersion()) ;
+					depFragment.setValue(jar) ;
+					depFragment.setType(FragmentTypes.OTHER) ;
+					cc.append(AddCommand.create(editingDomain, otherDependencies, ConfigurationPackage.Literals.FRAGMENT_CONTAINER__FRAGMENTS, depFragment)) ;
 				}
 			}
 		}

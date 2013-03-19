@@ -23,11 +23,16 @@ import java.util.Set;
 
 import org.bonitasoft.studio.common.jface.ValidationDialog;
 import org.bonitasoft.studio.common.log.BonitaStudioLog;
+import org.bonitasoft.studio.model.process.diagram.form.providers.ProcessMarkerNavigationProvider;
 import org.bonitasoft.studio.validation.i18n.Messages;
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
+import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.IStatus;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.workspace.util.WorkspaceSynchronizer;
 import org.eclipse.gmf.runtime.diagram.ui.parts.DiagramEditor;
 import org.eclipse.gmf.runtime.notation.Diagram;
 import org.eclipse.jface.dialogs.MessageDialog;
@@ -55,12 +60,26 @@ public class BatchValidationHandler extends AbstractHandler {
     			final Object diagramParameters = parameters.get("diagrams");
     			if(diagramParameters != null){
     				toValidate = (Set<Diagram>) diagramParameters;
+    				if(!toValidate.isEmpty()){
+    					Resource eResource = toValidate.iterator().next().eResource();
+						IFile target = eResource != null ? WorkspaceSynchronizer.getFile(eResource) : null;
+    					if (target != null) {
+    						ProcessMarkerNavigationProvider.deleteMarkers(target);
+    					}
+    					
+    				}
     			}
     		}
     		if(toValidate.isEmpty()){
     			IEditorPart part = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor() ;
     			if(part instanceof DiagramEditor){
-    				toValidate.add( ((DiagramEditor) part).getDiagram());
+    				
+    				Resource resource = ((DiagramEditor) part).getDiagramEditPart().resolveSemanticElement().eResource();
+    				for(EObject content : resource.getContents()){
+    					if(content instanceof Diagram){
+    						toValidate.add((Diagram) content);
+    					}
+    				}
     			}
     		}
 

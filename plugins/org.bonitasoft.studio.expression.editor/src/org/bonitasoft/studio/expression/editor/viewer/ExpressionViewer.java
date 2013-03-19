@@ -313,6 +313,7 @@ public class ExpressionViewer extends ContentViewer implements ExpressionConstan
 						}
 					}
 					updateSelection(copy);
+					fireSelectionChanged(new SelectionChangedEvent(ExpressionViewer.this, new StructuredSelection(selectedExpression)));
 				}
 			}
 		}) ;
@@ -486,25 +487,32 @@ public class ExpressionViewer extends ContentViewer implements ExpressionConstan
 			}
 			Expression[] expressions = expressionNatureProvider.getExpressions();
 			EObject input =  expressionNatureProvider.getContext() ;
+			if(input == null){
+				if(getInput() instanceof EObject){
+					input = (EObject) getInput();
+				}
+			}
 			if(expressions != null){
 				filteredExpressions.addAll(Arrays.asList(expressions)) ;
-				if(input != null){
-					for(Expression exp : expressions) {
-						for(ViewerFilter filter : getFilters()){
-							if(filter != null && !filter.select(this, input, exp)){
-								filteredExpressions.remove(exp) ;
-							}
+			}
+			Set<Expression> toRemove = new HashSet<Expression>();
+			if(input != null){
+				for(Expression exp : filteredExpressions) {
+					for(ViewerFilter filter : getFilters()){
+						if(filter != null && !filter.select(this, input, exp)){
+							toRemove.add(exp) ;
 						}
-						if(selectedExpression != null && !ExpressionConstants.CONDITION_TYPE.equals(selectedExpression.getType())){
-							if(selectedExpression != null && selectedExpression.isReturnTypeFixed() && selectedExpression.getReturnType() != null){
-								if(!selectedExpression.getReturnType().equals(exp.getReturnType())){
-									filteredExpressions.remove(exp) ;
-								}
+					}
+					if(selectedExpression != null && !ExpressionConstants.CONDITION_TYPE.equals(selectedExpression.getType())){
+						if(selectedExpression != null && selectedExpression.isReturnTypeFixed() && selectedExpression.getReturnType() != null){
+							if(!selectedExpression.getReturnType().equals(exp.getReturnType())){
+								toRemove.add(exp) ;
 							}
 						}
 					}
 				}
 			}
+			filteredExpressions.removeAll(toRemove);
 		}
 		return filteredExpressions ;
 	}
@@ -588,7 +596,7 @@ public class ExpressionViewer extends ContentViewer implements ExpressionConstan
 				null) ;
 
 		expressionBinding.getValidationStatus().addValueChangeListener(new IValueChangeListener() {
-			
+
 			@Override
 			public void handleValueChange(ValueChangeEvent event) {
 				IStatus status = (IStatus) event.diff.getNewValue();
@@ -931,7 +939,7 @@ public class ExpressionViewer extends ContentViewer implements ExpressionConstan
 	public void addExpressionValidator(String expressionType,IExpressionValidator comaprisonExpressionValidator) {
 		validatorsForType.put(expressionType,comaprisonExpressionValidator);
 	}
-	
+
 	public void addExpressionValidationListener(IExpressionValidationListener listener) {
 		if(!validationListeners.contains(listener)){
 			validationListeners.add(listener);

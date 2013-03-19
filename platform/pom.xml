@@ -4,32 +4,17 @@
 	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	<modelVersion>4.0.0</modelVersion>
 	
-	<groupId>org.bonitasoft.studio.platform</groupId>
+	<groupId>org.bonitasoft.studio</groupId>
 	<artifactId>platform</artifactId>
-	<version>6.0-Beta</version>
+	<version>6.0-SNAPSHOT</version>
 	<packaging>eclipse-target-definition</packaging>
-
 	<properties>
 		<tychoVersion>0.16.0</tychoVersion>
 		<tychoExtrasVersion>0.16.0</tychoExtrasVersion>
 	</properties>
-
 	<build>
-		<pluginManagement>
-			<plugins>
-				<plugin>
-					<groupId>org.eclipse.tycho</groupId>
-					<artifactId>tycho-packaging-plugin</artifactId>
-					<version>${tychoVersion}</version>
-					<configuration>
-						<strictBinIncludes>false</strictBinIncludes>
-						<strictVersions>false</strictVersions>
-					</configuration>
-				</plugin>
-			</plugins>
-		</pluginManagement>
 		<plugins>
-			<!-- enable tycho build extension -->
+		<!-- enable tycho build extension -->
 			<plugin>
 				<groupId>org.eclipse.tycho</groupId>
 				<artifactId>tycho-maven-plugin</artifactId>
@@ -48,7 +33,7 @@
 						</goals>
 						<configuration>
 							<targetFiles>
-								<param>${project.artifactId}.target</param>
+								<param>platform.target</param>
 							</targetFiles>
 							<failOnError>true</failOnError>
 						</configuration>
@@ -97,7 +82,7 @@
 						<artifact>
 							<groupId>org.bonitasoft.studio</groupId>
 							<artifactId>platform</artifactId>
-							<version>6.0-Beta</version>
+							<version>6.0-SNAPSHOT</version>
 							<classifier>platform</classifier>
 						</artifact>
 					</target>

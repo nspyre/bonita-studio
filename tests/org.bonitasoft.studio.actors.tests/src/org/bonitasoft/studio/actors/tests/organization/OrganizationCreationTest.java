@@ -153,7 +153,7 @@ public class OrganizationCreationTest extends SWTBotGefTestCase {
         SWTBotActorFilterUtil.activateSynchronizeOrganizationWizard(bot);
         bot.table().select(organizationName);
         bot.button(Messages.synchronize).click();
-        bot.waitUntil(Conditions.shellIsActive(Messages.synchronizeOrganizationTitle),
+        bot.waitUntil(Conditions.shellIsActive(Messages.synchronizeInformationTitle),
                 1500000);
         bot.button(IDialogConstants.OK_LABEL).click();
     }
@@ -176,7 +176,7 @@ public class OrganizationCreationTest extends SWTBotGefTestCase {
         System.out.println("Table size = "+ table.columnCount()+" x "+table.rowCount());
 
         // Set Description of the new Organisation
-        int idxBonita = table.indexOf("ACME", 0);
+        int idxBonita = table.indexOf("ACME  (active)", 0);
         Assert.assertTrue("Error: No ACME found in the table", idxBonita!=-1);
 
         // go to the next shell

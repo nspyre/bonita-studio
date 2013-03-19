@@ -50,23 +50,13 @@ import org.eclipse.emf.ecore.EObject;
  * @author Romain Bioteau
  *
  */
-public class AbstractProcessSwitch extends ProcessSwitch<Element> {
-
-    public static final String DB_CONNECTOR_FOR_KPI_ID = "database-jdbc";
-    public static final String DB_CONNECTOR_VERSION = "1.0.0";
-    public static final String DB_DRIVER = "driver";
-    public static final String DB_URL = "url";
-    public static final String DB_QUERY = "script";
-    public static final String DB_USER = "username";
-    public static final String DB_PASSWORD = "password";
+public class AbstractProcessSwitch extends AbstractSwitch {
 
     protected final ProcessDefinitionBuilder builder;
-    protected final Set<EObject> eObjectNotExported;
-    
 
     public AbstractProcessSwitch(ProcessDefinitionBuilder processBuilder,Set<EObject> eObjectNotExported){
+    	super(eObjectNotExported);
         builder = processBuilder ;
-        this.eObjectNotExported = eObjectNotExported ;
     }
 
     @Override
@@ -92,10 +82,16 @@ public class AbstractProcessSwitch extends ProcessSwitch<Element> {
         for (Connector connector : element.getConnectors()) {
             if(!eObjectNotExported.contains(connector)){
                 final ConnectorDefinitionBuilder connectorBuilder = builder.addConnector(connector.getName(), connector.getDefinitionId(), connector.getDefinitionVersion(), ConnectorEvent.valueOf(connector.getEvent()));
+                if(connector.isIgnoreErrors()){
+                	connectorBuilder.ignoreError();
+                }else if(connector.isThrowErrorEvent()){
+                	connectorBuilder.throwErrorEventWhenFailed(connector.getNamedError());
+                }
                 for(ConnectorParameter parameter : connector.getConfiguration().getParameters()){
                     final Expression inputExpression = EngineExpressionUtil.createExpression(parameter.getExpression());
                     if(inputExpression != null){
                         connectorBuilder.addInput(parameter.getKey(), inputExpression) ;
+                      
                     }else{
                         if(BonitaStudioLog.isLoggable(IStatus.OK)){
                             BonitaStudioLog.debug("Expression of input "+parameter.getKey() +" is null for connector "+connector.getName(), EnginePlugin.PLUGIN_ID);
@@ -109,6 +105,7 @@ public class AbstractProcessSwitch extends ProcessSwitch<Element> {
                     }
                     if(outputOpeartion.getLeftOperand() != null
                             && outputOpeartion.getLeftOperand().getContent() != null
+                            && !outputOpeartion.getLeftOperand().getContent().isEmpty()
                             && outputOpeartion.getRightOperand() != null
                             && outputOpeartion.getRightOperand().getContent() != null){
                         connectorBuilder.addOutput(

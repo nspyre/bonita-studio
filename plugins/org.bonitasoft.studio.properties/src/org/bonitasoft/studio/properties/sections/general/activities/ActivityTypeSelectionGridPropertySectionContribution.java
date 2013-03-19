@@ -42,7 +42,10 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.IEditorPart;
+import org.eclipse.ui.IViewPart;
+import org.eclipse.ui.IViewReference;
 import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.views.properties.IPropertySheetPage;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetWidgetFactory;
 
@@ -62,10 +65,9 @@ public class ActivityTypeSelectionGridPropertySectionContribution implements IEx
     private ComboViewer combo;
     private Activity activity;
     private GraphicalEditPart node;
-    private final TabbedPropertySheetPage tabbedPropertySheetPage;
 
     public ActivityTypeSelectionGridPropertySectionContribution(TabbedPropertySheetPage tabbedPropertySheetPage) {
-        this.tabbedPropertySheetPage = tabbedPropertySheetPage ;
+
     }
 
     @Override
@@ -108,9 +110,19 @@ public class ActivityTypeSelectionGridPropertySectionContribution implements IEx
                     IEditorPart editor = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor() ;
                     if(editor instanceof ProcessDiagramEditor){
                         node = (GraphicalEditPart) ((IStructuredSelection)((ProcessDiagramEditor)editor).getDiagramGraphicalViewer().getSelection()).getFirstElement() ;
-                        GMFTools.convert(targetEClass, node, new BonitaNodesElementTypeResolver(),GMFTools.PROCESS_DIAGRAM);
-                        tabbedPropertySheetPage.selectionChanged(editor, ((ProcessDiagramEditor)editor).getDiagramGraphicalViewer().getSelection());
-                    }
+						GMFTools.convert(targetEClass, node, new BonitaNodesElementTypeResolver(),GMFTools.PROCESS_DIAGRAM);
+						for(IViewReference vr : PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getViewReferences() ){
+							if(vr.getId().startsWith("org.bonitasoft.studio.views.properties")){
+								IViewPart viewPart = vr.getView(false) ;
+								if(viewPart != null){
+									IPropertySheetPage page = (IPropertySheetPage) viewPart.getAdapter(IPropertySheetPage.class);
+									if(page != null){
+										page.selectionChanged(editor, ((ProcessDiagramEditor)editor).getDiagramGraphicalViewer().getSelection());
+									}
+								}
+							}
+						}
+                      }
                 }
 
             }

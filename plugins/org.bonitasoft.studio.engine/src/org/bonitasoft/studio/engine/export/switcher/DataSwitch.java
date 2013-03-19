@@ -52,12 +52,12 @@ public class DataSwitch extends ProcessSwitch<DataDefinitionBuilder> {
 
     @Override
     public DataDefinitionBuilder caseStringType(final StringType type) {
-        return builder.addStringData(data.getName(), expr);
+    	return builder.addLongTextData(data.getName(), expr);
     }
 
     @Override
     public DataDefinitionBuilder caseLongType(LongType object) {
-        return  builder.addLongData(data.getName(), expr);
+        return builder.addLongData(data.getName(), expr);
     }
 
     @Override
@@ -82,7 +82,7 @@ public class DataSwitch extends ProcessSwitch<DataDefinitionBuilder> {
 
     @Override
     public DataDefinitionBuilder caseEnumType(final EnumType type) {
-        return builder.addStringData(data.getName(), expr);
+        return builder.addShortTextData(data.getName(), expr);
     }
 
     @Override

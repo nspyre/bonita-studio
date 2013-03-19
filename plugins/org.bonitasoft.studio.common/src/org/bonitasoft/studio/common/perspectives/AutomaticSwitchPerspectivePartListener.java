@@ -22,6 +22,8 @@ import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IPartListener2;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.IWorkbenchPartReference;
+import org.eclipse.ui.internal.ViewIntroAdapterPart;
+import org.eclipse.ui.intro.IIntroPart;
 
 public final class AutomaticSwitchPerspectivePartListener implements IPartListener2 {
 
@@ -38,7 +40,7 @@ public final class AutomaticSwitchPerspectivePartListener implements IPartListen
 
 	@Override
 	public void partBroughtToTop(IWorkbenchPartReference partRef) {
-	
+
 	}
 
 	@Override
@@ -47,18 +49,23 @@ public final class AutomaticSwitchPerspectivePartListener implements IPartListen
 		if (part instanceof IEditorPart) {
 			PlatformUtil.openIntroIfNoOtherEditorOpen();
 		}
+//		if("org.eclipse.ui.internal.introview".equals(partRef.getId())){
+//			PlatformUtil.openIntroIfNoOtherEditorOpen();
+//		}
 	}
 
 	@Override
 	public void partDeactivated(IWorkbenchPartReference partRef) {
-	
+
 	}
 
 	@Override
 	public void partOpened(IWorkbenchPartReference partRef) {
 		IWorkbenchPart part = partRef.getPart(false);
 		if (part instanceof IEditorPart) {
-			PlatformUtil.closeIntro();
+			if(PlatformUtil.isIntroOpen()){
+				PlatformUtil.closeIntro();
+			}
 			final String id = BonitaPerspectivesUtils.getPerspectiveId((IEditorPart) part);
 			if (id != null) {
 				BonitaPerspectivesUtils.switchToPerspective(id);
@@ -78,6 +85,6 @@ public final class AutomaticSwitchPerspectivePartListener implements IPartListen
 
 	@Override
 	public void partInputChanged(IWorkbenchPartReference partRef) {
-	
+
 	}
 }
