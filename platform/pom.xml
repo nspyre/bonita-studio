@@ -6,7 +6,7 @@
 	
 	<groupId>org.bonitasoft.studio</groupId>
 	<artifactId>platform</artifactId>
-	<version>6.0-SNAPSHOT</version>
+	<version>6.0-Beta-SNAPSHOT</version>
 	<packaging>eclipse-target-definition</packaging>
 	<properties>
 		<tychoVersion>0.16.0</tychoVersion>
@@ -82,7 +82,7 @@
 						<artifact>
 							<groupId>org.bonitasoft.studio</groupId>
 							<artifactId>platform</artifactId>
-							<version>6.0-SNAPSHOT</version>
+							<version>6.0-Beta-SNAPSHOT</version>
 							<classifier>platform</classifier>
 						</artifact>
 					</target>
