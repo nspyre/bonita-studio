@@ -64,6 +64,7 @@ import org.bonitasoft.studio.model.expression.Operation;
 import org.bonitasoft.studio.model.expression.Operator;
 import org.bonitasoft.studio.model.expression.TableExpression;
 import org.bonitasoft.studio.model.form.Form;
+import org.bonitasoft.studio.model.form.SubmitFormButton;
 import org.bonitasoft.studio.model.process.AbstractProcess;
 import org.bonitasoft.studio.model.process.Connector;
 import org.bonitasoft.studio.model.process.Element;
@@ -91,6 +92,8 @@ public class ConnectorWizard extends ExtensibleWizard implements IConnectorDefin
 
 	private static final String CUSTOM_WIZARD_ID = "org.bonitasoft.studio.connectors.connectorWizard";
 	private static final String DATABASE_ID ="database";
+	private static final String DATASOURCE_CONNECTOR_D = "database-datasource";
+	
 	protected final EObject container;
 	protected Connector connectorWorkingCopy;
 	private boolean editMode = false;
@@ -129,7 +132,7 @@ public class ConnectorWizard extends ExtensibleWizard implements IConnectorDefin
 		this.connectorContainmentFeature = connectorContainmentFeature ;
 		this.featureToCheckForUniqueID = new HashSet<EStructuralFeature>();
 		this.featureToCheckForUniqueID.add(connectorContainmentFeature);
-		setWindowTitle("Connectors");
+		setWindowTitle(Messages.connectors);
 		initialize() ;
 	}
 
@@ -141,7 +144,7 @@ public class ConnectorWizard extends ExtensibleWizard implements IConnectorDefin
 		connectorWorkingCopy = EcoreUtil.copy(connector) ;
 		editMode = true ;
 		this.featureToCheckForUniqueID = featureToCheckForUniqueID ;
-		setWindowTitle("Connectors");
+		setWindowTitle(Messages.connectors);
 		initialize() ;
 	}
 	
@@ -471,7 +474,7 @@ public class ConnectorWizard extends ExtensibleWizard implements IConnectorDefin
 	}
 
 	protected ViewerFilter getExpressionTypeFilter() {
-		if(container instanceof Form){
+		if(container instanceof Form || container instanceof SubmitFormButton){
 			return formExpressionTypeFilter;
 		}
 		return expressionTypeFilter;
@@ -527,7 +530,7 @@ public class ConnectorWizard extends ExtensibleWizard implements IConnectorDefin
 	private boolean isDatabaseConnector(ConnectorDefinition def){
 		List<Category> categories = def.getCategory();
 		for (Category category:categories){
-			if (DATABASE_ID.equals(category.getId())){
+			if (DATABASE_ID.equals(category.getId()) && !def.getId().equals(DATASOURCE_CONNECTOR_D)){
 				return true;
 			}
 		}

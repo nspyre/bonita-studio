@@ -376,7 +376,7 @@ public class DataWizardPage extends WizardPage {
 
 					if(returnType != null && !returnType.isEmpty() && !isReturnTypeCompatible(technicalTypeFor, returnType)){
 						if(Date.class.getName().equals(technicalTypeFor)){
-							if(!(returnType.equals(String.class.getName()) || isReturnTypeCompatible(technicalTypeFor, returnType))){
+							if(!isReturnTypeCompatible(technicalTypeFor, returnType)){
 								return ValidationStatus.error(Messages.dataWizardPageReturnTypeNotCorresponding);
 							}
 						}else{
@@ -574,13 +574,7 @@ public class DataWizardPage extends WizardPage {
 		final Expression exp = data.getDefaultValue();
 		final String expType = exp.getType();
 		if(!(ExpressionConstants.VARIABLE_TYPE.equals(expType) || ExpressionConstants.PARAMETER_TYPE.equals(expType))){
-			if(dataType instanceof DateType){
-				if(!String.class.getName().equals(exp.getReturnType())){
-					exp.setReturnType(getSelectedReturnType());
-				}
-			}else{
-				exp.setReturnType(getSelectedReturnType());
-			}
+			exp.setReturnType(getSelectedReturnType());
 		}
 
 
@@ -602,13 +596,14 @@ public class DataWizardPage extends WizardPage {
 				return String.class.getName();
 			}
 			return className;
-		}else{
+		}else if (type != null){
 			final String technicalTypeFor = DataUtil.getTechnicalTypeFor(ModelHelper.getMainProcess(container), type.getName()).replace(Messages.dataTechnicalTypeLabel+" ", "");
 			if(technicalTypeFor.isEmpty()){
 				return String.class.getName();
 			}
 			return technicalTypeFor;
 		}
+		return null;
 
 	}
 
@@ -904,15 +899,18 @@ public class DataWizardPage extends WizardPage {
 			public void widgetSelected(final SelectionEvent e) {
 				final Expression dateExpression = ExpressionFactory.eINSTANCE.createExpression();
 				final String displayDate = DateUtil.getWidgetDisplayDate(dateChooser, timeChooser);
-				final String contentDate = DateUtil.getSystemFormatDate(displayDate);
 				dateExpression.setName(displayDate);
-				dateExpression.setContent("\"" + contentDate + "\"");
+				dateExpression.setContent(DateUtil.getDateExpressionContent(dateChooser.getYear(),
+						dateChooser.getMonth(),
+						dateChooser.getDay(),
+						timeChooser.getHours(),
+						timeChooser.getMinutes(),
+						timeChooser.getSeconds()));
 				dateExpression.setType(ExpressionConstants.SCRIPT_TYPE);
 				dateExpression.setInterpreter(ExpressionConstants.GROOVY);
-				dateExpression.setReturnType(String.class.getName());
-				dateExpression.setReturnTypeFixed(false);
-				data.setDefaultValue(dateExpression);
-				// defaultValueViewer.setSelection(new StructuredSelection(data.getDefaultValue())) ;
+				dateExpression.setReturnType(Date.class.getName());
+				dateExpression.setReturnTypeFixed(true);
+				data.setDefaultValue(dateExpression);	
 			}
 
 		});
@@ -922,14 +920,18 @@ public class DataWizardPage extends WizardPage {
 			public void widgetSelected(final SelectionEvent e) {
 				final Expression dateExpression = ExpressionFactory.eINSTANCE.createExpression();
 				final String displayDate = DateUtil.getWidgetDisplayDate(dateChooser, timeChooser);
-				final String contentDate = DateUtil.getSystemFormatDate(displayDate);
 				dateExpression.setName(displayDate);
-				dateExpression.setContent("\"" + contentDate + "\"");
+				dateExpression.setContent(DateUtil.getDateExpressionContent(dateChooser.getYear(),
+						dateChooser.getMonth(),
+						dateChooser.getDay(),
+						timeChooser.getHours(),
+						timeChooser.getMinutes(),
+						timeChooser.getSeconds()));
 				dateExpression.setType(ExpressionConstants.SCRIPT_TYPE);
 				dateExpression.setInterpreter(ExpressionConstants.GROOVY);
-				dateExpression.setReturnType(String.class.getName());
+				dateExpression.setReturnType(Date.class.getName());
+				dateExpression.setReturnTypeFixed(true);
 				data.setDefaultValue(dateExpression);
-				// defaultValueViewer.setSelection(new StructuredSelection(data.getDefaultValue())) ;
 			}
 		});
 		return client;

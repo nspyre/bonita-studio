@@ -188,11 +188,14 @@
 	</preShowHelpActionList>
 	<preInstallationActionList>
 		<autodetectJava>
-			<customErrorMessage>${msg(java.version.error.message)}</customErrorMessage>
-			<promptUser>1</promptUser>
+			<promptUser>0</promptUser>
 			<selectionOrder>newest</selectionOrder>
+			<abortOnError>1</abortOnError>
+			<showMessageOnError>1</showMessageOnError>
+			<customErrorMessage>${msg(java.version.error.message)} @os_arch@ bits</customErrorMessage>
 			<validVersionList>
 				<validVersion>
+					<bitness>@os_arch@</bitness>
 					<minVersion>1.6</minVersion>
 					<requireJDK>0</requireJDK>
 					<vendor></vendor>

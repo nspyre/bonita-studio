@@ -26,6 +26,7 @@ import org.eclipse.swtbot.eclipse.finder.SWTWorkbenchBot;
 import org.eclipse.swtbot.eclipse.finder.waits.Conditions;
 import org.eclipse.swtbot.swt.finder.SWTBot;
 import org.eclipse.swtbot.swt.finder.waits.ICondition;
+import org.eclipse.swtbot.swt.finder.widgets.SWTBotTreeItem;
 
 /**
  * @author Aur�lie Zara
@@ -220,33 +221,48 @@ public class SWTBotConnectorTestUtil {
      * @param dataName
      * @param version
      */
-    public static void addConnectorToPool(SWTBot bot,String connectorDefinitionId, String name,
-            String dataName, String version) {
+    public static void addConnectorToPool(final SWTBot bot,final String connectorDefinitionLabel,final String version,final String categoryLabel,final String connectorName) {
         SWTBotTestUtil.selectTabbedPropertyView(bot, "Connectors");
         bot.button("Add...").click();
         Assert.assertFalse(IDialogConstants.NEXT_LABEL + " should be disabled", bot
                 .button(IDialogConstants.NEXT_LABEL).isEnabled());
         Assert.assertFalse(IDialogConstants.FINISH_LABEL + " should be disabled", bot
                 .button(IDialogConstants.FINISH_LABEL).isEnabled());
-        bot.tree().expandNode("Uncategorized")
-        .select(connectorDefinitionId + " (" + version + ")");
-        Assert.assertTrue(IDialogConstants.NEXT_LABEL + " should be disabled", bot
+       SWTBotTreeItem categoryItem = bot.tree().expandNode(categoryLabel);
+       String cNode = null;
+       for(String node : categoryItem.getNodes()){
+    	   if(node.startsWith(connectorDefinitionLabel + " (" + version + ")")){
+    		 cNode =  node ;
+    		 break;
+    	   }
+       }
+       Assert.assertNotNull("Connector "+connectorDefinitionLabel + " (" + version + ") not found in category "+categoryLabel ,cNode);
+       final String nodeToSelect = cNode;
+       bot.waitUntil(new ICondition() {
+
+			public boolean test() throws Exception {
+				bot.tree().select(categoryLabel).expandNode(categoryLabel).select(nodeToSelect);
+				String selection = bot.tree().selection().get(0,0);
+				return selection != null &&  selection.startsWith(connectorDefinitionLabel);
+			}
+
+			public void init(SWTBot bot) {
+
+			}
+
+			public String getFailureMessage() {
+				return "Cannot select tree item";
+			}
+		},10000,1000);
+        Assert.assertTrue(IDialogConstants.NEXT_LABEL + " should be enabled", bot
                 .button(IDialogConstants.NEXT_LABEL).isEnabled());
         Assert.assertFalse(IDialogConstants.FINISH_LABEL + " should be disabled", bot
                 .button(IDialogConstants.FINISH_LABEL).isEnabled());
         bot.button(IDialogConstants.NEXT_LABEL).click();
         Assert.assertFalse(IDialogConstants.FINISH_LABEL + " should be disabled", bot
                 .button(IDialogConstants.FINISH_LABEL).isEnabled());
-        bot.textWithLabel("Name *").setText(name);
-        bot.waitUntil(Conditions.widgetIsEnabled(bot.button(IDialogConstants.FINISH_LABEL)),5000);
-        bot.button(IDialogConstants.NEXT_LABEL).click();
-        bot.textWithLabel("text").setText("hello world");
-        bot.sleep(1000); // Due to delayed observable on databinding
-        bot.button(IDialogConstants.NEXT_LABEL).click();
-        if (dataName!=null && !dataName.isEmpty()){
-        	bot.comboBox().setSelection(dataName + " (java.lang.String)");
-        }
-        bot.button(IDialogConstants.FINISH_LABEL).click();
+        bot.textWithLabel("Name *").setText(connectorName);
+        bot.waitUntil(Conditions.widgetIsEnabled(bot.button(IDialogConstants.NEXT_LABEL)),5000);
     }
     
 }

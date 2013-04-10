@@ -312,6 +312,7 @@ public class ExpressionViewer extends ContentViewer implements ExpressionConstan
 							}
 						}
 					}
+					copy.setReturnTypeFixed(selectedExpression.isReturnTypeFixed());
 					updateSelection(copy);
 					fireSelectionChanged(new SelectionChangedEvent(ExpressionViewer.this, new StructuredSelection(selectedExpression)));
 				}
@@ -413,6 +414,13 @@ public class ExpressionViewer extends ContentViewer implements ExpressionConstan
 				fireSelectionChanged(new SelectionChangedEvent(this, selection2)) ;
 				for(IExpressionToolbarContribution contribution : toolbarContributions){
 					contribution.setExpression(selectedExpression);
+				}
+				if(ExpressionConstants.CONDITION_TYPE.equals(selectedExpression.getType())){
+					autoCompletion.getContentProposalAdapter().setEnabled(false);
+					autoCompletion.getContentProposalAdapter().setProposalAcceptanceStyle(ContentProposalAdapter.PROPOSAL_INSERT);
+				}else{
+					autoCompletion.getContentProposalAdapter().setEnabled(true);
+					autoCompletion.getContentProposalAdapter().setProposalAcceptanceStyle(ContentProposalAdapter.PROPOSAL_REPLACE);
 				}
 				refresh() ;
 			} else {
@@ -700,17 +708,20 @@ public class ExpressionViewer extends ContentViewer implements ExpressionConstan
 
 	protected String getContentTypeFromInput(String input) {
 		String expressionType = selectedExpression.getType() ;
+		if(CONSTANT_TYPE.equals(expressionType)){
+			return expressionType;
+		}
 		if( selectedExpression.getType() == null){
 			expressionType = CONSTANT_TYPE ;
 		}
-
-		if(ExpressionConstants.SCRIPT_TYPE.equals(selectedExpression.getType())){
+		if(ExpressionConstants.SCRIPT_TYPE.equals(expressionType)){
 			return ExpressionConstants.SCRIPT_TYPE ;
-		}else if(ExpressionConstants.CONDITION_TYPE.equals(selectedExpression.getType())){
+		}else if(ExpressionConstants.CONDITION_TYPE.equals(expressionType)){
 			return ExpressionConstants.CONDITION_TYPE ;
-		}else if(ExpressionConstants.CONNECTOR_TYPE.equals(selectedExpression.getType())){
+		}else if(ExpressionConstants.CONNECTOR_TYPE.equals(expressionType)){
 			return ExpressionConstants.CONNECTOR_TYPE ;
 		}
+		
 
 		Set<String> cache = new HashSet<String>() ;
 		for(Expression e : getFilteredExpressions()){

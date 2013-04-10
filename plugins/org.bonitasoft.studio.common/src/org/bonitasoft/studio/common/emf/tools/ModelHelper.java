@@ -32,6 +32,7 @@ import org.bonitasoft.studio.common.NamingUtils;
 import org.bonitasoft.studio.common.log.BonitaStudioLog;
 import org.bonitasoft.studio.model.expression.Expression;
 import org.bonitasoft.studio.model.expression.ExpressionPackage;
+import org.bonitasoft.studio.model.expression.Operation;
 import org.bonitasoft.studio.model.form.Duplicable;
 import org.bonitasoft.studio.model.form.Form;
 import org.bonitasoft.studio.model.form.FormField;
@@ -1688,15 +1689,7 @@ public class ModelHelper {
 	    	  if(includeTransientData){
 	    		  Form parentForm = getParentForm(element);
 	    		  if(parentForm != null){
-	    			  EStructuralFeature trFeature;
-	    			  if(parentForm.eContainingFeature().equals(ProcessPackage.Literals.PAGE_FLOW__FORM)){
-	    				  trFeature = ProcessPackage.Literals.PAGE_FLOW__TRANSIENT_DATA;
-	    			  }else if(parentForm.equals(ProcessPackage.Literals.VIEW_PAGE_FLOW__VIEW_FORM)){
-	    				  trFeature = ProcessPackage.Literals.VIEW_PAGE_FLOW__VIEW_TRANSIENT_DATA;
-	    			  }else{
-	    				  trFeature = ProcessPackage.Literals.RECAP_FLOW__RECAP_TRANSIENT_DATA;
-	    			  }
-	    			  result.addAll(ModelHelper.getAccessibleDataInFormsWithNoRestriction(parentForm.eContainer(), trFeature));
+	    			  result.addAll(ModelHelper.getAccessibleDataInFormsWithNoRestriction(parentForm.eContainer(), parentForm.eContainingFeature()));
 	    		  }
 	    		  result.addAll(ModelHelper.getAccessibleData(element));
 	    		  return result;
@@ -1830,6 +1823,14 @@ public class ModelHelper {
 	    	  }
 	    	  return false;
 	      }
+
+		public static Element getParentElement(EObject object) {
+			EObject element = object;
+			while (element != null && !(element instanceof Element)) {
+				element = element.eContainer();
+			}
+			return (Element) element;
+		}
 
 
 

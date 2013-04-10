@@ -25,32 +25,46 @@ import java.net.URL;
 import java.util.Collections;
 import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipException;
 import java.util.zip.ZipFile;
 import java.util.zip.ZipInputStream;
 
 import org.bonitasoft.studio.common.FileUtil;
+import org.bonitasoft.studio.common.ProductVersion;
 import org.bonitasoft.studio.common.ProjectUtil;
 import org.bonitasoft.studio.common.jface.FileActionDialog;
 import org.bonitasoft.studio.common.log.BonitaStudioLog;
 import org.bonitasoft.studio.common.platform.tools.PlatformUtil;
+import org.bonitasoft.studio.common.repository.Repository;
 import org.bonitasoft.studio.common.repository.RepositoryManager;
 import org.bonitasoft.studio.common.repository.model.IRepositoryFileStore;
 import org.bonitasoft.studio.data.attachment.repository.DocumentRepositoryStore;
 import org.bonitasoft.studio.dependencies.repository.DependencyRepositoryStore;
 import org.bonitasoft.studio.diagram.custom.repository.ApplicationResourceRepositoryStore;
+import org.bonitasoft.studio.diagram.custom.repository.DiagramRepositoryStore;
 import org.bonitasoft.studio.importer.ToProcProcessor;
 import org.bonitasoft.studio.importer.bar.BarImporterPlugin;
 import org.bonitasoft.studio.importer.bar.exception.IncompatibleVersionException;
+import org.bonitasoft.studio.importer.bar.i18n.Messages;
+import org.bonitasoft.studio.migration.MigrationPlugin;
 import org.bonitasoft.studio.migration.migrator.BOSMigrator;
+import org.bonitasoft.studio.migration.model.report.Report;
 import org.bonitasoft.studio.migration.preferences.BarImporterPreferenceConstants;
 import org.bonitasoft.studio.migration.ui.wizard.MigrationWarningWizard;
+import org.bonitasoft.studio.model.process.MainProcess;
 import org.bonitasoft.studio.validators.repository.ValidatorSourceRepositorySotre;
+import org.eclipse.core.commands.ExecutionException;
+import org.eclipse.core.commands.operations.IOperationHistory;
+import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.impl.EStructuralFeatureImpl.SimpleFeatureMapEntry;
@@ -64,14 +78,18 @@ import org.eclipse.emf.ecore.xml.type.AnyType;
 import org.eclipse.emf.ecore.xml.type.XMLTypeDocumentRoot;
 import org.eclipse.emf.edapt.history.Release;
 import org.eclipse.emf.edapt.migration.MigrationException;
+import org.eclipse.emf.edapt.migration.ReleaseUtils;
 import org.eclipse.emf.edapt.migration.execution.BundleClassLoader;
+import org.eclipse.emf.edapt.migration.execution.Migrator;
 import org.eclipse.emf.edapt.migration.execution.ValidationLevel;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
+import org.eclipse.emf.workspace.AbstractEMFOperation;
 import org.eclipse.gmf.runtime.emf.core.GMFEditingDomainFactory;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.ui.PlatformUI;
 
 
 /**
@@ -81,7 +99,11 @@ import org.eclipse.swt.widgets.Display;
 public class EdaptBarToProcProcessor extends ToProcProcessor {
 
 	private static final String ATTACHMENTS_FOLDER = "attachments";
-	private static final String SUPPORTED_VERSION = "5.9";
+	private static final Set<String> SUPPORTED_VERSIONS = new HashSet<String>() ;
+	static{
+		SUPPORTED_VERSIONS.add("5.9");
+		SUPPORTED_VERSIONS.add("5.10");
+	}
 	private static final String MIGRATION_HISTORY_PATH = "models/v60/process.history";
 	private static final String FORMS_LIBS = "forms/lib";
 	private static final String VALIDATORS = "validators";
@@ -118,7 +140,7 @@ public class EdaptBarToProcProcessor extends ToProcProcessor {
 		importProcessJarDependencies(archiveFile,progressMonitor);
 		importFormJarDependencies(archiveFile,progressMonitor);
 		importApplicationResources(archiveFile,progressMonitor);
-		
+
 		final TransactionalEditingDomain editingDomain = GMFEditingDomainFactory.INSTANCE.createEditingDomain();
 
 		final Resource resource =  new XMLResourceFactoryImpl().createResource(URI.createFileURI(barProcFile.getAbsolutePath()));
@@ -154,19 +176,81 @@ public class EdaptBarToProcProcessor extends ToProcProcessor {
 					}
 				}
 			}
-			if(sourceVersion == null || !sourceVersion.toString().equals(SUPPORTED_VERSION)){
-				throw new IncompatibleVersionException((String) sourceVersion,SUPPORTED_VERSION);
+			if(sourceVersion == null || !SUPPORTED_VERSIONS.contains(sourceVersion.toString())){
+				throw new IncompatibleVersionException((String) sourceVersion,SUPPORTED_VERSIONS.toString());
 			}
 			resource.unload();
 			final URI resourceURI = resource.getURI();
 			final Release release = migrator.getRelease(0);
-			performMigration(migrator, resourceURI, release,progressMonitor);
+			performMigration(migrator, resourceURI, release,progressMonitor);//Migrate from 5.9 to 6.0-Alpha
+		
+			//Migrate from 6.0-Alpha to current release
+			DiagramRepositoryStore store = (DiagramRepositoryStore) RepositoryManager.getInstance().getRepositoryStore(DiagramRepositoryStore.class);
+			String nsURI = ReleaseUtils.getNamespaceURI(resourceURI);
+			Migrator nextMigrator = store.getMigrator(nsURI);
+			nextMigrator.setLevel(ValidationLevel.RELEASE);
+			nextMigrator.migrateAndSave(
+					Collections.singletonList(resourceURI),getAlphaRelease(nextMigrator),
+					null, Repository.NULL_PROGRESS_MONITOR);
+			addMigrationReport(migrator,resourceURI,(String) sourceVersion,progressMonitor);
 		}else{
 			throw new Exception("Invalid source proc file");
 		}
 
 		migratedProc = barProcFile;
 		return barProcFile;
+	}
+
+	private Release getAlphaRelease(Migrator nextMigrator) {
+		for(Release r : nextMigrator.getReleases()){
+			if(r.getLabel().equals("6.0.0-Alpha")){
+				return r;
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * @throws MigrationException
+	 */
+	protected void addMigrationReport(final BOSMigrator migrator,URI resourceURI,final String sourceRelease,IProgressMonitor monitor) throws MigrationException {
+		final TransactionalEditingDomain editingDomain = GMFEditingDomainFactory.INSTANCE.createEditingDomain();
+		final Resource resource = editingDomain.getResourceSet().createResource(resourceURI);
+		try {
+			resource.load(Collections.EMPTY_MAP);
+			AbstractEMFOperation emfOperation = new AbstractEMFOperation(editingDomain, "Update report") {
+				
+				@Override
+				protected IStatus doExecute(IProgressMonitor monitor, IAdaptable info)
+						throws ExecutionException {
+					final Report report = migrator.getReport();
+					String diagramName = "";
+					for(EObject root : resource.getContents()){
+						if(root instanceof MainProcess){
+							diagramName = ((MainProcess) root).getName()+"--"+((MainProcess) root).getVersion();
+						}
+					}
+					report.setName(Messages.bind(Messages.migrationReportOf,diagramName));
+					report.setSourceRelease(sourceRelease);
+					report.setTargetRelease(ProductVersion.CURRENT_VERSION);
+
+					
+					resource.getContents().add(report);
+					return Status.OK_STATUS;
+				}
+			};
+			IOperationHistory history = PlatformUI.getWorkbench().getOperationSupport().getOperationHistory();
+			try {
+				history.execute(emfOperation, monitor, null);
+			} catch (ExecutionException e) {
+				BonitaStudioLog.error(e);
+			}
+			resource.save(Collections.emptyMap());
+			resource.unload();
+			editingDomain.dispose();
+		} catch (IOException e) {
+			throw new MigrationException("Model could not be loaded", e);
+		}
 	}
 
 	private void importApplicationResources(File archiveFile,IProgressMonitor progressMonitor) {
@@ -184,9 +268,11 @@ public class EdaptBarToProcProcessor extends ToProcProcessor {
 				}
 
 				toCopy = f;
-				PlatformUtil.copyResource(webTemplateArtifact.getResource().getLocation().toFile(), toCopy, progressMonitor);
-				PlatformUtil.delete(tmpBar, progressMonitor);
+				if(toCopy.exists()){
+					PlatformUtil.copyResource(webTemplateArtifact.getResource().getLocation().toFile(), toCopy, progressMonitor);
+				}
 			}
+			PlatformUtil.delete(tmpBar, progressMonitor);
 		}
 	}
 
@@ -235,7 +321,7 @@ public class EdaptBarToProcProcessor extends ToProcProcessor {
 	}
 
 	private boolean displayMigrationWarningPopup() {
-		final IPreferenceStore store = BarImporterPlugin.getDefault().getPreferenceStore();
+		final IPreferenceStore store = MigrationPlugin.getDefault().getPreferenceStore();
 		return store.getBoolean(BarImporterPreferenceConstants.DISPLAY_MIGRATION_WARNING);
 	}
 

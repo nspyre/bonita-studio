@@ -39,6 +39,7 @@ import org.bonitasoft.studio.connector.model.definition.TextArea;
 import org.bonitasoft.studio.connector.model.definition.WidgetComponent;
 import org.bonitasoft.studio.connector.model.definition.util.ConnectorDefinitionSwitch;
 import org.bonitasoft.studio.connector.model.i18n.DefinitionResourceProvider;
+import org.bonitasoft.studio.connector.model.i18n.Messages;
 import org.bonitasoft.studio.expression.editor.provider.IExpressionEditor;
 import org.bonitasoft.studio.expression.editor.viewer.CheckBoxExpressionViewer;
 import org.bonitasoft.studio.expression.editor.viewer.ExpressionCollectionViewer;
@@ -60,6 +61,7 @@ import org.bonitasoft.studio.scripting.extensions.ScriptLanguageService;
 import org.eclipse.core.databinding.UpdateValueStrategy;
 import org.eclipse.core.databinding.observable.value.IObservableValue;
 import org.eclipse.core.databinding.validation.MultiValidator;
+import org.eclipse.core.databinding.validation.ValidationStatus;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.emf.databinding.EMFDataBindingContext;
 import org.eclipse.emf.databinding.EMFObservables;
@@ -79,9 +81,7 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.forms.events.ExpansionEvent;
 import org.eclipse.ui.forms.events.IExpansionListener;
@@ -284,21 +284,25 @@ public class PageComponentSwitch extends ConnectorDefinitionSwitch<Component> {
 			viewer.addFilter(connectorExpressionContentTypeFilter);
 
 			Expression exp = (Expression) parameter.getExpression();
-			if(!exp.getType().equals(ExpressionConstants.PATTERN_TYPE)){
-				exp.setType(ExpressionConstants.PATTERN_TYPE);
-			}
+//			if(!exp.getType().equals(ExpressionConstants.PATTERN_TYPE)){
+//				exp.setType(ExpressionConstants.PATTERN_TYPE);
+//			}
 			String desc = messageProvider.getFieldDescription(definition, object.getId()) ;
 			if(desc != null && !desc.isEmpty()){
 				viewer.setHint(desc) ;
 			}
 			viewer.setContextInput(container);
-			viewer.setPatternExpression(exp) ;
+		
 			UpdateValueStrategy startegy = new UpdateValueStrategy();
 			if(input.isMandatory()){
 				startegy.setAfterConvertValidator(new EmptyInputValidator(getLabel(object.getId())));
 			}
-			context.bindValue(SWTObservables.observeText(viewer.getTextControl(),SWT.Modify), EMFObservables.observeValue(exp, ExpressionPackage.Literals.EXPRESSION__NAME));
-			context.bindValue(SWTObservables.observeText(viewer.getTextControl(),SWT.Modify), EMFObservables.observeValue(exp, ExpressionPackage.Literals.EXPRESSION__CONTENT),startegy,null);
+			viewer.setEMFBindingContext(context);
+			if(input.isMandatory()){
+				viewer.setMandatoryField(getLabel(object.getId())) ;
+			}
+		
+			viewer.setExpression(exp) ;
 		}
 	}
 
@@ -377,7 +381,7 @@ public class PageComponentSwitch extends ConnectorDefinitionSwitch<Component> {
 			editorComposite.setLayout(GridLayoutFactory.fillDefaults().numColumns(1).margins(0, 0).create());
 			Control editor = groovyExpressionEditor.createExpressionEditor(editorComposite);
 			editor.setLayoutData(GridDataFactory.fillDefaults().grab(true, true).create());
-			groovyExpressionEditor.bindExpression(context, container, inputExpression, null);
+			groovyExpressionEditor.bindExpression(context, container, inputExpression, new ViewerFilter[]{connectorExpressionContentTypeFilter});
 			if(input.isMandatory()){
 				final EmptyInputValidator validator =  new EmptyInputValidator(getLabel(input.getName()));
 				final IObservableValue textObservable = (IObservableValue) groovyExpressionEditor.getContentObservable();
@@ -428,13 +432,22 @@ public class PageComponentSwitch extends ConnectorDefinitionSwitch<Component> {
 					viewer.setSelection(expression) ;
 				}
 			}) ;
-			viewer.addModifyListener(new Listener() {
+			if(input.isMandatory()){
+				final IObservableValue inputObservable = (IObservableValue) ViewersObservables.observeInput(viewer.getViewer());
+				final IObservableValue tableValue = EMFObservables.observeValue(parameter.getExpression(), ExpressionPackage.Literals.TABLE_EXPRESSION__EXPRESSIONS);
+				context.addValidationStatusProvider(new MultiValidator() {
 
-				@Override
-				public void handleEvent(Event event) {
-					iWizardContainer.updateButtons();
-				}
-			});
+					@Override
+					protected IStatus validate() {
+						TableExpression value = (TableExpression) inputObservable.getValue();
+						tableValue.getValue();
+						if(value.getExpressions().isEmpty()){
+							return ValidationStatus.error(Messages.bind(Messages.emptyTable,getLabel(input.getName())));
+						}
+						return ValidationStatus.ok();
+					}
+				});
+			}
 		}
 	}
 
@@ -479,13 +492,22 @@ public class PageComponentSwitch extends ConnectorDefinitionSwitch<Component> {
 					viewer.setSelection(expression) ;
 				}
 			}) ;
-			viewer.addModifyListener(new Listener() {
+			if(input.isMandatory()){
+				final IObservableValue inputObservable = (IObservableValue) ViewersObservables.observeInput(viewer.getViewer());
+				final IObservableValue listValue = EMFObservables.observeValue(parameter.getExpression(), ExpressionPackage.Literals.LIST_EXPRESSION__EXPRESSIONS);
+				context.addValidationStatusProvider(new MultiValidator() {
 
-				@Override
-				public void handleEvent(Event event) {
-					iWizardContainer.updateButtons();
-				}
-			});
+					@Override
+					protected IStatus validate() {
+						ListExpression value = (ListExpression) inputObservable.getValue();
+						listValue.getValue();
+						if(value.getExpressions().isEmpty()){
+							return ValidationStatus.error(Messages.bind(Messages.emptyList,getLabel(input.getName())));
+						}
+						return ValidationStatus.ok();
+					}
+				});
+			}
 		}
 
 	}
@@ -623,6 +645,8 @@ public class PageComponentSwitch extends ConnectorDefinitionSwitch<Component> {
 				expression.setName(input.getName()+"Script") ;
 				expression.setType(ExpressionConstants.SCRIPT_TYPE);
 				expression.setInterpreter(((ScriptEditor) widget).getInterpreter());
+			}else if(widget instanceof TextArea){
+				expression.setType(ExpressionConstants.PATTERN_TYPE);
 			}
 			return expression ;
 		}
