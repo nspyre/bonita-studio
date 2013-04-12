@@ -5,7 +5,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.bonitasoft.studio</groupId>
 	<artifactId>studio</artifactId>
-	<version>6.0-SNAPSHOT</version>
+	<version>6.0</version>
 	<packaging>pom</packaging>
 	<properties>
 		<tychoVersion>0.16.0</tychoVersion>
@@ -28,6 +28,7 @@
 			code coverage. -->
 		<sonar.jacoco.reportPath>${jacoco.file}</sonar.jacoco.reportPath>
 		<sonar.jacoco.itReportPath>${user.home}/target/jacoco-it.exec</sonar.jacoco.itReportPath>
+		<forceContextQualifier>66666-6666</forceContextQualifier>
 	</properties>
 
 	<modules>
@@ -140,7 +141,7 @@
 						<artifact>
 							<groupId>org.bonitasoft.studio</groupId>
 							<artifactId>platform</artifactId>
-							<version>6.0-SNAPSHOT</version>
+							<version>6.0</version>
 						</artifact>
 					</target>
 					<filters>
