@@ -11,7 +11,7 @@
 
 	<groupId>org.bonitasoft.studio</groupId>
 	<artifactId>all-in-one</artifactId>
-	<version>6.1.0-01</version>
+	<version>6.1.0.rc.01</version>
 	<packaging>eclipse-repository</packaging>
 
 	<properties>
