@@ -144,7 +144,7 @@ public abstract class ExtensibleGridPropertySection extends AbstractBonitaDescri
         }
         /*Force to layout even if there is the same Control than previously*/
         mainComposite.getParent().getParent().layout(true, true);
-    }
+    }  
 
 
     /**
