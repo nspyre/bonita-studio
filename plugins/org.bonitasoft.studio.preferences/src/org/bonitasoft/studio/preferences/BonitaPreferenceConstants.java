@@ -190,6 +190,7 @@ public class BonitaPreferenceConstants {
     public static String PREF_MARGIN_LEFT = "print.margin.left"; //$NON-NLS-1$
     public static String PREF_MARGIN_RIGHT = "print.margin.right"; //$NON-NLS-1$
     // END PRINTING PREFERENCES
+	
 
 
 
@@ -200,7 +201,8 @@ public class BonitaPreferenceConstants {
     public static final String DEFAULT_ORGANIZATION = "defaultOrganization";
     public static final String DEFAULT_ORGANIZATION_NAME = "ACME";
     public static final String VALIDATION_BEFORE_RUN = "validateBeforeRun";
-
+    public static final String TOGGLE_STATE_FOR_PUBLISH_ORGANIZATION="toggleStateForPublishOrganization";
+    public static final String PUBLISH_ORGANIZATION="publishOrganization";
     /**
      * @param locales2 TODO
      * @return
