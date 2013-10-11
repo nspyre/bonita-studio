@@ -57,7 +57,8 @@ public final class Messages extends NLS {
 
 	public static String importedFileIsInvalidTitle;
 	public static String importedFileIsInvalid;
-
+	public static String importErrorTitle;
+	public static String incompatibleProductVersion;
     private Messages() {
         // Do not instantiate
     }
