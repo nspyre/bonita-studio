@@ -48,7 +48,6 @@ import static org.bonitasoft.studio.common.Messages.bonitaStudioModuleName;
 public class BonitaAdvancedPreferencePage extends AbstractBonitaPreferencePage implements IWorkbenchPreferencePage {
 
 
-	private BooleanFieldEditor automaticId;
 	private List<IPreferenceFieldEditorContribution> contributions;
 
 	public BonitaAdvancedPreferencePage() {
@@ -66,8 +65,6 @@ public class BonitaAdvancedPreferencePage extends AbstractBonitaPreferencePage i
 
 		createTitleBar(Messages.BonitaPreferenceDialog_Advanced, Pics.getImage(PicsConstants.preferenceAdvanced),false) ;
 
-		automaticId = new BooleanFieldEditor(BonitaPreferenceConstants.AUTOMATIC_ID, Messages.automaticIdLabel +" ("+Messages.bind(Messages.automaticIdInfo, new Object[]{bonitaStudioModuleName})+")", getFieldEditorParent());
-		addField(automaticId);
 
 		IConfigurationElement[] elems = BonitaStudioExtensionRegistryManager.getInstance().getConfigurationElements("org.bonitasoft.studio.preferences.prefrenceFieldEditorContribution"); //$NON-NLS-1$
 		IPreferenceFieldEditorContribution prefEditorContrib = null;

@@ -54,6 +54,7 @@ import org.eclipse.jdt.ui.cleanup.ICleanUp;
 import org.eclipse.jdt.ui.wizards.NewClassWizardPage;
 import org.eclipse.jface.text.templates.Template;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Shell;
 
 
 /**
@@ -82,7 +83,10 @@ public class ClassGenerator {
 		final IJavaProject javaProject = RepositoryManager.getInstance().getCurrentRepository().getJavaProject() ;
 		IType classType = javaProject.findType(qualifiedAbstractClassName) ;
 		if(classType != null){
-			classType.getCompilationUnit().delete(true, monitor) ;
+			final ICompilationUnit compilationUnit = classType.getCompilationUnit();
+			if(compilationUnit != null){
+				compilationUnit.delete(true, monitor) ;
+			}
 		}
 		classType = generateAbstractClass(packageName,abstractClassName,superClassName,sourceStore, monitor);
 
@@ -90,7 +94,16 @@ public class ClassGenerator {
 
 		Map<String, String> settings= new Hashtable<String, String>();
 		settings.put(CleanUpConstants.FORMAT_SOURCE_CODE, CleanUpOptions.TRUE);
-		RefactoringExecutionStarter.startCleanupRefactoring(new ICompilationUnit[]{classType.getCompilationUnit()},  new ICleanUp[] {new CodeFormatCleanUp(settings)}, false, Display.getDefault().getActiveShell(), false,"");
+		Shell activeShell = Display.getDefault().getActiveShell();
+		boolean disposeShell = false;
+		if(activeShell == null){
+			activeShell = new Shell();
+			disposeShell = true;
+		}
+		RefactoringExecutionStarter.startCleanupRefactoring(new ICompilationUnit[]{classType.getCompilationUnit()},  new ICleanUp[] {new CodeFormatCleanUp(settings)}, false, activeShell, false,"");
+		if(disposeShell){
+			activeShell.dispose();
+		}
 
 
 		return (IFile) classType.getResource();
