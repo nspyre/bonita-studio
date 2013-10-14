@@ -17,11 +17,15 @@
  */
 package org.bonitasoft.studio.actors.model.organization.util;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.util.HashMap;
 import java.util.Map;
 
 import org.bonitasoft.studio.actors.model.organization.OrganizationPackage;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.emf.ecore.xmi.util.XMLProcessor;
 
 /**
@@ -58,5 +62,24 @@ public class OrganizationXMLProcessor extends XMLProcessor {
 		}
 		return registrations;
 	}
+    
+    /* (non-Javadoc)
+     * @see org.eclipse.emf.ecore.xmi.util.XMLProcessor#saveToString(org.eclipse.emf.ecore.resource.Resource, java.util.Map)
+     *
+     * Use charset for the toString
+     */
+    @Override
+    public String saveToString(Resource resource, Map<?, ?> options) throws IOException{
+      ByteArrayOutputStream os = new ByteArrayOutputStream();
+      if (options != null){
+        Map<Object, Object> mergedOptions = new HashMap<Object, Object>(saveOptions);
+        mergedOptions.putAll(options);
+        
+        ((XMLResource)resource).save(os, mergedOptions);
+      } else {
+        ((XMLResource)resource).save(os, saveOptions);
+      }
+      return os.toString("UTF-8");
+    }
 
 } //OrganizationXMLProcessor
