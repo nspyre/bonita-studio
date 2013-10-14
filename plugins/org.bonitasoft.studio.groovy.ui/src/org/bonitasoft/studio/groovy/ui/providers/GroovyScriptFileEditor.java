@@ -64,6 +64,10 @@ public class GroovyScriptFileEditor extends GroovyScriptExpressionEditor impleme
         return mainComposite;
     }
 
+    @Override
+    protected void createDataChooserArea(Composite composite) {
+    	
+    }
 
     @Override
     public boolean canFinish() {
@@ -79,22 +83,7 @@ public class GroovyScriptFileEditor extends GroovyScriptExpressionEditor impleme
 
         groovyViewer.getDocument().set(inputExpression.getContent()) ;
         groovyViewer.setContext(context,filters) ;
-        nodes = groovyViewer.getFieldNodes() ;
-
-        if (context == null && (nodes == null || nodes.isEmpty())) {
-            dataCombo.getCombo().add(Messages.noProcessVariableAvailable);
-            dataCombo.getCombo().setText(Messages.noProcessVariableAvailable);
-            dataCombo.getCombo().setEnabled(false);
-        }else if(nodes != null){
-            dataCombo.setInput(nodes);
-            dataCombo.setSelection(new StructuredSelection(ProcessVariableContentProvider.SELECT_ENTRY));
-        }else{
-            dataCombo.setInput(groovyViewer.getFieldNodes());
-            dataCombo.setSelection(new StructuredSelection(ProcessVariableContentProvider.SELECT_ENTRY));
-        }
-
-        bonitaDataCombo.setInput(GroovyUtil.getBonitaVariables(context,null));
-        bonitaDataCombo.setSelection(new StructuredSelection(ProcessVariableContentProvider.SELECT_ENTRY));
+       
 
         dataBindingContext.bindValue(SWTObservables.observeText(sourceViewer.getTextWidget(),SWT.Modify), contentModelObservable,new UpdateValueStrategy().setAfterGetValidator(new InputLengthValidator("", GroovyViewer.MAX_SCRIPT_LENGTH)), null) ;
         sourceViewer.addTextListener(new ITextListener() {
