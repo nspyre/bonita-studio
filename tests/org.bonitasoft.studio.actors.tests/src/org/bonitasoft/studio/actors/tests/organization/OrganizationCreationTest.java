@@ -234,6 +234,7 @@ public class OrganizationCreationTest extends SWTBotGefTestCase {
         // Finish the user add
         bot.waitUntil(Conditions.widgetIsEnabled(bot.button(IDialogConstants.FINISH_LABEL)));
         bot.button(IDialogConstants.FINISH_LABEL).click();
+        bot.button(IDialogConstants.NO_LABEL).click();
     }
 
 
