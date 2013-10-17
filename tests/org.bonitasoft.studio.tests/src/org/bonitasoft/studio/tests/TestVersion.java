@@ -31,7 +31,7 @@ import org.eclipse.ui.PlatformUI;
  */
 public class TestVersion extends TestCase {
 	
-	private final String version = "6.0.4";//TO BE MODIFIED AT EACH RELEASE
+	private final String version = "6.0.5";//TO BE MODIFIED AT EACH RELEASE
 	
 	public void testNewProcessVersionMatchesProduct() throws Exception {
 		
