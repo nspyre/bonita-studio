@@ -47,6 +47,9 @@ import org.eclipse.swt.widgets.Event;
  */
 public class GroovyScriptFileEditor extends GroovyScriptExpressionEditor implements IExpressionEditor {
 
+	public static final String CONTEXT_DATA_KEY = "context";
+	public static final String BONITA_KEYWORDS_DATA_KEY = "bonita.keywords";
+	public static final String PROCESS_VARIABLES_DATA_KEY = "process.variables";
 
     public GroovyScriptFileEditor(){
         super();
@@ -83,7 +86,9 @@ public class GroovyScriptFileEditor extends GroovyScriptExpressionEditor impleme
 
         groovyViewer.getDocument().set(inputExpression.getContent()) ;
         groovyViewer.setContext(context,filters) ;
-       
+        groovyViewer.getSourceViewer().getTextWidget().setData(BONITA_KEYWORDS_DATA_KEY, null);
+		groovyViewer.getSourceViewer().getTextWidget().setData(PROCESS_VARIABLES_DATA_KEY, null);
+		groovyViewer.getSourceViewer().getTextWidget().setData(CONTEXT_DATA_KEY, null);
 
         dataBindingContext.bindValue(SWTObservables.observeText(sourceViewer.getTextWidget(),SWT.Modify), contentModelObservable,new UpdateValueStrategy().setAfterGetValidator(new InputLengthValidator("", GroovyViewer.MAX_SCRIPT_LENGTH)), null) ;
         sourceViewer.addTextListener(new ITextListener() {
