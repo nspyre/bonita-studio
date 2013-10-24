@@ -381,21 +381,33 @@ public class FormPreviewOperation implements IRunnableWithProgress {
 					} else {
 						expr.setType(ExpressionConstants.CONSTANT_TYPE);
 						expr.setContent("");
+						expr.setName("");
 
 					}
 				} else {
 					if (data.getDataType() instanceof XMLData){
 						expr.setType(ExpressionConstants.CONSTANT_TYPE);
 						expr.setContent("");
+						expr.setName("");
+							
 					} else {
-						expr.setType(ExpressionConstants.CONSTANT_TYPE);
-						expr.setContent(data.getDefaultValue().getContent());
-						expr.getReferencedElements().clear();
+						String defaultValueType = data.getDefaultValue().getType();
+						if (defaultValueType.equals(ExpressionConstants.SCRIPT_TYPE) || defaultValueType.equals(ExpressionConstants.CONSTANT_TYPE)  ){
+							expr.setType(data.getDefaultValue().getType());
+							expr.setInterpreter(data.getDefaultValue().getInterpreter());
+							expr.setContent(data.getDefaultValue().getContent());
+							expr.getReferencedElements().clear();
+						} else {
+							expr.setType(ExpressionConstants.CONSTANT_TYPE);
+							expr.setContent("");
+							expr.setName("");
+						}
 					}
 				}
 			} else {
 				expr.setType(ExpressionConstants.CONSTANT_TYPE);
 				expr.setContent("");
+				expr.setName("");
 				expr.getReferencedElements().clear();
 			}
 
