@@ -402,6 +402,7 @@ public class AddMessageEventWizardPage extends WizardPage implements IWizardPage
 		elementExpressionViewer.setContext(element);
 		catchEventNatureProvider = new CatchMessageEventNamesExpressionNatureProvider();
 		elementExpressionViewer.setExpressionNatureProvider(catchEventNatureProvider);
+		catchEventNatureProvider.setThrowMessage(element);
 		if(workingCopyMessage.getTargetElementExpression() == null){
 			final Expression createExpression = ExpressionFactory.eINSTANCE.createExpression();
 			createExpression.setReturnTypeFixed(true);
