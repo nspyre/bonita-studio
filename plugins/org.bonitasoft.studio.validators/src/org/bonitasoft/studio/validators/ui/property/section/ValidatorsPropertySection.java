@@ -100,6 +100,7 @@ import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
 public class ValidatorsPropertySection extends AbstractBonitaDescriptionSection {
 
 	private static final String GROOVY_TYPE = "Groovy expression";
+	private static final String REGULAR_TYPE = "Regular expression";
 
     protected EMFDataBindingContext context = new EMFDataBindingContext();
 
@@ -601,6 +602,12 @@ public class ValidatorsPropertySection extends AbstractBonitaDescriptionSection 
 						getEditingDomain().getCommandStack().execute(SetCommand.create(getEditingDomain(), currentValidator.getParameter(), ExpressionPackage.Literals.EXPRESSION__RETURN_TYPE, Boolean.class.getName()));
 						getEditingDomain().getCommandStack().execute(SetCommand.create(getEditingDomain(), currentValidator.getParameter(), ExpressionPackage.Literals.EXPRESSION__RETURN_TYPE_FIXED, true));
 					}
+                else {
+					if (descriptior.getName().equals(REGULAR_TYPE)){
+						getEditingDomain().getCommandStack().execute(SetCommand.create(getEditingDomain(), currentValidator.getParameter(), ExpressionPackage.Literals.EXPRESSION__RETURN_TYPE, String.class.getName()));
+						getEditingDomain().getCommandStack().execute(SetCommand.create(getEditingDomain(), currentValidator.getParameter(), ExpressionPackage.Literals.EXPRESSION__RETURN_TYPE_FIXED, false));
+					}
+				}
             }
         }
     }
