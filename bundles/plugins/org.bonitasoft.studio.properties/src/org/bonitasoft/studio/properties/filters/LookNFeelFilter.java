@@ -25,7 +25,7 @@ import org.eclipse.jface.viewers.IFilter;
  * @author Romain Bioteau
  *
  */
-public class LookNFeelFilter extends PoolFilter implements IFilter {
+public class LookNFeelFilter extends PoolOrLaneFilter implements IFilter {
 
 	/* (non-Javadoc)
 	 * @see org.eclipse.jface.viewers.IFilter#select(java.lang.Object)

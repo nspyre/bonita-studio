@@ -152,6 +152,11 @@
                id="tab.index"
                label="%tab.index.label">
          </propertyTab>
+         <propertyTab
+               category="domain"
+               id="tab.instances"
+               label="%tab.instances.label">
+         </propertyTab>
       </propertyTabs>
    </extension>
    
