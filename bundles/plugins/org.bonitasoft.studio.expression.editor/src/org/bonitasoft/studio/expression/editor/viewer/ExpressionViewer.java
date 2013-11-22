@@ -112,6 +112,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.ToolBar;
@@ -129,6 +130,7 @@ public class ExpressionViewer extends ContentViewer implements ExpressionConstan
 
 	protected Composite control;
 	private Text textControl;
+	protected Label textControlDescription;
 	protected ToolItem editControl;
 	private AutoCompletionField autoCompletion;
 	protected EMFDataBindingContext internalDataBindingContext;
@@ -179,22 +181,31 @@ public class ExpressionViewer extends ContentViewer implements ExpressionConstan
 
 	public ExpressionViewer(Composite composite, int style, TabbedPropertySheetWidgetFactory widgetFactory,
 			EditingDomain editingDomain, EReference expressionReference) {
-		this(composite, style, widgetFactory, editingDomain, expressionReference, false);
+		this(composite, style, widgetFactory, editingDomain, expressionReference, false, null);
 
 	}
-
 	public ExpressionViewer(Composite composite, int style, TabbedPropertySheetWidgetFactory widgetFactory,
-			EditingDomain editingDomain, EReference expressionReference, boolean withConnector) {
+			EditingDomain editingDomain, EReference expressionReference,  boolean withConnector){
+		this( composite,  style,  widgetFactory, editingDomain,  expressionReference,   withConnector, null);
+	}
+	public ExpressionViewer(Composite composite, int style, TabbedPropertySheetWidgetFactory widgetFactory,
+			EditingDomain editingDomain, EReference expressionReference, String description) {
+		this(composite, style, widgetFactory, editingDomain, expressionReference, false, description);
+
+	}
+	
+	public ExpressionViewer(Composite composite, int style, TabbedPropertySheetWidgetFactory widgetFactory,
+			EditingDomain editingDomain, EReference expressionReference, boolean withConnector, String description) {
 		this.editingDomain = editingDomain;
 		this.expressionReference = expressionReference;
 		filters = new HashSet<ViewerFilter>();
 		this.withConnector = withConnector;
-		createControl(composite, style, widgetFactory);
+		createControl(composite, style, widgetFactory, description);
 		setContentProvider(new ArrayContentProvider());
 		setLabelProvider(new ExpressionLabelProvider());
 	}
 
-	protected void createControl(Composite composite, int style, TabbedPropertySheetWidgetFactory widgetFactory) {
+	protected void createControl(Composite composite, int style, TabbedPropertySheetWidgetFactory widgetFactory, String description) {
 		if (widgetFactory != null) {
 			control = widgetFactory.createComposite(composite, SWT.INHERIT_DEFAULT);
 		} else {
@@ -204,9 +215,37 @@ public class ExpressionViewer extends ContentViewer implements ExpressionConstan
 		control.setLayout(GridLayoutFactory.fillDefaults().numColumns(2).margins(0, 0).spacing(0, 0).create());
 		createTextControl(style, widgetFactory);
 		createToolbar(style, widgetFactory);
+		createLabelDescription(style ,description);
 
 	}
+	
+	protected void createLabelDescription(int style, String description){
+		if(description != null && !description.isEmpty()){
 
+			textControlDescription = new Label(control, SWT.NONE);
+			textControlDescription.setText(description);
+			
+			int indent = getIndentSize(style);
+			textControlDescription.setLayoutData(GridDataFactory.swtDefaults().align(SWT.FILL, SWT.CENTER).indent(indent, 0)
+					.grab(true, false).create());
+		}
+	}
+
+	private int getIndentSize(int style) {
+		int indent = 0;
+		if ((style & SWT.PASSWORD) != 0) {
+			isPassword = true;
+		}
+		if ((style & SWT.BORDER) != 0) {
+			indent = 16;
+		}
+		return indent;
+	}
+	
+	protected void createControl(Composite composite, int style, TabbedPropertySheetWidgetFactory widgetFactory){
+		createControl(composite, style, widgetFactory, null);
+	}
+	
 	protected void createToolbar(int style, TabbedPropertySheetWidgetFactory widgetFactory) {
 		toolbar = new ToolBar(control, SWT.FLAT | SWT.NO_FOCUS);
 		toolbar.setLayoutData(GridDataFactory.fillDefaults().align(SWT.FILL, SWT.CENTER).grab(false, false).create());
@@ -352,16 +391,13 @@ public class ExpressionViewer extends ContentViewer implements ExpressionConstan
 		autoCompletion = contentAssistText.getAutocompletion();
 		autoCompletion.addExpressionProposalListener(this);
 
-		int indent = 0;
-		if ((style & SWT.PASSWORD) != 0) {
-			isPassword = true;
-		}
-		if ((style & SWT.BORDER) != 0) {
-			indent = 16;
-		}
+		int indent = getIndentSize(style);
 		contentAssistText.setLayoutData(GridDataFactory.swtDefaults().align(SWT.FILL, SWT.CENTER).indent(indent, 0)
 				.grab(true, false).create());
+		
+
 	}
+
 
 	protected void openEditDialog() {
 		final Object input = getInput();

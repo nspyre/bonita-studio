@@ -36,6 +36,10 @@
         eType="#//Actor" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="configurations" upperBound="-1"
         eType="ecore:EClass configuration.ecore#//Configuration" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="dynamicLabel" eType="ecore:EClass expression.ecore#//Expression"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="dynamicDescription" eType="ecore:EClass expression.ecore#//Expression"
+        containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="AbstractTimerEvent" abstract="true"
       interface="true" eSuperTypes="#//Element">

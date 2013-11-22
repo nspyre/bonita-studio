@@ -490,6 +490,8 @@
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference process.ecore#//AbstractProcess/parameters"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference process.ecore#//AbstractProcess/actors"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference process.ecore#//AbstractProcess/configurations"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference process.ecore#//AbstractProcess/dynamicLabel"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference process.ecore#//AbstractProcess/dynamicDescription"/>
     </genClasses>
     <genClasses image="false" ecoreClass="process.ecore#//AbstractTimerEvent">
       <genFeatures createChild="false" ecoreFeature="ecore:EReference process.ecore#//AbstractTimerEvent/condition"/>
