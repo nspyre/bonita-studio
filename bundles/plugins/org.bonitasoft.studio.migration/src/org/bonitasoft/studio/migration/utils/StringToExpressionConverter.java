@@ -432,19 +432,40 @@ public class StringToExpressionConverter {
 	private boolean isAGroovyString(String stringToParse) {
 		return stringToParse.startsWith(GROOVY_PREFIX) && stringToParse.endsWith(GROOVY_SUFFIX);
 	}
-
-	public static Instance createExpressionInstance(Model model,String name, String content,String returnType,String expresisonType,boolean fixedReturnType){
+	
+	/**
+	 * 
+	 * @param model
+	 * @param name String that can be empty
+	 * @param content String that can be empty
+	 * @param returnType ex:String.class.getName()
+	 * @param expressionType see class <b>ExpressionConstants</b>
+	 * @param fixedReturnType true if the expression return type should not be modified
+	 * @return
+	 */
+	public static Instance createExpressionInstance(Model model,String name, String content,String returnType,String expressionType,boolean fixedReturnType){
 		final Instance instance = model.newInstance("expression.Expression");
 		instance.set("name", name);
 		instance.set("content", content);
 		instance.set("returnType", returnType);
 		instance.set("returnTypeFixed", fixedReturnType);
-		instance.set("type", expresisonType);
-		if(ExpressionConstants.SCRIPT_TYPE.equals(expresisonType)){
+		instance.set("type", expressionType);
+		if(ExpressionConstants.SCRIPT_TYPE.equals(expressionType)){
 			instance.set("interpreter", ExpressionConstants.GROOVY);
 		}
 		return instance;
 	}
+	
+	/** Create an empty expression with empty content, empty name, String return type, Constant expression and with an not fixed return type
+	 * 
+	 * @param model
+	 * @returnType ex:String.class.getName()
+	 * @return an empty expression
+	 * 
+	 */
+	public static Instance createEmptyExpressionInstance(final Model model, final boolean fixedReturnType){
+		return StringToExpressionConverter.createExpressionInstance(model, "", "", String.class.getName(), ExpressionConstants.CONSTANT_TYPE, fixedReturnType);
+	}	
 
 	public static Instance createExpressionInstanceWithDependency(Model model,String name, String content,String returnType,String expresisonType,boolean fixedReturnType,Instance dependency){
 		final Instance instance = model.newInstance("expression.Expression");

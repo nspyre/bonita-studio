@@ -7747,73 +7747,75 @@
   <releases date="2013-10-29T12:36:39.611+0100" label="6.1.1-001">
     <changes xsi:type="history:MigrationChange" migration="org.bonitasoft.studio.migration.custom.migration.startmessageevent.StartMessageEventMigration"/>
   </releases>
-  <releases date="2013-10-29T12:36:39.611+0100" label="6.2.0-001">
-    <changes xsi:type="history:MigrationChange" migration="org.bonitasoft.studio.migration.custom.migration.startmessageevent.StartMessageEventMigration"/>
-  </releases>
-  <releases>
-    <changes xsi:type="history:OperationChange">
-      <changes xsi:type="history:Create" target="process.ecore#//AbstractProcess"
-          referenceName="eStructuralFeatures" element="process.ecore#//AbstractProcess/dynamicLabel">
-        <changes xsi:type="history:Set" element="process.ecore#//AbstractProcess/dynamicLabel"
-            featureName="name" dataValue="dynamicLabel"/>
-        <changes xsi:type="history:Set" element="process.ecore#//AbstractProcess/dynamicLabel"
-            featureName="containment" dataValue="true" oldDataValue="false"/>
-        <changes xsi:type="history:Set" element="process.ecore#//AbstractProcess/dynamicLabel"
-            featureName="eType" referenceValue="expression.ecore#//Expression"/>
+  <releases date="2013-11-22T12:36:39.611+0100" label="6.2.0-001">
+    <changes xsi:type="history:MigrationChange" migration="org.bonitasoft.studio.migration.custom.migration.InitializePoolDynamicDescription">
+      <changes xsi:type="history:OperationChange">
+        <changes xsi:type="history:Create" target="process.ecore#//AbstractProcess"
+            referenceName="eStructuralFeatures" element="process.ecore#//AbstractProcess/dynamicDescription">
+          <changes xsi:type="history:Set" element="process.ecore#//AbstractProcess/dynamicDescription"
+              featureName="name" dataValue="dynamicDescription"/>
+          <changes xsi:type="history:Set" element="process.ecore#//AbstractProcess/dynamicDescription"
+              featureName="containment" dataValue="true" oldDataValue="false"/>
+          <changes xsi:type="history:Set" element="process.ecore#//AbstractProcess/dynamicDescription"
+              featureName="eType" referenceValue="expression.ecore#//Expression"/>
+        </changes>
+        <operation name="newReference">
+          <parameters name="eClass">
+            <referenceValue element="process.ecore#//AbstractProcess"/>
+          </parameters>
+          <parameters name="name">
+            <dataValue>dynamicDescription</dataValue>
+          </parameters>
+          <parameters name="type">
+            <referenceValue element="expression.ecore#//Expression"/>
+          </parameters>
+          <parameters name="lowerBound">
+            <dataValue>0</dataValue>
+          </parameters>
+          <parameters name="upperBound">
+            <dataValue>1</dataValue>
+          </parameters>
+          <parameters name="containment">
+            <dataValue>true</dataValue>
+          </parameters>
+          <parameters name="opposite"/>
+        </operation>
       </changes>
-      <operation name="newReference">
-        <parameters name="eClass">
-          <referenceValue element="process.ecore#//AbstractProcess"/>
-        </parameters>
-        <parameters name="name">
-          <dataValue>dynamicLabel</dataValue>
-        </parameters>
-        <parameters name="type">
-          <referenceValue element="expression.ecore#//Expression"/>
-        </parameters>
-        <parameters name="lowerBound">
-          <dataValue>0</dataValue>
-        </parameters>
-        <parameters name="upperBound">
-          <dataValue>1</dataValue>
-        </parameters>
-        <parameters name="containment">
-          <dataValue>true</dataValue>
-        </parameters>
-        <parameters name="opposite"/>
-      </operation>
     </changes>
-    <changes xsi:type="history:OperationChange">
-      <changes xsi:type="history:Create" target="process.ecore#//AbstractProcess"
-          referenceName="eStructuralFeatures" element="process.ecore#//AbstractProcess/dynamicDescription">
-        <changes xsi:type="history:Set" element="process.ecore#//AbstractProcess/dynamicDescription"
-            featureName="name" dataValue="dynamicDescription"/>
-        <changes xsi:type="history:Set" element="process.ecore#//AbstractProcess/dynamicDescription"
-            featureName="containment" dataValue="true" oldDataValue="false"/>
-        <changes xsi:type="history:Set" element="process.ecore#//AbstractProcess/dynamicDescription"
-            featureName="eType" referenceValue="expression.ecore#//Expression"/>
+    <changes xsi:type="history:MigrationChange" migration="org.bonitasoft.studio.migration.custom.migration.InitializePoolDynamicLabel">
+      <changes xsi:type="history:OperationChange">
+        <changes xsi:type="history:Create" target="process.ecore#//AbstractProcess"
+            referenceName="eStructuralFeatures" element="process.ecore#//AbstractProcess/dynamicLabel">
+          <changes xsi:type="history:Set" element="process.ecore#//AbstractProcess/dynamicLabel"
+              featureName="name" dataValue="dynamicLabel"/>
+          <changes xsi:type="history:Set" element="process.ecore#//AbstractProcess/dynamicLabel"
+              featureName="containment" dataValue="true" oldDataValue="false"/>
+          <changes xsi:type="history:Set" element="process.ecore#//AbstractProcess/dynamicLabel"
+              featureName="eType" referenceValue="expression.ecore#//Expression"/>
+        </changes>
+        <operation name="newReference">
+          <parameters name="eClass">
+            <referenceValue element="process.ecore#//AbstractProcess"/>
+          </parameters>
+          <parameters name="name">
+            <dataValue>dynamicLabel</dataValue>
+          </parameters>
+          <parameters name="type">
+            <referenceValue element="expression.ecore#//Expression"/>
+          </parameters>
+          <parameters name="lowerBound">
+            <dataValue>0</dataValue>
+          </parameters>
+          <parameters name="upperBound">
+            <dataValue>1</dataValue>
+          </parameters>
+          <parameters name="containment">
+            <dataValue>true</dataValue>
+          </parameters>
+          <parameters name="opposite"/>
+        </operation>
       </changes>
-      <operation name="newReference">
-        <parameters name="eClass">
-          <referenceValue element="process.ecore#//AbstractProcess"/>
-        </parameters>
-        <parameters name="name">
-          <dataValue>dynamicDescription</dataValue>
-        </parameters>
-        <parameters name="type">
-          <referenceValue element="expression.ecore#//Expression"/>
-        </parameters>
-        <parameters name="lowerBound">
-          <dataValue>0</dataValue>
-        </parameters>
-        <parameters name="upperBound">
-          <dataValue>1</dataValue>
-        </parameters>
-        <parameters name="containment">
-          <dataValue>true</dataValue>
-        </parameters>
-        <parameters name="opposite"/>
-      </operation>
     </changes>
   </releases>
+  <releases/>
 </history:History>
