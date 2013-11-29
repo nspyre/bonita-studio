@@ -21,13 +21,24 @@ import org.bonitasoft.studio.common.properties.AbstractBonitaDescriptionSection;
 import org.bonitasoft.studio.expression.editor.filter.AvailableExpressionTypeFilter;
 import org.bonitasoft.studio.expression.editor.operation.OperationsComposite;
 import org.bonitasoft.studio.expression.editor.operation.PropertyOperationsComposite;
+import org.bonitasoft.studio.model.process.ProcessPackage;
+import org.bonitasoft.studio.model.process.ReceiveTask;
 import org.bonitasoft.studio.properties.i18n.Messages;
 import org.eclipse.emf.databinding.EMFDataBindingContext;
 import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.layout.GridLayoutFactory;
+import org.eclipse.jface.resource.ImageDescriptor;
+import org.eclipse.jface.resource.ImageRegistry;
+import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.jface.viewers.ISelection;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.CLabel;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.IWorkbenchPart;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
 
 
@@ -49,7 +60,12 @@ public class OperationsPropertySection extends AbstractBonitaDescriptionSection 
 		mainComposite.setLayout(GridLayoutFactory.fillDefaults().numColumns(1).margins(15, 15).create());
 		mainComposite.setLayoutData(GridDataFactory.fillDefaults().grab(true,true).create());
 		//getWidgetFactory().createLabel(mainComposite, Messages.operationExplanation) ;
-
+		Composite warningComposite = getWidgetFactory().createComposite(mainComposite, SWT.NONE);
+		warningComposite.setLayout(GridLayoutFactory.fillDefaults().create());
+		warningComposite.setLayoutData(GridDataFactory.fillDefaults().grab(true, true).create());
+		CLabel warningLabel = getWidgetFactory().createCLabel(mainComposite, Messages.transientDataWarning);
+		//warningLabel.setImage(image);
+		warningLabel.setImage(Display.getCurrent().getSystemImage(SWT.ICON_WARNING));
 		operationComposite = createActionLinesComposite(mainComposite);
 		operationComposite.setLayoutData(GridDataFactory.fillDefaults().grab(true, false).create()) ;
 	}
@@ -78,6 +94,9 @@ public class OperationsPropertySection extends AbstractBonitaDescriptionSection 
 		if(lastEObject == null || (lastEObject != null && !lastEObject.equals(getEObject()))){
 			lastEObject = getEObject();
 			operationComposite.setEObject(getEObject());
+			if (lastEObject instanceof ReceiveTask){
+				operationComposite.setOperationContainmentFeature(ProcessPackage.Literals.OPERATION_CONTAINER__OPERATIONS);
+			}
 			operationComposite.setContext(new EMFDataBindingContext());
 			operationComposite.removeLinesUI();
 			operationComposite.fillTable();
