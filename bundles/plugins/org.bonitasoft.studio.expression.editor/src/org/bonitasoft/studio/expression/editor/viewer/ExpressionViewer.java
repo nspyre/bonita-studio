@@ -628,7 +628,7 @@ public class ExpressionViewer extends ContentViewer implements ExpressionConstan
 		try {
 			Class<?> currentReturnTypeClass = Class.forName(currentReturnType);
 			Class<?> expressionReturnTypeClass = Class.forName(expressionReturnType);
-			return currentReturnTypeClass.isAssignableFrom(expressionReturnTypeClass);
+			return expressionReturnTypeClass.isAssignableFrom(currentReturnTypeClass);
 		} catch (Exception e) {
 			BonitaStudioLog.warning("Failed to determine the compatbility between " + expressionReturnType + " and "
 					+ currentReturnType, ExpressionEditorPlugin.PLUGIN_ID);
