@@ -20,10 +20,8 @@ package org.bonitasoft.studio.common;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import org.bonitasoft.studio.common.emf.tools.ModelHelper;
@@ -74,7 +72,6 @@ public class NamingUtils {
 	private static final String VERSION_SEPARATOR = "-";
 	private static final String UTF8 = "UTF-8";
 	private MainProcess process;
-	private static Map<MainProcess, NamingUtils> instances = new HashMap<MainProcess, NamingUtils>();
 
 	private NamingUtils(MainProcess process) {
 		this.process = process;
@@ -86,13 +83,6 @@ public class NamingUtils {
 
 	public static NamingUtils getInstance(Element element) {
 		MainProcess process = ModelHelper.getMainProcess(element);
-		//        NamingUtils instance = null;
-		//        if (!instances.containsKey(process)) {
-		//            instance = new NamingUtils(process);
-		//            instances.put(process, instance);
-		//        } else {
-		//            instance = instances.get(process);
-		//        }
 		if(process != null){
 			return new NamingUtils(process);
 		}
@@ -889,6 +879,14 @@ public class NamingUtils {
 
 	public static String eClassToBusinessObjectId(EClass eClass) {
 		return eClass.getEPackage().getName()+"."+eClass.getName();
+	}
+
+	public static String toBDRDefinitionFilename(String definitionId,String defVersion,boolean inculdeExtension) {
+		if(!inculdeExtension){
+			return definitionId+VERSION_SEPARATOR+defVersion;
+		}else{
+			return definitionId+VERSION_SEPARATOR+defVersion+".bdr";
+		}
 	}
 
 }
