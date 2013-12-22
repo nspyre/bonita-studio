@@ -22,8 +22,8 @@
 		<module>it</module>
 		<module>ja</module>
 		<module>pt</module>
-		<module>org.bonitasoft.studio.bos.translations-feature</module>
-		<module>org.bonitasoft.studio.translations-feature</module>
+		<!--<module>org.bonitasoft.studio.bos.translations-feature</module>
+		<module>org.bonitasoft.studio.translations-feature</module>-->
 	</modules>
 
 	<properties>
@@ -32,40 +32,6 @@
 
 	<build>
 		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-antrun-plugin</artifactId>
-				<executions>
-				<execution> 
-						<id>revert packaging type</id>
-						<configuration>
-							<target>
-								<replaceregexp file="${basedir}/pom.xml"
-									replace='&lt;packaging&gt;jar&lt;/packaging&gt;'
-									match='&lt;packaging&gt;jar&lt;/packaging&gt;' />
-							</target>
-						</configuration>
-						<phase>clean</phase>
-						<goals>
-							<goal>run</goal>
-						</goals>
-					</execution>
-					<execution>
-						<id>update packaging type</id>
-						<configuration>
-							<target>
-								<replaceregexp file="${basedir}/pom.xml"
-									match='&lt;packaging&gt;jar&lt;/packaging&gt;'
-									replace='&lt;packaging&gt;jar&lt;/packaging&gt;' />
-							</target>
-						</configuration>
-						<phase>initialize</phase>
-						<goals>
-							<goal>run</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
 			<plugin>
 				<groupId>org.eclipse.tycho</groupId>
 				<artifactId>tycho-packaging-plugin</artifactId>
@@ -117,6 +83,7 @@
 						<phase>package</phase>
 						<goals>
 							<goal>p2-metadata-default</goal>
+							<goal>update-local-index</goal>
 						</goals>
 						<configuration>
 							<supportedProjectTypes>
