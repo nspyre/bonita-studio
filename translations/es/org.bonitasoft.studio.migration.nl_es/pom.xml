@@ -11,5 +11,5 @@
   <groupId>org.bonitasoft.studio.translations.es</groupId>
   <artifactId>org.bonitasoft.studio.migration.nl_es</artifactId>
   <version>6.2.0-SNAPSHOT</version>
-  <packaging>eclipse-plugin</packaging>
+  <packaging>jar</packaging>
 </project>

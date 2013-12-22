@@ -3,13 +3,13 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
 	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	<modelVersion>4.0.0</modelVersion>
-	
+
 	<parent>
 		<groupId>org.bonitasoft.studio</groupId>
 		<artifactId>studio</artifactId>
 		<version>6.2.0-SNAPSHOT</version>
 	</parent>
-	
+
 	<groupId>org.bonitasoft.studio</groupId>
 	<artifactId>translations</artifactId>
 	<version>6.2.0-SNAPSHOT</version>
@@ -25,5 +25,108 @@
 		<module>org.bonitasoft.studio.bos.translations-feature</module>
 		<module>org.bonitasoft.studio.translations-feature</module>
 	</modules>
+
+	<properties>
+		<skipTests>true</skipTests>
+	</properties>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<executions>
+				<execution> 
+						<id>revert packaging type</id>
+						<configuration>
+							<target>
+								<replaceregexp file="${basedir}/pom.xml"
+									replace='&lt;packaging&gt;jar&lt;/packaging&gt;'
+									match='&lt;packaging&gt;jar&lt;/packaging&gt;' />
+							</target>
+						</configuration>
+						<phase>clean</phase>
+						<goals>
+							<goal>run</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>update packaging type</id>
+						<configuration>
+							<target>
+								<replaceregexp file="${basedir}/pom.xml"
+									match='&lt;packaging&gt;jar&lt;/packaging&gt;'
+									replace='&lt;packaging&gt;jar&lt;/packaging&gt;' />
+							</target>
+						</configuration>
+						<phase>initialize</phase>
+						<goals>
+							<goal>run</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.eclipse.tycho</groupId>
+				<artifactId>tycho-packaging-plugin</artifactId>
+				<version>${tychoVersion}</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>build-qualifier</goal>
+						</goals>
+						<configuration>
+							<packaging>jar</packaging>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.felix</groupId>
+				<artifactId>maven-bundle-plugin</artifactId>
+				<version>2.4.0</version>
+				<extensions>true</extensions>
+				<configuration>
+					<supportedProjectTypes>
+						<supportedProjectType>jar</supportedProjectType>
+					</supportedProjectTypes>
+					<instructions>
+						<Bundle-Version>${unqualifiedVersion}.${buildQualifier}</Bundle-Version>
+						<Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
+						<Bundle-Vendor>BonitaSoft S.A.</Bundle-Vendor>
+						<Fragment-Host>$(replace;${project.artifactId};(.*)(.nl_.*);$1);bundle-version="1.0.0"</Fragment-Host>
+						<Bundle-RequiredExecutionEnvironment>JavaSE-1.6</Bundle-RequiredExecutionEnvironment>
+						<Include-Resource>${lsr;${basedir};*_${project.parent.artifactId}.properties}</Include-Resource>
+					</instructions>
+				</configuration>
+				<executions>
+					<execution>
+						<id>package fragment</id>
+						<goals>
+							<goal>bundle</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.eclipse.tycho</groupId>
+				<artifactId>tycho-p2-plugin</artifactId>
+				<version>${tychoVersion}</version>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>p2-metadata-default</goal>
+						</goals>
+						<configuration>
+							<supportedProjectTypes>
+								<supportedProjectType>jar</supportedProjectType>
+							</supportedProjectTypes>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
 
 </project>
