@@ -57,12 +57,15 @@ public final class Messages extends NLS {
 
 	public static String importedFileIsInvalidTitle;
 	public static String importedFileIsInvalid;
-	public static String poolAlreadyExistWarningMessage;
-	public static String warningDuplicateDialogTitle;
 
 	public static String importErrorTitle;
-
 	public static String incompatibleProductVersion;
+	public static String initializingJavaProject;
+	public static String creatingStore;
+	public static String initializingProjectClasspath;
+
+	public static String writePermission;
+	public static String exportFailed;
 
     private Messages() {
         // Do not instantiate

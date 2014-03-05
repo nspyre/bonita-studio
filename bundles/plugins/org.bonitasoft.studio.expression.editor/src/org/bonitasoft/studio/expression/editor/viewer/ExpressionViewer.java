@@ -1,3 +1,4 @@
+
 /**
  * Copyright (C) 2012 BonitaSoft S.A.
  * BonitaSoft, 32 rue Gustave Eiffel - 38000 Grenoble
@@ -31,6 +32,7 @@ import java.util.TreeSet;
 import org.bonitasoft.studio.common.AbstractRefactorOperation;
 import org.bonitasoft.studio.common.ExpressionConstants;
 import org.bonitasoft.studio.common.IBonitaVariableContext;
+import org.bonitasoft.studio.common.emf.tools.WidgetHelper;
 import org.bonitasoft.studio.common.extension.BonitaStudioExtensionRegistryManager;
 import org.bonitasoft.studio.common.jface.SWTBotConstants;
 import org.bonitasoft.studio.common.jface.databinding.validator.EmptyInputValidator;
@@ -130,7 +132,7 @@ import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetWidgetFactory;
  * 
  */
 public class ExpressionViewer extends ContentViewer implements ExpressionConstants, SWTBotConstants,
-IContentProposalListener, IBonitaContentProposalListener2, IBonitaVariableContext {
+ IContentProposalListener, IBonitaContentProposalListener2, IBonitaVariableContext {
 
 	protected Composite control;
 	private Text textControl;
@@ -152,6 +154,7 @@ IContentProposalListener, IBonitaContentProposalListener2, IBonitaVariableContex
 	private List<IExpressionValidationListener> validationListeners = new ArrayList<IExpressionValidationListener>();
 	private ToolItem eraseControl;
 	private boolean isPageFlowContext = false;
+	private boolean isOverviewContext = false;
 	private AbstractRefactorOperation operation;
 	private AbstractRefactorOperation  removeOperation;
 
@@ -189,6 +192,7 @@ IContentProposalListener, IBonitaContentProposalListener2, IBonitaVariableContex
 		this(composite, style, widgetFactory, editingDomain, expressionReference, false);
 
 	}
+	
 
 	public ExpressionViewer(Composite composite, int style, TabbedPropertySheetWidgetFactory widgetFactory,
 			EditingDomain editingDomain, EReference expressionReference, boolean withConnector) {
@@ -244,7 +248,7 @@ IContentProposalListener, IBonitaContentProposalListener2, IBonitaVariableContex
 		}
 	}
 
-	protected ToolItem createEditToolItem(ToolBar tb) {
+	protected ToolItem createEditToolItem(final ToolBar tb) {
 		final ToolItem editControl = new ToolItem(tb, SWT.PUSH | SWT.NO_FOCUS);
 		editControl.setImage(Pics.getImage(PicsConstants.edit));
 		editControl.setToolTipText(Messages.editAndContinue);
@@ -254,7 +258,19 @@ IContentProposalListener, IBonitaContentProposalListener2, IBonitaVariableContex
 		editControl.addListener(SWT.Selection, new Listener() {
 			@Override
 			public void handleEvent(Event event) {
-				openEditDialog();
+				boolean connectorEdit = false;
+				if(tb != null && withConnector && selectedExpression != null && ExpressionConstants.CONNECTOR_TYPE.equals(selectedExpression.getType())){
+					for(ToolItem ti : tb.getItems()){
+						Object data = ti.getData(SWTBotConstants.SWTBOT_WIDGET_ID_KEY);
+						if(data != null && data.equals(SWTBotConstants.SWTBOT_ID_CONNECTORBUTTON)){
+							connectorEdit = true;
+							ti.notifyListeners(SWT.Selection, event);
+						}
+					}
+				}
+				if(!connectorEdit){
+					openEditDialog();
+				}
 			}
 		});
 
@@ -283,7 +299,7 @@ IContentProposalListener, IBonitaContentProposalListener2, IBonitaVariableContex
 					type = ExpressionConstants.CONSTANT_TYPE;
 				}
 				if (editingDomain != null) {
-					
+
 					CompoundCommand cc=new CompoundCommand();
 					cc.append(SetCommand.create(editingDomain, selectedExpression,
 							ExpressionPackage.Literals.EXPRESSION__TYPE, type));
@@ -307,7 +323,7 @@ IContentProposalListener, IBonitaContentProposalListener2, IBonitaVariableContex
 					selectedExpression.getReferencedElements().clear();
 					selectedExpression.getConnectors().clear();
 				}
-				
+
 				textControl.setText("");
 				validate();
 				refresh();
@@ -389,11 +405,11 @@ IContentProposalListener, IBonitaContentProposalListener2, IBonitaVariableContex
 		dialog.setIsPageFlowContext(isPageFlowContext);
 		if (dialog.open() == Dialog.OK) {
 			Expression newExpression = dialog.getExpression();
-			boolean hasBeenExecuted = executeOperation(newExpression.getName());
+			executeOperation(newExpression.getName());
 			updateSelection(newExpression);
 			setSelection(new StructuredSelection(selectedExpression));
 			if (editingDomain == null) {
-				
+
 				selectedExpression.setReturnType(newExpression.getReturnType());
 				selectedExpression.setType(newExpression.getType());
 			} else {
@@ -404,7 +420,7 @@ IContentProposalListener, IBonitaContentProposalListener2, IBonitaVariableContex
 						SetCommand.create(editingDomain, selectedExpression, ExpressionPackage.Literals.EXPRESSION__TYPE,
 								newExpression.getType()));
 			}
-		
+
 			refresh();
 			fireExpressionEditorChanged(new SelectionChangedEvent(this, new StructuredSelection(selectedExpression)));
 		}
@@ -619,7 +635,7 @@ IContentProposalListener, IBonitaContentProposalListener2, IBonitaVariableContex
 							&& !ExpressionConstants.CONDITION_TYPE.equals(selectedExpression.getType())) {
 						if (selectedExpression != null && selectedExpression.isReturnTypeFixed()
 								&& selectedExpression.getReturnType() != null) {
-							if (!compatibleReturnTypes(exp)) {
+							if (!compatibleReturnTypes(selectedExpression,exp)) {
 								toRemove.add(exp);
 							}
 						}
@@ -631,18 +647,18 @@ IContentProposalListener, IBonitaContentProposalListener2, IBonitaVariableContex
 		return filteredExpressions;
 	}
 
-	protected boolean compatibleReturnTypes(Expression exp) {
-		final String currentReturnType = selectedExpression.getReturnType();
-		final String expressionReturnType = exp.getReturnType();
-		if (currentReturnType.equals(expressionReturnType)) {
+	protected boolean compatibleReturnTypes(Expression currentExpression,Expression targetExpression) {
+		final String currentReturnType = currentExpression.getReturnType();
+		final String targetReturnType = targetExpression.getReturnType();
+		if (currentReturnType.equals(targetReturnType)) {
 			return true;
 		}
 		try {
 			Class<?> currentReturnTypeClass = Class.forName(currentReturnType);
-			Class<?> expressionReturnTypeClass = Class.forName(expressionReturnType);
-			return expressionReturnTypeClass.isAssignableFrom(currentReturnTypeClass);
-		} catch (Exception e) {
-			BonitaStudioLog.warning("Failed to determine the compatibility between " + expressionReturnType + " and "
+			Class<?> targetReturnTypeClass = Class.forName(targetReturnType);
+			return currentReturnTypeClass.isAssignableFrom(targetReturnTypeClass);
+		} catch (ClassNotFoundException e) {
+			BonitaStudioLog.debug("Failed to determine the compatibility between " + targetReturnType + " and "
 					+ currentReturnType, ExpressionEditorPlugin.PLUGIN_ID);
 		}
 		return true;
@@ -835,7 +851,7 @@ IContentProposalListener, IBonitaContentProposalListener2, IBonitaVariableContex
 
 		Set<String> cache = new HashSet<String>();
 		for (Expression e : getFilteredExpressions()) {
-			if (e.getName().equals(input)) {
+			if (e.getName() != null && e.getName().equals(input)) {
 				cache.add(e.getContent());
 			}
 		}
@@ -881,7 +897,7 @@ IContentProposalListener, IBonitaContentProposalListener2, IBonitaVariableContex
 
 		Set<String> cache = new HashSet<String>();
 		for (Expression e : getFilteredExpressions()) {
-			if (e.getName().equals(input)) {
+			if (e.getName() != null && e.getName().equals(input)) {
 				cache.add(e.getType());
 			}
 		}
@@ -924,7 +940,7 @@ IContentProposalListener, IBonitaContentProposalListener2, IBonitaVariableContex
 				}
 			}
 			refreshMessageDecoration();
-			
+
 		}
 
 	}
@@ -1160,7 +1176,7 @@ IContentProposalListener, IBonitaContentProposalListener2, IBonitaVariableContex
 				}
 				if (parent instanceof Widget) {
 					final Widget w = (Widget) parent;
-					if (w != null && w instanceof TextFormField && copy.getName().equals("field_" + w.getName())) {
+					if (w != null && w instanceof TextFormField && copy.getName().equals(WidgetHelper.FIELD_PREFIX + w.getName())) {
 						String returnTypeModifier = w.getReturnTypeModifier();
 						if (returnTypeModifier != null) {
 							if(w instanceof Duplicable && ((Duplicable) w).isDuplicate()){
@@ -1246,9 +1262,28 @@ IContentProposalListener, IBonitaContentProposalListener2, IBonitaVariableContex
 			} catch (InterruptedException e) {
 				BonitaStudioLog.error(e);
 			}
-		
+
 		}
 		return isExecuted;
+	}
+
+
+
+	/* (non-Javadoc)
+	 * @see org.bonitasoft.studio.common.IBonitaVariableContext#isOverViewContext()
+	 */
+	@Override
+	public boolean isOverViewContext() {
+		return isOverviewContext;
+	}
+
+	/* (non-Javadoc)
+	 * @see org.bonitasoft.studio.common.IBonitaVariableContext#setIsOverviewContext(boolean)
+	 */
+	@Override
+	public void setIsOverviewContext(boolean isOverviewContext) {
+		this.isOverviewContext=isOverviewContext;
+		
 	}
 
 }

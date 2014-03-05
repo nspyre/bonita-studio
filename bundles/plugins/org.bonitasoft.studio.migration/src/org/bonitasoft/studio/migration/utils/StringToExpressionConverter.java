@@ -24,6 +24,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.bonitasoft.studio.common.ExpressionConstants;
+import org.bonitasoft.studio.common.emf.tools.WidgetHelper;
+import org.bonitasoft.studio.connector.model.definition.ConnectorDefinitionPackage;
 import org.eclipse.core.runtime.Assert;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.emf.edapt.migration.Instance;
@@ -36,7 +38,6 @@ import org.w3c.dom.Document;
  */
 public class StringToExpressionConverter {
 
-	private static final String FORM_FIELD_PREFIX = "field_";
 	private static final String GROOVY_SUFFIX = "}";
 	private static final String GROOVY_PREFIX = "${";
 
@@ -58,7 +59,7 @@ public class StringToExpressionConverter {
 		}
 		for(Instance widget : model.getAllInstances("form.Widget")){
 			if(isInScope(container,widget)){
-				this.widget.put(FORM_FIELD_PREFIX+widget.get("name"),widget);
+				this.widget.put(WidgetHelper.FIELD_PREFIX+widget.get("name"),widget);
 			}
 		}
 		for(Instance document : model.getAllInstances("process.Document")){
@@ -91,7 +92,7 @@ public class StringToExpressionConverter {
 				if(widget != null){
 					widgetName = widget.get("name");
 				}
-				expressionScript = "${"+FORM_FIELD_PREFIX+widgetName+"}";
+				expressionScript = "${"+WidgetHelper.FIELD_PREFIX+widgetName+"}";
 			}
 		}
 
@@ -99,11 +100,13 @@ public class StringToExpressionConverter {
 				setVarScript);
 	}
 
-	public Instance parseOperation(String returnType,
-			boolean fixedReturnType, String expressionScript,
-			final String setVarScript) {
+	public Instance parseOperation(String returnType, boolean fixedReturnType, String expressionScript, final String setVarScript){
+		return  parseOperation( returnType,	fixedReturnType, expressionScript, setVarScript, null);
+	}
+	
+	public Instance parseOperation(String returnType, boolean fixedReturnType, String expressionScript, final String setVarScript, String outputType) {
 		Instance operation = model.newInstance("expression.Operation");
-		final Instance actionExpression = parse(expressionScript, returnType, fixedReturnType);
+		final Instance actionExpression = parse(expressionScript, returnType, fixedReturnType, outputType);
 		operation.set("rightOperand", actionExpression);
 
 		Instance leftOperand = null;
@@ -190,8 +193,10 @@ public class StringToExpressionConverter {
 	public Instance parse(String stringToParse,String returnType,boolean fixedReturnType){
 		return parse(stringToParse, returnType, fixedReturnType, null);
 	}
-
+	
 	public Instance parse(String stringToParse,String returnType,boolean fixedReturnType,String expressionType) {
+		
+		final String originalReturnType = returnType;
 		if(returnType == null || returnType.isEmpty()){//Default return type is String
 			returnType = String.class.getName();
 		}
@@ -207,12 +212,20 @@ public class StringToExpressionConverter {
 			content = content.substring(2,content.length()-1);
 		}
 		if(ExpressionConstants.SCRIPT_TYPE.equals(expressionType)){
+			if(originalReturnType==null){
+				returnType=Object.class.getName();
+			}
 			final Instance expression = createExpressionInstance(model,"migratedScript", content, returnType, ExpressionConstants.SCRIPT_TYPE, fixedReturnType);
 			resolveScriptDependencies(expression);
 			return expression;
 		}else if(ExpressionConstants.PATTERN_TYPE.equals(expressionType)){
 			final Instance expression = createExpressionInstance(model,content, content, returnType, ExpressionConstants.PATTERN_TYPE, fixedReturnType);
 			resolvePatternDependencies(expression);
+			return expression;
+		}else if(ExpressionConstants.CONNECTOR_OUTPUT_TYPE.equals(expressionType)){
+
+			final Instance expression = createExpressionInstance(model,content, content, returnType, ExpressionConstants.CONNECTOR_OUTPUT_TYPE, fixedReturnType);
+			resolveOutputDependencies(expression, content, returnType );
 			return expression;
 		}else{
 			final Instance exp = createExpressionInstance(model,content, content, returnType, expressionType, fixedReturnType);
@@ -227,7 +240,12 @@ public class StringToExpressionConverter {
 		}
 	}
 	
-
+	private void resolveOutputDependencies(Instance expression, String name, String returnType) {
+		final Instance instance = model.newInstance(ConnectorDefinitionPackage.Literals.OUTPUT);
+		instance.set("name", name);
+		instance.set("type", returnType);
+		expression.add("referencedElements", instance);
+	}
 
 	public void resolveDocumentDependencies(Instance expression) {
 		final String content = expression.get("content");

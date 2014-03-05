@@ -3,22 +3,19 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
 	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	<modelVersion>4.0.0</modelVersion>
-	
+
 	<parent>
 		<groupId>org.bonitasoft.studio</groupId>
 		<artifactId>studio</artifactId>
-		<version>6.2.0-SNAPSHOT</version>
+		<version>6.3.0-SNAPSHOT</version>
 	</parent>
-	
+
 	<groupId>org.bonitasoft.studio.tests</groupId>
 	<artifactId>tests</artifactId>
-	<version>6.2.0-SNAPSHOT</version>
+	<version>6.3.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
 	<modules>
-		<module>org.eclipse.swtbot.finder.nebula</module>
-		<module>org.eclipse.swtbot.finder.nebula.gallery</module>
-		<module>org.eclipse.swtbot.finder.nebula.tableCombo</module>
 		<module>org.bonitasoft.studio.jre.extension</module>
 		<module>org.bonitasoft.studio.actors.tests</module>
 		<module>org.bonitasoft.studio.application.test</module>
@@ -26,7 +23,6 @@
 		<module>org.bonitasoft.studio.configuration.test</module>
 		<module>org.bonitasoft.studio.connectors.test</module>
 		<module>org.bonitasoft.studio.decision.core.test</module>
-		<module>org.bonitasoft.studio.diagram.form.custom.tests</module>
 		<module>org.bonitasoft.studio.diagram.test</module>
 		<module>org.bonitasoft.studio.engine.test</module>
 		<module>org.bonitasoft.studio.exporter.tests</module>
@@ -53,16 +49,33 @@
 		<module>tests-feature</module>
 		<module>tests-common-feature</module>
 		<module>org.bonitasoft.studio.test.suite</module>
-		<module>org.bonitasoft.studio.test.suite2</module>
+        <module>org.bonitasoft.studio.test.suite2</module>
 		<module>org.bonitasoft.studio.test.swtbot.suite</module>
+		<module>org.bonitasoft.studio.test.swtbot.suite2</module>
 		<module>bos-tests-p2</module>
 	</modules>
 
-
+	<build>
+    <plugins>
+      <plugin>
+        <groupId>org.jacoco</groupId>
+        <artifactId>jacoco-maven-plugin</artifactId>
+        <configuration>
+        <!-- The destination file for the code coverage report has to be set to the same value
+             in the parent pom and in each module pom. Then JaCoCo will add up information in
+             the same report, so that, it will give the cross-module code coverage. -->
+          <destFile>${project.basedir}/../../target/jacoco-it.exec</destFile>
+        </configuration>
+        <executions>
+          <execution>
+            <id>post-test</id>
+            <configuration>
+              <skip>true</skip>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
 	
-		<properties>
-			<tests.log.level>INFO</tests.log.level>
-   			<sonar.jacoco.itReportPath>../../target/jacoco.exec</sonar.jacoco.itReportPath>
-  		</properties>
-
 </project>

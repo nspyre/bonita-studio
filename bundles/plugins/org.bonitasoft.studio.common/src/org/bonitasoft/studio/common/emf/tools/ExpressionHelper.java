@@ -16,16 +16,25 @@
  */
 package org.bonitasoft.studio.common.emf.tools;
 
+import java.util.Collection;
 import java.util.List;
 
 import org.bonitasoft.studio.common.ExpressionConstants;
+import org.bonitasoft.studio.common.Messages;
 import org.bonitasoft.studio.model.expression.Expression;
 import org.bonitasoft.studio.model.expression.ExpressionFactory;
 import org.bonitasoft.studio.model.expression.Operation;
 import org.bonitasoft.studio.model.expression.Operator;
+import org.bonitasoft.studio.model.form.Duplicable;
+import org.bonitasoft.studio.model.form.FormFactory;
 import org.bonitasoft.studio.model.form.Widget;
+import org.bonitasoft.studio.model.process.Data;
 import org.bonitasoft.studio.model.process.Document;
 import org.bonitasoft.studio.model.process.EnumType;
+import org.bonitasoft.studio.model.process.ProcessFactory;
+import org.bonitasoft.studio.model.process.SearchIndex;
+import org.eclipse.core.runtime.Assert;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
 
@@ -34,6 +43,10 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
  *
  */
 public class ExpressionHelper {
+
+    protected static final String EMPTY_LIST_NAME = Messages.emptyListExpressionName;
+    protected static final String EMPTY_LIST_CONTENT = "[]";
+
 
     public static Expression createExpressionFromEnumType(EnumType type){
         final Expression generatedExp = ExpressionFactory.eINSTANCE.createExpression();
@@ -86,11 +99,11 @@ public class ExpressionHelper {
         action.setLeftOperand(storageExpression) ;
 
         Expression actionExpression = ExpressionFactory.eINSTANCE.createExpression();
-        actionExpression.setContent("field_"+widget.getName()) ;
-        actionExpression.setName("field_"+widget.getName()) ;
+        actionExpression.setContent(WidgetHelper.FIELD_PREFIX+widget.getName()) ;
+        actionExpression.setName(WidgetHelper.FIELD_PREFIX+widget.getName()) ;
         actionExpression.setType(ExpressionConstants.FORM_FIELD_TYPE) ;
         actionExpression.setReturnType(ExpressionConstants.DOCUMENT_VALUE_RETURN_TYPE) ;
-        actionExpression.getReferencedElements().add(EcoreUtil.copy(widget)) ;
+        actionExpression.getReferencedElements().add(ExpressionHelper.createDependencyFromEObject(widget)) ;
         action.setRightOperand(actionExpression) ;
         return action;
     }
@@ -112,4 +125,57 @@ public class ExpressionHelper {
         exp.setReturnType(returnClassName);
         return  exp;
     }
+
+    public static EObject createDependencyFromEObject(EObject dependency) {
+        if(dependency instanceof Widget){
+            Widget widgetDependency = (Widget) FormFactory.eINSTANCE.create(dependency.eClass());
+            widgetDependency.setName(((Widget) dependency).getName());
+            widgetDependency.setReturnTypeModifier(((Widget) dependency).getReturnTypeModifier());
+            if(dependency instanceof Duplicable){
+                ((Duplicable) widgetDependency).setDuplicate(((Duplicable) dependency).isDuplicate());
+            }
+            return widgetDependency;
+        }
+        if(dependency instanceof Data){
+            Data dataDependency = (Data) EcoreUtil.copy(dependency);
+            dataDependency.setDefaultValue(null);
+            return dataDependency;
+        }
+        if(dependency instanceof Document){
+            Document documentDependency = (Document) ProcessFactory.eINSTANCE.create(dependency.eClass());
+            documentDependency.setName(((Document) dependency).getName());
+            return documentDependency;
+        }
+        if(dependency instanceof SearchIndex){
+            SearchIndex searchIndexDependency = (SearchIndex) ProcessFactory.eINSTANCE.create(dependency.eClass());
+            Expression name = ((SearchIndex) dependency).getName();
+            if(name != null){
+                Expression nameExpression = EcoreUtil.copy(name);
+                nameExpression.getReferencedElements().clear();
+                searchIndexDependency.setName(nameExpression);
+            }
+            return searchIndexDependency;
+        }
+        return EcoreUtil.copy(dependency);
+    }
+
+    public static void clearExpression(Expression expr) {
+        Assert.isLegal(expr!=null, "Expression cannot be null.");
+        expr.setName("");
+        expr.setContent("");
+        expr.setType(ExpressionConstants.CONSTANT_TYPE);
+        expr.getReferencedElements().clear();
+    }
+
+
+    public static Expression createEmptyListGroovyScriptExpression() {
+        Expression expression = ExpressionFactory.eINSTANCE.createExpression();
+        expression.setType(ExpressionConstants.SCRIPT_TYPE);
+        expression.setInterpreter(ExpressionConstants.GROOVY);
+        expression.setReturnType(Collection.class.getName());
+        expression.setName(EMPTY_LIST_NAME);
+        expression.setContent(EMPTY_LIST_CONTENT);
+        return expression;
+    }
+
 }

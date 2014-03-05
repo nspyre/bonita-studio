@@ -8,6 +8,7 @@ import java.util.Collection;
 import java.util.List;
 
 import org.bonitasoft.studio.common.ExpressionConstants;
+import org.bonitasoft.studio.common.emf.tools.ExpressionHelper;
 import org.bonitasoft.studio.connector.model.definition.ConnectorDefinition;
 import org.bonitasoft.studio.connector.model.definition.Input;
 import org.bonitasoft.studio.connector.model.definition.Output;
@@ -16,7 +17,7 @@ import org.bonitasoft.studio.connectors.ui.wizard.page.sqlutil.SQLQueryUtil;
 import org.bonitasoft.studio.expression.editor.filter.AvailableExpressionTypeFilter;
 import org.bonitasoft.studio.expression.editor.operation.OperationsComposite;
 import org.bonitasoft.studio.expression.editor.operation.WizardPageOperationsComposite;
-import org.bonitasoft.studio.expression.editor.provider.DataExpressionNatureProvider;
+import org.bonitasoft.studio.expression.editor.provider.IExpressionNatureProvider;
 import org.bonitasoft.studio.expression.editor.viewer.ReadOnlyExpressionViewer;
 import org.bonitasoft.studio.model.connectorconfiguration.ConnectorConfiguration;
 import org.bonitasoft.studio.model.connectorconfiguration.ConnectorParameter;
@@ -32,7 +33,6 @@ import org.eclipse.core.runtime.Assert;
 import org.eclipse.emf.databinding.EMFDataBindingContext;
 import org.eclipse.emf.databinding.EMFObservables;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.jface.databinding.viewers.ViewersObservables;
 import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.layout.GridLayoutFactory;
@@ -127,8 +127,10 @@ public class DatabaseConnectorOutputWizardPage extends AbstractConnectorOutputWi
 
 		final ReadOnlyExpressionViewer targetDataExpressionViewer = new ReadOnlyExpressionViewer(mainComposite,SWT.BORDER,null,null,ExpressionPackage.Literals.OPERATION__LEFT_OPERAND) ;
 		targetDataExpressionViewer.getControl().setLayoutData(GridDataFactory.fillDefaults().grab(true,false).hint(250, SWT.DEFAULT).create());
-		if(getOutputDataFeature() != null){
-			targetDataExpressionViewer.setExpressionNatureProvider(new DataExpressionNatureProvider(getOutputDataFeature())) ;
+
+		IExpressionNatureProvider storageExpressionProvider = getStorageExpressionProvider();
+		if(storageExpressionProvider != null){
+			targetDataExpressionViewer.setExpressionNatureProvider(storageExpressionProvider) ;
 		}
 		targetDataExpressionViewer.addFilter(leftFilter);
 		targetDataExpressionViewer.setContext(getElementContainer());
@@ -167,13 +169,14 @@ public class DatabaseConnectorOutputWizardPage extends AbstractConnectorOutputWi
 
 		final ReadOnlyExpressionViewer targetDataExpressionViewer = new ReadOnlyExpressionViewer(mainComposite,SWT.BORDER,null,null,ExpressionPackage.Literals.OPERATION__LEFT_OPERAND) ;
 		targetDataExpressionViewer.getControl().setLayoutData(GridDataFactory.fillDefaults().grab(true,false).hint(250, SWT.DEFAULT).create());
-		if(getOutputDataFeature() != null){
-			targetDataExpressionViewer.setExpressionNatureProvider(new DataExpressionNatureProvider(getOutputDataFeature())) ;
+		IExpressionNatureProvider storageExpressionProvider = getStorageExpressionProvider();
+		if(storageExpressionProvider != null){
+			targetDataExpressionViewer.setExpressionNatureProvider(storageExpressionProvider) ;
 		}
 		targetDataExpressionViewer.addFilter(leftFilter);
 		targetDataExpressionViewer.setContext(getElementContainer());
 		targetDataExpressionViewer.setInput(singleModeOuputOperation);
-		
+
 		context.bindValue(ViewersObservables.observeSingleSelection(targetDataExpressionViewer), EMFObservables.observeValue(singleModeOuputOperation, ExpressionPackage.Literals.OPERATION__LEFT_OPERAND)) ;
 
 		final Label takeValueOfLabel = new Label(mainComposite, SWT.NONE);
@@ -213,13 +216,14 @@ public class DatabaseConnectorOutputWizardPage extends AbstractConnectorOutputWi
 		for(Operation op : operations){
 			final ReadOnlyExpressionViewer targetDataExpressionViewer = new ReadOnlyExpressionViewer(oneRowNColsComposite,SWT.BORDER,null,null,ExpressionPackage.Literals.OPERATION__LEFT_OPERAND) ;
 			targetDataExpressionViewer.getControl().setLayoutData(GridDataFactory.fillDefaults().grab(true,false).create());
-			if(getOutputDataFeature() != null){
-				targetDataExpressionViewer.setExpressionNatureProvider(new DataExpressionNatureProvider(getOutputDataFeature())) ;
+			IExpressionNatureProvider storageExpressionProvider = getStorageExpressionProvider();
+			if(storageExpressionProvider != null){
+				targetDataExpressionViewer.setExpressionNatureProvider(storageExpressionProvider) ;
 			}
 			targetDataExpressionViewer.addFilter(leftFilter);
 			targetDataExpressionViewer.setContext(getElementContainer());
 			targetDataExpressionViewer.setInput(op);
-			
+
 
 			context.bindValue(ViewersObservables.observeSingleSelection(targetDataExpressionViewer), EMFObservables.observeValue(op, ExpressionPackage.Literals.OPERATION__LEFT_OPERAND)) ;
 
@@ -260,7 +264,7 @@ public class DatabaseConnectorOutputWizardPage extends AbstractConnectorOutputWi
 		rightOperand.setReturnType(Object.class.getName()) ;
 		rightOperand.setType(ExpressionConstants.SCRIPT_TYPE) ;
 		rightOperand.setInterpreter(ExpressionConstants.GROOVY);
-		rightOperand.getReferencedElements().add(EcoreUtil.copy(connectorOutput)) ;
+		rightOperand.getReferencedElements().add(ExpressionHelper.createDependencyFromEObject(connectorOutput)) ;
 		operation.setRightOperand(rightOperand) ;
 
 		final Expression leftOperand = ExpressionFactory.eINSTANCE.createExpression() ;
@@ -325,13 +329,14 @@ public class DatabaseConnectorOutputWizardPage extends AbstractConnectorOutputWi
 
 		final ReadOnlyExpressionViewer targetDataExpressionViewer = new ReadOnlyExpressionViewer(mainComposite,SWT.BORDER,null,null,ExpressionPackage.Literals.OPERATION__LEFT_OPERAND) ;
 		targetDataExpressionViewer.getControl().setLayoutData(GridDataFactory.fillDefaults().grab(true,false).hint(250, SWT.DEFAULT).create());
-		if(getOutputDataFeature() != null){
-			targetDataExpressionViewer.setExpressionNatureProvider(new DataExpressionNatureProvider(getOutputDataFeature())) ;
+		IExpressionNatureProvider storageExpressionProvider = getStorageExpressionProvider();
+		if(storageExpressionProvider != null){
+			targetDataExpressionViewer.setExpressionNatureProvider(storageExpressionProvider) ;
 		}
 		targetDataExpressionViewer.addFilter(leftFilter);
 		targetDataExpressionViewer.setContext(getElementContainer());
 		targetDataExpressionViewer.setInput(singleModeOuputOperation);
-		
+
 
 		context.bindValue(ViewersObservables.observeSingleSelection(targetDataExpressionViewer), EMFObservables.observeValue(singleModeOuputOperation, ExpressionPackage.Literals.OPERATION__LEFT_OPERAND)) ;
 
@@ -365,8 +370,9 @@ public class DatabaseConnectorOutputWizardPage extends AbstractConnectorOutputWi
 
 		lineComposite = new WizardPageOperationsComposite(null, mainComposite, rightFilter, leftFilter) ;
 		lineComposite.setLayoutData(GridDataFactory.fillDefaults().grab(true,false).create()) ;
-		if(getOutputDataFeature() != null){
-			lineComposite.setStorageExpressionNatureContentProvider(new DataExpressionNatureProvider(getOutputDataFeature())) ;
+		IExpressionNatureProvider storageExpressionProvider = getStorageExpressionProvider();
+		if(storageExpressionProvider != null){
+			lineComposite.setStorageExpressionNatureContentProvider(storageExpressionProvider) ;
 		}
 		lineComposite.setContext(context) ;
 		lineComposite.setContext(getElementContainer());
@@ -560,7 +566,7 @@ public class DatabaseConnectorOutputWizardPage extends AbstractConnectorOutputWi
 				rightOperand.setContent(output.getName()) ;
 				rightOperand.setReturnType(output.getType()) ;
 				rightOperand.setType(ExpressionConstants.CONNECTOR_OUTPUT_TYPE) ;
-				rightOperand.getReferencedElements().add(EcoreUtil.copy(output)) ;
+				rightOperand.getReferencedElements().add(ExpressionHelper.createDependencyFromEObject(output)) ;
 				operation.setRightOperand(rightOperand) ;
 
 				final Expression leftOperand = ExpressionFactory.eINSTANCE.createExpression() ;
@@ -574,5 +580,20 @@ public class DatabaseConnectorOutputWizardPage extends AbstractConnectorOutputWi
 	@Override
 	public void handleValueChange(ValueChangeEvent event) {
 		updateStackLayout();
+	}
+
+	/* (non-Javadoc)
+	 * @see org.bonitasoft.studio.common.IBonitaVariableContext#isOverViewContext()
+	 */
+	@Override
+	public boolean isOverViewContext() {
+		return false;
+	}
+
+	/* (non-Javadoc)
+	 * @see org.bonitasoft.studio.common.IBonitaVariableContext#setIsOverviewContext(boolean)
+	 */
+	@Override
+	public void setIsOverviewContext(boolean isOverviewContext) {
 	}
 }

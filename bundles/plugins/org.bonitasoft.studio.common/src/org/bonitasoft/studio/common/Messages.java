@@ -336,4 +336,7 @@ public class Messages extends NLS {
 	public static String askConfirmationForDeleting;
 	public static String removingWidgetReferences;
 	public static String removeTitle;
+	public static String delete;
+	public static String nameCantHaveAWhitespace;
+    public static String emptyListExpressionName;
 }

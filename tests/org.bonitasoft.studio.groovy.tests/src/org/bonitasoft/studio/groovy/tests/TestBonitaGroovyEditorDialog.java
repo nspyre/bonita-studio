@@ -17,6 +17,8 @@
  */
 package org.bonitasoft.studio.groovy.tests;
 
+import static org.bonitasoft.studio.dependencies.i18n.Messages.selectMissingJarTitle;
+
 import java.io.IOException;
 
 import org.bonitasoft.studio.common.jface.FileActionDialog;
@@ -27,11 +29,11 @@ import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.swtbot.eclipse.finder.waits.Conditions;
 import org.eclipse.swtbot.eclipse.gef.finder.SWTBotGefTestCase;
 import org.eclipse.swtbot.swt.finder.junit.SWTBotJunit4ClassRunner;
+import org.eclipse.swtbot.swt.finder.widgets.SWTBotButton;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-
-import static org.bonitasoft.studio.dependencies.i18n.Messages.selectMissingJarTitle;
 /**
  * @author Aurelien Pupier
  */
@@ -41,11 +43,11 @@ public class TestBonitaGroovyEditorDialog extends SWTBotGefTestCase {
     @Override
     @Before
     public void setUp() throws Exception {
-
         super.setUp();
         //WORKAROUND : we need to load bonitasoft groovy ui plugin before start of the test.
         // There are issues with access to PreferenceStore of Groovy plugin in Activator of BonitaSoft Grooy UI plugin.
         System.out.println(Messages.add);
+        FileActionDialog.setDisablePopup(true);
     }
 
     @Test
@@ -74,6 +76,19 @@ public class TestBonitaGroovyEditorDialog extends SWTBotGefTestCase {
         if(!FileActionDialog.getDisablePopup()){
             bot.button(IDialogConstants.OK_LABEL).click();
         }
+        bot.button(IDialogConstants.CANCEL_LABEL);
+    }
+    
+    @After
+    public void closeDialog() throws Exception{
+    	SWTBotButton button = bot.button(IDialogConstants.CANCEL_LABEL);
+		if(button.isEnabled()){
+    		button.click();
+    	}
+		button = bot.button(IDialogConstants.CANCEL_LABEL);
+		if(button.isEnabled()){
+    		button.click();
+    	}
     }
 
 }

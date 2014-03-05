@@ -1,3 +1,4 @@
+
 /**
  * Copyright (C) 2009 BonitaSoft S.A.
  * BonitaSoft, 31 rue Gustave Eiffel - 38000 Grenoble
@@ -17,10 +18,12 @@
  */
 package org.bonitasoft.studio.connectors.ui.wizard;
 
+import java.io.File;
 import java.lang.reflect.InvocationTargetException;
 
 import org.bonitasoft.studio.common.log.BonitaStudioLog;
 import org.bonitasoft.studio.common.repository.RepositoryManager;
+import org.bonitasoft.studio.common.repository.store.AbstractRepositoryStore;
 import org.bonitasoft.studio.connector.model.definition.IDefinitionRepositoryStore;
 import org.bonitasoft.studio.connector.model.implementation.ConnectorImplementation;
 import org.bonitasoft.studio.connector.model.implementation.provider.ConnectorImplementationContentProvider;
@@ -65,8 +68,10 @@ public class ExportConnectorWizard extends Wizard {
         return new ConnectorImplementationLabelProvider((IDefinitionRepositoryStore)RepositoryManager.getInstance().getRepositoryStore(ConnectorDefRepositoryStore.class),ConnectorPlugin.getDefault().getBundle());
     }
 
-    protected IContentProvider getContentProvider() {
-        return new ConnectorImplementationContentProvider(RepositoryManager.getInstance().getRepositoryStore(ConnectorImplRepositoryStore.class),false);
+    @SuppressWarnings({ "rawtypes", "unchecked" })
+	protected IContentProvider getContentProvider() {
+    	ConnectorImplRepositoryStore repositoryStore = RepositoryManager.getInstance().getRepositoryStore(ConnectorImplRepositoryStore.class);
+        return new ConnectorImplementationContentProvider((AbstractRepositoryStore)repositoryStore,false);
     }
 
     protected String getPageDescription() {
@@ -92,7 +97,12 @@ public class ExportConnectorWizard extends Wizard {
                 @Override
                 public void run(IProgressMonitor progressMonitor) throws InvocationTargetException, InterruptedException {
                     progressMonitor.beginTask(Messages.exporting, IProgressMonitor.UNKNOWN) ;
-                    final ExportConnectorArchiveOperation operation = createExportOperation(exportConnectorWizardPage.getSelectedImplementation(), exportConnectorWizardPage.isIncludeSources(), exportConnectorWizardPage.isAddDependencies(), exportConnectorWizardPage.getDestFilePath()) ;
+                     String destPathFile=exportConnectorWizardPage.getDestFilePath();
+                    if (destPathFile.endsWith(File.separator)){
+                    	destPathFile=destPathFile+exportConnectorWizardPage.getDestFileName();
+                    } else {
+                    	destPathFile=destPathFile+File.separator+exportConnectorWizardPage.getDestFileName();                  }
+                    final ExportConnectorArchiveOperation operation = createExportOperation(exportConnectorWizardPage.getSelectedImplementation(), exportConnectorWizardPage.isIncludeSources(), exportConnectorWizardPage.isAddDependencies(), destPathFile) ;
                     final IStatus status = operation.run(progressMonitor) ;
                     displayResult(status) ;
                 }

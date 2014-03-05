@@ -29,22 +29,17 @@ import org.bonitasoft.studio.connector.model.definition.wizard.ConnectorDefiniti
 import org.bonitasoft.studio.connector.model.i18n.DefinitionResourceProvider;
 import org.bonitasoft.studio.connector.model.i18n.Messages;
 import org.bonitasoft.studio.connector.model.implementation.ConnectorImplementation;
-import org.bonitasoft.studio.connector.model.implementation.ConnectorImplementationPackage;
 import org.eclipse.core.databinding.UpdateValueStrategy;
 import org.eclipse.core.databinding.conversion.Converter;
 import org.eclipse.core.databinding.validation.IValidator;
-import org.eclipse.core.databinding.validation.ValidationStatus;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.databinding.EMFDataBindingContext;
-import org.eclipse.emf.databinding.EMFObservables;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.jdt.ui.wizards.NewTypeWizardPage;
-import org.eclipse.jface.databinding.viewers.IViewerObservableValue;
-import org.eclipse.jface.databinding.viewers.ViewersObservables;
 import org.eclipse.jface.databinding.wizard.WizardPageSupport;
 import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.layout.GridLayoutFactory;
@@ -85,13 +80,12 @@ public abstract class AbstractDefinitionSelectionImpementationWizardPage extends
 	private Boolean checkOnlyCustom;
 	private Button onlyCustomCheckbox;
 	private final DefinitionResourceProvider messageProvider;
-	private final List<ConnectorDefinition> definitions;
+	protected final List<ConnectorDefinition> definitions;
 	private ViewerFilter customConnectorFilter = new ViewerFilter() {
 
 		@Override
 		public boolean select(Viewer viewer, Object parentElement, Object element) {
 			if(element instanceof ConnectorDefinition){
-
 				final Resource eResource = ((ConnectorDefinition) element).eResource();
 				if(eResource != null){
 					IPath rootPath = ResourcesPlugin.getWorkspace().getRoot().getLocation();
@@ -109,9 +103,9 @@ public abstract class AbstractDefinitionSelectionImpementationWizardPage extends
 		this.implementation = implementation;
 		this.messageProvider = messageProvider ;
 		this.definitions = definitions ;
-		checkOnlyCustom = true;
+		checkOnlyCustom = implementation.getDefinitionId() == null;
 	}
-	
+
 	public AbstractDefinitionSelectionImpementationWizardPage(List<ConnectorImplementation> existingImpl,List<ConnectorDefinition> definitions,String pageTitle,String pageDescription,DefinitionResourceProvider messageProvider) {
 		super(true,AbstractDefinitionSelectionImpementationWizardPage.class.getName());
 		setTitle(pageTitle);
@@ -222,7 +216,7 @@ public abstract class AbstractDefinitionSelectionImpementationWizardPage extends
 				}
 			}
 		});
-		
+
 		defIdStrategy = new UpdateValueStrategy() ;
 		defIdStrategy.setConverter(new Converter(ConnectorDefinition.class,String.class){
 
@@ -231,7 +225,7 @@ public abstract class AbstractDefinitionSelectionImpementationWizardPage extends
 				if(from instanceof ConnectorDefinition){
 					return ((ConnectorDefinition) from).getId() ;
 				}
-				return "";
+				return null;
 			}
 
 		}) ;
@@ -239,9 +233,9 @@ public abstract class AbstractDefinitionSelectionImpementationWizardPage extends
 
 			@Override
 			public IStatus validate(Object value) {
-				if(value == null || value.toString().isEmpty()){
-					return ValidationStatus.error(Messages.missingDefinition) ;
-				}
+//				if(value == null || value.toString().isEmpty()){
+//					return ValidationStatus.error(Messages.missingDefinition) ;
+//				}
 				return Status.OK_STATUS;
 			}
 		}) ;
@@ -253,22 +247,28 @@ public abstract class AbstractDefinitionSelectionImpementationWizardPage extends
 			@Override
 			public Object convert(Object from) {
 				if(from instanceof String){
-					List<Object> definitions = (List<Object>) explorer.getRightTableViewer().getInput();
-					for(Object c : definitions){
-						if(c instanceof ConnectorDefinition && ((ConnectorDefinition)c).getId().equals(from.toString())){
-							return c;
-						}
-					}
+					return getConnectorDefinitionFromId((String) from);
 				}
 				return null;
 			}
 
 		}) ;
-
-		bindValue();
 		updateOnlyCustomCheckbox();
-		
+		bindValue();
+	
+
 		setControl(mainComposite);
+	}
+	
+	@SuppressWarnings("unchecked")
+	protected ConnectorDefinition getConnectorDefinitionFromId(String definitionId) {
+		List<Object> definitions = (List<Object>) explorer.getRightTableViewer().getInput();
+		for(Object c : definitions){
+			if(c instanceof ConnectorDefinition && ((ConnectorDefinition)c).getId().equals(definitionId)){
+				return (ConnectorDefinition) c;
+			}
+		}
+		return null;
 	}
 
 	protected TreeExplorer createTreeExplorer(Composite mainComposite) {
@@ -338,16 +338,16 @@ public abstract class AbstractDefinitionSelectionImpementationWizardPage extends
 		explorer.getRightTableViewer().setInput(flattenTree);
 		return explorer;
 	}
-	
+
 	private void updateOnlyCustomCheckbox(){
-			final ITreeContentProvider customContentProvider = getCustomContentProvider();
-			final ITreeContentProvider contentProvider = getContentProvider();
+		final ITreeContentProvider customContentProvider = getCustomContentProvider();
+		final ITreeContentProvider contentProvider = getContentProvider();
 		if(onlyCustomCheckbox.getSelection()){
 			explorer.setContentProvider(customContentProvider);
 			explorer.addRightTreeFilter(customConnectorFilter);
 		}else{
 			explorer.setContentProvider(contentProvider);
-			explorer.removeTreeFilter(customConnectorFilter);
+			explorer.removeRightTreeFilter(customConnectorFilter);
 		}
 		explorer.setInput(new Object());
 		explorer.geLeftTreeViewer().setExpandedElements(new Object[]{AbstractUniqueDefinitionContentProvider.ROOT});
@@ -395,7 +395,7 @@ public abstract class AbstractDefinitionSelectionImpementationWizardPage extends
 
 	@Override
 	public void selectionChanged(SelectionChangedEvent event) {
-		
+
 	}
 
 	protected abstract ITreeContentProvider getCustomContentProvider();
@@ -405,7 +405,7 @@ public abstract class AbstractDefinitionSelectionImpementationWizardPage extends
 	public void setSelectedConnectorDefinition(ConnectorDefinition selectedDefinition){
 		this.selectedDefinition = selectedDefinition;
 	}
-	
+
 	public ConnectorDefinition getSelectedConnectorDefinition(){
 		return selectedDefinition;
 	}

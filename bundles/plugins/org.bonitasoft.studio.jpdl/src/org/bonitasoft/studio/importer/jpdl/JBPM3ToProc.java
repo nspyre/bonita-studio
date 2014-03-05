@@ -37,12 +37,12 @@ import org.bonitasoft.studio.common.FileUtil;
 import org.bonitasoft.studio.common.NamingUtils;
 import org.bonitasoft.studio.common.ProjectUtil;
 import org.bonitasoft.studio.common.log.BonitaStudioLog;
-import org.bonitasoft.studio.importer.ToProcProcessor;
 import org.bonitasoft.studio.importer.builder.IProcBuilder.DataType;
 import org.bonitasoft.studio.importer.builder.IProcBuilder.EventType;
 import org.bonitasoft.studio.importer.builder.IProcBuilder.GatewayType;
 import org.bonitasoft.studio.importer.builder.ProcBuilder;
 import org.bonitasoft.studio.importer.builder.ProcBuilderException;
+import org.bonitasoft.studio.importer.processors.ToProcProcessor;
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.draw2d.geometry.Dimension;
@@ -406,7 +406,7 @@ public class JBPM3ToProc extends ToProcProcessor {
         for (TransitionDesc transition : transitions) {
             builder.addSequenceFlow(transition.getName(), transition.getSource(), transition.getTo(), false,null,null, null);
             if(transition.getCondition() != null && !transition.getCondition().isEmpty()){
-                builder.addSequenceFlowCondition(transition.getCondition(), "java.lang.Boolean", ExpressionConstants.GROOVY, ExpressionConstants.SCRIPT_TYPE);
+                builder.addSequenceFlowCondition(transition.getCondition(), ExpressionConstants.GROOVY, ExpressionConstants.SCRIPT_TYPE);
             }
         }
 

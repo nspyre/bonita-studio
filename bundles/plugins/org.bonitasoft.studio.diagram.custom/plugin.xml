@@ -289,7 +289,7 @@
          </separator>
          <command
                commandId="org.bonitasoft.studio.diagram.custom.command.arrangVertical"
-               icon="icons/menuIcons/aligncenter.gif"
+               icon="icons/menuIcons/align-vertical.png"
                label="%verticalAlignment"
                style="push">
             <visibleWhen
@@ -298,7 +298,7 @@
          </command>
          <command
                commandId="org.bonitasoft.studio.diagram.custom.command.arrangeHorizontal"
-               icon="icons/menuIcons/alignmid.gif"
+               icon="icons/menuIcons/align-horizontal.png"
                label="%horizontalAlignment"
                style="push">
             <visibleWhen
@@ -743,5 +743,15 @@
          configurationIdProvider="org.bonitasoft.studio.diagram.custom.ConfigurationIdProvider"
          priority="1">
    </configurationIdProvider>
+</extension>
+<extension
+      point="org.eclipse.ui.views">
+   <view
+         class="org.bonitasoft.studio.diagram.custom.views.BPMNPaletteView"
+         icon="icons/ProcessDiagramFile.gif"
+         id="org.bonitasoft.studio.bpmn.palette_view"
+         name="%bpmnPalette"
+         restorable="true">
+   </view>
 </extension>
 </plugin>

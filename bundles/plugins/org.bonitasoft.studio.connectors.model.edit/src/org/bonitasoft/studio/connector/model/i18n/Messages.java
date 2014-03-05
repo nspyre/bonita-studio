@@ -353,7 +353,10 @@ public class Messages extends NLS {
 	public static String all;
 	public static String inputMandatoryError;
 	public static String inputMandatoryErrorTitle;
-
+	public static String inputAlreadyUseInAnotherWidget;
+	public static String confirmConnectorDefEditionTitle;
+	public static String confirmConnectorDefEditionMsg;
+	public static String doNotDisplayAgain;
 
     /**
      * @param event

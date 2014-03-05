@@ -22,7 +22,9 @@ import java.util.List;
 
 import org.bonitasoft.studio.common.AbstractRefactorOperation;
 import org.bonitasoft.studio.common.ExpressionConstants;
+import org.bonitasoft.studio.common.emf.tools.ExpressionHelper;
 import org.bonitasoft.studio.common.emf.tools.ModelHelper;
+import org.bonitasoft.studio.common.emf.tools.WidgetHelper;
 import org.bonitasoft.studio.common.log.BonitaStudioLog;
 import org.bonitasoft.studio.common.refactoring.BonitaGroovyRefactoringAction;
 import org.bonitasoft.studio.form.properties.i18n.Messages;
@@ -83,14 +85,13 @@ public class RefactorWidgetOperation extends AbstractRefactorOperation  {
 			cc.append(SetCommand.create(editingDomain,widget,ProcessPackage.Literals.ELEMENT__NAME, newName));
 			for(Expression exp : expressionsList){
 				String fieldExpressionName = exp.getName();
-				String oldExpressionName = "field_"+widget.getName();
+				String oldExpressionName = WidgetHelper.FIELD_PREFIX+widget.getName();
 				if(ExpressionConstants.FORM_FIELD_TYPE.equals(exp.getType()) && fieldExpressionName.equals(oldExpressionName)){
 					//update name and content
-					cc.append(SetCommand.create(editingDomain, exp, ExpressionPackage.Literals.EXPRESSION__NAME,"field_"+newName));
-					cc.append(SetCommand.create(editingDomain, exp, ExpressionPackage.Literals.EXPRESSION__CONTENT, "field_"+newName));
-					cc.append(SetCommand.create(editingDomain, exp, ExpressionPackage.Literals.EXPRESSION__RETURN_TYPE  , widget.getAssociatedReturnType()));
+					cc.append(SetCommand.create(editingDomain, exp, ExpressionPackage.Literals.EXPRESSION__NAME,WidgetHelper.FIELD_PREFIX+newName));
+					cc.append(SetCommand.create(editingDomain, exp, ExpressionPackage.Literals.EXPRESSION__CONTENT, WidgetHelper.FIELD_PREFIX+newName));
 					cc.append(RemoveCommand.create(editingDomain, exp, ExpressionPackage.Literals.EXPRESSION__REFERENCED_ELEMENTS  , exp.getReferencedElements()));
-					cc.append(AddCommand.create(editingDomain, exp, ExpressionPackage.Literals.EXPRESSION__REFERENCED_ELEMENTS,EcoreUtil.copy(widgetCopy)));
+					cc.append(AddCommand.create(editingDomain, exp, ExpressionPackage.Literals.EXPRESSION__REFERENCED_ELEMENTS,ExpressionHelper.createDependencyFromEObject(widgetCopy)));
 				}
 			}
 			editingDomain.getCommandStack().execute(cc);

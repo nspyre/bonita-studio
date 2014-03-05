@@ -76,21 +76,24 @@ public class ExportBosArchiveHandler extends AbstractHandler {
             if(diagram != null){
                 selectedFiles = getAllDiagramRelatedFiles(diagram);
             }else{
-                for(IRepositoryStore store : RepositoryManager.getInstance().getCurrentRepository().getAllExportableStores()){
-                    List<IRepositoryFileStore> files = store.getChildren() ;
+                for(IRepositoryStore<? extends IRepositoryFileStore> store : RepositoryManager.getInstance().getCurrentRepository().getAllExportableStores()){
+                    List<? extends IRepositoryFileStore> files = store.getChildren() ;
                     if( files != null){
-                        files.remove(null) ;
-                        selectedFiles.addAll(files) ;
+                        for(IRepositoryFileStore fStore : files){
+                            if(fStore != null){
+                                selectedFiles.add(fStore) ;
+                            }
+                        }
                     }
                 }
             }
 
             final ExportRepositoryWizard wizard = new ExportRepositoryWizard(RepositoryManager.getInstance().getCurrentRepository().getAllExportableStores(),true,selectedFiles,getDefaultName(),Messages.ExportButtonLabel) ;
             WizardDialog dialog = new WizardDialog(Display.getDefault().getActiveShell(),wizard){
-            	protected void initializeBounds() {
-            		super.initializeBounds();
-            		getShell().setSize(600, 500); 
-            	}
+                protected void initializeBounds() {
+                    super.initializeBounds();
+                    getShell().setSize(600, 500); 
+                }
             };
             dialog.setTitle(Messages.ExportButtonLabel);
             dialog.open() ;
@@ -120,10 +123,10 @@ public class ExportBosArchiveHandler extends AbstractHandler {
                 }
             }
         }
-        
+
         if(processes.isEmpty()){
-        	DiagramRepositoryStore dStore = (DiagramRepositoryStore) RepositoryManager.getInstance().getRepositoryStore(DiagramRepositoryStore.class);
-        	result.add(dStore.getDiagram(diagram.getName(), diagram.getVersion()));
+            DiagramRepositoryStore dStore = (DiagramRepositoryStore) RepositoryManager.getInstance().getRepositoryStore(DiagramRepositoryStore.class);
+            result.add(dStore.getDiagram(diagram.getName(), diagram.getVersion()));
         }
 
         return result;

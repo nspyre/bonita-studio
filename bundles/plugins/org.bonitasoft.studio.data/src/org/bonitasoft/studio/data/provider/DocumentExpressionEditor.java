@@ -155,6 +155,9 @@ implements IExpressionEditor {
 		for (Expression e1 : expressions) {
 			input.add((Document) e1.getReferencedElements().get(0));
 		}
+		if(editorInputExpression.isReturnTypeFixed() && !editorInputExpression.getReturnType().equals(String.class.getName())){
+			input.clear();
+		}
 		viewer.setInput(input);
 	}
 
@@ -292,13 +295,26 @@ implements IExpressionEditor {
 
 	@Override
 	public boolean isPageFlowContext() {
-		
 		return isPageFlowContext;
 	}
 
 	@Override
 	public void setIsPageFlowContext(boolean isPageFlowContext) {
 		this.isPageFlowContext=isPageFlowContext;
-		
+	}
+
+	/* (non-Javadoc)
+	 * @see org.bonitasoft.studio.common.IBonitaVariableContext#isOverViewContext()
+	 */
+	@Override
+	public boolean isOverViewContext() {
+		return false;
+	}
+
+	/* (non-Javadoc)
+	 * @see org.bonitasoft.studio.common.IBonitaVariableContext#setIsOverviewContext(boolean)
+	 */
+	@Override
+	public void setIsOverviewContext(boolean isOverviewContext) {		
 	}
 }

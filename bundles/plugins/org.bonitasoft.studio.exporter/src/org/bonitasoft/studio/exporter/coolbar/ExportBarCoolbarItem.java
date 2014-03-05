@@ -94,8 +94,7 @@ public class ExportBarCoolbarItem implements IBonitaContributionItem {
 	 */
 	@Override
 	public boolean isEnabled() {
-		Command cmd = getCommand();
-		return  cmd.getHandler() != null && cmd.getHandler().isEnabled();
+		return true;
 	}
 
 	/* (non-Javadoc)
@@ -194,6 +193,7 @@ public class ExportBarCoolbarItem implements IBonitaContributionItem {
 			item.setImage(Pics.getImage(PicsConstants.coolbar_export_16)) ;
 			item.setDisabledImage(Pics.getImage(PicsConstants.coolbar_export_disabled_16));
 		}
+		item.setEnabled(false);
 		item.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {

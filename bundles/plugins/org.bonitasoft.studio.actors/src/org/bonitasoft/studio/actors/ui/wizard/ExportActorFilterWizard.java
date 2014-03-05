@@ -23,11 +23,11 @@ import org.bonitasoft.studio.actors.repository.ActorFilterDefRepositoryStore;
 import org.bonitasoft.studio.actors.repository.ActorFilterImplRepositoryStore;
 import org.bonitasoft.studio.actors.repository.ExportActorFilterArchiveOperation;
 import org.bonitasoft.studio.common.repository.RepositoryManager;
+import org.bonitasoft.studio.common.repository.store.AbstractRepositoryStore;
 import org.bonitasoft.studio.connector.model.definition.IDefinitionRepositoryStore;
 import org.bonitasoft.studio.connector.model.implementation.ConnectorImplementation;
 import org.bonitasoft.studio.connector.model.implementation.provider.ConnectorImplementationContentProvider;
 import org.bonitasoft.studio.connector.model.implementation.provider.ConnectorImplementationLabelProvider;
-import org.bonitasoft.studio.connectors.repository.ConnectorDefRepositoryStore;
 import org.bonitasoft.studio.connectors.ui.wizard.ExportConnectorWizard;
 import org.eclipse.jface.viewers.IContentProvider;
 import org.eclipse.jface.viewers.LabelProvider;
@@ -62,7 +62,7 @@ public class ExportActorFilterWizard extends ExportConnectorWizard {
 
     @Override
     protected IContentProvider getContentProvider() {
-        return new ConnectorImplementationContentProvider(RepositoryManager.getInstance().getRepositoryStore(ActorFilterImplRepositoryStore.class),false);
+        return new ConnectorImplementationContentProvider((AbstractRepositoryStore)RepositoryManager.getInstance().getRepositoryStore(ActorFilterImplRepositoryStore.class),false);
     }
 
     @Override

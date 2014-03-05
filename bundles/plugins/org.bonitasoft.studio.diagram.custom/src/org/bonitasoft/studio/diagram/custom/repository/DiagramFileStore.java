@@ -61,6 +61,7 @@ import org.eclipse.ui.IEditorReference;
 import org.eclipse.ui.IViewPart;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchPart;
+import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.ide.IDE;
@@ -75,7 +76,7 @@ public class DiagramFileStore extends EMFFileStore implements IRepositoryFileSto
 
 	private final NotificationListener poolListener = new PoolNotificationListener();
 	
-	public DiagramFileStore(String fileName, IRepositoryStore store) {
+	public DiagramFileStore(String fileName, IRepositoryStore<? extends EMFFileStore> store) {
 		super(fileName, store);
 	}
 
@@ -163,6 +164,7 @@ public class DiagramFileStore extends EMFFileStore implements IRepositoryFileSto
 			}
 			resource.getContents().add(1,(EObject) content) ;
 		}else if(content instanceof Collection){
+			@SuppressWarnings("unchecked")
 			Collection<EObject> collectionsOfContents = (Collection<EObject>)content;
 			resource.getContents().addAll(collectionsOfContents);
 		}else if(content instanceof DiagramDocumentEditor){
@@ -208,7 +210,7 @@ public class DiagramFileStore extends EMFFileStore implements IRepositoryFileSto
 		}
 		IEditorPart part = null;
 		try {
-			part = IDE.openEditor(activePage,getParentStore().getResource().getFile(getName()));
+			part = IDE.openEditor(activePage,getParentStore().getResource().getFile(getName()),true);
 			if(part instanceof DiagramEditor){
 				final DiagramEditor editor = (DiagramEditor) part;
 				MainProcess diagram = (MainProcess) editor.getDiagramEditPart().resolveSemanticElement() ;
@@ -247,7 +249,8 @@ public class DiagramFileStore extends EMFFileStore implements IRepositoryFileSto
 
 	@Override
 	protected void doClose() {
-		if(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage() != null){
+		IWorkbenchWindow activeWorkbenchWindow = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
+		if(activeWorkbenchWindow != null && activeWorkbenchWindow.getActivePage() != null){
 			IEditorReference[] editors = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getEditorReferences();
 			// look for the resource in other editors
 			for (IEditorReference iEditorReference : editors) {

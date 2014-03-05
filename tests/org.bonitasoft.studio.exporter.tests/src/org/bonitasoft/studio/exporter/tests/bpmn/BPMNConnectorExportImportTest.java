@@ -51,7 +51,6 @@ import org.eclipse.swtbot.eclipse.gef.finder.widgets.SWTBotGefEditPart;
 import org.eclipse.swtbot.eclipse.gef.finder.widgets.SWTBotGefEditor;
 import org.eclipse.swtbot.swt.finder.junit.SWTBotJunit4ClassRunner;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.omg.spec.bpmn.di.util.DiResourceFactoryImpl;
@@ -77,11 +76,6 @@ public class BPMNConnectorExportImportTest extends SWTBotGefTestCase {
         isInitalized = true;
     }
 
-    @Test
-    @Ignore("Feature Not yet implemented, it is currently using the id.")
-    public void testSingleConnectorOnServiceTask_name() throws IOException, ExecutionException{
-        assertEquals("Connector name is not correct", connectorName, connectorAfterReimport.getName());
-    }
 
     @Test
     public void testSingleConnectorOnServiceTask_version() throws IOException, ExecutionException{

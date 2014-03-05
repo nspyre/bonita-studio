@@ -1,6 +1,6 @@
 /**
- * Copyright (C) 2012 BonitaSoft S.A.
- * BonitaSoft, 31 rue Gustave Eiffel - 38000 Grenoble
+ * Copyright (C) 2012-2014 Bonitasoft S.A.
+ * BonitaSoft, 32 rue Gustave Eiffel - 38000 Grenoble
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2.0 of the License, or
@@ -17,9 +17,9 @@
 package org.bonitasoft.studio.common.repository.ui.wizard;
 
 import java.io.File;
+import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -32,8 +32,6 @@ import org.bonitasoft.studio.common.repository.model.IRepositoryFileStore;
 import org.bonitasoft.studio.common.repository.model.IRepositoryStore;
 import org.bonitasoft.studio.common.repository.operation.ExportBosArchiveOperation;
 import org.bonitasoft.studio.common.repository.ui.viewer.CheckboxRepositoryTreeViewer;
-import org.bonitasoft.studio.common.repository.ui.viewer.RepositoryTreeContentProvider;
-import org.eclipse.core.databinding.Binding;
 import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.core.databinding.UpdateValueStrategy;
 import org.eclipse.core.databinding.beans.PojoObservables;
@@ -68,7 +66,6 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.DirectoryDialog;
 import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.ui.IEditorReference;
@@ -187,8 +184,8 @@ public class ExportRepositoryWizardPage extends WizardPage {
 		dbc.bindSet(checkedElementsObservable, PojoObservables.observeSet(this, "selectedFiles")) ;
 
 		final Set<IRepositoryFileStore> selectedChild = getArtifacts() ;
-		for(IRepositoryStore store : RepositoryManager.getInstance().getCurrentRepository().getAllExportableStores()){
-			List<IRepositoryFileStore> children =  store.getChildren() ;
+		for(IRepositoryStore<? extends IRepositoryFileStore> store : RepositoryManager.getInstance().getCurrentRepository().getAllExportableStores()){
+			List<? extends IRepositoryFileStore> children =  store.getChildren() ;
 
 			boolean containsAllChildren = !children.isEmpty() ;
 			int cpt = children.size();
@@ -349,7 +346,11 @@ public class ExportRepositoryWizardPage extends WizardPage {
 						}
 						for(IRepositoryFileStore file : getArtifacts()){
 							if(file.getResource() != null && file.getResource().exists()){
-								file.export(dest.getAbsolutePath()) ;
+								try {
+									file.export(dest.getAbsolutePath()) ;
+								} catch (IOException e) {
+									throw new InvocationTargetException(e);
+								}
 								monitor.worked(1) ;
 							}
 						}
@@ -357,7 +358,8 @@ public class ExportRepositoryWizardPage extends WizardPage {
 					}
 				}) ;
 			} catch (Exception e){
-				BonitaStudioLog.error(e) ;
+				MessageDialog.openError(Display.getDefault().getActiveShell(), Messages.exportFailed, e.getCause().getMessage());
+				return false;
 			}
 
 			return true ;

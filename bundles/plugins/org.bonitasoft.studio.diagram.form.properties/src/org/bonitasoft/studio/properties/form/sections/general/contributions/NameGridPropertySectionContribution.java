@@ -25,6 +25,7 @@ import org.bonitasoft.studio.common.NamingUtils;
 import org.bonitasoft.studio.common.databinding.MultiValidator;
 import org.bonitasoft.studio.common.emf.tools.ModelHelper;
 import org.bonitasoft.studio.common.jface.OpenNameDialog;
+import org.bonitasoft.studio.common.jface.databinding.validator.GroovyReferenceValidator;
 import org.bonitasoft.studio.common.jface.databinding.validator.InputLengthValidator;
 import org.bonitasoft.studio.common.log.BonitaStudioLog;
 import org.bonitasoft.studio.common.properties.AbstractNamePropertySectionContribution;
@@ -49,8 +50,6 @@ import org.eclipse.emf.databinding.edit.EMFEditObservables;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.edit.command.SetCommand;
-import org.eclipse.jdt.core.JavaConventions;
-import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jface.databinding.fieldassist.ControlDecorationSupport;
 import org.eclipse.jface.databinding.swt.ISWTObservableValue;
 import org.eclipse.jface.databinding.swt.SWTObservables;
@@ -104,18 +103,11 @@ public class NameGridPropertySectionContribution extends AbstractNamePropertySec
 		labelTargetToModelUpdate = new UpdateValueStrategy();
 		labelTargetToModelUpdate.setConverter(convertToId);
 		List<IValidator> validators = new ArrayList<IValidator>();
-		IValidator javaValidator = new IValidator() {
-
-			public IStatus validate(Object value) {
-				return JavaConventions.validateFieldName(value.toString(), JavaCore.VERSION_1_6, JavaCore.VERSION_1_6);
-			}
-
-		};
-		validators.add(getWidgetValidator());
-		validators.add(javaValidator);
+		validators.add(new InputLengthValidator(Messages.name, 50));
+		validators.add(new GroovyReferenceValidator(Messages.name, true,false));
+		validators.add(createUniqueWidgetIdValidator());
 		MultiValidator multiValidation = new MultiValidator(validators);
 		labelTargetToModelUpdate.setAfterGetValidator(multiValidation) ;
-		labelTargetToModelUpdate.setBeforeSetValidator(new InputLengthValidator(Messages.name, 50)) ;
 		ISWTObservableValue observable = SWTObservables.observeDelayedValue(400, SWTObservables.observeText(text, SWT.Modify));
 		ControlDecorationSupport.create(context.bindValue(observable, EMFEditObservables.observeValue(editingDomain, element, ProcessPackage.Literals.ELEMENT__NAME),labelTargetToModelUpdate,null),SWT.LEFT);
 	}
@@ -200,7 +192,7 @@ public class NameGridPropertySectionContribution extends AbstractNamePropertySec
 		}
 	}
 
-	private IValidator getWidgetValidator(){
+	private IValidator createUniqueWidgetIdValidator(){
 		return new IValidator(){
 
 			public IStatus validate(Object value) {

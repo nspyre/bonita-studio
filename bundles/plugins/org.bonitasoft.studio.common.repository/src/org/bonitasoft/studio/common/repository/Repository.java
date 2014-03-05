@@ -28,8 +28,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.SortedMap;
 import java.util.TreeMap;
@@ -59,6 +61,7 @@ import org.codehaus.groovy.eclipse.core.compiler.CompilerUtils;
 import org.codehaus.groovy.frameworkadapter.util.SpecifiedVersion;
 import org.eclipse.core.internal.resources.ProjectDescriptionReader;
 import org.eclipse.core.internal.resources.Workspace;
+import org.eclipse.core.resources.ICommand;
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
@@ -93,7 +96,6 @@ import org.eclipse.jdt.launching.JavaRuntime;
 import org.eclipse.osgi.framework.adaptor.BundleClassLoader;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.PlatformUI;
-import org.eclipse.ui.progress.IProgressService;
 import org.xml.sax.InputSource;
 
 /**
@@ -109,6 +111,7 @@ public class Repository implements IRepository {
 	private String name;
 	private IProject project;
 	private SortedMap<Class<?>, IRepositoryStore<? extends IRepositoryFileStore>> stores;
+	private IProgressMonitor monitor;
 
 	public Repository() {}
 
@@ -188,7 +191,7 @@ public class Repository implements IRepository {
 					}
 					new ClasspathValidation(jProject).validate();
 				}
-			
+
 			}
 		} catch (CoreException e) {
 			BonitaStudioLog.error(e) ;
@@ -241,21 +244,25 @@ public class Repository implements IRepository {
 	protected IRepositoryStore<? extends IRepositoryFileStore> createRepositoryStore(
 			IConfigurationElement configuration) throws CoreException {
 		final IRepositoryStore<? extends IRepositoryFileStore> store = (IRepositoryStore<?>) configuration.createExecutableExtension(CLASS) ;
+		monitorSubtask(Messages.bind(Messages.creatingStore,store.getDisplayName()));
 		store.createRepositoryStore(this) ;
+		monitorWorked(1);
 		return store;
 	}
 
 	public void enableBuild() {
+		Job.getJobManager().wakeUp(ResourcesPlugin.FAMILY_AUTO_BUILD);
 		IWorkspace workspace = ResourcesPlugin.getWorkspace();
 		IWorkspaceDescription desc = workspace.getDescription();
 		if(!desc.isAutoBuilding()){
-			desc.setAutoBuilding(true);
+			boolean enableAutobuild = PlatformUI.isWorkbenchRunning();
+			desc.setAutoBuilding(enableAutobuild);
 			try {
 				workspace.setDescription(desc);
 			} catch (CoreException e) {
 				BonitaStudioLog.error(e, CommonRepositoryPlugin.PLUGIN_ID);
 			}
-			RepositoryManager.getInstance().getPreferenceStore().setValue(RepositoryPreferenceConstant.BUILD_ENABLE,true);
+			RepositoryManager.getInstance().getPreferenceStore().setValue(RepositoryPreferenceConstant.BUILD_ENABLE,enableAutobuild);
 		}
 	}
 
@@ -280,18 +287,21 @@ public class Repository implements IRepository {
 	}
 
 	protected void createJavaProject(IProject project) {
+		monitorSubtask(Messages.initializingJavaProject);
 		final IJavaProject javaProject = JavaCore.create(project);
 		javaProject.setOption(JavaCore.COMPILER_COMPLIANCE, JavaCore.VERSION_1_6);
 		javaProject.setOption(JavaCore.COMPILER_SOURCE, JavaCore.VERSION_1_6);
 		javaProject.setOption(JavaCore.COMPILER_CODEGEN_TARGET_PLATFORM, JavaCore.VERSION_1_6);
 		javaProject.setOption(JavaCore.CORE_JAVA_BUILD_INVALID_CLASSPATH, "ignore");
 		CompilerUtils.setCompilerLevel(project,SpecifiedVersion._18);
+		monitorWorked(1);
 	}
 
 	protected void createProjectDescriptor(IProject project) throws CoreException {
 		IProjectDescription descriptor = project.getDescription();
 		descriptor.setComment(ProductVersion.CURRENT_VERSION) ;
 		String[] natures = descriptor.getNatureIds();
+		List<String> existingNatures = Arrays.asList(natures);
 		Set<String> additionalNatures = getNatures() ;
 		Set<String> notExistingNature = new HashSet<String>();
 		for(String natureId : additionalNatures){
@@ -300,6 +310,10 @@ public class Repository implements IRepository {
 			if(naturDesc == null){
 				notExistingNature.add(natureId);
 				BonitaStudioLog.log("Project nature "+natureId+" not found");
+			}
+			if(existingNatures.contains(natureId)){
+				notExistingNature.add(natureId);
+				BonitaStudioLog.log("Project nature "+natureId+" already exists");
 			}
 		}
 		additionalNatures.removeAll(notExistingNature);
@@ -311,7 +325,29 @@ public class Repository implements IRepository {
 			newNatures[i] = arryOfNatures[i - natures.length] ;
 		}
 		descriptor.setNatureIds(newNatures);
+		addBuilders(descriptor);
 		project.setDescription(descriptor, null);
+	}
+
+	protected void addBuilders(IProjectDescription desc) {
+		ICommand[] existingCommands = desc.getBuildSpec();
+		Map<String,ICommand> existingBuilders = new HashMap<String, ICommand>();
+		for(ICommand builder : existingCommands){
+			existingBuilders.put(builder.getBuilderName(), builder);
+		}
+		for(String builderId : getBuilders()){
+			if(!existingBuilders.containsKey(builderId)){
+				//add builder to project
+				ICommand command = desc.newCommand();
+				command.setBuilderName(builderId);
+				existingBuilders.put(builderId,command);
+			}
+		}
+		desc.setBuildSpec(existingBuilders.values().toArray(new ICommand[existingBuilders.values().size()]));
+	}
+
+	protected List<String> getBuilders() {
+		return new ArrayList<String>();
 	}
 
 	protected Set<String> getNatures() {
@@ -331,6 +367,7 @@ public class Repository implements IRepository {
 	}
 
 	protected void initClasspath(IProject extensionsProject) throws Exception {
+		monitorSubtask(Messages.initializingProjectClasspath);
 		createProjectManifest(extensionsProject);
 
 		final IJavaProject javaProject = getJavaProject();
@@ -338,6 +375,7 @@ public class Repository implements IRepository {
 
 		addSpecificEntriesForDevMode(entries);
 		javaProject.setRawClasspath(entries.toArray(new IClasspathEntry[entries.size()]),true,Repository.NULL_PROGRESS_MONITOR);
+		monitorWorked(1);
 	}
 
 	protected void addSpecificEntriesForDevMode(final List<IClasspathEntry> entries) throws IOException, MalformedURLException {
@@ -385,7 +423,10 @@ public class Repository implements IRepository {
 		//Add src folders in classpath
 		for(IRepositoryStore repository : getAllStores()){
 			if(repository instanceof SourceRepositoryStore){
-				entries.add(JavaCore.newSourceEntry(repository.getResource().getFullPath()));
+				IClasspathEntry newSourceEntry = JavaCore.newSourceEntry(repository.getResource().getFullPath());
+				if(!entries.contains(newSourceEntry)){
+					entries.add(newSourceEntry);
+				}
 			}
 		}
 		return entries;
@@ -408,7 +449,6 @@ public class Repository implements IRepository {
 		}
 	}
 
-	@SuppressWarnings("restriction")
 	@Override
 	public void refresh(IProgressMonitor monitor) {
 		if(isBuildEnable()){
@@ -416,22 +456,27 @@ public class Repository implements IRepository {
 				if(monitor == null){
 					monitor = NULL_PROGRESS_MONITOR ;
 				}
-
 				if(!getProject().isSynchronized(IResource.DEPTH_INFINITE)){
 					getProject().refreshLocal(IResource.DEPTH_INFINITE, monitor);
 				}
 				IJavaProject javaProject = getJavaProject();
 				if(javaProject != null){
-					//Took example from JDT configure Build path dialog
-					CPListElement[] existingCPElement =  CPListElement.createFromExisting(javaProject);
-					BuildPathsBlock.flush(new ArrayList<CPListElement>(Arrays.asList(existingCPElement)),javaProject.getOutputLocation(), javaProject, null, monitor);
-					getProject().build(IncrementalProjectBuilder.CLEAN_BUILD, monitor);
-					getProject().build(IncrementalProjectBuilder.FULL_BUILD, monitor);
+					refreshClasspath(javaProject,null,monitor);
+					getProject().build(IncrementalProjectBuilder.INCREMENTAL_BUILD, monitor);
 				}
 			} catch (Exception ex) {
 				BonitaStudioLog.error(ex);
 			}
 		}
+	}
+
+	protected void refreshClasspath(IJavaProject javaProject,List<CPListElement> classPathElementList,
+			IProgressMonitor monitor) throws JavaModelException, CoreException {
+		if(classPathElementList == null){
+			CPListElement[] existingCPElement = CPListElement.createFromExisting(javaProject);
+			classPathElementList = Arrays.asList(existingCPElement);
+		}
+		BuildPathsBlock.flush(classPathElementList,javaProject.getOutputLocation(), javaProject, null, monitor);
 	}
 
 
@@ -555,7 +600,6 @@ public class Repository implements IRepository {
 
 	@Override
 	public void importFromArchive(final File archiveFile, boolean askOverwrite) {
-		IProgressService service = PlatformUI.getWorkbench().getProgressService() ;
 		boolean disableConfirmation = FileActionDialog.getDisablePopup();
 		FileActionDialog.setDisablePopup(!askOverwrite);
 		final ImportBosArchiveOperation operation = new ImportBosArchiveOperation();
@@ -716,6 +760,22 @@ public class Repository implements IRepository {
 			store.migrate();
 		}
 		project.getDescription().setComment(ProductVersion.CURRENT_VERSION) ;
+	}
+	
+	public void setProgressMonitor(IProgressMonitor monitor){
+		this.monitor = monitor;
+	}
+	
+	protected void monitorWorked(int work){
+		if(monitor != null){
+			monitor.worked(work);
+		}
+	}
+	
+	protected void monitorSubtask(String subtask){
+		if(monitor != null && subtask != null){
+			monitor.subTask(subtask);
+		}
 	}
 
 }

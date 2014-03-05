@@ -30,8 +30,6 @@ import org.bonitasoft.engine.bpm.connector.ConnectorEvent;
 import org.bonitasoft.studio.common.ExpressionConstants;
 import org.bonitasoft.studio.common.NamingUtils;
 import org.bonitasoft.studio.common.log.BonitaStudioLog;
-import org.bonitasoft.studio.importer.Messages;
-import org.bonitasoft.studio.importer.ToProcProcessor;
 import org.bonitasoft.studio.importer.builder.IProcBuilder;
 import org.bonitasoft.studio.importer.builder.IProcBuilder.DataType;
 import org.bonitasoft.studio.importer.builder.IProcBuilder.EventType;
@@ -39,6 +37,8 @@ import org.bonitasoft.studio.importer.builder.IProcBuilder.GatewayType;
 import org.bonitasoft.studio.importer.builder.IProcBuilder.TaskType;
 import org.bonitasoft.studio.importer.builder.ProcBuilder;
 import org.bonitasoft.studio.importer.builder.ProcBuilderException;
+import org.bonitasoft.studio.importer.i18n.Messages;
+import org.bonitasoft.studio.importer.processors.ToProcProcessor;
 import org.bonitasoft.studio.model.process.MainProcess;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.draw2d.geometry.Dimension;
@@ -74,9 +74,6 @@ import org.wfmc._2002.xpdl1.util.Xpdl1ResourceFactoryImpl;
  * @author Mickael Istria
  */
 public class XPDLToProc extends ToProcProcessor {
-
-    private static final String INSTANTIATOR_WRAPPER_ID = "MultiInstantiatorInstantiator";
-    private static final String JOIN_CHECKER_WRAPPER_ID = "MultiInstantiatorJoinChecker";
 
     private static final String X_OFFSET = "XOffset"; //$NON-NLS-1$
     private static final String Y_OFFSET = "YOffset"; //$NON-NLS-1$
@@ -197,7 +194,7 @@ public class XPDLToProc extends ToProcProcessor {
                 }
                 builder.addSequenceFlow(transition.getName(), transition.getFrom(),transition.getTo(), false, null,null,new PointList()) ;
                 if(!condition.isEmpty()){
-                    builder.addSequenceFlowCondition(condition, "java.lang.Boolean", ExpressionConstants.GROOVY, ExpressionConstants.SCRIPT_TYPE);
+                    builder.addSequenceFlowCondition(condition, ExpressionConstants.GROOVY, ExpressionConstants.SCRIPT_TYPE);
                 }
                 builder.addDescription(transition.getDescription()) ;
             }
