@@ -22,6 +22,9 @@
 		<module>it</module>
 		<module>ja</module>
 		<module>pt</module>
+<!-- 		Must run in a different reactor (eg: all in one packaging) -->
+<!-- 		<module>org.bonitasoft.studio.bos.translations-feature</module> -->
+<!-- 		<module>org.bonitasoft.studio.translations-feature</module> -->
 	</modules>
 
 	<properties>
