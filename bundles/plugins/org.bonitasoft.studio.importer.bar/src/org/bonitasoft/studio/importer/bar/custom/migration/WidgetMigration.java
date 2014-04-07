@@ -5,14 +5,14 @@
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2.0 of the License, or
  * (at your option) any later version.
- *
+ * 
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- *
+ * 
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package org.bonitasoft.studio.importer.bar.custom.migration;
 
@@ -23,6 +23,7 @@ import java.util.Map;
 
 import org.bonitasoft.engine.bpm.document.DocumentValue;
 import org.bonitasoft.studio.common.ExpressionConstants;
+import org.bonitasoft.studio.common.Pair;
 import org.bonitasoft.studio.common.emf.tools.WidgetModifiersSwitch;
 import org.bonitasoft.studio.importer.bar.i18n.Messages;
 import org.bonitasoft.studio.migration.migrator.ReportCustomMigration;
@@ -41,48 +42,58 @@ import org.eclipse.emf.edapt.migration.Model;
 
 /**
  * @author Romain Bioteau
- *
+ * 
  */
 public class WidgetMigration extends ReportCustomMigration {
 
-    private Map<String, Instance> widgetActions = new HashMap<String,Instance>();
-    private Map<String, String> widgetInputs = new HashMap<String,String>();
-    private Map<String, String> widgetDisplayLabels = new HashMap<String,String>();
-    private Map<String, String> widgetTooltips = new HashMap<String,String>();
-    private Map<String, String> displayDependentWidgetOnlyAfterFirstEventTriggeredAndConditions = new HashMap<String,String>();
-    private Map<String, String> scriptAfterEvents = new HashMap<String,String>();
-    private Map<String, String> displayAfterEventDependsOnConditionScripts = new HashMap<String,String>();
-    private Map<String, String> helpMessages = new HashMap<String,String>();
-    private Map<String, String> injectWidgetScripts = new HashMap<String,String>();
-    private Map<String, Instance> initialValueConnectors = new HashMap<String, Instance>();
-    private Map<String, Instance> afterEventConnector = new HashMap<String, Instance>();
+    private Map<String, Pair<String, String>> widgetActions = new HashMap<String, Pair<String, String>>();
 
+    private Map<String, String> widgetInputs = new HashMap<String, String>();
+
+    private Map<String, String> widgetDisplayLabels = new HashMap<String, String>();
+
+    private Map<String, String> widgetTooltips = new HashMap<String, String>();
+
+    private Map<String, String> displayDependentWidgetOnlyAfterFirstEventTriggeredAndConditions = new HashMap<String, String>();
+
+    private Map<String, String> scriptAfterEvents = new HashMap<String, String>();
+
+    private Map<String, String> displayAfterEventDependsOnConditionScripts = new HashMap<String, String>();
+
+    private Map<String, String> helpMessages = new HashMap<String, String>();
+
+    private Map<String, String> injectWidgetScripts = new HashMap<String, String>();
+
+    private Map<String, Instance> initialValueConnectors = new HashMap<String, Instance>();
+
+    private Map<String, Instance> afterEventConnector = new HashMap<String, Instance>();
 
     @Override
     public void migrateBefore(Model model, Metamodel metamodel)
             throws MigrationException {
-        for(Instance widget : model.getAllInstances("form.Widget")){
+        for (Instance widget : model.getAllInstances("form.Widget")) {
             final Instance widgetContainer = widget.getContainer();
-            if(widgetContainer != null && !(widgetContainer.instanceOf("expression.Expression"))){
+            if (widgetContainer != null && !(widgetContainer.instanceOf("expression.Expression"))) {
                 final Instance action = widget.get("script");
-                if(action != null){
+                if (action != null) {
                     final String inputScript = action.get("inputScript");
-                    final StringToExpressionConverter converter = getConverter(model,getScope(widget));
-                    final Instance operation = converter.parseOperation(action, String.class.getName(), false);
+                    final String expressionScript = action.get("exprScript");
+                    final String setVarScript = action.get("setVarScript");
+                    final Pair<String, String> actionScripts = new Pair<String, String>(expressionScript, setVarScript);
                     model.delete(action);
-                    widgetActions.put(widget.getUuid(), operation);
-                    if(inputScript != null && !inputScript.trim().isEmpty()){
+                    widgetActions.put(widget.getUuid(), actionScripts);
+                    if (inputScript != null && !inputScript.trim().isEmpty()) {
                         widgetInputs.put(widget.getUuid(), inputScript);
-                    }else{
-                        if(widget.instanceOf("form.MultipleValuatedFormField")){
+                    } else {
+                        if (widget.instanceOf("form.MultipleValuatedFormField")) {
                             Instance data = widget.get("enum");
-                            if(data != null){
+                            if (data != null) {
                                 List<String> literals = widget.get("literals");
                                 Instance datatype = data.get("dataType");
-                                if(literals.isEmpty() && datatype != null && datatype.instanceOf("process.EnumType")){
-                                    widgetInputs.put(widget.getUuid(), "${"+generateListScript((Instance) data.get("dataType"))+"}");
-                                }else if(!literals.isEmpty()){
-                                    widgetInputs.put(widget.getUuid(), "${"+generateListScript(literals)+"}");
+                                if (literals.isEmpty() && datatype != null && datatype.instanceOf("process.EnumType")) {
+                                    widgetInputs.put(widget.getUuid(), "${" + generateListScript((Instance) data.get("dataType")) + "}");
+                                } else if (!literals.isEmpty()) {
+                                    widgetInputs.put(widget.getUuid(), "${" + generateListScript(literals) + "}");
                                 }
                             }
                         }
@@ -103,7 +114,7 @@ public class WidgetMigration extends ReportCustomMigration {
 
     private void storeInputConnectors(Instance widget) {
         List<Instance> connectors = widget.get("inputConnectors");
-        if(!connectors.isEmpty()){
+        if (!connectors.isEmpty()) {
             final Instance instance = connectors.get(0);
             initialValueConnectors.put(widget.getUuid(), instance.copy());
         }
@@ -111,7 +122,7 @@ public class WidgetMigration extends ReportCustomMigration {
 
     private void storeAfterEventConnectors(Instance widget) {
         List<Instance> connectors = widget.get("afterEventConnectors");
-        if(!connectors.isEmpty()){
+        if (!connectors.isEmpty()) {
             final Instance instance = connectors.get(0);
             afterEventConnector.put(widget.getUuid(), instance.copy());
         }
@@ -119,9 +130,9 @@ public class WidgetMigration extends ReportCustomMigration {
 
     private String generateListScript(List<String> literals) {
         StringBuilder sb = new StringBuilder("[");
-        for(String l : literals){
-            sb.append("\""+l+"\"");
-            if(literals.indexOf(l) < literals.size()-1){
+        for (String l : literals) {
+            sb.append("\"" + l + "\"");
+            if (literals.indexOf(l) < literals.size() - 1) {
                 sb.append(",");
             }
         }
@@ -131,19 +142,19 @@ public class WidgetMigration extends ReportCustomMigration {
 
     private String getDefaultReturnTypeForWidget(Instance actionExp) {
         List<Instance> refs = actionExp.get("referencedElements");
-        if(refs != null && !refs.isEmpty()){
+        if (refs != null && !refs.isEmpty()) {
             Instance widgetDependency = refs.get(0);
-            if(widgetDependency.instanceOf("form.Duplicable") 
-                    && (Boolean)widgetDependency.get("duplicate")){
+            if (widgetDependency.instanceOf("form.Duplicable")
+                    && (Boolean) widgetDependency.get("duplicate")) {
                 return List.class.getName();
-            }else{
-                if(widgetDependency.instanceOf("form.FileWidget")){
+            } else {
+                if (widgetDependency.instanceOf("form.FileWidget")) {
                     return DocumentValue.class.getName();
-                }else{
+                } else {
                     EClassifier eClassifier = FormPackage.eINSTANCE.getEClassifier(widgetDependency.getEClass().getName());
-                    if(eClassifier instanceof EClass){
+                    if (eClassifier instanceof EClass) {
                         EObject widgetInstance = FormFactory.eINSTANCE.create((EClass) eClassifier);
-                        if(widgetInstance instanceof Widget){
+                        if (widgetInstance instanceof Widget) {
                             return ((Widget) widgetInstance).getAssociatedReturnType();
                         }
                     }
@@ -157,7 +168,7 @@ public class WidgetMigration extends ReportCustomMigration {
     private void storeDisplayLabels(Instance widget) {
         final String displayLabel = widget.get("displayLabel");
         widget.set("displayLabel", null);
-        if(displayLabel != null && !displayLabel.trim().isEmpty()){
+        if (displayLabel != null && !displayLabel.trim().isEmpty()) {
             widgetDisplayLabels.put(widget.getUuid(), displayLabel);
         }
     }
@@ -165,7 +176,7 @@ public class WidgetMigration extends ReportCustomMigration {
     private void storeHelpMessages(Instance widget) {
         final String helpMessage = widget.get("helpMessage");
         widget.set("helpMessage", null);
-        if(helpMessage != null && !helpMessage.trim().isEmpty()){
+        if (helpMessage != null && !helpMessage.trim().isEmpty()) {
             helpMessages.put(widget.getUuid(), helpMessage);
         }
     }
@@ -173,7 +184,7 @@ public class WidgetMigration extends ReportCustomMigration {
     private void storeInjectWidgetScripts(Instance widget) {
         final String injectWidgetScript = widget.get("injectWidgetScript");
         widget.set("injectWidgetScript", null);
-        if(injectWidgetScript != null && !injectWidgetScript.trim().isEmpty()){
+        if (injectWidgetScript != null && !injectWidgetScript.trim().isEmpty()) {
             injectWidgetScripts.put(widget.getUuid(), injectWidgetScript);
         }
     }
@@ -181,7 +192,7 @@ public class WidgetMigration extends ReportCustomMigration {
     private void storeTooltips(Instance widget) {
         final String tooltip = widget.get("tooltip");
         widget.set("tooltip", null);
-        if(tooltip != null && !tooltip.trim().isEmpty()){
+        if (tooltip != null && !tooltip.trim().isEmpty()) {
             widgetTooltips.put(widget.getUuid(), tooltip);
         }
     }
@@ -189,92 +200,95 @@ public class WidgetMigration extends ReportCustomMigration {
     private void storeDisplayAfterEventDependsOnConditionScripts(Instance widget) {
         final String displayAfterEventDependsOnConditionScript = widget.get("displayAfterEventDependsOnConditionScript");
         widget.set("displayAfterEventDependsOnConditionScript", null);
-        if(displayAfterEventDependsOnConditionScript != null && !displayAfterEventDependsOnConditionScript.trim().isEmpty()){
+        if (displayAfterEventDependsOnConditionScript != null && !displayAfterEventDependsOnConditionScript.trim().isEmpty()) {
             displayAfterEventDependsOnConditionScripts.put(widget.getUuid(), displayAfterEventDependsOnConditionScript);
         }
     }
 
-    private void storeScriptAfterEvents(Instance widget,Model model) {
+    private void storeScriptAfterEvents(Instance widget, Model model) {
         final Instance scriptAfterEventGroovyScript = widget.get("scriptAfterEvent");
-        if(scriptAfterEventGroovyScript != null){
+        if (scriptAfterEventGroovyScript != null) {
             final String scriptAfterEvent = scriptAfterEventGroovyScript.get("inputScript");
             model.delete(scriptAfterEventGroovyScript);
-            if(scriptAfterEvent != null && !scriptAfterEvent.trim().isEmpty()){
+            if (scriptAfterEvent != null && !scriptAfterEvent.trim().isEmpty()) {
                 scriptAfterEvents.put(widget.getUuid(), scriptAfterEvent);
             }
         }
     }
 
     private void storeDisplayDependentWidgetOnlyAfterFirstEventTriggeredAndConditions(Instance widget) {
-        final String displayDependentWidgetOnlyAfterFirstEventTriggeredAndCondition = widget.get("displayDependentWidgetOnlyAfterFirstEventTriggeredAndCondition");
+        final String displayDependentWidgetOnlyAfterFirstEventTriggeredAndCondition = widget
+                .get("displayDependentWidgetOnlyAfterFirstEventTriggeredAndCondition");
         widget.set("displayDependentWidgetOnlyAfterFirstEventTriggeredAndCondition", null);
-        if(displayDependentWidgetOnlyAfterFirstEventTriggeredAndCondition != null && !displayDependentWidgetOnlyAfterFirstEventTriggeredAndCondition.trim().isEmpty()){
-            displayDependentWidgetOnlyAfterFirstEventTriggeredAndConditions.put(widget.getUuid(), displayDependentWidgetOnlyAfterFirstEventTriggeredAndCondition);
+        if (displayDependentWidgetOnlyAfterFirstEventTriggeredAndCondition != null
+                && !displayDependentWidgetOnlyAfterFirstEventTriggeredAndCondition.trim().isEmpty()) {
+            displayDependentWidgetOnlyAfterFirstEventTriggeredAndConditions.put(widget.getUuid(),
+                    displayDependentWidgetOnlyAfterFirstEventTriggeredAndCondition);
         }
     }
-
-
 
     @Override
     public void migrateAfter(Model model, Metamodel metamodel)
             throws MigrationException {
-        for(Instance widget : model.getAllInstances("form.Widget")){
+        for (Instance widget : model.getAllInstances("form.Widget")) {
             final Instance widgetContainer = widget.getContainer();
-            if(widgetContainer != null && !(widgetContainer.instanceOf("expression.Expression"))){
-                setWidgetActions(widget);
+            if (widgetContainer != null && !(widgetContainer.instanceOf("expression.Expression"))) {
+                setWidgetActions(widget,model);
                 setReturnTypeModifier(widget);
                 setInputScripts(widget, model);
                 setDisplayLabels(widget, model);
                 setTooltips(widget, model);
                 setHelpMessages(widget, model);
-                setDisplayAfterEventDependsOnConditionScripts(widget,model);
+                setDisplayAfterEventDependsOnConditionScripts(widget, model);
                 setDisplayDependentWidgetOnlyAfterFirstEventTriggeredAndConditions(widget, model);
                 setInjectWidgetScripts(widget, model);
-                setScriptAfterEvents(widget,model);
+                setScriptAfterEvents(widget, model);
             }
         }
     }
 
     private void setScriptAfterEvents(Instance widget, Model model) {
-        Instance expression = null ;
-        if(afterEventConnector.containsKey(widget.getUuid())){
+        Instance expression = null;
+        if (afterEventConnector.containsKey(widget.getUuid())) {
             Instance connector = afterEventConnector.get(widget.getUuid());
             expression = model.newInstance("expression.Expression");
             expression.set("name", connector.get("name"));
-            expression.set("content",  connector.get("name"));
+            expression.set("content", connector.get("name"));
             expression.set("type", ExpressionConstants.CONNECTOR_TYPE);
             List<Instance> outputs = connector.get("outputs");
-            if(outputs.isEmpty()){
-                connector.add("outputs", createWidgetOutput(model,connector));
+            if (outputs.isEmpty()) {
+                connector.add("outputs", createWidgetOutput(model, connector));
             }
             expression.add("connectors", connector);
-        }else if(scriptAfterEvents.containsKey(widget.getUuid())){
-            expression = getConverter(model,getScope(widget)).parse(scriptAfterEvents.get(widget.getUuid()), Object.class.getName(), false);
+        } else if (scriptAfterEvents.containsKey(widget.getUuid())) {
+            expression = getConverter(model, getScope(widget)).parse(scriptAfterEvents.get(widget.getUuid()), Object.class.getName(), false);
             String description = Messages.updateValueMigrationDescription;
-            if(ExpressionConstants.SCRIPT_TYPE.equals(expression.get("type"))){
-                if(widget.instanceOf("form.MultipleValuatedFormField")){
+            if (ExpressionConstants.SCRIPT_TYPE.equals(expression.get("type"))) {
+                if (widget.instanceOf("form.MultipleValuatedFormField")) {
                     expression.set("name", "updateAvailableValueScript");
-                    description =  Messages.updateAvailableValueMigrationDescription;
-                }else{
+                    description = Messages.updateAvailableValueMigrationDescription;
+                } else {
                     expression.set("name", "updateValueScript");
                 }
             }
-            addReportChange((String) widget.get("name"),widget.getEClass().getName(), widget.getUuid(), description, Messages.contingencyProperty, StringToExpressionConverter.getStatusForExpression(expression));
-        }else{
+            addReportChange((String) widget.get("name"), widget.getEClass().getName(), widget.getUuid(), description, Messages.contingencyProperty,
+                    StringToExpressionConverter.getStatusForExpression(expression));
+        } else {
             expression = StringToExpressionConverter.createExpressionInstance(model, "", "", Object.class.getName(), ExpressionConstants.CONSTANT_TYPE, false);
         }
         widget.set("afterEventExpression", expression);
     }
 
     private void setInjectWidgetScripts(Instance widget, Model model) {
-        Instance expression = null ;
-        if(injectWidgetScripts.containsKey(widget.getUuid())){
-            expression = getConverter(model,getScope(widget)).parse(injectWidgetScripts.get(widget.getUuid()), Boolean.class.getName(), true);
-            if(ExpressionConstants.SCRIPT_TYPE.equals(expression.get("type"))){
+        Instance expression = null;
+        if (injectWidgetScripts.containsKey(widget.getUuid())) {
+            expression = getConverter(model, getScope(widget)).parse(injectWidgetScripts.get(widget.getUuid()), Boolean.class.getName(), true);
+            if (ExpressionConstants.SCRIPT_TYPE.equals(expression.get("type"))) {
                 expression.set("name", "insertWidgetScript");
             }
-            addReportChange((String) widget.get("name"),widget.getEClass().getName(), widget.getUuid(), Messages.helpMessageMigrationDescription, Messages.optionsProperty, StringToExpressionConverter.getStatusForExpression(expression));
-        }else{
+            addReportChange((String) widget.get("name"), widget.getEClass().getName(), widget.getUuid(), Messages.helpMessageMigrationDescription,
+                    Messages.optionsProperty, StringToExpressionConverter.getStatusForExpression(expression));
+        } else {
             expression = StringToExpressionConverter.createExpressionInstance(model, "", "", Boolean.class.getName(), ExpressionConstants.CONSTANT_TYPE, true);
         }
         widget.set("injectWidgetScript", expression);
@@ -282,55 +296,64 @@ public class WidgetMigration extends ReportCustomMigration {
 
     private void setDisplayDependentWidgetOnlyAfterFirstEventTriggeredAndConditions(Instance widget, Model model) {
         Instance expression = null;
-        if(displayDependentWidgetOnlyAfterFirstEventTriggeredAndConditions.containsKey(widget.getUuid())){
-            expression = getConverter(model,getScope(widget)).parse(displayDependentWidgetOnlyAfterFirstEventTriggeredAndConditions.get(widget.getUuid()), Boolean.class.getName(), true);
-            if(ExpressionConstants.SCRIPT_TYPE.equals(expression.get("type"))){
+        if (displayDependentWidgetOnlyAfterFirstEventTriggeredAndConditions.containsKey(widget.getUuid())) {
+            expression = getConverter(model, getScope(widget)).parse(displayDependentWidgetOnlyAfterFirstEventTriggeredAndConditions.get(widget.getUuid()),
+                    Boolean.class.getName(), true);
+            if (ExpressionConstants.SCRIPT_TYPE.equals(expression.get("type"))) {
                 expression.set("name", "showImmediatelyScript");
             }
-            addReportChange((String) widget.get("name"),widget.getEClass().getName(), widget.getUuid(), Messages.showImmediatelyConditionMigrationDescription, Messages.contingencyProperty, StringToExpressionConverter.getStatusForExpression(expression));
-        }else{
-            expression = StringToExpressionConverter.createExpressionInstance(model, "true", "true", Boolean.class.getName(), ExpressionConstants.CONSTANT_TYPE, true);
+            addReportChange((String) widget.get("name"), widget.getEClass().getName(), widget.getUuid(), Messages.showImmediatelyConditionMigrationDescription,
+                    Messages.contingencyProperty, StringToExpressionConverter.getStatusForExpression(expression));
+        } else {
+            expression = StringToExpressionConverter.createExpressionInstance(model, "true", "true", Boolean.class.getName(),
+                    ExpressionConstants.CONSTANT_TYPE, true);
         }
         widget.set("displayDependentWidgetOnlyAfterFirstEventTriggeredAndCondition", expression);
     }
 
     private void setDisplayAfterEventDependsOnConditionScripts(Instance widget, Model model) {
         Instance expression = null;
-        if(displayAfterEventDependsOnConditionScripts.containsKey(widget.getUuid())){
-            expression = getConverter(model,getScope(widget)).parse(displayAfterEventDependsOnConditionScripts.get(widget.getUuid()), Boolean.class.getName(), true);
-            if(ExpressionConstants.SCRIPT_TYPE.equals(expression.get("type"))){
+        if (displayAfterEventDependsOnConditionScripts.containsKey(widget.getUuid())) {
+            expression = getConverter(model, getScope(widget)).parse(displayAfterEventDependsOnConditionScripts.get(widget.getUuid()), Boolean.class.getName(),
+                    true);
+            if (ExpressionConstants.SCRIPT_TYPE.equals(expression.get("type"))) {
                 expression.set("name", "showWhenContingentFieldChangedScript");
             }
-            addReportChange((String) widget.get("name"),widget.getEClass().getName(), widget.getUuid(), Messages.displayAfterEventConditionMigrationDescription, Messages.contingencyProperty, StringToExpressionConverter.getStatusForExpression(expression));
-        }else{
-            expression = StringToExpressionConverter.createExpressionInstance(model, "true", "true", Boolean.class.getName(), ExpressionConstants.CONSTANT_TYPE, true);
+            addReportChange((String) widget.get("name"), widget.getEClass().getName(), widget.getUuid(),
+                    Messages.displayAfterEventConditionMigrationDescription, Messages.contingencyProperty,
+                    StringToExpressionConverter.getStatusForExpression(expression));
+        } else {
+            expression = StringToExpressionConverter.createExpressionInstance(model, "true", "true", Boolean.class.getName(),
+                    ExpressionConstants.CONSTANT_TYPE, true);
         }
         widget.set("displayAfterEventDependsOnConditionScript", expression);
     }
 
     private void setHelpMessages(Instance widget, Model model) {
         Instance expression = null;
-        if(helpMessages.containsKey(widget.getUuid())){
-            expression = getConverter(model,getScope(widget)).parse(helpMessages.get(widget.getUuid()), String.class.getName(), true);
-            if(ExpressionConstants.SCRIPT_TYPE.equals(expression.get("type"))){
+        if (helpMessages.containsKey(widget.getUuid())) {
+            expression = getConverter(model, getScope(widget)).parse(helpMessages.get(widget.getUuid()), String.class.getName(), true);
+            if (ExpressionConstants.SCRIPT_TYPE.equals(expression.get("type"))) {
                 expression.set("name", "helpMessageScript");
             }
-            addReportChange((String) widget.get("name"),widget.getEClass().getName(), widget.getUuid(), Messages.helpMessageMigrationDescription, Messages.userAidsProperty, StringToExpressionConverter.getStatusForExpression(expression));
-        }else{
+            addReportChange((String) widget.get("name"), widget.getEClass().getName(), widget.getUuid(), Messages.helpMessageMigrationDescription,
+                    Messages.userAidsProperty, StringToExpressionConverter.getStatusForExpression(expression));
+        } else {
             expression = StringToExpressionConverter.createExpressionInstance(model, "", "", String.class.getName(), ExpressionConstants.CONSTANT_TYPE, true);
         }
         widget.set("helpMessage", expression);
     }
 
     private void setTooltips(Instance widget, Model model) {
-        Instance expression = null ;
-        if(widgetTooltips.containsKey(widget.getUuid())){
-            expression = getConverter(model,getScope(widget)).parse(widgetTooltips.get(widget.getUuid()), String.class.getName(), true);
-            if(ExpressionConstants.SCRIPT_TYPE.equals(expression.get("type"))){
+        Instance expression = null;
+        if (widgetTooltips.containsKey(widget.getUuid())) {
+            expression = getConverter(model, getScope(widget)).parse(widgetTooltips.get(widget.getUuid()), String.class.getName(), true);
+            if (ExpressionConstants.SCRIPT_TYPE.equals(expression.get("type"))) {
                 expression.set("name", "tooltipScript");
             }
-            addReportChange((String) widget.get("name"),widget.getEClass().getName(), widget.getUuid(), Messages.tooltipMigrationDescription, Messages.userAidsProperty, StringToExpressionConverter.getStatusForExpression(expression));
-        }else{
+            addReportChange((String) widget.get("name"), widget.getEClass().getName(), widget.getUuid(), Messages.tooltipMigrationDescription,
+                    Messages.userAidsProperty, StringToExpressionConverter.getStatusForExpression(expression));
+        } else {
             expression = StringToExpressionConverter.createExpressionInstance(model, "", "", String.class.getName(), ExpressionConstants.CONSTANT_TYPE, true);
         }
         widget.set("tooltip", expression);
@@ -338,67 +361,73 @@ public class WidgetMigration extends ReportCustomMigration {
 
     private void setDisplayLabels(Instance widget, Model model) {
         Instance expression = null;
-        if(widgetDisplayLabels.containsKey(widget.getUuid())){
-            expression = getConverter(model,getScope(widget)).parse(widgetDisplayLabels.get(widget.getUuid()), String.class.getName(), true);
-            if(ExpressionConstants.SCRIPT_TYPE.equals(expression.get("type"))){
+        if (widgetDisplayLabels.containsKey(widget.getUuid())) {
+            expression = getConverter(model, getScope(widget)).parse(widgetDisplayLabels.get(widget.getUuid()), String.class.getName(), true);
+            if (ExpressionConstants.SCRIPT_TYPE.equals(expression.get("type"))) {
                 expression.set("name", "displayLabelScript");
             }
-            addReportChange((String) widget.get("name"),widget.getEClass().getName(), widget.getUuid(), Messages.displayLabelMigrationDescription, Messages.generalProperty, StringToExpressionConverter.getStatusForExpression(expression));
-        }else{
+            addReportChange((String) widget.get("name"), widget.getEClass().getName(), widget.getUuid(), Messages.displayLabelMigrationDescription,
+                    Messages.generalProperty, StringToExpressionConverter.getStatusForExpression(expression));
+        } else {
             expression = StringToExpressionConverter.createExpressionInstance(model, "", "", String.class.getName(), ExpressionConstants.CONSTANT_TYPE, true);
         }
         widget.set("displayLabel", expression);
     }
 
-    private void setInputScripts(Instance widget,Model model) {
+    private void setInputScripts(Instance widget, Model model) {
         Instance expression = null;
-        if(initialValueConnectors.containsKey(widget.getUuid())){
+        if (initialValueConnectors.containsKey(widget.getUuid())) {
             Instance connector = initialValueConnectors.get(widget.getUuid());
             expression = model.newInstance("expression.Expression");
             expression.set("name", connector.get("name"));
-            expression.set("content",  connector.get("name"));
+            expression.set("content", connector.get("name"));
             expression.set("type", ExpressionConstants.CONNECTOR_TYPE);
             List<Instance> outputs = connector.get("outputs");
-            if(outputs.isEmpty()){
-                connector.add("outputs", createWidgetOutput(model,connector));
+            if (outputs.isEmpty()) {
+                connector.add("outputs", createWidgetOutput(model, connector));
             }
             expression.add("connectors", connector);
-        }else if(widgetInputs.containsKey(widget.getUuid())){
-            expression = getConverter(model,getScope(widget)).parse(widgetInputs.get(widget.getUuid()), String.class.getName(), false);
-            if(ExpressionConstants.VARIABLE_TYPE.equals(expression.get("type"))){
+        } else if (widgetInputs.containsKey(widget.getUuid())) {
+            expression = getConverter(model, getScope(widget)).parse(widgetInputs.get(widget.getUuid()), String.class.getName(), false);
+            if (ExpressionConstants.VARIABLE_TYPE.equals(expression.get("type"))) {
                 Instance data = ((List<Instance>) expression.get("referencedElements")).get(0);
-                if(widget.instanceOf("form.MultipleValuatedFormField")){
+                if (widget.instanceOf("form.MultipleValuatedFormField")) {
                     Instance datatype = data.get("dataType");
-                    if(datatype.instanceOf("process.EnumType")){
+                    if (datatype.instanceOf("process.EnumType")) {
                         expression.set("content", generateListScript(datatype));
-                        expression.set("returnType",List.class.getName());
-                        expression.set("name","availableValuesScript");
-                        expression.set("type",ExpressionConstants.SCRIPT_TYPE);
-                        expression.set("interpreter",ExpressionConstants.GROOVY);
+                        expression.set("returnType", List.class.getName());
+                        expression.set("name", "availableValuesScript");
+                        expression.set("type", ExpressionConstants.SCRIPT_TYPE);
+                        expression.set("interpreter", ExpressionConstants.GROOVY);
                         widget.set("inputExpression", expression);
-                        addReportChange((String) widget.get("name"),widget.getEClass().getName(), widget.getUuid(), Messages.widgetDataInputMigrationDescription, Messages.dataProperty, IStatus.OK);
+                        addReportChange((String) widget.get("name"), widget.getEClass().getName(), widget.getUuid(),
+                                Messages.widgetDataInputMigrationDescription, Messages.dataProperty, IStatus.OK);
                         return;
                     }
                 }
                 expression.set("returnType", StringToExpressionConverter.getDataReturnType(data));
                 String dataName = expression.get("name");
                 Instance parentPageFlow = getParentPageFlow(widget);
-                if(!isPageFlowData(dataName,parentPageFlow) && parentPageFlow.instanceOf("process.Pool")){
+                if (!isPageFlowData(dataName, parentPageFlow) && parentPageFlow.instanceOf("process.Pool")) {
                     model.delete(expression);
-                    widget.set("inputExpression", StringToExpressionConverter.createExpressionInstance(model, "", "", String.class.getName(), ExpressionConstants.CONSTANT_TYPE, false));
-                    addReportChange((String) widget.get("name"),widget.getEClass().getName(), widget.getUuid(), Messages.widgetDataInputAtProcessLevelMigrationDescription, Messages.dataProperty, IStatus.ERROR);
+                    widget.set("inputExpression", StringToExpressionConverter.createExpressionInstance(model, "", "", String.class.getName(),
+                            ExpressionConstants.CONSTANT_TYPE, false));
+                    addReportChange((String) widget.get("name"), widget.getEClass().getName(), widget.getUuid(),
+                            Messages.widgetDataInputAtProcessLevelMigrationDescription, Messages.dataProperty, IStatus.ERROR);
                     return;
-                }else{
-                    addReportChange((String) widget.get("name"),widget.getEClass().getName(), widget.getUuid(), Messages.widgetDataInputMigrationDescription, Messages.dataProperty, IStatus.OK);
+                } else {
+                    addReportChange((String) widget.get("name"), widget.getEClass().getName(), widget.getUuid(), Messages.widgetDataInputMigrationDescription,
+                            Messages.dataProperty, IStatus.OK);
                 }
-            }else if(ExpressionConstants.SCRIPT_TYPE.equals(expression.get("type"))){
-                if(widget.instanceOf("form.MultipleValuatedFormField")){
-                    expression.set("returnType",List.class.getName());
-                    expression.set("name","availableValuesScript");
+            } else if (ExpressionConstants.SCRIPT_TYPE.equals(expression.get("type"))) {
+                if (widget.instanceOf("form.MultipleValuatedFormField")) {
+                    expression.set("returnType", List.class.getName());
+                    expression.set("name", "availableValuesScript");
                 }
             }
-            addReportChange((String) widget.get("name"),widget.getEClass().getName(), widget.getUuid(), Messages.widgetDataInputMigrationDescription, Messages.dataProperty, StringToExpressionConverter.getStatusForExpression(expression));   
-        }else{
+            addReportChange((String) widget.get("name"), widget.getEClass().getName(), widget.getUuid(), Messages.widgetDataInputMigrationDescription,
+                    Messages.dataProperty, StringToExpressionConverter.getStatusForExpression(expression));
+        } else {
             expression = StringToExpressionConverter.createExpressionInstance(model, "", "", String.class.getName(), ExpressionConstants.CONSTANT_TYPE, false);
         }
         widget.set("inputExpression", expression);
@@ -406,22 +435,22 @@ public class WidgetMigration extends ReportCustomMigration {
 
     protected boolean isPageFlowData(String dataName, Instance parentPageFlow) {
         List<Instance> transientData = new ArrayList<Instance>();
-        if(parentPageFlow.instanceOf("process.PageFlow")){
+        if (parentPageFlow.instanceOf("process.PageFlow")) {
             transientData = parentPageFlow.get("transientData");
-        }else if(parentPageFlow.instanceOf("process.ViewPageFlow")){
+        } else if (parentPageFlow.instanceOf("process.ViewPageFlow")) {
             transientData = parentPageFlow.get("viewTransientData");
         }
-      
-        for(Instance data : transientData){
+
+        for (Instance data : transientData) {
             String name = data.get("name");
-            if(dataName.equals(name)){
+            if (dataName.equals(name)) {
                 return true;
             }
         }
         return false;
     }
-    
-    private Instance createWidgetOutput(Model model,Instance connector) {
+
+    private Instance createWidgetOutput(Model model, Instance connector) {
         Instance output = model.newInstance("expression.Operation");
         Instance expression = model.newInstance("expression.Expression");
         output.set("rightOperand", expression);
@@ -431,9 +460,9 @@ public class WidgetMigration extends ReportCustomMigration {
     private String generateListScript(Instance datatype) {
         final List<String> literals = datatype.get("literals");
         StringBuilder sb = new StringBuilder("[");
-        for(String l : literals){
-            sb.append("\""+l+"\"");
-            if(literals.indexOf(l) < literals.size()-1){
+        for (String l : literals) {
+            sb.append("\"" + l + "\"");
+            if (literals.indexOf(l) < literals.size() - 1) {
                 sb.append(",");
             }
         }
@@ -442,63 +471,68 @@ public class WidgetMigration extends ReportCustomMigration {
     }
 
     private Instance getParentPageFlow(Instance widget) {
-        Instance current =  widget.getContainer();
-        while(current != null && !current.instanceOf("process.AbstractPageFlow")){
+        Instance current = widget.getContainer();
+        while (current != null && !current.instanceOf("process.AbstractPageFlow")) {
             current = current.getContainer();
         }
         return current;
     }
 
     private void setReturnTypeModifier(Instance widget) {
-        if(!widget.instanceOf("form.TextFormField")){
+        if (!widget.instanceOf("form.TextFormField")) {
             return;
         }
         final Instance operation = widget.get("action");
-        boolean added = false ; 
-        if(operation != null){
+        boolean added = false;
+        if (operation != null) {
             final Instance leftOperand = operation.get("leftOperand");
             final Instance rightOperand = operation.get("rightOperand");
-            if(leftOperand != null){
+            if (leftOperand != null) {
                 final List<Instance> elements = leftOperand.get("referencedElements");
-                if(!elements.isEmpty()){
+                if (!elements.isEmpty()) {
                     final Instance dataInstance = elements.get(0);
-                    if(dataInstance.instanceOf("process.Data")){
+                    if (dataInstance.instanceOf("process.Data")) {
 
                         String returnType = StringToExpressionConverter.getDataReturnType(dataInstance);
-                        if(new WidgetModifiersSwitch().doSwitch(FormFactory.eINSTANCE.createTextFormField()).contains(returnType)){
+                        if (new WidgetModifiersSwitch().doSwitch(FormFactory.eINSTANCE.createTextFormField()).contains(returnType)) {
                             widget.set("returnTypeModifier", returnType);
-                            if(rightOperand != null){
+                            if (rightOperand != null) {
                                 rightOperand.set("returnType", returnType);
                             }
-                            added = true ;
-                            addReportChange((String) widget.get("name"),widget.getType().getEClass().getName(), widget.getUuid(), Messages.widgetModifierMigrationDescription, Messages.dataProperty, IStatus.OK);
+                            added = true;
+                            addReportChange((String) widget.get("name"), widget.getType().getEClass().getName(), widget.getUuid(),
+                                    Messages.widgetModifierMigrationDescription, Messages.dataProperty, IStatus.OK);
                         }
                     }
                 }
             }
         }
-        if(!added){
+        if (!added) {
             widget.set("returnTypeModifier", String.class.getName());
         }
     }
 
-    private void setWidgetActions(Instance widget) {
-        if(widgetActions.containsKey(widget.getUuid())){
-            Instance action = widgetActions.get(widget.getUuid());
+    private void setWidgetActions(Instance widget, Model model) {
+        if (widgetActions.containsKey(widget.getUuid())) {
+            Pair<String, String> actionScripts = widgetActions.get(widget.getUuid());
+            final StringToExpressionConverter converter = getConverter(model, getScope(widget));
+            final Instance action = converter.parseOperation(String.class.getName(), false, actionScripts.getFirst(), actionScripts.getSecond());
             Instance actionExp = action.get("rightOperand");
-            if(actionExp != null){
-                if(ExpressionConstants.FORM_FIELD_TYPE.equals(actionExp.get("type"))){
+            if (actionExp != null) {
+                if (ExpressionConstants.FORM_FIELD_TYPE.equals(actionExp.get("type"))) {
                     actionExp.set("returnType", getDefaultReturnTypeForWidget(actionExp));
-                }else if(ExpressionConstants.SCRIPT_TYPE.equals(actionExp.get("type"))){
+                } else if (ExpressionConstants.SCRIPT_TYPE.equals(actionExp.get("type"))) {
                     Instance leftExp = action.get("leftOperand");
-                    if(leftExp!= null){
-                        actionExp.set("returnType",leftExp.get("returnType"));
+                    if (leftExp != null) {
+                        actionExp.set("returnType", leftExp.get("returnType"));
                     }
                 }
             }
             widget.set("action", action);
-            if(!widget.instanceOf("form.Info")){
-                addReportChange((String) widget.get("name"),widget.getType().getEClass().getName(), widget.getUuid(), Messages.widgetActionsMigrationDescription, Messages.dataProperty, StringToExpressionConverter.getStatusForExpression((Instance) action.get("rightOperand")));
+            if (!widget.instanceOf("form.Info")) {
+                addReportChange((String) widget.get("name"), widget.getType().getEClass().getName(), widget.getUuid(),
+                        Messages.widgetActionsMigrationDescription, Messages.dataProperty,
+                        StringToExpressionConverter.getStatusForExpression((Instance) action.get("rightOperand")));
             }
         }
     }
