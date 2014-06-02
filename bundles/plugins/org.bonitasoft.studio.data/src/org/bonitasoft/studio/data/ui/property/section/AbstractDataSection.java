@@ -5,12 +5,10 @@
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2.0 of the License, or
  * (at your option) any later version.
- * 
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- * 
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
@@ -92,7 +90,6 @@ import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
 import org.eclipse.xtext.ui.XtextProjectHelper;
 
 /**
- * 
  * @author Romain Bioteau
  */
 public abstract class AbstractDataSection extends AbstractBonitaDescriptionSection implements IDoubleClickListener, IBonitaVariableContext {
@@ -131,7 +128,7 @@ public abstract class AbstractDataSection extends AbstractBonitaDescriptionSecti
         mainComposite.setLayoutData(GridDataFactory.fillDefaults().grab(true, true).create());
         final Composite dataComposite = getWidgetFactory().createComposite(mainComposite);
         dataComposite.setLayoutData(GridDataFactory.fillDefaults().grab(true, true).create());
-        dataComposite.setLayout(GridLayoutFactory.fillDefaults().numColumns(2).margins(0, 0).create());
+        dataComposite.setLayout(GridLayoutFactory.fillDefaults().numColumns(2).margins(0, 0).spacing(2, 3).create());
         createDataComposite(dataComposite);
     }
 
@@ -219,16 +216,16 @@ public abstract class AbstractDataSection extends AbstractBonitaDescriptionSecti
                 op.setAskConfirmation(true);
             }
             try {
-            	if (op.canExecute()) {
-            		service.run(true, false, op);
-//                        if (!op.isCancelled()) {
-//                            getEditingDomain().getCommandStack().execute(DeleteCommand.create(getEditingDomain(), d));
-//                        }
-            	}
+                if (op.canExecute()) {
+                    service.run(true, false, op);
+                    //                        if (!op.isCancelled()) {
+                    //                            getEditingDomain().getCommandStack().execute(DeleteCommand.create(getEditingDomain(), d));
+                    //                        }
+                }
             } catch (InvocationTargetException e) {
-            	BonitaStudioLog.error(e, DataPlugin.PLUGIN_ID);
+                BonitaStudioLog.error(e, DataPlugin.PLUGIN_ID);
             } catch (InterruptedException e) {
-            	BonitaStudioLog.error(e, DataPlugin.PLUGIN_ID);
+                BonitaStudioLog.error(e, DataPlugin.PLUGIN_ID);
             }
             try {
                 RepositoryManager.getInstance().getCurrentRepository().getProject()
