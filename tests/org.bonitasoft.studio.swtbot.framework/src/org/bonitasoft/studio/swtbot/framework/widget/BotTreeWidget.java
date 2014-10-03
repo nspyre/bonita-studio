@@ -32,22 +32,22 @@ public class BotTreeWidget extends BotWidget {
     }
 
     @Override
-    public SWTBotTree getSWTBotTree() {
+    public SWTBotTree getSWTBotWidget() {
         return (SWTBotTree) bot;
     }
 
     public BotTreeWidget selectAll() {
-        getSWTBotTree().select(getSWTBotTree().getAllItems());
+        getSWTBotWidget().select(getSWTBotWidget().getAllItems());
         return this;
     }
 
     public BotTreeWidget select(final int indexInTree) {
-        getSWTBotTree().select(indexInTree);
+        getSWTBotWidget().select(indexInTree);
         return this;
     }
 
     public BotTreeWidget select(final String... items) {
-        getSWTBotTree().select(items);
+        getSWTBotWidget().select(items);
         return this;
     }
 
@@ -56,7 +56,7 @@ public class BotTreeWidget extends BotWidget {
 
             @Override
             public boolean test() throws Exception {
-                return getSWTBotTree().getAllItems().length == 0;
+                return getSWTBotWidget().getAllItems().length == 0;
             }
 
             @Override
