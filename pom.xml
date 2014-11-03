@@ -15,6 +15,7 @@
 		<os-jvm-flags></os-jvm-flags>
 		<bundle.version>6.4.0-SNAPSHOT</bundle.version>
 		<engine.version>6.4.0-SNAPSHOT</engine.version>
+        <bom.component.version>6.4.0-SNAPSHOT</bom.component.version>
 		<connector.version>6.1.1</connector.version>
 		<simulation.version>6.1.0</simulation.version>
 		<filters.version>6.4.0-SNAPSHOT</filters.version>
@@ -44,6 +45,18 @@
 		<module>tests</module>
 		<module>all-in-one</module>
 	</modules>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.bonitasoft</groupId>
+                <artifactId>bonita-bom-component</artifactId>
+                <version>${bom.component.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
 
 	<build>
