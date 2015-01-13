@@ -1,7 +1,6 @@
 /**
  * <copyright>
  * </copyright>
- *
  * $Id$
  */
 package org.omg.spec.bpmn.model.impl;
@@ -21,23 +20,26 @@ import org.omg.spec.bpmn.model.TPotentialOwner;
  * @generated
  */
 public class TPotentialOwnerImpl extends THumanPerformerImpl implements TPotentialOwner {
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected TPotentialOwnerImpl() {
-		super();
-	}
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	protected EClass eStaticClass() {
-		return ModelPackage.Literals.TPOTENTIAL_OWNER;
-	}
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * 
+     * @generated
+     */
+    protected TPotentialOwnerImpl() {
+        super();
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * 
+     * @generated
+     */
+    @Override
+    protected EClass eStaticClass() {
+        return ModelPackage.Literals.TPOTENTIAL_OWNER;
+    }
 
 } //TPotentialOwnerImpl

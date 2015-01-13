@@ -5,14 +5,12 @@
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2.0 of the License, or
  * (at your option) any later version.
- *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package org.bonitasoft.studio.diagram.custom.wizard;
 
@@ -27,52 +25,51 @@ import org.eclipse.swt.graphics.Image;
 
 /**
  * @author Romain Bioteau
- *
  */
 public class DiagramLabelProvider extends StyledCellLabelProvider implements
-		ILabelProvider {
+        ILabelProvider {
 
-	private LabelProvider fileStoreLabelProvider;
+    private LabelProvider fileStoreLabelProvider;
 
+    public DiagramLabelProvider(LabelProvider fileStoreLabelProvider) {
+        this.fileStoreLabelProvider = fileStoreLabelProvider;
+    }
 
-	public DiagramLabelProvider(LabelProvider fileStoreLabelProvider){
-		this.fileStoreLabelProvider = fileStoreLabelProvider;
-	}
-	
-	/* (non-Javadoc)
-	 * @see org.eclipse.jface.viewers.ILabelProvider#getImage(java.lang.Object)
-	 */
-	@Override
-	public Image getImage(Object element) {
-		return fileStoreLabelProvider.getImage(element);
-	}
+    /*
+     * (non-Javadoc)
+     * @see org.eclipse.jface.viewers.ILabelProvider#getImage(java.lang.Object)
+     */
+    @Override
+    public Image getImage(Object element) {
+        return fileStoreLabelProvider.getImage(element);
+    }
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.jface.viewers.ILabelProvider#getText(java.lang.Object)
-	 */
-	@Override
-	public String getText(Object element) {
-		return fileStoreLabelProvider.getText(element);
-	}
-	
+    /*
+     * (non-Javadoc)
+     * @see org.eclipse.jface.viewers.ILabelProvider#getText(java.lang.Object)
+     */
+    @Override
+    public String getText(Object element) {
+        return fileStoreLabelProvider.getText(element);
+    }
 
-	@Override
-	public void update(ViewerCell cell) {
+    @Override
+    public void update(ViewerCell cell) {
         if (cell.getElement() instanceof DiagramFileStore) {
-        	DiagramFileStore filseStore = (DiagramFileStore) cell.getElement();
+            DiagramFileStore filseStore = (DiagramFileStore) cell.getElement();
             StyledString styledString = new StyledString();
 
             styledString.append(fileStoreLabelProvider.getText(filseStore), null);
-            if(filseStore.hasMigrationReport()){
-            	  styledString.append(" -- ",StyledString.DECORATIONS_STYLER) ;
-            	  styledString.append( Messages.migrationOngoing ,StyledString.COUNTER_STYLER) ;
+            if (filseStore.hasMigrationReport()) {
+                styledString.append(" -- ", StyledString.DECORATIONS_STYLER);
+                styledString.append(Messages.migrationOngoing, StyledString.COUNTER_STYLER);
             }
-        
+
             cell.setText(styledString.getString());
-            cell.setImage(fileStoreLabelProvider.getImage(filseStore)) ;
+            cell.setImage(fileStoreLabelProvider.getImage(filseStore));
             cell.setStyleRanges(styledString.getStyleRanges());
         }
-		super.update(cell);
-	}
+        super.update(cell);
+    }
 
 }

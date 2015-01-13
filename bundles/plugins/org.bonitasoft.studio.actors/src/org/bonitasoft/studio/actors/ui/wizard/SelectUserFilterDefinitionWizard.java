@@ -5,14 +5,12 @@
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2.0 of the License, or
  * (at your option) any later version.
- *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package org.bonitasoft.studio.actors.ui.wizard;
 
@@ -37,29 +35,29 @@ public class SelectUserFilterDefinitionWizard extends Wizard {
     private ConnectorDefinition definition;
     private final DefinitionResourceProvider messageProvider;
 
-    public SelectUserFilterDefinitionWizard(){
-        setDefaultPageImageDescriptor(Pics.getWizban()) ;
+    public SelectUserFilterDefinitionWizard() {
+        setDefaultPageImageDescriptor(Pics.getWizban());
         setWindowTitle(Messages.selectActorFitlerDefinition);
-        IRepositoryStore<? extends IRepositoryFileStore> store =RepositoryManager.getInstance().getRepositoryStore(ActorFilterDefRepositoryStore.class) ;
-        messageProvider = DefinitionResourceProvider.getInstance(store, ActorsPlugin.getDefault().getBundle()) ;
+        IRepositoryStore<? extends IRepositoryFileStore> store = RepositoryManager.getInstance().getRepositoryStore(ActorFilterDefRepositoryStore.class);
+        messageProvider = DefinitionResourceProvider.getInstance(store, ActorsPlugin.getDefault().getBundle());
     }
 
     @Override
     public void addPages() {
-        Connector dummy =  ProcessFactory.eINSTANCE.createConnector() ;
-        dummy.setConfiguration(ConnectorConfigurationFactory.eINSTANCE.createConnectorConfiguration()) ;
-        page =  new SelectUserFilterDefinitionWizardPage(dummy,messageProvider);
-        addPage(page) ;
+        Connector dummy = ProcessFactory.eINSTANCE.createConnector();
+        dummy.setConfiguration(ConnectorConfigurationFactory.eINSTANCE.createConnectorConfiguration());
+        page = new SelectUserFilterDefinitionWizardPage(dummy, messageProvider);
+        addPage(page);
     }
 
     @Override
     public boolean performFinish() {
-        definition = page.getSelectedDefinition() ;
+        definition = page.getSelectedDefinition();
         return true;
     }
 
-    public ConnectorDefinition getDefinition(){
-        return definition ;
+    public ConnectorDefinition getDefinition() {
+        return definition;
     }
 
 }

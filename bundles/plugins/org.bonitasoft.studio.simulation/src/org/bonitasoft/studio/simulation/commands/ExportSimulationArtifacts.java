@@ -18,20 +18,17 @@ import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 
 /**
- * 
  * @author Baptiste Mesta
- * 
  *         Handler that launch a dialog to export artifacts to a zip file
- * 
  */
 public class ExportSimulationArtifacts extends AbstractHandler {
 
     @Override
     public Object execute(ExecutionEvent event) throws ExecutionException {
-        List<IRepositoryStore<? extends IRepositoryFileStore>> input = new ArrayList<IRepositoryStore<? extends IRepositoryFileStore>>() ;
-        input.add(RepositoryManager.getInstance().getRepositoryStore(SimulationResourceRepositoryStore.class)) ;
-        input.add(RepositoryManager.getInstance().getRepositoryStore(SimulationLoadProfileRepositoryStore.class)) ;
-        CommonRepositoryPlugin.exportArtifactsToFile(input,null, null);
+        List<IRepositoryStore<? extends IRepositoryFileStore>> input = new ArrayList<IRepositoryStore<? extends IRepositoryFileStore>>();
+        input.add(RepositoryManager.getInstance().getRepositoryStore(SimulationResourceRepositoryStore.class));
+        input.add(RepositoryManager.getInstance().getRepositoryStore(SimulationLoadProfileRepositoryStore.class));
+        CommonRepositoryPlugin.exportArtifactsToFile(input, null, null);
 
         return null;
     }

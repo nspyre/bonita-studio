@@ -5,14 +5,12 @@
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2.0 of the License, or
  * (at your option) any later version.
- *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package org.bonitasoft.studio.common.repository.ui.wizard;
 
@@ -29,25 +27,25 @@ import org.eclipse.ui.internal.WorkbenchPlugin;
 
 /**
  * @author Romain Bioteau
- *
  */
 public class ExportRepositoryWizard extends Wizard {
 
-    public List<IRepositoryStore<? extends IRepositoryFileStore>> stores ;
+    public List<IRepositoryStore<? extends IRepositoryFileStore>> stores;
     protected ExportRepositoryWizardPage mainPage;
     protected final boolean isZip;
     protected final String wizardTitle;
     protected Set<Object> defaultSelectedFiles;
     protected final String defaultFileName;
 
-    public ExportRepositoryWizard(List<IRepositoryStore<? extends IRepositoryFileStore>> stores, boolean isZip,Set<Object> defaultSelectedFiles,String defaultFileName,String wizardTitle){
-        this.stores = stores ;
-        setDefaultPageImageDescriptor(Pics.getWizban()) ;
-        setNeedsProgressMonitor(true) ;
-        this.isZip = isZip ;
-        this.wizardTitle = wizardTitle ;
-        this.defaultSelectedFiles = defaultSelectedFiles ;
-        this.defaultFileName = defaultFileName ;
+    public ExportRepositoryWizard(List<IRepositoryStore<? extends IRepositoryFileStore>> stores, boolean isZip, Set<Object> defaultSelectedFiles,
+            String defaultFileName, String wizardTitle) {
+        this.stores = stores;
+        setDefaultPageImageDescriptor(Pics.getWizban());
+        setNeedsProgressMonitor(true);
+        this.isZip = isZip;
+        this.wizardTitle = wizardTitle;
+        this.defaultSelectedFiles = defaultSelectedFiles;
+        this.defaultFileName = defaultFileName;
         setWindowTitle(wizardTitle);
         IDialogSettings workbenchSettings = WorkbenchPlugin.getDefault()
                 .getDialogSettings();
@@ -61,15 +59,17 @@ public class ExportRepositoryWizard extends Wizard {
 
     @Override
     public void addPages() {
-        mainPage = new ExportRepositoryWizardPage(stores,isZip,defaultFileName,wizardTitle) ;
-        if(defaultSelectedFiles == null){
-            defaultSelectedFiles = new HashSet<Object>() ;
+        mainPage = new ExportRepositoryWizardPage(stores, isZip, defaultFileName, wizardTitle);
+        if (defaultSelectedFiles == null) {
+            defaultSelectedFiles = new HashSet<Object>();
         }
-        mainPage.setSelectedFiles(defaultSelectedFiles) ;
+        mainPage.setSelectedFiles(defaultSelectedFiles);
 
-        addPage(mainPage) ;
+        addPage(mainPage);
     }
-    /* (non-Javadoc)
+
+    /*
+     * (non-Javadoc)
      * @see org.eclipse.jface.wizard.Wizard#performFinish()
      */
     @Override
@@ -77,6 +77,4 @@ public class ExportRepositoryWizard extends Wizard {
         return mainPage.finish();
     }
 
-    
-    
 }

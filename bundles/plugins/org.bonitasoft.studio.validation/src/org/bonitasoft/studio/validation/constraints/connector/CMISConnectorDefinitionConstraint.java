@@ -39,7 +39,7 @@ public class CMISConnectorDefinitionConstraint extends AbstractLiveValidationMar
 
     @Override
     protected IStatus performBatchValidation(final IValidationContext context) {
-        final Connector connector = (Connector)context.getTarget();
+        final Connector connector = (Connector) context.getTarget();
         final ConnectorConfiguration configuration = connector.getConfiguration();
         if (isCMISConnectorDefinition(connector)) {
             final ConnectorParameter bindingTypeParam = getParameter("binding_type", configuration);
@@ -69,7 +69,6 @@ public class CMISConnectorDefinitionConstraint extends AbstractLiveValidationMar
 
         return context.createSuccessStatus();
     }
-
 
     private IStatus validateAtomPubConfiguration(final ConnectorConfiguration configuration, final IValidationContext context) {
         final ConnectorParameter urlParam = getParameter("url", configuration);

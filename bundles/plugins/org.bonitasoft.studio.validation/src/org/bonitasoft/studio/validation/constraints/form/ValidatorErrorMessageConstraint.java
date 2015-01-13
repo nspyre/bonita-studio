@@ -1,19 +1,16 @@
 /**
  * Copyright (C) 2009-2012 BonitaSoft S.A.
  * BonitaSoft, 32 rue Gustave Eiffel - 38000 Grenoble
- *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2.0 of the License, or
  * (at your option) any later version.
- *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package org.bonitasoft.studio.validation.constraints.form;
 
@@ -33,27 +30,25 @@ import org.eclipse.gmf.runtime.diagram.ui.parts.DiagramEditor;
 
 /**
  * @author Baptiste Mesta
- * 
  */
 public class ValidatorErrorMessageConstraint extends AbstractLiveValidationMarkerConstraint {
-
 
     @Override
     protected IStatus performLiveValidation(IValidationContext ctx) {
         EStructuralFeature feature = ctx.getFeature();
-        if(feature.equals(FormPackage.Literals.VALIDATOR__DISPLAY_NAME)){
+        if (feature.equals(FormPackage.Literals.VALIDATOR__DISPLAY_NAME)) {
             Expression errorMessage = ((Expression) ctx.getFeatureNewValue());
-            if(!ModelHelper.isAnExpressionCopy(errorMessage)){
-                if(errorMessage==null || errorMessage.getContent() == null || errorMessage.getContent().isEmpty()){
-                    return ctx.createFailureStatus(new Object[] { Messages.Validation_Validator_EmptyErrorMessage});
+            if (!ModelHelper.isAnExpressionCopy(errorMessage)) {
+                if (errorMessage == null || errorMessage.getContent() == null || errorMessage.getContent().isEmpty()) {
+                    return ctx.createFailureStatus(new Object[] { Messages.Validation_Validator_EmptyErrorMessage });
                 }
             }
-        }else if(feature.equals(FormPackage.Literals.VALIDABLE__VALIDATORS) && ctx.getEventType().equals(EMFEventType.ADD)){
-            Object validator =  ctx.getFeatureNewValue();
-            if(validator instanceof Validator){
+        } else if (feature.equals(FormPackage.Literals.VALIDABLE__VALIDATORS) && ctx.getEventType().equals(EMFEventType.ADD)) {
+            Object validator = ctx.getFeatureNewValue();
+            if (validator instanceof Validator) {
                 Validator v = (Validator) validator;
                 if (v.getDisplayName() == null || v.getDisplayName().getContent() == null || v.getDisplayName().getContent().isEmpty()) {
-                    return ctx.createFailureStatus(new Object[] { Messages.Validation_Validator_EmptyErrorMessage});
+                    return ctx.createFailureStatus(new Object[] { Messages.Validation_Validator_EmptyErrorMessage });
                 }
             }
 
@@ -63,8 +58,8 @@ public class ValidatorErrorMessageConstraint extends AbstractLiveValidationMarke
 
     @Override
     protected IStatus performBatchValidation(IValidationContext ctx) {
-        EObject target =  ctx.getTarget();
-        if(target instanceof Validator){
+        EObject target = ctx.getTarget();
+        if (target instanceof Validator) {
             Validator v = (Validator) target;
             if (v.getDisplayName() == null || v.getDisplayName().getContent() == null || v.getDisplayName().getContent().isEmpty()) {
                 return ctx.createFailureStatus(new Object[] { Messages.Validation_Validator_EmptyErrorMessage + " " + v.getName() });
@@ -72,7 +67,6 @@ public class ValidatorErrorMessageConstraint extends AbstractLiveValidationMarke
         }
         return ctx.createSuccessStatus();
     }
-
 
     @Override
     protected String getMarkerType(DiagramEditor editor) {

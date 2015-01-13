@@ -5,14 +5,12 @@
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2.0 of the License, or
  * (at your option) any later version.
- *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package org.bonitasoft.studio.actors.ui.wizard.page;
 
@@ -50,152 +48,151 @@ import org.eclipse.swt.widgets.TableColumn;
 
 /**
  * @author Romain Bioteau
- *
  */
 public class SelectGroupMappingWizardPage extends SelectOrganizationWizardPage {
 
     private final ActorMapping mapping;
-    private final SortedSet<String> availableGroups = new TreeSet<String>() ;
-    private final SortedSet<String> selectedGroups ;
+    private final SortedSet<String> availableGroups = new TreeSet<String>();
+    private final SortedSet<String> selectedGroups;
     private List<Group> groups;
-	private CheckboxTableViewer availableGroupViewer;
-    
+    private CheckboxTableViewer availableGroupViewer;
+
     // validation group selection
-	private DataBindingContext context;
-	
+    private DataBindingContext context;
+
     public SelectGroupMappingWizardPage(ActorMapping mapping) {
         super();
-        setTitle(Messages.selectGroupTitle) ;
-        setDescription(Messages.selectGroupDescription) ;
-        this.mapping = mapping ;
-        selectedGroups = new TreeSet<String>(this.mapping.getGroups().getGroup()) ;
+        setTitle(Messages.selectGroupTitle);
+        setDescription(Messages.selectGroupDescription);
+        this.mapping = mapping;
+        selectedGroups = new TreeSet<String>(this.mapping.getGroups().getGroup());
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see org.eclipse.jface.dialogs.IDialogPage#createControl(org.eclipse.swt.widgets.Composite)
      */
     @Override
     public void createControl(Composite parent) {
-        super.createControl(parent) ;
+        super.createControl(parent);
 
         final Composite mainComposite = (Composite) getControl();
-        Composite viewersComposite = new Composite(mainComposite, SWT.NONE) ;
-        viewersComposite.setLayoutData(GridDataFactory.fillDefaults().grab(true, true).span(2, 1).hint(SWT.DEFAULT,250).create()) ;
-        viewersComposite.setLayout(GridLayoutFactory.swtDefaults().numColumns(1).margins(0, 0).extendedMargins(0, 0, 10, 0).equalWidth(false).create()) ;
+        Composite viewersComposite = new Composite(mainComposite, SWT.NONE);
+        viewersComposite.setLayoutData(GridDataFactory.fillDefaults().grab(true, true).span(2, 1).hint(SWT.DEFAULT, 250).create());
+        viewersComposite.setLayout(GridLayoutFactory.swtDefaults().numColumns(1).margins(0, 0).extendedMargins(0, 0, 10, 0).equalWidth(false).create());
 
-        availableGroupViewer = CheckboxTableViewer.newCheckList(viewersComposite, SWT.BORDER | SWT.FULL_SELECTION | SWT.V_SCROLL) ;
-        availableGroupViewer.getTable().setLayoutData(GridDataFactory.fillDefaults().grab(true,true).create()) ;
-        availableGroupViewer.getTable().setHeaderVisible(true) ;
-        availableGroupViewer.setContentProvider(new ArrayContentProvider()) ;
-        TableLayout layout = new TableLayout() ;
+        availableGroupViewer = CheckboxTableViewer.newCheckList(viewersComposite, SWT.BORDER | SWT.FULL_SELECTION | SWT.V_SCROLL);
+        availableGroupViewer.getTable().setLayoutData(GridDataFactory.fillDefaults().grab(true, true).create());
+        availableGroupViewer.getTable().setHeaderVisible(true);
+        availableGroupViewer.setContentProvider(new ArrayContentProvider());
+        TableLayout layout = new TableLayout();
         layout.addColumnData(new ColumnWeightData(100));
-        availableGroupViewer.getTable().setLayout(layout) ;
+        availableGroupViewer.getTable().setLayout(layout);
 
-        TableViewerColumn columnViewer = new TableViewerColumn(availableGroupViewer, SWT.NONE) ;
-        TableColumn usernameColumn = columnViewer.getColumn() ;
+        TableViewerColumn columnViewer = new TableViewerColumn(availableGroupViewer, SWT.NONE);
+        TableColumn usernameColumn = columnViewer.getColumn();
         usernameColumn.setText(Messages.groupName);
         columnViewer.setLabelProvider(new ColumnLabelProvider());
-        TableColumnSorter sorter = new TableColumnSorter(availableGroupViewer) ;
-        sorter.setColumn(usernameColumn) ;
+        TableColumnSorter sorter = new TableColumnSorter(availableGroupViewer);
+        sorter.setColumn(usernameColumn);
 
-        availableGroupViewer.setInput(availableGroups) ;
+        availableGroupViewer.setInput(availableGroups);
         availableGroupViewer.setCheckedElements(selectedGroups.toArray());
-        
+
         context = new DataBindingContext();
-		
-        final IObservableSet checkedElementsObservable =  ViewersObservables.observeCheckedElements(availableGroupViewer, String.class) ;
+
+        final IObservableSet checkedElementsObservable = ViewersObservables.observeCheckedElements(availableGroupViewer, String.class);
         final MultiValidator notEmptyValidator = new MultiValidator() {
 
-        	@Override
+            @Override
             protected IStatus validate() {
-				if(groupSelectionIsValid(checkedElementsObservable)){
-					return ValidationStatus.ok();
-				}
-				return ValidationStatus.error(Messages.errorSelectionGroups);
-			}
-        }  ;
+                if (groupSelectionIsValid(checkedElementsObservable)) {
+                    return ValidationStatus.ok();
+                }
+                return ValidationStatus.error(Messages.errorSelectionGroups);
+            }
+        };
 
         context.addValidationStatusProvider(notEmptyValidator);
-		context.bindSet(checkedElementsObservable, PojoObservables.observeSet(this, "selectedGroups"));
-		
-		WizardPageSupport.create(this, context);
-		setControl(mainComposite);
+        context.bindSet(checkedElementsObservable, PojoObservables.observeSet(this, "selectedGroups"));
+
+        WizardPageSupport.create(this, context);
+        setControl(mainComposite);
     }
-    
-    /** Return false if a group and one of its child is selected. Else return true.
-     * @param checkedElementsObservable 
+
+    /**
+     * Return false if a group and one of its child is selected. Else return true.
      * 
+     * @param checkedElementsObservable
      * @return
      */
-	private boolean groupSelectionIsValid(IObservableSet checkedElementsObservable) {
-		List<Object> list1 = new ArrayList<Object>();
-		List<Object> list2 = new ArrayList<Object>();
-		Iterator<?> it = checkedElementsObservable.iterator();
-		while(it.hasNext()){
-			Object obj = it.next();
-			list1.add(obj);
-			list2.add(obj);
-		}
-	
-		for(Object o1 : list1){
-			String s1 = (String) o1;
-			for(Object o2 : list2){
-				String s2 = (String) o2;
-				if(!s1.equals(s2) && (s2.startsWith(s1) || s1.startsWith(s2)) ){
-					return false;
-				}
-			}
-		}
-		return true;
-	}
-	
-	
-    protected void removedGroup(List<String> removedGroups) {
-        selectedGroups.removeAll(removedGroups) ;
-        for(Group g : groups){
-            if(removedGroups.contains(GroupContentProvider.getGroupPath(g))
-                    && !availableGroups.contains(GroupContentProvider.getGroupPath(g))){
-                availableGroups.add(GroupContentProvider.getGroupPath(g)) ;
+    private boolean groupSelectionIsValid(IObservableSet checkedElementsObservable) {
+        List<Object> list1 = new ArrayList<Object>();
+        List<Object> list2 = new ArrayList<Object>();
+        Iterator<?> it = checkedElementsObservable.iterator();
+        while (it.hasNext()) {
+            Object obj = it.next();
+            list1.add(obj);
+            list2.add(obj);
+        }
+
+        for (Object o1 : list1) {
+            String s1 = (String) o1;
+            for (Object o2 : list2) {
+                String s2 = (String) o2;
+                if (!s1.equals(s2) && (s2.startsWith(s1) || s1.startsWith(s2))) {
+                    return false;
+                }
             }
         }
-        mapping.getGroups().getGroup().clear() ;
-        mapping.getGroups().getGroup().addAll(selectedGroups) ;
+        return true;
+    }
+
+    protected void removedGroup(List<String> removedGroups) {
+        selectedGroups.removeAll(removedGroups);
+        for (Group g : groups) {
+            if (removedGroups.contains(GroupContentProvider.getGroupPath(g))
+                    && !availableGroups.contains(GroupContentProvider.getGroupPath(g))) {
+                availableGroups.add(GroupContentProvider.getGroupPath(g));
+            }
+        }
+        mapping.getGroups().getGroup().clear();
+        mapping.getGroups().getGroup().addAll(selectedGroups);
     }
 
     protected void selectedGroup(List<String> selectedGroup) {
-        availableGroups.removeAll(selectedGroup) ;
-        selectedGroups.addAll(selectedGroup) ;
-        mapping.getGroups().getGroup().clear() ;
-        mapping.getGroups().getGroup().addAll(selectedGroups) ;
+        availableGroups.removeAll(selectedGroup);
+        selectedGroups.addAll(selectedGroup);
+        mapping.getGroups().getGroup().clear();
+        mapping.getGroups().getGroup().addAll(selectedGroups);
     }
 
     @Override
     protected void refreshOrganization(Organization organization) {
-        if(organization != null){
-            if(organization.getGroups() == null){
-                organization.setGroups(OrganizationFactory.eINSTANCE.createGroups()) ;
+        if (organization != null) {
+            if (organization.getGroups() == null) {
+                organization.setGroups(OrganizationFactory.eINSTANCE.createGroups());
             }
 
-            groups = organization.getGroups().getGroup() ;
+            groups = organization.getGroups().getGroup();
 
-            availableGroups.clear() ;
-            for(Group g : groups){
-                String groupPath = GroupContentProvider.getGroupPath(g) ;
-                if(!selectedGroups.contains(groupPath)){
-                    availableGroups.add(groupPath) ;
+            availableGroups.clear();
+            for (Group g : groups) {
+                String groupPath = GroupContentProvider.getGroupPath(g);
+                if (!selectedGroups.contains(groupPath)) {
+                    availableGroups.add(groupPath);
                 }
             }
             availableGroups.addAll(selectedGroups);
-            if(availableGroupViewer != null){
-                availableGroupViewer.setInput(availableGroups) ;
+            if (availableGroupViewer != null) {
+                availableGroupViewer.setInput(availableGroups);
                 availableGroupViewer.setCheckedElements(selectedGroups.toArray());
             }
-
 
         }
     }
 
-    public Object[] getSelectedGroups(){
+    public Object[] getSelectedGroups() {
         return availableGroupViewer.getCheckedElements();
     }
 

@@ -5,14 +5,12 @@
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2.0 of the License, or
  * (at your option) any later version.
- *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package org.bonitasoft.studio.logging.extension;
 
@@ -64,7 +62,6 @@ public class BOSLogWriter implements SynchronousLogListener, LogFilter {
     private static final String WARNING = "!WARNING";
     private static final String DEBUG = "!DEBUG";
 
-
     /** The line separator used in the log output */
     private static final String LINE_SEPARATOR;
     static {
@@ -87,11 +84,8 @@ public class BOSLogWriter implements SynchronousLogListener, LogFilter {
     private static final String PROP_LOG_FILE_MAX = "eclipse.log.backup.max"; //$NON-NLS-1$
     /** The extension used for log files */
     private static final String LOG_EXT = ".log"; //$NON-NLS-1$
-    /** The extension markup to use for backup log files*/
+    /** The extension markup to use for backup log files */
     private static final String BACKUP_MARK = ".bak_"; //$NON-NLS-1$
-
-
-
 
     private static final SecureAction secureAction = AccessController.doPrivileged(SecureAction.createSecureAction());
     private static final CharSequence CONFIGURATOR_MESSAGES = "Could not install bundle plugins";
@@ -103,7 +97,7 @@ public class BOSLogWriter implements SynchronousLogListener, LogFilter {
     /** Indicates if the next log message is part of a new session */
     private boolean newSession = true;
     /**
-     * The File object to store messages.  This value may be null.
+     * The File object to store messages. This value may be null.
      */
     private File outFile;
 
@@ -123,6 +117,7 @@ public class BOSLogWriter implements SynchronousLogListener, LogFilter {
 
     /**
      * Constructs an EclipseLog which uses the specified File to log messages to
+     * 
      * @param outFile a file to log messages to
      */
     public BOSLogWriter(File outFile, String loggerName, boolean enabled) {
@@ -135,6 +130,7 @@ public class BOSLogWriter implements SynchronousLogListener, LogFilter {
 
     /**
      * Constructs an EclipseLog which uses the specified Writer to log messages to
+     * 
      * @param writer a writer to log messages to
      */
     public BOSLogWriter(Writer writer, String loggerName, boolean enabled) {
@@ -169,6 +165,7 @@ public class BOSLogWriter implements SynchronousLogListener, LogFilter {
 
     /**
      * Helper method for writing out argument arrays.
+     * 
      * @param header the header
      * @param args the list of arguments
      */
@@ -190,7 +187,8 @@ public class BOSLogWriter implements SynchronousLogListener, LogFilter {
     }
 
     /**
-     * Returns the session timestamp.  This is the time the platform was started
+     * Returns the session timestamp. This is the time the platform was started
+     * 
      * @return the session timestamp
      */
     private String getSessionTimestamp() {
@@ -209,6 +207,7 @@ public class BOSLogWriter implements SynchronousLogListener, LogFilter {
 
     /**
      * Writes the session
+     * 
      * @throws IOException if an error occurs writing to the log
      */
     private void writeSession() throws IOException {
@@ -415,6 +414,7 @@ public class BOSLogWriter implements SynchronousLogListener, LogFilter {
 
     /**
      * Returns a date string using the correct format for the log.
+     * 
      * @param date the Date to format
      * @return a date string.
      */
@@ -451,6 +451,7 @@ public class BOSLogWriter implements SynchronousLogListener, LogFilter {
 
     /**
      * Returns a stacktrace string using the correct format for the log
+     * 
      * @param t the Throwable to get the stacktrace for
      * @return a stacktrace string
      */
@@ -474,6 +475,7 @@ public class BOSLogWriter implements SynchronousLogListener, LogFilter {
 
     /**
      * Returns a Writer for the given OutputStream
+     * 
      * @param output an OutputStream to use for the Writer
      * @return a Writer for the given OutputStream
      */
@@ -486,15 +488,16 @@ public class BOSLogWriter implements SynchronousLogListener, LogFilter {
     }
 
     /**
-     * Writes the log entry to the log using the specified depth.  A depth value of 0
-     * indicates that the log entry is the root entry.  Any value greater than 0 indicates
+     * Writes the log entry to the log using the specified depth. A depth value of 0
+     * indicates that the log entry is the root entry. Any value greater than 0 indicates
      * a sub-entry.
+     * 
      * @param depth the depth of th entry
      * @param entry the entry to log
      * @throws IOException if any error occurs writing to the log
      */
     private void writeLog(int depth, FrameworkLogEntry entry) throws IOException {
-        if(!(entry.getMessage().contains(CONFIGURATOR_MESSAGES) || entry.getMessage().contains(MISSING_NLS) || entry.getMessage().contains(UNUSED_NLS))){
+        if (!(entry.getMessage().contains(CONFIGURATOR_MESSAGES) || entry.getMessage().contains(MISSING_NLS) || entry.getMessage().contains(UNUSED_NLS))) {
             writeEntry(depth, entry);
             writeMessage(entry);
             writeStack(entry);
@@ -509,9 +512,10 @@ public class BOSLogWriter implements SynchronousLogListener, LogFilter {
     }
 
     /**
-     * Writes the ENTRY or SUBENTRY header for an entry.  A depth value of 0
-     * indicates that the log entry is the root entry.  Any value greater than 0 indicates
+     * Writes the ENTRY or SUBENTRY header for an entry. A depth value of 0
+     * indicates that the log entry is the root entry. Any value greater than 0 indicates
      * a sub-entry.
+     * 
      * @param depth the depth of th entry
      * @param entry the entry to write the header for
      * @throws IOException if any error occurs writing to the log
@@ -536,20 +540,32 @@ public class BOSLogWriter implements SynchronousLogListener, LogFilter {
         writeln();
     }
 
-
     /**
      * Writes the MESSAGE header to the log for the given entry.
+     * 
      * @param entry the entry to write the message for
      * @throws IOException if any error occurs writing to the log
      */
     private void writeMessage(FrameworkLogEntry entry) throws IOException {
         switch (entry.getSeverity()) {
-            case FrameworkLogEntry.ERROR: write(ERROR); break;
-            case FrameworkLogEntry.WARNING: write(WARNING); break;
-            case FrameworkLogEntry.INFO:write(INFO); break;
-            case FrameworkLogEntry.CANCEL:write(ERROR); break;
-            case FrameworkLogEntry.OK:write(DEBUG); break;
-            default:write(MESSAGE); break;
+            case FrameworkLogEntry.ERROR:
+                write(ERROR);
+                break;
+            case FrameworkLogEntry.WARNING:
+                write(WARNING);
+                break;
+            case FrameworkLogEntry.INFO:
+                write(INFO);
+                break;
+            case FrameworkLogEntry.CANCEL:
+                write(ERROR);
+                break;
+            case FrameworkLogEntry.OK:
+                write(DEBUG);
+                break;
+            default:
+                write(MESSAGE);
+                break;
         }
 
         writeSpace();
@@ -558,6 +574,7 @@ public class BOSLogWriter implements SynchronousLogListener, LogFilter {
 
     /**
      * Writes the STACK header to the log for the given entry.
+     * 
      * @param entry the entry to write the stacktrace for
      * @throws IOException if any error occurs writing to the log
      */
@@ -575,6 +592,7 @@ public class BOSLogWriter implements SynchronousLogListener, LogFilter {
 
     /**
      * Writes the given message to the log.
+     * 
      * @param message the message
      * @throws IOException if any error occurs writing to the log
      */
@@ -589,6 +607,7 @@ public class BOSLogWriter implements SynchronousLogListener, LogFilter {
 
     /**
      * Writes the given message to the log and a newline.
+     * 
      * @param s the message
      * @throws IOException if any error occurs writing to the log
      */
@@ -599,6 +618,7 @@ public class BOSLogWriter implements SynchronousLogListener, LogFilter {
 
     /**
      * Writes a newline log.
+     * 
      * @throws IOException if any error occurs writing to the log
      */
     private void writeln() throws IOException {
@@ -607,6 +627,7 @@ public class BOSLogWriter implements SynchronousLogListener, LogFilter {
 
     /**
      * Writes a space to the log.
+     * 
      * @throws IOException if any error occurs writing to the log
      */
     private void writeSpace() throws IOException {
@@ -614,8 +635,9 @@ public class BOSLogWriter implements SynchronousLogListener, LogFilter {
     }
 
     /**
-     * Checks the log file size.  If the log file size reaches the limit then the log
+     * Checks the log file size. If the log file size reaches the limit then the log
      * is rotated
+     * 
      * @return false if an error occured trying to rotate the log
      */
     private boolean checkLogFileSize() {
@@ -771,15 +793,15 @@ public class BOSLogWriter implements SynchronousLogListener, LogFilter {
 
     private static int convertSeverity(int entryLevel) {
         switch (entryLevel) {
-            case LogService.LOG_ERROR :
+            case LogService.LOG_ERROR:
                 return FrameworkLogEntry.ERROR;
-            case LogService.LOG_WARNING :
+            case LogService.LOG_WARNING:
                 return FrameworkLogEntry.WARNING;
-            case LogService.LOG_INFO :
+            case LogService.LOG_INFO:
                 return FrameworkLogEntry.INFO;
-            case LogService.LOG_DEBUG :
+            case LogService.LOG_DEBUG:
                 return FrameworkLogEntry.OK;
-            default :
+            default:
                 return 32; // unknown
         }
     }

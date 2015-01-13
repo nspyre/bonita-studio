@@ -26,13 +26,10 @@ import org.eclipse.emf.edapt.migration.Metamodel;
 import org.eclipse.emf.edapt.migration.MigrationException;
 import org.eclipse.emf.edapt.migration.Model;
 
-
 /**
  * @author florine
- *
  */
 public class DocumentTypeMigration extends CustomMigration {
-
 
     private final Map<String, Integer> list = new HashMap<String, Integer>();
 

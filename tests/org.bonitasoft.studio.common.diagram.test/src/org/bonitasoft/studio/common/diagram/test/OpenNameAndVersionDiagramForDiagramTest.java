@@ -23,7 +23,6 @@ public class OpenNameAndVersionDiagramForDiagramTest extends SWTBotEclipseTestCa
 
         final SWTWorkbenchBot workbenchBot = new SWTWorkbenchBot();
 
-
         SWTBotTestUtil.createNewDiagram(workbenchBot);
         SWTBotTestUtil.createNewDiagram(workbenchBot);
 
@@ -49,7 +48,7 @@ public class OpenNameAndVersionDiagramForDiagramTest extends SWTBotEclipseTestCa
         assertFalse("Ok button is enabled when rename the pool name but the pool name already exist", okBtton.isEnabled());
 
         t = bot.textWithLabelInGroup("Name", "Pools");
-        t.setText("Pool2"+System.currentTimeMillis());
+        t.setText("Pool2" + System.currentTimeMillis());
 
         assertTrue("Ok button is disabled when rename the pool name but the pool name doesn't already exist",
                 okBtton.isEnabled());

@@ -41,17 +41,17 @@ public class ProcessNamesExpressionNatureProvider implements IExpressionNaturePr
         final DiagramRepositoryStore diagramStore = RepositoryManager.getInstance().getRepositoryStore(DiagramRepositoryStore.class);
         final List<String> names = new ArrayList<String>();
         final MainProcess diagram = ModelHelper.getMainProcess(context);
-        for(final EObject p : ModelHelper.getAllItemsOfType(diagram, ProcessPackage.Literals.POOL)){
-            if(!names.contains(((Pool) p).getName())){
+        for (final EObject p : ModelHelper.getAllItemsOfType(diagram, ProcessPackage.Literals.POOL)) {
+            if (!names.contains(((Pool) p).getName())) {
                 names.add(((Pool) p).getName());
             }
         }
-        for(final AbstractProcess p : diagramStore.getAllProcesses()){
-            if(!names.contains(p.getName())){
+        for (final AbstractProcess p : diagramStore.getAllProcesses()) {
+            if (!names.contains(p.getName())) {
                 names.add(p.getName());
             }
         }
-        for(final String pName : names){
+        for (final String pName : names) {
             final Expression exp = ExpressionFactory.eINSTANCE.createExpression();
             exp.setName(pName);
             exp.setContent(pName);

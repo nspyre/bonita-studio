@@ -5,14 +5,12 @@
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2.0 of the License, or
  * (at your option) any later version.
- *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package org.bonitasoft.studio.expression.editor.formfield;
 
@@ -51,7 +49,6 @@ import org.eclipse.swt.graphics.Image;
 
 /**
  * @author Romain Bioteau
- *
  */
 public class FormFieldExpressionProvider implements IExpressionProvider {
 
@@ -62,7 +59,6 @@ public class FormFieldExpressionProvider implements IExpressionProvider {
         adapterFactory = new ComposedAdapterFactory(ComposedAdapterFactory.Descriptor.Registry.INSTANCE);
         adapterLabelProvider = new AdapterFactoryLabelProvider(adapterFactory);
     }
-
 
     @Override
     public Set<Expression> getExpressions(final EObject context) {
@@ -151,7 +147,6 @@ public class FormFieldExpressionProvider implements IExpressionProvider {
             }
         }
 
-
         return result;
     }
 
@@ -174,7 +169,6 @@ public class FormFieldExpressionProvider implements IExpressionProvider {
         }
         return parent;
     }
-
 
     @Override
     public String getExpressionType() {
@@ -210,10 +204,8 @@ public class FormFieldExpressionProvider implements IExpressionProvider {
     }
 
     @Override
-    public IExpressionEditor getExpressionEditor(final Expression expression,final EObject context) {
+    public IExpressionEditor getExpressionEditor(final Expression expression, final EObject context) {
         return new FormFieldExpressionEditor();
     }
-
-
 
 }

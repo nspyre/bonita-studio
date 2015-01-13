@@ -9,7 +9,6 @@ import org.eclipse.emf.ecore.EObject;
  * A representation of the model object '<em><b>Expression</b></em>'.
  * <!-- end-user-doc -->
  *
- *
  * @see org.bonitasoft.studio.condition.conditionModel.ConditionModelPackage#getExpression()
  * @model
  * @generated

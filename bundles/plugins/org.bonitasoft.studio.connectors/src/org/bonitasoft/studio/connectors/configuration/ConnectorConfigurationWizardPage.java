@@ -5,14 +5,12 @@
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2.0 of the License, or
  * (at your option) any later version.
- *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package org.bonitasoft.studio.connectors.configuration;
 
@@ -80,7 +78,6 @@ import org.eclipse.ui.progress.IProgressService;
 
 /**
  * @author Romain Bioteau
- *
  */
 public class ConnectorConfigurationWizardPage extends WizardPage implements IProcessConfigurationWizardPage, ISelectionChangedListener {
 
@@ -95,49 +92,53 @@ public class ConnectorConfigurationWizardPage extends WizardPage implements IPro
 
     public ConnectorConfigurationWizardPage() {
         super(ConnectorConfigurationWizardPage.class.getName());
-        setTitle(Messages.connectors) ;
-        setDescription(Messages.connectorsConfigurationDescription) ;
-        defStore = RepositoryManager.getInstance().getRepositoryStore(ConnectorDefRepositoryStore.class) ;
-        implStore = RepositoryManager.getInstance().getRepositoryStore(ConnectorImplRepositoryStore.class) ;
-        resourceProvider= DefinitionResourceProvider.getInstance((IRepositoryStore<? extends IRepositoryFileStore>) defStore, ConnectorPlugin.getDefault().getBundle()) ;
+        setTitle(Messages.connectors);
+        setDescription(Messages.connectorsConfigurationDescription);
+        defStore = RepositoryManager.getInstance().getRepositoryStore(ConnectorDefRepositoryStore.class);
+        implStore = RepositoryManager.getInstance().getRepositoryStore(ConnectorImplRepositoryStore.class);
+        resourceProvider = DefinitionResourceProvider.getInstance((IRepositoryStore<? extends IRepositoryFileStore>) defStore, ConnectorPlugin.getDefault()
+                .getBundle());
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see org.eclipse.jface.dialogs.IDialogPage#createControl(org.eclipse.swt.widgets.Composite)
      */
     @Override
     public void createControl(final Composite parent) {
         final Composite mainComposite = new Composite(parent, SWT.NONE);
-        mainComposite.setLayoutData(GridDataFactory.fillDefaults().grab(true, true).create()) ;
-        mainComposite.setLayout(GridLayoutFactory.fillDefaults().numColumns(2).create()) ;
+        mainComposite.setLayoutData(GridDataFactory.fillDefaults().grab(true, true).create());
+        mainComposite.setLayout(GridLayoutFactory.fillDefaults().numColumns(2).create());
 
-        final Label descriptionLabel = new Label(mainComposite,SWT.WRAP);
+        final Label descriptionLabel = new Label(mainComposite, SWT.WRAP);
         descriptionLabel.setText(getDescription());
         descriptionLabel.setLayoutData(GridDataFactory.swtDefaults().grab(true, false).span(2, 1).create());
 
-        final Composite buttonComposite = new Composite(mainComposite, SWT.NONE) ;
+        final Composite buttonComposite = new Composite(mainComposite, SWT.NONE);
         buttonComposite.setLayoutData(GridDataFactory.fillDefaults().grab(false, true).indent(0, 25).create());
         buttonComposite.setLayout(GridLayoutFactory.fillDefaults().numColumns(1).spacing(0, 3).create());
 
-        selectImplementationButton = new Button(buttonComposite, SWT.FLAT) ;
-        selectImplementationButton.setLayoutData(GridDataFactory.fillDefaults().grab(true,false).create()) ;
-        selectImplementationButton.setText(Messages.selectImplementation) ;
+        selectImplementationButton = new Button(buttonComposite, SWT.FLAT);
+        selectImplementationButton.setLayoutData(GridDataFactory.fillDefaults().grab(true, false).create());
+        selectImplementationButton.setText(Messages.selectImplementation);
         selectImplementationButton.addSelectionListener(new SelectionAdapter() {
+
             @Override
             public void widgetSelected(final SelectionEvent e) {
-                openImplementationSelection() ;
+                openImplementationSelection();
             }
-        }) ;
+        });
 
-        clearImplementationButton = new Button(buttonComposite, SWT.FLAT) ;
-        clearImplementationButton.setLayoutData(GridDataFactory.fillDefaults().grab(true,false).create()) ;
-        clearImplementationButton.setText(Messages.clear) ;
+        clearImplementationButton = new Button(buttonComposite, SWT.FLAT);
+        clearImplementationButton.setLayoutData(GridDataFactory.fillDefaults().grab(true, false).create());
+        clearImplementationButton.setText(Messages.clear);
         clearImplementationButton.addSelectionListener(new SelectionAdapter() {
+
             @Override
             public void widgetSelected(final SelectionEvent e) {
                 clearImplementation();
             }
-        }) ;
+        });
 
         viewer = new TableViewer(mainComposite, SWT.BORDER | SWT.FULL_SELECTION | SWT.SINGLE);
         viewer.getControl().setLayoutData(GridDataFactory.fillDefaults().grab(true, true).create());
@@ -160,7 +161,7 @@ public class ConnectorConfigurationWizardPage extends WizardPage implements IPro
         column = columnImplIdViewer.getColumn();
         column.setText(Messages.implementation);
 
-        setControl(mainComposite) ;
+        setControl(mainComposite);
     }
 
     protected IStructuredContentProvider getContentProvider() {
@@ -168,111 +169,115 @@ public class ConnectorConfigurationWizardPage extends WizardPage implements IPro
     }
 
     protected void openImplementationSelection() {
-        final DefinitionMapping connectorAssociation = (DefinitionMapping) ((IStructuredSelection) viewer.getSelection()).getFirstElement() ;
-        final SelectConnectorImplementationWizard wizard = new SelectConnectorImplementationWizard(connectorAssociation) ;
-        final WizardDialog dialog = new WizardDialog(Display.getDefault().getActiveShell(),wizard ) ;
-        if(dialog.open() == Dialog.OK){
-            final ConnectorImplementation impl =  wizard.getConnectorImplementation() ;
-            final DefinitionMapping association = (DefinitionMapping) ((IStructuredSelection) viewer.getSelection()).getFirstElement() ;
-            association.setImplementationId(impl.getImplementationId()) ;
-            association.setImplementationVersion(impl.getImplementationVersion()) ;
+        final DefinitionMapping connectorAssociation = (DefinitionMapping) ((IStructuredSelection) viewer.getSelection()).getFirstElement();
+        final SelectConnectorImplementationWizard wizard = new SelectConnectorImplementationWizard(connectorAssociation);
+        final WizardDialog dialog = new WizardDialog(Display.getDefault().getActiveShell(), wizard);
+        if (dialog.open() == Dialog.OK) {
+            final ConnectorImplementation impl = wizard.getConnectorImplementation();
+            final DefinitionMapping association = (DefinitionMapping) ((IStructuredSelection) viewer.getSelection()).getFirstElement();
+            association.setImplementationId(impl.getImplementationId());
+            association.setImplementationVersion(impl.getImplementationVersion());
 
-            EditingDomain editingDomain = TransactionUtil.getEditingDomain(configuration) ;
-            boolean dispose = false  ;
-            ComposedAdapterFactory adapterFactory = null ;
-            if(editingDomain == null){
-                dispose = true ;
+            EditingDomain editingDomain = TransactionUtil.getEditingDomain(configuration);
+            boolean dispose = false;
+            ComposedAdapterFactory adapterFactory = null;
+            if (editingDomain == null) {
+                dispose = true;
                 // Create an adapter factory that yields item providers.
                 adapterFactory = new ComposedAdapterFactory(ComposedAdapterFactory.Descriptor.Registry.INSTANCE);
                 adapterFactory.addAdapterFactory(new ResourceItemProviderAdapterFactory());
                 adapterFactory.addAdapterFactory(new ReflectiveItemProviderAdapterFactory());
-                adapterFactory.addAdapterFactory(new ConfigurationAdapterFactory()) ;
-                adapterFactory.addAdapterFactory(new ProcessAdapterFactory()) ;
+                adapterFactory.addAdapterFactory(new ConfigurationAdapterFactory());
+                adapterFactory.addAdapterFactory(new ProcessAdapterFactory());
 
                 // command stack that will notify this editor as commands are executed
                 final BasicCommandStack commandStack = new BasicCommandStack();
 
                 // Create the editing domain with our adapterFactory and command stack.
-                editingDomain = new AdapterFactoryEditingDomain(adapterFactory,commandStack, new HashMap<Resource, Boolean>());
-                editingDomain.getResourceSet().getResourceFactoryRegistry().getExtensionToFactoryMap().put("conf", new ConfigurationResourceFactoryImpl()) ;
+                editingDomain = new AdapterFactoryEditingDomain(adapterFactory, commandStack, new HashMap<Resource, Boolean>());
+                editingDomain.getResourceSet().getResourceFactoryRegistry().getExtensionToFactoryMap().put("conf", new ConfigurationResourceFactoryImpl());
             }
-            final CompoundCommand cc = new CompoundCommand() ;
-            CONNECTORS_CONFIGURATION_SYNCHRONIZER.updateConnectorDependencies(configuration, association, impl, cc, editingDomain,false) ;
-            editingDomain.getCommandStack().execute(cc) ;
-            if(dispose){
-                adapterFactory.dispose() ;
+            final CompoundCommand cc = new CompoundCommand();
+            CONNECTORS_CONFIGURATION_SYNCHRONIZER.updateConnectorDependencies(configuration, association, impl, cc, editingDomain, false);
+            editingDomain.getCommandStack().execute(cc);
+            if (dispose) {
+                adapterFactory.dispose();
             }
-            checkImplementationDependencies(impl) ;
-            viewer.refresh() ;
-            getContainer().updateMessage() ;
+            checkImplementationDependencies(impl);
+            viewer.refresh();
+            getContainer().updateMessage();
         }
     }
 
     protected void clearImplementation() {
-        final DefinitionMapping connectorAssociation = (DefinitionMapping) ((IStructuredSelection) viewer.getSelection()).getFirstElement() ;
-        final String implId = NamingUtils.toConnectorImplementationFilename(connectorAssociation.getImplementationId(), connectorAssociation.getImplementationVersion(), false) ;
-        connectorAssociation.setImplementationId(null) ;
-        connectorAssociation.setImplementationVersion(null) ;
+        final DefinitionMapping connectorAssociation = (DefinitionMapping) ((IStructuredSelection) viewer.getSelection()).getFirstElement();
+        final String implId = NamingUtils.toConnectorImplementationFilename(connectorAssociation.getImplementationId(),
+                connectorAssociation.getImplementationVersion(), false);
+        connectorAssociation.setImplementationId(null);
+        connectorAssociation.setImplementationVersion(null);
 
-        EditingDomain editingDomain = TransactionUtil.getEditingDomain(configuration) ;
-        boolean dispose = false  ;
-        ComposedAdapterFactory adapterFactory = null ;
-        if(editingDomain == null){
-            dispose = true ;
+        EditingDomain editingDomain = TransactionUtil.getEditingDomain(configuration);
+        boolean dispose = false;
+        ComposedAdapterFactory adapterFactory = null;
+        if (editingDomain == null) {
+            dispose = true;
             // Create an adapter factory that yields item providers.
             adapterFactory = new ComposedAdapterFactory(ComposedAdapterFactory.Descriptor.Registry.INSTANCE);
             adapterFactory.addAdapterFactory(new ResourceItemProviderAdapterFactory());
             adapterFactory.addAdapterFactory(new ReflectiveItemProviderAdapterFactory());
-            adapterFactory.addAdapterFactory(new ConfigurationAdapterFactory()) ;
-            adapterFactory.addAdapterFactory(new ProcessAdapterFactory()) ;
+            adapterFactory.addAdapterFactory(new ConfigurationAdapterFactory());
+            adapterFactory.addAdapterFactory(new ProcessAdapterFactory());
 
             // command stack that will notify this editor as commands are executed
             final BasicCommandStack commandStack = new BasicCommandStack();
 
             // Create the editing domain with our adapterFactory and command stack.
-            editingDomain = new AdapterFactoryEditingDomain(adapterFactory,commandStack, new HashMap<Resource, Boolean>());
-            editingDomain.getResourceSet().getResourceFactoryRegistry().getExtensionToFactoryMap().put("conf", new ConfigurationResourceFactoryImpl()) ;
+            editingDomain = new AdapterFactoryEditingDomain(adapterFactory, commandStack, new HashMap<Resource, Boolean>());
+            editingDomain.getResourceSet().getResourceFactoryRegistry().getExtensionToFactoryMap().put("conf", new ConfigurationResourceFactoryImpl());
         }
-        final CompoundCommand cc = new CompoundCommand() ;
-        CONNECTORS_CONFIGURATION_SYNCHRONIZER.removeConnectorDependencies(configuration, implId, cc, editingDomain) ;
-        editingDomain.getCommandStack().execute(cc) ;
-        if(dispose){
-            adapterFactory.dispose() ;
+        final CompoundCommand cc = new CompoundCommand();
+        CONNECTORS_CONFIGURATION_SYNCHRONIZER.removeConnectorDependencies(configuration, implId, cc, editingDomain);
+        editingDomain.getCommandStack().execute(cc);
+        if (dispose) {
+            adapterFactory.dispose();
         }
 
-        viewer.refresh() ;
-        getContainer().updateMessage() ;
+        viewer.refresh();
+        getContainer().updateMessage();
     }
 
-    /* (non-Javadoc)
-     * @see org.bonitasoft.studio.configuration.extension.IProcessConfigurationWizardPage#updatePage(org.bonitasoft.studio.model.process.AbstractProcess, org.bonitasoft.studio.model.configuration.Configuration)
+    /*
+     * (non-Javadoc)
+     * @see org.bonitasoft.studio.configuration.extension.IProcessConfigurationWizardPage#updatePage(org.bonitasoft.studio.model.process.AbstractProcess,
+     * org.bonitasoft.studio.model.configuration.Configuration)
      */
     @Override
     public void updatePage(final AbstractProcess process, final Configuration configuration) {
-        if(process != null && configuration != null && viewer != null && !viewer.getControl().isDisposed()){
-            this.configuration = configuration ;
-            viewer.setInput(configuration) ;
-            selectImplementationButton.setEnabled(false) ;
-            clearImplementationButton.setEnabled(false) ;
+        if (process != null && configuration != null && viewer != null && !viewer.getControl().isDisposed()) {
+            this.configuration = configuration;
+            viewer.setInput(configuration);
+            selectImplementationButton.setEnabled(false);
+            clearImplementationButton.setEnabled(false);
         }
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see org.bonitasoft.studio.configuration.extension.IProcessConfigurationWizardPage#isConfigurationPageValid()
      */
     @Override
     public String isConfigurationPageValid(final Configuration conf) {
-        if(viewer != null && viewer.getInput() != null){
-            for(final Object element : ((IStructuredContentProvider) viewer.getContentProvider()).getElements(viewer.getInput())){
-                final DefinitionMapping association = (DefinitionMapping) element ;
+        if (viewer != null && viewer.getInput() != null) {
+            for (final Object element : ((IStructuredContentProvider) viewer.getContentProvider()).getElements(viewer.getInput())) {
+                final DefinitionMapping association = (DefinitionMapping) element;
                 final String implementationId = association.getImplementationId();
                 final String implementationVersion = association.getImplementationVersion();
-                if(implementationId == null || implementationVersion == null){
-                    return Messages.bind(Messages.invalidImplementationFor, association.getDefinitionId()) ;
+                if (implementationId == null || implementationVersion == null) {
+                    return Messages.bind(Messages.invalidImplementationFor, association.getDefinitionId());
                 }
-                final ConnectorImplementation impl = implStore.getImplementation(implementationId,implementationVersion) ;
-                if(impl == null){
-                    return Messages.bind(Messages.implementationNotFound, implementationId +" ("+implementationVersion+")") ;
+                final ConnectorImplementation impl = implStore.getImplementation(implementationId, implementationVersion);
+                if (impl == null) {
+                    return Messages.bind(Messages.implementationNotFound, implementationId + " (" + implementationVersion + ")");
                 }
 
             }
@@ -280,48 +285,47 @@ public class ConnectorConfigurationWizardPage extends WizardPage implements IPro
         return null;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see org.bonitasoft.studio.configuration.extension.IProcessConfigurationWizardPage#getConfigurationImage()
      */
     @Override
     public Image getConfigurationImage() {
-        return Pics.getImage("connector.png",ConnectorPlugin.getDefault());
+        return Pics.getImage("connector.png", ConnectorPlugin.getDefault());
     }
-
-
 
     @Override
     public void selectionChanged(final SelectionChangedEvent event) {
-        if(selectImplementationButton != null && !selectImplementationButton.isDisposed()){
-            selectImplementationButton.setEnabled(!viewer.getSelection().isEmpty()) ;
+        if (selectImplementationButton != null && !selectImplementationButton.isDisposed()) {
+            selectImplementationButton.setEnabled(!viewer.getSelection().isEmpty());
         }
-        if(clearImplementationButton != null && !clearImplementationButton.isDisposed()){
-            clearImplementationButton.setEnabled(!viewer.getSelection().isEmpty()) ;
+        if (clearImplementationButton != null && !clearImplementationButton.isDisposed()) {
+            clearImplementationButton.setEnabled(!viewer.getSelection().isEmpty());
         }
     }
 
     protected void checkImplementationDependencies(final ConnectorImplementation implementation) {
-        if(!implementation.getJarDependencies().getJarDependency().isEmpty()){
+        if (!implementation.getJarDependencies().getJarDependency().isEmpty()) {
             try {
-                final IProgressService service =  PlatformUI.getWorkbench().getProgressService() ;
+                final IProgressService service = PlatformUI.getWorkbench().getProgressService();
                 service.run(true, false, new IRunnableWithProgress() {
 
                     @Override
                     public void run(final IProgressMonitor monitor) throws InvocationTargetException, InterruptedException {
-                        monitor.beginTask(Messages.addingImplementationDependencies, IProgressMonitor.UNKNOWN) ;
-                        final DependencyRepositoryStore depStore = RepositoryManager.getInstance().getRepositoryStore(DependencyRepositoryStore.class) ;
-                        for(final String jarName : implementation.getJarDependencies().getJarDependency()){
-                            if( depStore.getChild(jarName) == null){
-                                final InputStream is = resourceProvider.getDependencyInputStream(jarName) ;
-                                if(is != null){
-                                    depStore.importInputStream(jarName, is) ;
+                        monitor.beginTask(Messages.addingImplementationDependencies, IProgressMonitor.UNKNOWN);
+                        final DependencyRepositoryStore depStore = RepositoryManager.getInstance().getRepositoryStore(DependencyRepositoryStore.class);
+                        for (final String jarName : implementation.getJarDependencies().getJarDependency()) {
+                            if (depStore.getChild(jarName) == null) {
+                                final InputStream is = resourceProvider.getDependencyInputStream(jarName);
+                                if (is != null) {
+                                    depStore.importInputStream(jarName, is);
                                 }
                             }
                         }
                     }
-                }) ;
-            } catch (final Exception e){
-                BonitaStudioLog.error(e) ;
+                });
+            } catch (final Exception e) {
+                BonitaStudioLog.error(e);
             }
         }
     }

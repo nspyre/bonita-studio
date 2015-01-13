@@ -1,19 +1,16 @@
 /**
  * Copyright (C) 2012 BonitaSoft S.A.
  * BonitaSoft, 31 rue Gustave Eiffel - 38000 Grenoble
- *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2.0 of the License, or
  * (at your option) any later version.
- *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package org.bonitasoft.studio.connector.model.definition.wizard;
 
@@ -53,16 +50,16 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.dialogs.FilteredTree;
 import org.eclipse.ui.dialogs.PatternFilter;
+
 /**
  * @author Romain Bioteau
- *
  */
 public class SelectConnectorConfigurationWizardPage extends WizardSelectionPage {
 
     protected FilteredTree configurationsTree;
     protected Button removeButton;
     protected final ConnectorConfiguration configuration;
-    private ConnectorConfiguration selectedConfiguration ;
+    private ConnectorConfiguration selectedConfiguration;
     protected EMFDataBindingContext context;
     private WizardPageSupport pageSupport;
     protected final IRepositoryStore<? extends IRepositoryFileStore> configurationStore;
@@ -71,14 +68,12 @@ public class SelectConnectorConfigurationWizardPage extends WizardSelectionPage 
         super(SelectConnectorConfigurationWizardPage.class.getName());
         setTitle(Messages.selectConfigurationPageName);
         setDescription(Messages.selectConfigurationPageDesc);
-        this.configuration = configuration ;
-        this.configurationStore = configurationStore ;
+        this.configuration = configuration;
+        this.configurationStore = configurationStore;
     }
-
 
     /*
      * (non-Javadoc)
-     *
      * @see
      * org.eclipse.jface.dialogs.IDialogPage#createControl(org.eclipse.swt.widgets
      * .Composite)
@@ -88,39 +83,40 @@ public class SelectConnectorConfigurationWizardPage extends WizardSelectionPage 
         Composite composite = new Composite(parent, SWT.NONE);
         composite.setLayout(GridLayoutFactory.fillDefaults().numColumns(1).create());
 
-        context = new EMFDataBindingContext() ;
+        context = new EMFDataBindingContext();
 
-        doCreateControl(composite) ;
-
+        doCreateControl(composite);
 
         bindTree();
 
-        pageSupport = WizardPageSupport.create(this,context) ;
+        pageSupport = WizardPageSupport.create(this, context);
 
         setControl(composite);
     }
 
-
     protected void bindTree() {
         IValidator selectionValidator = new IValidator() {
+
             @Override
             public IStatus validate(Object value) {
-                if(value == null || value instanceof ConnectorParameter){
+                if (value == null || value instanceof ConnectorParameter) {
                     return ValidationStatus.error(Messages.selectAConnectorConfDefWarning);
                 }
                 return Status.OK_STATUS;
             }
-        } ;
-        UpdateValueStrategy selectionStrategy = new UpdateValueStrategy() ;
-        selectionStrategy.setBeforeSetValidator(selectionValidator) ;
-        context.bindValue(ViewersObservables.observeSingleSelection(configurationsTree.getViewer()), PojoProperties.value(SelectConnectorConfigurationWizardPage.class, "selectedConfiguration").observe(this),selectionStrategy,null)  ;
+        };
+        UpdateValueStrategy selectionStrategy = new UpdateValueStrategy();
+        selectionStrategy.setBeforeSetValidator(selectionValidator);
+        context.bindValue(ViewersObservables.observeSingleSelection(configurationsTree.getViewer()),
+                PojoProperties.value(SelectConnectorConfigurationWizardPage.class, "selectedConfiguration").observe(this), selectionStrategy, null);
     }
 
     protected void doCreateControl(Composite composite) {
         configurationsTree = new FilteredTree(composite, SWT.SINGLE | SWT.BORDER, new PatternFilter(), true);
         configurationsTree.getViewer().getTree().setData(SWTBOT_WIDGET_ID_KEY, SELECTION_CONNECTOR_CONFIGURATION_TREE_ID);
-        configurationsTree.getViewer().setContentProvider(new ConfigurationsContentProvider(configuration.getDefinitionId(),configuration.getVersion(),configurationStore));
-        configurationsTree.getViewer().setLabelProvider(new ConnectorConfiguraitonLabelProvider()) ;
+        configurationsTree.getViewer().setContentProvider(
+                new ConfigurationsContentProvider(configuration.getDefinitionId(), configuration.getVersion(), configurationStore));
+        configurationsTree.getViewer().setLabelProvider(new ConnectorConfiguraitonLabelProvider());
         configurationsTree.getViewer().addDoubleClickListener(new IDoubleClickListener() {
 
             @Override
@@ -150,42 +146,42 @@ public class SelectConnectorConfigurationWizardPage extends WizardSelectionPage 
             }
         });
 
-        configurationsTree.getViewer().setInput(new Object()) ;
-        configurationsTree.setFocus() ;
+        configurationsTree.getViewer().setInput(new Object());
+        configurationsTree.setFocus();
         //Avoid bug with filtered tree on linux
-        if(configurationsTree.getViewer().getTree().getItemCount() > 0){
-        	selectedConfiguration = (ConnectorConfiguration)configurationsTree.getViewer().getTree().getItem(0).getData();
+        if (configurationsTree.getViewer().getTree().getItemCount() > 0) {
+            selectedConfiguration = (ConnectorConfiguration) configurationsTree.getViewer().getTree().getItem(0).getData();
         }
         createRemoveButton(composite);
 
     }
 
-
     @Override
     public void dispose() {
         super.dispose();
-        if(pageSupport != null){
-            pageSupport.dispose() ;
+        if (pageSupport != null) {
+            pageSupport.dispose();
         }
-        if(context != null){
-            context.dispose() ;
+        if (context != null) {
+            context.dispose();
         }
     }
 
     protected void createRemoveButton(Composite composite) {
-        removeButton = new Button(composite,SWT.PUSH) ;
+        removeButton = new Button(composite, SWT.PUSH);
         removeButton.setText(Messages.removeData);
         removeButton.addSelectionListener(new SelectionAdapter() {
+
             @Override
             public void widgetSelected(SelectionEvent e) {
-                if(!configurationsTree.getViewer().getSelection().isEmpty()){
-                    Object selection = ((StructuredSelection)configurationsTree.getViewer().getSelection()).getFirstElement() ;
-                    if(selection instanceof ConnectorConfiguration){
-                        Resource r = ((ConnectorConfiguration)selection).eResource() ;
-                        String fileName =  URI.decode(r.getURI().lastSegment()) ;
-                        IRepositoryFileStore artifact = configurationStore.getChild(fileName) ;
-                        if(artifact != null){
-                            if(FileActionDialog.confirmDeletionQuestion(fileName)){
+                if (!configurationsTree.getViewer().getSelection().isEmpty()) {
+                    Object selection = ((StructuredSelection) configurationsTree.getViewer().getSelection()).getFirstElement();
+                    if (selection instanceof ConnectorConfiguration) {
+                        Resource r = ((ConnectorConfiguration) selection).eResource();
+                        String fileName = URI.decode(r.getURI().lastSegment());
+                        IRepositoryFileStore artifact = configurationStore.getChild(fileName);
+                        if (artifact != null) {
+                            if (FileActionDialog.confirmDeletionQuestion(fileName)) {
                                 artifact.delete();
                             }
                         }
@@ -200,17 +196,16 @@ public class SelectConnectorConfigurationWizardPage extends WizardSelectionPage 
     }
 
     protected void updateButton() {
-        if(removeButton != null && !removeButton.isDisposed()){
-            if(!configurationsTree.getViewer().getSelection().isEmpty()){
-                Object selection = ((StructuredSelection)configurationsTree.getViewer().getSelection()).getFirstElement() ;
+        if (removeButton != null && !removeButton.isDisposed()) {
+            if (!configurationsTree.getViewer().getSelection().isEmpty()) {
+                Object selection = ((StructuredSelection) configurationsTree.getViewer().getSelection()).getFirstElement();
                 removeButton.setEnabled(selection instanceof ConnectorConfiguration);
-            }else{
+            } else {
                 removeButton.setEnabled(false);
             }
 
         }
     }
-
 
     public ConnectorConfiguration getSelectedConfiguration() {
         return selectedConfiguration;

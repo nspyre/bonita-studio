@@ -15,6 +15,7 @@ public class PoolAssert extends AbstractAssert<PoolAssert, Pool> {
 
     /**
      * Creates a new </code>{@link PoolAssert}</code> to make assertions on actual Pool.
+     * 
      * @param actual the Pool we want to make assertions on.
      */
     public PoolAssert(Pool actual) {
@@ -24,6 +25,7 @@ public class PoolAssert extends AbstractAssert<PoolAssert, Pool> {
     /**
      * An entry point for PoolAssert to follow AssertJ standard <code>assertThat()</code> statements.<br>
      * With a static import, one's can write directly : <code>assertThat(myPool)</code> and get specific assertion with code completion.
+     * 
      * @param actual the Pool we want to make assertions on.
      * @return a new </code>{@link PoolAssert}</code>
      */
@@ -33,6 +35,7 @@ public class PoolAssert extends AbstractAssert<PoolAssert, Pool> {
 
     /**
      * Verifies that the actual Pool's documents contains the given Document elements.
+     * 
      * @param documents the given elements that should be contained in actual Pool's documents.
      * @return this assertion object.
      * @throws AssertionError if the actual Pool's documents does not contain all given Document elements.
@@ -60,6 +63,7 @@ public class PoolAssert extends AbstractAssert<PoolAssert, Pool> {
 
     /**
      * Verifies that the actual Pool has no documents.
+     * 
      * @return this assertion object.
      * @throws AssertionError if the actual Pool's documents is not empty.
      */
@@ -80,6 +84,7 @@ public class PoolAssert extends AbstractAssert<PoolAssert, Pool> {
 
     /**
      * Verifies that the actual Pool's searchIndexes contains the given SearchIndex elements.
+     * 
      * @param searchIndexes the given elements that should be contained in actual Pool's searchIndexes.
      * @return this assertion object.
      * @throws AssertionError if the actual Pool's searchIndexes does not contain all given SearchIndex elements.
@@ -107,6 +112,7 @@ public class PoolAssert extends AbstractAssert<PoolAssert, Pool> {
 
     /**
      * Verifies that the actual Pool has no searchIndexes.
+     * 
      * @return this assertion object.
      * @throws AssertionError if the actual Pool's searchIndexes is not empty.
      */

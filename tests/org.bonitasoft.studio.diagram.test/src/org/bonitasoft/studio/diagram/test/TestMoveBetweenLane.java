@@ -1,19 +1,16 @@
 /**
  * Copyright (C) 2010 BonitaSoft S.A.
  * BonitaSoft, 31 rue Gustave Eiffel - 38000 Grenoble
- *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2.0 of the License, or
  * (at your option) any later version.
- *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package org.bonitasoft.studio.diagram.test;
 
@@ -38,19 +35,15 @@ import org.junit.runner.RunWith;
 
 /**
  * @author Baptiste Mesta
- *
  */
 @RunWith(SWTBotJunit4ClassRunner.class)
 public class TestMoveBetweenLane extends SWTBotGefTestCase {
-
-
 
     @Test
     public void testMoveElementsBetweenLanes() throws ExecutionException, InterruptedException {
         SWTBotTestUtil.createNewDiagram(bot);
         SWTBotEditor botEditor = bot.activeEditor();
         final SWTBotGefEditor gmfEditor = bot.gefEditor(botEditor.getTitle());
-
 
         gmfEditor.activateTool("Human");
         gmfEditor.click(200, 150);
@@ -59,39 +52,36 @@ public class TestMoveBetweenLane extends SWTBotGefTestCase {
         gmfEditor.activateTool("Lane");
         gmfEditor.click(300, 50);
 
-
         final SWTBotGefEditPart lane = gmfEditor.getEditPart("Employee lane");
         lane.parent().select().resize(PositionConstants.NORTH, 1000, 150);
 
         // compute target dest
         final SWTBotGefEditPart lane1 = gmfEditor.getEditPart("Lane1");
 
-
-
         // move
         SWTBotGefEditPart step = gmfEditor.getEditPart("Step2").parent();
         step.select();
 
-
-        IFigure figure = ((GraphicalEditPart)step.part()).getFigure();
+        IFigure figure = ((GraphicalEditPart) step.part()).getFigure();
         Rectangle dest = figure.getBounds().getCopy();
         figure.translateToAbsolute(dest);
-               
-        gmfEditor.drag( step, dest.x  , dest.y+200);
+
+        gmfEditor.drag(step, dest.x, dest.y + 200);
 
         step = gmfEditor.getEditPart("Step2").parent();
         step.select();
-        figure = ((GraphicalEditPart)step.part()).getFigure();
+        figure = ((GraphicalEditPart) step.part()).getFigure();
         Rectangle targetdest = figure.getBounds().getCopy();
         figure.translateToAbsolute(targetdest);
 
-        assertTrue("Move has failed",!targetdest.equals(dest));
+        assertTrue("Move has failed", !targetdest.equals(dest));
 
         bot.saveAllEditors();
 
         bot.waitUntil(new ICondition() {
+
             public boolean test() throws Exception {
-                return  getPartRecursively(lane1.parent(), "Step2") != null;
+                return getPartRecursively(lane1.parent(), "Step2") != null;
             }
 
             public void init(SWTBot bot) {
@@ -103,12 +93,11 @@ public class TestMoveBetweenLane extends SWTBotGefTestCase {
         });
     }
 
-
-
     @After
     public void closeEditors() throws Exception {
         bot.closeAllEditors();
     }
+
     //    /**
     //     * see bug 5405
     //     * @throws IOException
@@ -149,10 +138,9 @@ public class TestMoveBetweenLane extends SWTBotGefTestCase {
     //
     //    }
 
-
     public SWTBotGefEditPart getPartRecursively(SWTBotGefEditPart from, String label) {
         for (SWTBotGefEditPart child : from.children()) {
-            Element model = (Element) ((IGraphicalEditPart)child.part()).resolveSemanticElement();
+            Element model = (Element) ((IGraphicalEditPart) child.part()).resolveSemanticElement();
             if (model.getName().equals(label)) {
                 return child;
             }

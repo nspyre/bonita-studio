@@ -25,7 +25,6 @@ import org.eclipse.swt.widgets.Button;
 
 /**
  * @author Romain Bioteau
- *
  */
 
 public class BonitaDatabasePreferencePage extends AbstractBonitaPreferencePage {
@@ -89,7 +88,6 @@ public class BonitaDatabasePreferencePage extends AbstractBonitaPreferencePage {
         super.propertyChange(event);
     }
 
-
     /*
      * (non-Javadoc)
      * @see org.eclipse.jface.preference.FieldEditorPreferencePage#performDefaults()
@@ -99,6 +97,5 @@ public class BonitaDatabasePreferencePage extends AbstractBonitaPreferencePage {
         super.performDefaults();
         usersAndRoles.setEnabled(dropDB.getBooleanValue(), getFieldEditorParent());
     }
-
 
 }

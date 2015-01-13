@@ -1,7 +1,6 @@
 /**
  * <copyright>
  * </copyright>
- *
  * $Id$
  */
 package org.omg.spec.bpmn.model.impl;
@@ -21,23 +20,26 @@ import org.omg.spec.bpmn.model.THumanPerformer;
  * @generated
  */
 public class THumanPerformerImpl extends TPerformerImpl implements THumanPerformer {
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected THumanPerformerImpl() {
-		super();
-	}
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	protected EClass eStaticClass() {
-		return ModelPackage.Literals.THUMAN_PERFORMER;
-	}
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * 
+     * @generated
+     */
+    protected THumanPerformerImpl() {
+        super();
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * 
+     * @generated
+     */
+    @Override
+    protected EClass eStaticClass() {
+        return ModelPackage.Literals.THUMAN_PERFORMER;
+    }
 
 } //THumanPerformerImpl

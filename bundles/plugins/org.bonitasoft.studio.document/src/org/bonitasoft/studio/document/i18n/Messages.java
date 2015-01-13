@@ -14,7 +14,6 @@
  */
 package org.bonitasoft.studio.document.i18n;
 
-
 import org.eclipse.osgi.util.NLS;
 
 public class Messages extends NLS {

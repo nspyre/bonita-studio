@@ -18,31 +18,30 @@ import org.eclipse.ui.intro.config.IIntroAction;
 
 public class OpenProcess implements IIntroAction {
 
+    public void run(IIntroSite site, Properties param) {
+        try {
 
-	public void run(IIntroSite site, Properties param) {
-		try {
-			
-			IWorkbenchPart part = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActivePart();
+            IWorkbenchPart part = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActivePart();
 
-			IHandlerService handlerService = (IHandlerService) part.getSite().getService(IHandlerService.class);
-			ICommandService cmdService = (ICommandService)part.getSite().getService( ICommandService.class);
-			// Do not replace by static link since this command does not resolve to the same between BOS and SP
-			Command open = cmdService.getCommand("org.bonitasoft.studio.diagram.command.openDiagram");//$NON-NLS-1$
-			ExecutionEvent executionEvent = handlerService.createExecutionEvent(open, null);
-			try {
-				open.executeWithChecks(executionEvent);
-			} catch (ExecutionException e) {
-				BonitaStudioLog.error(e);
-			} catch (NotDefinedException e) {
-				BonitaStudioLog.error(e);
-			} catch (NotEnabledException e) {
-				BonitaStudioLog.error(e);
-			} catch (NotHandledException e) {
-				BonitaStudioLog.error(e);
-			}
-		} catch (Exception e) {
-			BonitaStudioLog.error(e);
-		}
-	}
+            IHandlerService handlerService = (IHandlerService) part.getSite().getService(IHandlerService.class);
+            ICommandService cmdService = (ICommandService) part.getSite().getService(ICommandService.class);
+            // Do not replace by static link since this command does not resolve to the same between BOS and SP
+            Command open = cmdService.getCommand("org.bonitasoft.studio.diagram.command.openDiagram");//$NON-NLS-1$
+            ExecutionEvent executionEvent = handlerService.createExecutionEvent(open, null);
+            try {
+                open.executeWithChecks(executionEvent);
+            } catch (ExecutionException e) {
+                BonitaStudioLog.error(e);
+            } catch (NotDefinedException e) {
+                BonitaStudioLog.error(e);
+            } catch (NotEnabledException e) {
+                BonitaStudioLog.error(e);
+            } catch (NotHandledException e) {
+                BonitaStudioLog.error(e);
+            }
+        } catch (Exception e) {
+            BonitaStudioLog.error(e);
+        }
+    }
 
 }

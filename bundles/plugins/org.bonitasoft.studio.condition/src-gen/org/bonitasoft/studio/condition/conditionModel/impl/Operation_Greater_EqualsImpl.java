@@ -18,25 +18,28 @@ import org.eclipse.emf.ecore.EClass;
  */
 public class Operation_Greater_EqualsImpl extends OperationImpl implements Operation_Greater_Equals
 {
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  protected Operation_Greater_EqualsImpl()
-  {
-    super();
-  }
 
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  @Override
-  protected EClass eStaticClass()
-  {
-    return ConditionModelPackage.Literals.OPERATION_GREATER_EQUALS;
-  }
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * 
+     * @generated
+     */
+    protected Operation_Greater_EqualsImpl()
+    {
+        super();
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * 
+     * @generated
+     */
+    @Override
+    protected EClass eStaticClass()
+    {
+        return ConditionModelPackage.Literals.OPERATION_GREATER_EQUALS;
+    }
 
 } //Operation_Greater_EqualsImpl

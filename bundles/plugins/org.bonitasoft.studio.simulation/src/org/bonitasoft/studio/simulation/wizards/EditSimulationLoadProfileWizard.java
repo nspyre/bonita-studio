@@ -1,19 +1,16 @@
 /**
  * Copyright (C) 2010 BonitaSoft S.A.
  * BonitaSoft, 31 rue Gustave Eiffel - 38000 Grenoble
- *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2.0 of the License, or
  * (at your option) any later version.
- *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package org.bonitasoft.studio.simulation.wizards;
 
@@ -31,100 +28,98 @@ import org.eclipse.jface.wizard.Wizard;
 
 /**
  * @author Baptiste Mesta
- *
  */
 public class EditSimulationLoadProfileWizard extends Wizard {
 
-	private IRepositoryFileStore file;
-	private LoadProfile loadProfile;
-	private EditSimulationLoadProfileWizardPage lpPage;
-	private EditSimulationLoadProfileCalendarWizardPage calendarPage;
+    private IRepositoryFileStore file;
+    private LoadProfile loadProfile;
+    private EditSimulationLoadProfileWizardPage lpPage;
+    private EditSimulationLoadProfileCalendarWizardPage calendarPage;
 
-
-	/**
+    /**
 	 * 
 	 */
-	public EditSimulationLoadProfileWizard() {
-		file = null;
-		loadProfile = SimulationFactory.eINSTANCE.createLoadProfile();
-		setWindowTitle(Messages.EditSimulationLoadProfileWizard_windowTitle);
-	}
-	
-	/**
-	 * @param artifact2
-	 */
-	public EditSimulationLoadProfileWizard(IRepositoryFileStore artifact) {
-		this.file = artifact;
-		loadProfile = (LoadProfile) artifact.getContent() ;
-		loadProfile.setVersion(ModelVersion.CURRENT_VERSION) ;
-	}
+    public EditSimulationLoadProfileWizard() {
+        file = null;
+        loadProfile = SimulationFactory.eINSTANCE.createLoadProfile();
+        setWindowTitle(Messages.EditSimulationLoadProfileWizard_windowTitle);
+    }
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.jface.wizard.Wizard#addPages()
-	 */
-	@Override
-	public void addPages() {
-		lpPage = new EditSimulationLoadProfileWizardPage(loadProfile);
-		calendarPage = new EditSimulationLoadProfileCalendarWizardPage(loadProfile);
-		addPage(lpPage) ;
-		addPage(calendarPage) ;
-		super.addPages();
-	}
-	
-	@Override
-	public boolean canFinish() {
-		return calendarPage.isPageComplete();
-	}
-	
-	
-	/* (non-Javadoc)
-	 * @see org.eclipse.jface.wizard.Wizard#performFinish()
-	 */
-	@Override
-	public boolean performFinish() {
-		
-		String nameText = lpPage.getNameText();
-	
-		LoadProfile simulationLoadProfile = loadProfile;
-		simulationLoadProfile.setName(nameText);
-		simulationLoadProfile.getInjectionPeriods().removeAll(simulationLoadProfile.getInjectionPeriods());
-		simulationLoadProfile.getInjectionPeriods().addAll(lpPage.getInjectionPeriods());
-	
-		SimulationCalendar lpCalendar;
-		if(simulationLoadProfile.getCalendar() == null){
-			lpCalendar = SimulationFactory.eINSTANCE.createSimulationCalendar();
-		}else{
-			lpCalendar = (SimulationCalendar) simulationLoadProfile.getCalendar() ;
-		}
+    /**
+     * @param artifact2
+     */
+    public EditSimulationLoadProfileWizard(IRepositoryFileStore artifact) {
+        this.file = artifact;
+        loadProfile = (LoadProfile) artifact.getContent();
+        loadProfile.setVersion(ModelVersion.CURRENT_VERSION);
+    }
 
-		lpCalendar.getDaysOfWeek().removeAll(lpCalendar.getDaysOfWeek());
-		lpCalendar.getDaysOfWeek().addAll(calendarPage.getDays());
-		
-		simulationLoadProfile.setCalendar(lpCalendar) ;
-		
-		try {
-			if(file != null) {
-				file.save(simulationLoadProfile);
-			} else {
-				final SimulationLoadProfileRepositoryStore profileStore = (SimulationLoadProfileRepositoryStore) RepositoryManager.getInstance().getRepositoryStore(SimulationLoadProfileRepositoryStore.class) ;
-				file = profileStore.createRepositoryFileStore(simulationLoadProfile.getName()+"."+SimulationLoadProfileRepositoryStore.SIMULATION_LOADPROFILE_EXT) ;
-				file.save(simulationLoadProfile) ;
- 			}
-		} catch (Exception e) {
-			BonitaStudioLog.error(e);
-			return false;
-		}
-		return true;
-	}
-	
-	
-	/**
-	 * @return the artifact
-	 */
-	public IRepositoryFileStore getArtifact() {
-		return file;
-	}
-	
-	
+    /*
+     * (non-Javadoc)
+     * @see org.eclipse.jface.wizard.Wizard#addPages()
+     */
+    @Override
+    public void addPages() {
+        lpPage = new EditSimulationLoadProfileWizardPage(loadProfile);
+        calendarPage = new EditSimulationLoadProfileCalendarWizardPage(loadProfile);
+        addPage(lpPage);
+        addPage(calendarPage);
+        super.addPages();
+    }
+
+    @Override
+    public boolean canFinish() {
+        return calendarPage.isPageComplete();
+    }
+
+    /*
+     * (non-Javadoc)
+     * @see org.eclipse.jface.wizard.Wizard#performFinish()
+     */
+    @Override
+    public boolean performFinish() {
+
+        String nameText = lpPage.getNameText();
+
+        LoadProfile simulationLoadProfile = loadProfile;
+        simulationLoadProfile.setName(nameText);
+        simulationLoadProfile.getInjectionPeriods().removeAll(simulationLoadProfile.getInjectionPeriods());
+        simulationLoadProfile.getInjectionPeriods().addAll(lpPage.getInjectionPeriods());
+
+        SimulationCalendar lpCalendar;
+        if (simulationLoadProfile.getCalendar() == null) {
+            lpCalendar = SimulationFactory.eINSTANCE.createSimulationCalendar();
+        } else {
+            lpCalendar = (SimulationCalendar) simulationLoadProfile.getCalendar();
+        }
+
+        lpCalendar.getDaysOfWeek().removeAll(lpCalendar.getDaysOfWeek());
+        lpCalendar.getDaysOfWeek().addAll(calendarPage.getDays());
+
+        simulationLoadProfile.setCalendar(lpCalendar);
+
+        try {
+            if (file != null) {
+                file.save(simulationLoadProfile);
+            } else {
+                final SimulationLoadProfileRepositoryStore profileStore = (SimulationLoadProfileRepositoryStore) RepositoryManager.getInstance()
+                        .getRepositoryStore(SimulationLoadProfileRepositoryStore.class);
+                file = profileStore.createRepositoryFileStore(simulationLoadProfile.getName() + "."
+                        + SimulationLoadProfileRepositoryStore.SIMULATION_LOADPROFILE_EXT);
+                file.save(simulationLoadProfile);
+            }
+        } catch (Exception e) {
+            BonitaStudioLog.error(e);
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * @return the artifact
+     */
+    public IRepositoryFileStore getArtifact() {
+        return file;
+    }
 
 }

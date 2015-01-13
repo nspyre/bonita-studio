@@ -5,14 +5,12 @@
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2.0 of the License, or
  * (at your option) any later version.
- *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package org.bonitasoft.studio.profiles.repository;
 
@@ -30,18 +28,18 @@ import org.eclipse.swt.graphics.Image;
 
 /**
  * @author Romain Bioteau
- *
  */
 public class ProfileRepositoryStore extends AbstractRepositoryStore<ProfileFileStore> {
 
     private static final String STORE_NAME = "profiles";
-    private static final Set<String> extensions = new HashSet<String>() ;
+    private static final Set<String> extensions = new HashSet<String>();
     public static final String PROFILE_EXT = "profile";
-    static{
-        extensions.add(PROFILE_EXT) ;
+    static {
+        extensions.add(PROFILE_EXT);
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see org.bonitasoft.studio.common.repository.model.IRepositoryStore#createRepositoryFileStore(java.lang.String)
      */
     @Override
@@ -49,7 +47,8 @@ public class ProfileRepositoryStore extends AbstractRepositoryStore<ProfileFileS
         return new ProfileFileStore(fileName, this);
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see org.bonitasoft.studio.common.repository.model.IRepositoryStore#getName()
      */
     @Override
@@ -57,23 +56,26 @@ public class ProfileRepositoryStore extends AbstractRepositoryStore<ProfileFileS
         return STORE_NAME;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see org.bonitasoft.studio.common.repository.model.IRepositoryStore#getDisplayName()
      */
     @Override
     public String getDisplayName() {
-        return Messages.profileRepository ;
+        return Messages.profileRepository;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see org.bonitasoft.studio.common.repository.model.IRepositoryStore#getIcon()
      */
     @Override
     public Image getIcon() {
-        return Pics.getImage("profile.png",ProfilePlugin.getDefault());
+        return Pics.getImage("profile.png", ProfilePlugin.getDefault());
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see org.bonitasoft.studio.common.repository.model.IRepositoryStore#getCompatibleExtensions()
      */
     @Override
@@ -83,17 +85,17 @@ public class ProfileRepositoryStore extends AbstractRepositoryStore<ProfileFileS
 
     @Override
     public List<ProfileFileStore> getChildren() {
-        List<ProfileFileStore> result =  super.getChildren();
+        List<ProfileFileStore> result = super.getChildren();
         Enumeration<URL> profiles = ProfilePlugin.getDefault().getBundle().findEntries(STORE_NAME, "*.*", false);
-        if(	profiles != null ){
+        if (profiles != null) {
             while (profiles.hasMoreElements()) {
                 URL url = profiles.nextElement();
-                String[] segments = url.getFile().split("/") ;
-                String fileName = segments[segments.length-1] ;
-                if(fileName.lastIndexOf(".") != -1){
-                    String extension = fileName.substring(fileName.lastIndexOf(".")+1, fileName.length()) ;
-                    if(extensions.contains(extension)){
-                        result.add(new URLProfileFileStore(url,this)) ;
+                String[] segments = url.getFile().split("/");
+                String fileName = segments[segments.length - 1];
+                if (fileName.lastIndexOf(".") != -1) {
+                    String extension = fileName.substring(fileName.lastIndexOf(".") + 1, fileName.length());
+                    if (extensions.contains(extension)) {
+                        result.add(new URLProfileFileStore(url, this));
                     }
                 }
             }
@@ -104,16 +106,16 @@ public class ProfileRepositoryStore extends AbstractRepositoryStore<ProfileFileS
 
     @Override
     public ProfileFileStore getChild(String fileName) {
-    	ProfileFileStore file = super.getChild(fileName) ;
-        if(file == null){
-            URL url = ProfilePlugin.getDefault().getBundle().getResource(STORE_NAME+ "/" +fileName);
-            if(url != null){
-                return new URLProfileFileStore(url,this) ;
-            }else{
-                return null ;
+        ProfileFileStore file = super.getChild(fileName);
+        if (file == null) {
+            URL url = ProfilePlugin.getDefault().getBundle().getResource(STORE_NAME + "/" + fileName);
+            if (url != null) {
+                return new URLProfileFileStore(url, this);
+            } else {
+                return null;
             }
-        }else{
-            return file ;
+        } else {
+            return file;
         }
 
     }

@@ -16,10 +16,8 @@ package org.bonitasoft.studio.properties.form.sections.actions.contributions;
 
 import org.eclipse.swt.widgets.Composite;
 
-
 /**
  * @author Florine Boudin
- *
  */
 public class InitialValueComposite extends Composite {
 

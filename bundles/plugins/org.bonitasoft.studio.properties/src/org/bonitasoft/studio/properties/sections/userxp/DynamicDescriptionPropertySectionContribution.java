@@ -1,19 +1,16 @@
 /**
  * Copyright (C) 2010 BonitaSoft S.A.
  * BonitaSoft, 31 rue Gustave Eiffel - 38000 Grenoble
- *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2.0 of the License, or
  * (at your option) any later version.
- *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package org.bonitasoft.studio.properties.sections.userxp;
 
@@ -41,10 +38,8 @@ import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetWidgetFactory;
 
 /**
  * @author Aurelien Pupier
- *
  */
 public class DynamicDescriptionPropertySectionContribution extends AbstractPropertySectionContribution {
-
 
     private ExpressionViewer expressionViewer;
     private EMFDataBindingContext dataBindingContext;
@@ -56,11 +51,12 @@ public class DynamicDescriptionPropertySectionContribution extends AbstractPrope
             final ExtensibleGridPropertySection extensibleGridPropertySection) {
         composite.setLayout(new GridLayout(1, true));
         composite.setLayoutData(new GridData(SWT.FILL, SWT.DEFAULT, true, false));
-        expressionViewer = new ExpressionViewer(composite,SWT.BORDER,widgetFactory,editingDomain, ProcessPackage.Literals.FLOW_ELEMENT__DYNAMIC_DESCRIPTION);
+        expressionViewer = new ExpressionViewer(composite, SWT.BORDER, widgetFactory, editingDomain, ProcessPackage.Literals.FLOW_ELEMENT__DYNAMIC_DESCRIPTION);
         expressionViewer.getControl().setLayoutData(new GridData(SWT.FILL, SWT.DEFAULT, true, false));
-        expressionViewer.addFilter(new AvailableExpressionTypeFilter(new String[]{ExpressionConstants.CONSTANT_TYPE,ExpressionConstants.VARIABLE_TYPE,ExpressionConstants.PARAMETER_TYPE,ExpressionConstants.SCRIPT_TYPE}));
-        expressionViewer.setInput(eObject) ;
-        expressionViewer.setMessage(Messages.dynamicDescriptionHint,IStatus.INFO) ;
+        expressionViewer.addFilter(new AvailableExpressionTypeFilter(new String[] { ExpressionConstants.CONSTANT_TYPE, ExpressionConstants.VARIABLE_TYPE,
+                ExpressionConstants.PARAMETER_TYPE, ExpressionConstants.SCRIPT_TYPE }));
+        expressionViewer.setInput(eObject);
+        expressionViewer.setMessage(Messages.dynamicDescriptionHint, IStatus.INFO);
         expressionViewer.addExpressionValidator(new ExpressionLengthValidator(maxLength));
         refreshDataBindingContext();
     }
@@ -72,12 +68,14 @@ public class DynamicDescriptionPropertySectionContribution extends AbstractPrope
         dataBindingContext = new EMFDataBindingContext();
         if (eObject != null && expressionViewer != null) {
 
-            Expression selection = ((FlowElement) eObject).getDynamicDescription() ;
-            if(selection == null){
-                selection = ExpressionFactory.eINSTANCE.createExpression() ;
-                editingDomain.getCommandStack().execute(SetCommand.create(editingDomain, eObject, ProcessPackage.Literals.FLOW_ELEMENT__DYNAMIC_DESCRIPTION, selection)) ;
+            Expression selection = ((FlowElement) eObject).getDynamicDescription();
+            if (selection == null) {
+                selection = ExpressionFactory.eINSTANCE.createExpression();
+                editingDomain.getCommandStack().execute(
+                        SetCommand.create(editingDomain, eObject, ProcessPackage.Literals.FLOW_ELEMENT__DYNAMIC_DESCRIPTION, selection));
             }
-            dataBindingContext.bindValue(ViewerProperties.singleSelection().observe(expressionViewer), EMFEditProperties.value(editingDomain, ProcessPackage.Literals.FLOW_ELEMENT__DYNAMIC_DESCRIPTION).observe(eObject));
+            dataBindingContext.bindValue(ViewerProperties.singleSelection().observe(expressionViewer),
+                    EMFEditProperties.value(editingDomain, ProcessPackage.Literals.FLOW_ELEMENT__DYNAMIC_DESCRIPTION).observe(eObject));
             //expressionViewer.setSelection(new StructuredSelection(selection)) ;
         }
     }
@@ -102,6 +100,5 @@ public class DynamicDescriptionPropertySectionContribution extends AbstractPrope
     @Override
     public void refresh() {
     }
-
 
 }

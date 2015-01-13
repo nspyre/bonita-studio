@@ -1,7 +1,6 @@
 /**
  * <copyright>
  * </copyright>
- *
  * $Id$
  */
 package org.omg.spec.bpmn.model.impl;
@@ -21,23 +20,26 @@ import org.omg.spec.bpmn.model.TGlobalManualTask;
  * @generated
  */
 public class TGlobalManualTaskImpl extends TGlobalTaskImpl implements TGlobalManualTask {
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected TGlobalManualTaskImpl() {
-		super();
-	}
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	protected EClass eStaticClass() {
-		return ModelPackage.Literals.TGLOBAL_MANUAL_TASK;
-	}
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * 
+     * @generated
+     */
+    protected TGlobalManualTaskImpl() {
+        super();
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * 
+     * @generated
+     */
+    @Override
+    protected EClass eStaticClass() {
+        return ModelPackage.Literals.TGLOBAL_MANUAL_TASK;
+    }
 
 } //TGlobalManualTaskImpl

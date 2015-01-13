@@ -13,29 +13,29 @@ import org.eclipse.jface.viewers.StructuredViewer;
 
 /**
  * @author Baptiste Mesta
- *
  */
 public class CellEditorViewerProperties extends SimpleValueProperty {
-	public Object getValueType() {
-		return StructuredViewer.class;
-	}
 
-	protected Object doGetValue(Object source) {
-		if(source instanceof ComboBoxViewerCellEditor){
-			return ((ComboBoxViewerCellEditor) source).getViewer();
-		}
-		return null;
-	}
+    public Object getValueType() {
+        return StructuredViewer.class;
+    }
 
-	protected void doSetValue(Object source, Object value) {
-		((ComboBoxViewerCellEditor) source).getViewer().setSelection(new StructuredSelection(value));
-	}
+    protected Object doGetValue(Object source) {
+        if (source instanceof ComboBoxViewerCellEditor) {
+            return ((ComboBoxViewerCellEditor) source).getViewer();
+        }
+        return null;
+    }
 
-	public INativePropertyListener adaptListener(ISimplePropertyListener listener) {
-		return null;
-	}
+    protected void doSetValue(Object source, Object value) {
+        ((ComboBoxViewerCellEditor) source).getViewer().setSelection(new StructuredSelection(value));
+    }
 
-	public String toString() {
-		return super.toString();
-	}
+    public INativePropertyListener adaptListener(ISimplePropertyListener listener) {
+        return null;
+    }
+
+    public String toString() {
+        return super.toString();
+    }
 }

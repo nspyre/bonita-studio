@@ -4,10 +4,9 @@
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- *
  * Contributors:
- *     BMW Car IT - Initial API and implementation
- *     Technische Universitaet Muenchen - Major refactoring and extension
+ * BMW Car IT - Initial API and implementation
+ * Technische Universitaet Muenchen - Major refactoring and extension
  *******************************************************************************/
 package org.eclipse.emf.edapt.migration;
 
@@ -24,12 +23,12 @@ import java.util.Random;
  */
 public class RandomOracle implements IOracle {
 
-	/** Random generator. */
-	private final Random random = new Random();
+    /** Random generator. */
+    private final Random random = new Random();
 
-	/** {@inheritDoc} */
-	public <V> V choose(Instance instance, List<V> values, String message) {
-		int index = random.nextInt(values.size());
-		return values.get(index);
-	}
+    /** {@inheritDoc} */
+    public <V> V choose(Instance instance, List<V> values, String message) {
+        int index = random.nextInt(values.size());
+        return values.get(index);
+    }
 }

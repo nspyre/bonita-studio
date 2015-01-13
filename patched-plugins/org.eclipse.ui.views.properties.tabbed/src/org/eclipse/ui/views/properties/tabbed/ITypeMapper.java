@@ -4,9 +4,8 @@
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- * 
  * Contributors:
- *     IBM Corporation - initial API and implementation
+ * IBM Corporation - initial API and implementation
  *******************************************************************************/
 package org.eclipse.ui.views.properties.tabbed;
 
@@ -30,13 +29,13 @@ package org.eclipse.ui.views.properties.tabbed;
  */
 public interface ITypeMapper {
 
-	/**
-	 * Map the input object to a domain model type.
-	 * 
-	 * @param object
-	 *            the input object.
-	 * @return the type of the input object, mapped to the domain type if
-	 *         required.
-	 */
-	public Class mapType(Object object);
+    /**
+     * Map the input object to a domain model type.
+     * 
+     * @param object
+     *        the input object.
+     * @return the type of the input object, mapped to the domain type if
+     *         required.
+     */
+    public Class mapType(Object object);
 }

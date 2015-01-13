@@ -18,7 +18,7 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link org.bonitasoft.studio.condition.conditionModel.impl.Expression_BooleanImpl#isValue <em>Value</em>}</li>
+ * <li>{@link org.bonitasoft.studio.condition.conditionModel.impl.Expression_BooleanImpl#isValue <em>Value</em>}</li>
  * </ul>
  * </p>
  *
@@ -26,151 +26,164 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  */
 public class Expression_BooleanImpl extends ExpressionImpl implements Expression_Boolean
 {
-  /**
-   * The default value of the '{@link #isValue() <em>Value</em>}' attribute.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see #isValue()
-   * @generated
-   * @ordered
-   */
-  protected static final boolean VALUE_EDEFAULT = false;
 
-  /**
-   * The cached value of the '{@link #isValue() <em>Value</em>}' attribute.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see #isValue()
-   * @generated
-   * @ordered
-   */
-  protected boolean value = VALUE_EDEFAULT;
+    /**
+     * The default value of the '{@link #isValue() <em>Value</em>}' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * 
+     * @see #isValue()
+     * @generated
+     * @ordered
+     */
+    protected static final boolean VALUE_EDEFAULT = false;
 
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  protected Expression_BooleanImpl()
-  {
-    super();
-  }
+    /**
+     * The cached value of the '{@link #isValue() <em>Value</em>}' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * 
+     * @see #isValue()
+     * @generated
+     * @ordered
+     */
+    protected boolean value = VALUE_EDEFAULT;
 
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  @Override
-  protected EClass eStaticClass()
-  {
-    return ConditionModelPackage.Literals.EXPRESSION_BOOLEAN;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public boolean isValue()
-  {
-    return value;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public void setValue(boolean newValue)
-  {
-    boolean oldValue = value;
-    value = newValue;
-    if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, ConditionModelPackage.EXPRESSION_BOOLEAN__VALUE, oldValue, value));
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  @Override
-  public Object eGet(int featureID, boolean resolve, boolean coreType)
-  {
-    switch (featureID)
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * 
+     * @generated
+     */
+    protected Expression_BooleanImpl()
     {
-      case ConditionModelPackage.EXPRESSION_BOOLEAN__VALUE:
-        return isValue();
+        super();
     }
-    return super.eGet(featureID, resolve, coreType);
-  }
 
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  @Override
-  public void eSet(int featureID, Object newValue)
-  {
-    switch (featureID)
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * 
+     * @generated
+     */
+    @Override
+    protected EClass eStaticClass()
     {
-      case ConditionModelPackage.EXPRESSION_BOOLEAN__VALUE:
-        setValue((Boolean)newValue);
-        return;
+        return ConditionModelPackage.Literals.EXPRESSION_BOOLEAN;
     }
-    super.eSet(featureID, newValue);
-  }
 
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  @Override
-  public void eUnset(int featureID)
-  {
-    switch (featureID)
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * 
+     * @generated
+     */
+    public boolean isValue()
     {
-      case ConditionModelPackage.EXPRESSION_BOOLEAN__VALUE:
-        setValue(VALUE_EDEFAULT);
-        return;
+        return value;
     }
-    super.eUnset(featureID);
-  }
 
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  @Override
-  public boolean eIsSet(int featureID)
-  {
-    switch (featureID)
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * 
+     * @generated
+     */
+    public void setValue(boolean newValue)
     {
-      case ConditionModelPackage.EXPRESSION_BOOLEAN__VALUE:
-        return value != VALUE_EDEFAULT;
+        boolean oldValue = value;
+        value = newValue;
+        if (eNotificationRequired())
+            eNotify(new ENotificationImpl(this, Notification.SET, ConditionModelPackage.EXPRESSION_BOOLEAN__VALUE, oldValue, value));
     }
-    return super.eIsSet(featureID);
-  }
 
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  @Override
-  public String toString()
-  {
-    if (eIsProxy()) return super.toString();
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * 
+     * @generated
+     */
+    @Override
+    public Object eGet(int featureID, boolean resolve, boolean coreType)
+    {
+        switch (featureID)
+        {
+            case ConditionModelPackage.EXPRESSION_BOOLEAN__VALUE:
+                return isValue();
+        }
+        return super.eGet(featureID, resolve, coreType);
+    }
 
-    StringBuffer result = new StringBuffer(super.toString());
-    result.append(" (value: ");
-    result.append(value);
-    result.append(')');
-    return result.toString();
-  }
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * 
+     * @generated
+     */
+    @Override
+    public void eSet(int featureID, Object newValue)
+    {
+        switch (featureID)
+        {
+            case ConditionModelPackage.EXPRESSION_BOOLEAN__VALUE:
+                setValue((Boolean) newValue);
+                return;
+        }
+        super.eSet(featureID, newValue);
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * 
+     * @generated
+     */
+    @Override
+    public void eUnset(int featureID)
+    {
+        switch (featureID)
+        {
+            case ConditionModelPackage.EXPRESSION_BOOLEAN__VALUE:
+                setValue(VALUE_EDEFAULT);
+                return;
+        }
+        super.eUnset(featureID);
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * 
+     * @generated
+     */
+    @Override
+    public boolean eIsSet(int featureID)
+    {
+        switch (featureID)
+        {
+            case ConditionModelPackage.EXPRESSION_BOOLEAN__VALUE:
+                return value != VALUE_EDEFAULT;
+        }
+        return super.eIsSet(featureID);
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * 
+     * @generated
+     */
+    @Override
+    public String toString()
+    {
+        if (eIsProxy())
+            return super.toString();
+
+        StringBuffer result = new StringBuffer(super.toString());
+        result.append(" (value: ");
+        result.append(value);
+        result.append(')');
+        return result.toString();
+    }
 
 } //Expression_BooleanImpl

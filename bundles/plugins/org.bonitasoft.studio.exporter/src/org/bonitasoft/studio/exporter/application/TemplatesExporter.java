@@ -1,19 +1,16 @@
 /**
  * Copyright (C) 2009 BonitaSoft S.A.
  * BonitaSoft, 31 rue Gustave Eiffel - 38000 Grenoble
- * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2.0 of the License, or
  * (at your option) any later version.
- *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package org.bonitasoft.studio.exporter.application;
 
@@ -49,19 +46,18 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.ecore.EObject;
 
 public class TemplatesExporter {
+
     private static final String TMP_DIR = ProjectUtil.getBonitaStudioWorkFolder().getAbsolutePath();
 
     /**
-     * 
      * export and add process templates to the war file
-     * 
      * WARNING: must be done before generating forms.xml, because when templates
      * do not exists they are created and must be put in the forms.xml
      * 
      * @param process
-     *            from which resources are exported
+     *        from which resources are exported
      * @param warFile
-     *            were to put resources
+     *        were to put resources
      * @param monitor
      * @return true if all files are exported
      * @throws CoreException
@@ -84,7 +80,7 @@ public class TemplatesExporter {
                     + "WEB-INF" + File.separatorChar + "classes" + File.separatorChar + "html"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
             if (toGenerate.size() > 0) {
                 List<String> paths = ((HtmlTemplateGenerator) ExporterService.getInstance().getExporterService(SERVICE_TYPE.HtmlTemplateGenerator))
-                        .createXhtmlTemplate(toGenerate, false,null,false);
+                        .createXhtmlTemplate(toGenerate, false, null, false);
                 for (String path : paths) {
                     File f = new File(path);
                     if (!destFile.exists()) {
@@ -127,8 +123,8 @@ public class TemplatesExporter {
             }
 
         }
-        if(element instanceof ViewPageFlow){
-            for (Form form : ((ViewPageFlow)element).getViewForm()) {
+        if (element instanceof ViewPageFlow) {
+            for (Form form : ((ViewPageFlow) element).getViewForm()) {
                 addTemplates(form, toAdd, toGenerate);
             }
         }
@@ -146,7 +142,7 @@ public class TemplatesExporter {
         }
         if (element instanceof AbstractProcess) {
             AbstractProcess process = (AbstractProcess) element;
-            if(process instanceof SubProcessEvent){
+            if (process instanceof SubProcessEvent) {
                 process = ModelHelper.getParentProcess(process);
             }
             if (process.getProcessTemplate() != null) {
@@ -173,7 +169,8 @@ public class TemplatesExporter {
         }
     }
 
-    private static void addTemplateInToAddList(ArrayList<File> toAdd, List<EObject> toGenerate, AbstractProcess process, TemplateType templateType) throws IOException {
+    private static void addTemplateInToAddList(ArrayList<File> toAdd, List<EObject> toGenerate, AbstractProcess process, TemplateType templateType)
+            throws IOException {
         File temp;
         temp = addTemplate(process, templateType, toGenerate);
         if (temp != null && !toAdd.contains(temp)) {
@@ -234,7 +231,7 @@ public class TemplatesExporter {
      */
     protected static File exportTemplate(Element element, TemplateType type, final AssociatedFile page) throws IOException, FileNotFoundException {
         File newFile;
-        if (page != null && page.getPath() != null  && !page.getPath().isEmpty()) {
+        if (page != null && page.getPath() != null && !page.getPath().isEmpty()) {
             File template = WebTemplatesUtil.getFile(page.getPath());
             if (template != null && template.exists()) {
                 newFile = new File(TMP_DIR + File.separatorChar + ExporterTools.getTemplateWarFileName(element, type));

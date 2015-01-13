@@ -1,19 +1,16 @@
 /**
  * Copyright (C) 2012 BonitaSoft S.A.
  * BonitaSoft, 32 rue Gustave Eiffel - 38000 Grenoble
- *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2.0 of the License, or
  * (at your option) any later version.
- *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package org.bonitasoft.studio.actors.tests.SWTbot;
 
@@ -39,7 +36,6 @@ import org.junit.runner.RunWith;
 
 /**
  * @author Aur�lie Zara
- * 
  */
 
 @RunWith(SWTBotJunit4ClassRunner.class)
@@ -149,25 +145,25 @@ public class ActorFilterDefinitionTest extends SWTBotGefTestCase {
                 .getCategory().size());
     }
 
-//    @Test
-//    public void testRemoveCategory() throws Exception {
-//        final String id = "test4";
-//        final String textLabel = "Definition id *";
-//        final String version = "1.0.0";
-//        bot.textWithLabel(textLabel).setText(id);
-//        bot.button("Add...").click();
-//        SWTBotActorFilterUtil.addCategory(bot);
-//        bot.tableWithLabel("Categories").select(0);
-//        bot.waitUntil(Conditions.widgetIsEnabled(bot.button("Remove")),5000);
-//        bot.button("Remove").click();
-//        bot.button(IDialogConstants.FINISH_LABEL).click();
-//        ActorFilterDefRepositoryStore store = (ActorFilterDefRepositoryStore) RepositoryManager
-//                .getInstance().getRepositoryStore(
-//                        ActorFilterDefRepositoryStore.class);
-//        ConnectorDefinition actorDefinition = store.getDefinition(id, version);
-//        assertEquals("category list size should be equal to 0", actorDefinition
-//                .getCategory().size(), 0);
-//    }
+    //    @Test
+    //    public void testRemoveCategory() throws Exception {
+    //        final String id = "test4";
+    //        final String textLabel = "Definition id *";
+    //        final String version = "1.0.0";
+    //        bot.textWithLabel(textLabel).setText(id);
+    //        bot.button("Add...").click();
+    //        SWTBotActorFilterUtil.addCategory(bot);
+    //        bot.tableWithLabel("Categories").select(0);
+    //        bot.waitUntil(Conditions.widgetIsEnabled(bot.button("Remove")),5000);
+    //        bot.button("Remove").click();
+    //        bot.button(IDialogConstants.FINISH_LABEL).click();
+    //        ActorFilterDefRepositoryStore store = (ActorFilterDefRepositoryStore) RepositoryManager
+    //                .getInstance().getRepositoryStore(
+    //                        ActorFilterDefRepositoryStore.class);
+    //        ConnectorDefinition actorDefinition = store.getDefinition(id, version);
+    //        assertEquals("category list size should be equal to 0", actorDefinition
+    //                .getCategory().size(), 0);
+    //    }
 
     @Test
     public void testCreateExistingCategory() throws Exception {
@@ -199,7 +195,7 @@ public class ActorFilterDefinitionTest extends SWTBotGefTestCase {
         bot.button("Add...").click();
         bot.button("Add...").click();
         bot.button("Add...").click();
-        bot.waitUntil(Conditions.widgetIsEnabled(bot.button("Remove")),5000);
+        bot.waitUntil(Conditions.widgetIsEnabled(bot.button("Remove")), 5000);
         bot.button("Remove").click();
         SWTBotTable table = bot.table();
         table.click(0, 0);

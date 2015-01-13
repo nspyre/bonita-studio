@@ -1,7 +1,6 @@
 /**
  * <copyright>
  * </copyright>
- *
  * $Id$
  */
 package org.w3._1999.xhtml.validation;
@@ -60,52 +59,98 @@ import org.w3._1999.xhtml.VarType;
  * This can be disabled with -vmargs -Dorg.eclipse.emf.examples.generator.validator=false.
  */
 public interface ButtonContentValidator {
-	boolean validate();
 
-	boolean validateMixed(FeatureMap value);
-	boolean validateGroup(FeatureMap value);
-	boolean validateP(EList<PType> value);
-	boolean validateH1(EList<H1Type> value);
-	boolean validateH2(EList<H2Type> value);
-	boolean validateH3(EList<H3Type> value);
-	boolean validateH4(EList<H4Type> value);
-	boolean validateH5(EList<H5Type> value);
-	boolean validateH6(EList<H6Type> value);
-	boolean validateDiv(EList<DivType> value);
-	boolean validateUl(EList<UlType> value);
-	boolean validateOl(EList<OlType> value);
-	boolean validateDl(EList<DlType> value);
-	boolean validatePre(EList<PreType> value);
-	boolean validateHr(EList<HrType> value);
-	boolean validateBlockquote(EList<BlockquoteType> value);
-	boolean validateAddress(EList<AddressType> value);
-	boolean validateTable(EList<TableType> value);
-	boolean validateBr(EList<BrType> value);
-	boolean validateSpan(EList<SpanType> value);
-	boolean validateBdo(EList<BdoType> value);
-	boolean validateMap(EList<MapType> value);
-	boolean validateObject(EList<ObjectType> value);
-	boolean validateImg(EList<ImgType> value);
-	boolean validateTt(EList<TtType> value);
-	boolean validateI(EList<IType> value);
-	boolean validateB(EList<BType> value);
-	boolean validateBig(EList<BigType> value);
-	boolean validateSmall(EList<SmallType> value);
-	boolean validateEm(EList<EmType> value);
-	boolean validateStrong(EList<StrongType> value);
-	boolean validateDfn(EList<DfnType> value);
-	boolean validateCode(EList<CodeType> value);
-	boolean validateQ(EList<QType> value);
-	boolean validateSamp(EList<SampType> value);
-	boolean validateKbd(EList<KbdType> value);
-	boolean validateVar(EList<VarType> value);
-	boolean validateCite(EList<CiteType> value);
-	boolean validateAbbr(EList<AbbrType> value);
-	boolean validateAcronym(EList<AcronymType> value);
-	boolean validateSub(EList<SubType> value);
-	boolean validateSup(EList<SupType> value);
-	boolean validateNoscript(EList<NoscriptType> value);
-	boolean validateIns(EList<InsType> value);
-	boolean validateDel(EList<DelType> value);
-	boolean validateScript(EList<ScriptType> value);
+    boolean validate();
+
+    boolean validateMixed(FeatureMap value);
+
+    boolean validateGroup(FeatureMap value);
+
+    boolean validateP(EList<PType> value);
+
+    boolean validateH1(EList<H1Type> value);
+
+    boolean validateH2(EList<H2Type> value);
+
+    boolean validateH3(EList<H3Type> value);
+
+    boolean validateH4(EList<H4Type> value);
+
+    boolean validateH5(EList<H5Type> value);
+
+    boolean validateH6(EList<H6Type> value);
+
+    boolean validateDiv(EList<DivType> value);
+
+    boolean validateUl(EList<UlType> value);
+
+    boolean validateOl(EList<OlType> value);
+
+    boolean validateDl(EList<DlType> value);
+
+    boolean validatePre(EList<PreType> value);
+
+    boolean validateHr(EList<HrType> value);
+
+    boolean validateBlockquote(EList<BlockquoteType> value);
+
+    boolean validateAddress(EList<AddressType> value);
+
+    boolean validateTable(EList<TableType> value);
+
+    boolean validateBr(EList<BrType> value);
+
+    boolean validateSpan(EList<SpanType> value);
+
+    boolean validateBdo(EList<BdoType> value);
+
+    boolean validateMap(EList<MapType> value);
+
+    boolean validateObject(EList<ObjectType> value);
+
+    boolean validateImg(EList<ImgType> value);
+
+    boolean validateTt(EList<TtType> value);
+
+    boolean validateI(EList<IType> value);
+
+    boolean validateB(EList<BType> value);
+
+    boolean validateBig(EList<BigType> value);
+
+    boolean validateSmall(EList<SmallType> value);
+
+    boolean validateEm(EList<EmType> value);
+
+    boolean validateStrong(EList<StrongType> value);
+
+    boolean validateDfn(EList<DfnType> value);
+
+    boolean validateCode(EList<CodeType> value);
+
+    boolean validateQ(EList<QType> value);
+
+    boolean validateSamp(EList<SampType> value);
+
+    boolean validateKbd(EList<KbdType> value);
+
+    boolean validateVar(EList<VarType> value);
+
+    boolean validateCite(EList<CiteType> value);
+
+    boolean validateAbbr(EList<AbbrType> value);
+
+    boolean validateAcronym(EList<AcronymType> value);
+
+    boolean validateSub(EList<SubType> value);
+
+    boolean validateSup(EList<SupType> value);
+
+    boolean validateNoscript(EList<NoscriptType> value);
+
+    boolean validateIns(EList<InsType> value);
+
+    boolean validateDel(EList<DelType> value);
+
+    boolean validateScript(EList<ScriptType> value);
 }

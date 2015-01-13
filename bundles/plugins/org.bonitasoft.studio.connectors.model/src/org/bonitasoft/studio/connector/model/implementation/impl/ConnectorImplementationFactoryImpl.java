@@ -1,7 +1,6 @@
 /**
  * <copyright>
  * </copyright>
- *
  * $Id$
  */
 package org.bonitasoft.studio.connector.model.implementation.impl;
@@ -20,113 +19,128 @@ import org.eclipse.emf.ecore.plugin.EcorePlugin;
  * <!-- begin-user-doc -->
  * An implementation of the model <b>Factory</b>.
  * <!-- end-user-doc -->
+ * 
  * @generated
  */
 public class ConnectorImplementationFactoryImpl extends EFactoryImpl implements ConnectorImplementationFactory {
+
     /**
-	 * Creates the default factory implementation.
-	 * <!-- begin-user-doc -->
+     * Creates the default factory implementation.
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * 
+     * @generated
+     */
     public static ConnectorImplementationFactory init() {
-		try {
-			ConnectorImplementationFactory theConnectorImplementationFactory = (ConnectorImplementationFactory)EPackage.Registry.INSTANCE.getEFactory(ConnectorImplementationPackage.eNS_URI);
-			if (theConnectorImplementationFactory != null) {
-				return theConnectorImplementationFactory;
-			}
-		}
-		catch (Exception exception) {
-			EcorePlugin.INSTANCE.log(exception);
-		}
-		return new ConnectorImplementationFactoryImpl();
-	}
+        try {
+            ConnectorImplementationFactory theConnectorImplementationFactory = (ConnectorImplementationFactory) EPackage.Registry.INSTANCE
+                    .getEFactory(ConnectorImplementationPackage.eNS_URI);
+            if (theConnectorImplementationFactory != null) {
+                return theConnectorImplementationFactory;
+            }
+        } catch (Exception exception) {
+            EcorePlugin.INSTANCE.log(exception);
+        }
+        return new ConnectorImplementationFactoryImpl();
+    }
 
     /**
-	 * Creates an instance of the factory.
-	 * <!-- begin-user-doc -->
+     * Creates an instance of the factory.
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * 
+     * @generated
+     */
     public ConnectorImplementationFactoryImpl() {
-		super();
-	}
+        super();
+    }
 
     /**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * 
+     * @generated
+     */
     @Override
     public EObject create(EClass eClass) {
-		switch (eClass.getClassifierID()) {
-			case ConnectorImplementationPackage.CONNECTOR_IMPLEMENTATION: return createConnectorImplementation();
-			case ConnectorImplementationPackage.DOCUMENT_ROOT: return createDocumentRoot();
-			case ConnectorImplementationPackage.JAR_DEPENDENCIES: return createJarDependencies();
-			case ConnectorImplementationPackage.UNLOADABLE_CONNECTOR_IMPLEMENTATION: return createUnloadableConnectorImplementation();
-			default:
-				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
-		}
-	}
+        switch (eClass.getClassifierID()) {
+            case ConnectorImplementationPackage.CONNECTOR_IMPLEMENTATION:
+                return createConnectorImplementation();
+            case ConnectorImplementationPackage.DOCUMENT_ROOT:
+                return createDocumentRoot();
+            case ConnectorImplementationPackage.JAR_DEPENDENCIES:
+                return createJarDependencies();
+            case ConnectorImplementationPackage.UNLOADABLE_CONNECTOR_IMPLEMENTATION:
+                return createUnloadableConnectorImplementation();
+            default:
+                throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
+        }
+    }
 
     /**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * 
+     * @generated
+     */
     public ConnectorImplementation createConnectorImplementation() {
-		ConnectorImplementationImpl connectorImplementation = new ConnectorImplementationImpl();
-		return connectorImplementation;
-	}
+        ConnectorImplementationImpl connectorImplementation = new ConnectorImplementationImpl();
+        return connectorImplementation;
+    }
 
     /**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * 
+     * @generated
+     */
     public DocumentRoot createDocumentRoot() {
-		DocumentRootImpl documentRoot = new DocumentRootImpl();
-		return documentRoot;
-	}
+        DocumentRootImpl documentRoot = new DocumentRootImpl();
+        return documentRoot;
+    }
 
     /**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * 
+     * @generated
+     */
     public JarDependencies createJarDependencies() {
-		JarDependenciesImpl jarDependencies = new JarDependenciesImpl();
-		return jarDependencies;
-	}
+        JarDependenciesImpl jarDependencies = new JarDependenciesImpl();
+        return jarDependencies;
+    }
 
     /**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public UnloadableConnectorImplementation createUnloadableConnectorImplementation() {
-		UnloadableConnectorImplementationImpl unloadableConnectorImplementation = new UnloadableConnectorImplementationImpl();
-		return unloadableConnectorImplementation;
-	}
-
-				/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * 
+     * @generated
+     */
+    public UnloadableConnectorImplementation createUnloadableConnectorImplementation() {
+        UnloadableConnectorImplementationImpl unloadableConnectorImplementation = new UnloadableConnectorImplementationImpl();
+        return unloadableConnectorImplementation;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * 
+     * @generated
+     */
     public ConnectorImplementationPackage getConnectorImplementationPackage() {
-		return (ConnectorImplementationPackage)getEPackage();
-	}
+        return (ConnectorImplementationPackage) getEPackage();
+    }
 
     /**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @deprecated
-	 * @generated
-	 */
+     * 
+     * @deprecated
+     * @generated
+     */
     @Deprecated
     public static ConnectorImplementationPackage getPackage() {
-		return ConnectorImplementationPackage.eINSTANCE;
-	}
+        return ConnectorImplementationPackage.eINSTANCE;
+    }
 
 } //ConnectorImplementationFactoryImpl

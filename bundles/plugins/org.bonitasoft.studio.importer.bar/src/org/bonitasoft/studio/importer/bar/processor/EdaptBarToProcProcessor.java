@@ -5,12 +5,10 @@
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2.0 of the License, or
  * (at your option) any later version.
- *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- *
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
@@ -88,7 +86,6 @@ import org.eclipse.ui.PlatformUI;
 
 /**
  * @author Romain Bioteau
- *
  */
 public class EdaptBarToProcProcessor extends ToProcProcessor {
 
@@ -257,7 +254,8 @@ public class EdaptBarToProcProcessor extends ToProcProcessor {
         }
     }
 
-    protected Change addReportChange(final String elementName, final String elementType, final String elementUUID, final String description, final String propertyName, final int status) {
+    protected Change addReportChange(final String elementName, final String elementType, final String elementUUID, final String description,
+            final String propertyName, final int status) {
         final Change change = MigrationReportFactory.eINSTANCE.createChange();
         change.setElementName(elementName);
         change.setElementType(elementType);
@@ -387,7 +385,8 @@ public class EdaptBarToProcProcessor extends ToProcProcessor {
         return ".bar";
     }
 
-    private void performMigration(final BOSMigrator migrator, final URI resourceURI, final Release release, final IProgressMonitor monitor) throws MigrationException {
+    private void performMigration(final BOSMigrator migrator, final URI resourceURI, final Release release, final IProgressMonitor monitor)
+            throws MigrationException {
         migrator.setLevel(ValidationLevel.RELEASE);
         migrator.migrateAndSave(
                 Collections.singletonList(resourceURI), release,

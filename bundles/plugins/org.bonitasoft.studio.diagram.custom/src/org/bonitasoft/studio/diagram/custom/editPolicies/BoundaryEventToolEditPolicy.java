@@ -1,19 +1,16 @@
 /**
  * Copyright (C) 2009-2010 BonitaSoft S.A.
  * BonitaSoft, 31 rue Gustave Eiffel - 38000 Grenoble
- *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2.0 of the License, or
  * (at your option) any later version.
- *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
 package org.bonitasoft.studio.diagram.custom.editPolicies;
@@ -75,12 +72,11 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Listener;
 
 /**
- *
  * Show a tool that enable to create boundary events on the activity
  *
  * @author Baptiste Mesta
  */
-public class BoundaryEventToolEditPolicy extends AbstractSingleSelectionEditPolicy implements ZoomListener , LayerConstants {
+public class BoundaryEventToolEditPolicy extends AbstractSingleSelectionEditPolicy implements ZoomListener, LayerConstants {
 
     public static final String BOUNDARY_TOOL_ROLE = "boundaryTool"; //$NON-NLS-1$
     private static final IFigure EMPTY_FIGURE = new RectangleFigure();
@@ -122,7 +118,6 @@ public class BoundaryEventToolEditPolicy extends AbstractSingleSelectionEditPoli
                 allowedChildren.add(ProcessElementTypes.IntermediateErrorCatchEvent_3034);
             }
 
-
             for (final IElementType child : allowedChildren) {
                 if (child.getEClass().equals(targetEClass)) {
                     return child;
@@ -147,7 +142,7 @@ public class BoundaryEventToolEditPolicy extends AbstractSingleSelectionEditPoli
     private Image iconImage;
     private ZoomManager zoomManager;
 
-    private Pair<IFigure,MouseListener> createClickableItem(final Point location, final EditPart host, final IElementType type) {
+    private Pair<IFigure, MouseListener> createClickableItem(final Point location, final EditPart host, final IElementType type) {
         ImageFigure image;
         image = new ImageFigure(IconService.getInstance().getIcon(type));
         image.setSize(16, 16);
@@ -184,7 +179,6 @@ public class BoundaryEventToolEditPolicy extends AbstractSingleSelectionEditPoli
         return eClass;
     }
 
-
     @Override
     @SuppressWarnings("unchecked")
     protected void hideFeedback() {
@@ -207,13 +201,12 @@ public class BoundaryEventToolEditPolicy extends AbstractSingleSelectionEditPoli
 
     /*
      * (non-Javadoc)
-     *
      * @see org.eclipse.gef.editpolicies.SelectionEditPolicy#showSelection()
      */
     @Override
     protected void showFeedback() {
 
-        if(zoomManager.getZoom() > GMFTools.MINIMAL_ZOOM_DISPLAY){
+        if (zoomManager.getZoom() > GMFTools.MINIMAL_ZOOM_DISPLAY) {
             EditPart host = getHost();
             if (host == null) {
                 return;
@@ -221,7 +214,6 @@ public class BoundaryEventToolEditPolicy extends AbstractSingleSelectionEditPoli
             while (host.getAdapter(ShapeNodeEditPart.class) == null) {
                 host = host.getParent();
             }
-
 
             layer = getLayer(LayerConstants.HANDLE_LAYER);
 
@@ -250,24 +242,24 @@ public class BoundaryEventToolEditPolicy extends AbstractSingleSelectionEditPoli
 
             toolBarFigure = new SlideMenuBarFigure(composite);
 
-            iconImage =  Pics.getImage("boundary_tool.png", Activator.getDefault()) ;
+            iconImage = Pics.getImage("boundary_tool.png", Activator.getDefault());
             toolImage = new ImageFigure(iconImage);
-            dropMenu = new DropDownMenuFigure(toolImage, composite,layer, Messages.boundaryTool);
+            dropMenu = new DropDownMenuFigure(toolImage, composite, layer, Messages.boundaryTool);
             toolBarFigure.addToMenu(dropMenu);
             dropMenu.addToggleVisibilityListener(new Listener() {
 
                 @Override
                 public void handleEvent(final org.eclipse.swt.widgets.Event event) {
-                    if(!dropMenu.isCollapsed()){
-                        if(	getHost().getEditPolicy(ActivitySwitchEditPolicy.SWITCH_TYPE_ROLE) != null){
-                            if(((ActivitySwitchEditPolicy) getHost().getEditPolicy(ActivitySwitchEditPolicy.SWITCH_TYPE_ROLE)).getDropMenu() != null ){
-                                ((ActivitySwitchEditPolicy) getHost().getEditPolicy(ActivitySwitchEditPolicy.SWITCH_TYPE_ROLE)).getDropMenu().collapse() ;
+                    if (!dropMenu.isCollapsed()) {
+                        if (getHost().getEditPolicy(ActivitySwitchEditPolicy.SWITCH_TYPE_ROLE) != null) {
+                            if (((ActivitySwitchEditPolicy) getHost().getEditPolicy(ActivitySwitchEditPolicy.SWITCH_TYPE_ROLE)).getDropMenu() != null) {
+                                ((ActivitySwitchEditPolicy) getHost().getEditPolicy(ActivitySwitchEditPolicy.SWITCH_TYPE_ROLE)).getDropMenu().collapse();
                             }
                         }
                     }
                 }
-            }) ;
-            final List<Pair<IFigure,MouseListener>> clickableItems = new ArrayList<Pair<IFigure,MouseListener>>();
+            });
+            final List<Pair<IFigure, MouseListener>> clickableItems = new ArrayList<Pair<IFigure, MouseListener>>();
 
             if (getHost().getAdapter(Task.class) != null) {
                 clickableItems.add(createClickableItem(new Point(0, 0), getHost(), ProcessElementTypes.IntermediateErrorCatchEvent_3029));
@@ -285,16 +277,17 @@ public class BoundaryEventToolEditPolicy extends AbstractSingleSelectionEditPoli
                 clickableItems.add(createClickableItem(new Point(0, 0), getHost(), ProcessElementTypes.IntermediateErrorCatchEvent_3032));
             } else if (getHost().getAdapter(ScriptTask.class) != null) {
                 clickableItems.add(createClickableItem(new Point(0, 0), getHost(), ProcessElementTypes.IntermediateErrorCatchEvent_3033));
-            }else if (getHost().getAdapter(ReceiveTask.class) != null) {
-	    clickableItems.add(createClickableItem(new Point(0, 0), getHost(), ProcessElementTypes.IntermediateErrorCatchEvent_3031));
-	} else if (getHost().getAdapter(Task.class) == null && getHost().getAdapter(CallActivity.class) == null && getHost().getAdapter(SendTask.class) == null
-	        && getHost().getAdapter(ReceiveTask.class) == null && getHost().getAdapter(Activity.class) != null) {// automatic
-	    // task
-	    clickableItems.add(createClickableItem(new Point(0, 0), getHost(), ProcessElementTypes.IntermediateErrorCatchEvent_3034));
-	}
+            } else if (getHost().getAdapter(ReceiveTask.class) != null) {
+                clickableItems.add(createClickableItem(new Point(0, 0), getHost(), ProcessElementTypes.IntermediateErrorCatchEvent_3031));
+            } else if (getHost().getAdapter(Task.class) == null && getHost().getAdapter(CallActivity.class) == null
+                    && getHost().getAdapter(SendTask.class) == null
+                    && getHost().getAdapter(ReceiveTask.class) == null && getHost().getAdapter(Activity.class) != null) {// automatic
+                // task
+                clickableItems.add(createClickableItem(new Point(0, 0), getHost(), ProcessElementTypes.IntermediateErrorCatchEvent_3034));
+            }
 
-            for (final Pair<IFigure,MouseListener> item : clickableItems) {
-                dropMenu.addToMenu(item.getFirst(),item.getSecond());
+            for (final Pair<IFigure, MouseListener> item : clickableItems) {
+                dropMenu.addToMenu(item.getFirst(), item.getSecond());
             }
 
             dropMenu.createSubMenuFigure();
@@ -344,22 +337,21 @@ public class BoundaryEventToolEditPolicy extends AbstractSingleSelectionEditPoli
         }
     }
 
-
     @Override
     public void activate() {
         super.activate();
         zoomManager = ((DiagramRootEditPart) getHost().getRoot()).getZoomManager();
-        zoomManager.addZoomListener(this) ;
+        zoomManager.addZoomListener(this);
     }
+
     /*
      * (non-Javadoc)
-     *
      * @see org.eclipse.gef.editpolicies.SelectionEditPolicy#deactivate()
      */
     @Override
     public void deactivate() {
         super.deactivate();
-        zoomManager.removeZoomListener(this) ;
+        zoomManager.removeZoomListener(this);
         iconImage = null;
         referenceFigure = null;
         toolImage = null;
@@ -371,12 +363,12 @@ public class BoundaryEventToolEditPolicy extends AbstractSingleSelectionEditPoli
     }
 
     public DropDownMenuFigure getDropMenu() {
-        return dropMenu ;
+        return dropMenu;
     }
 
     @Override
     public void zoomChanged(final double zoom) {
-        hideSelection() ;
+        hideSelection();
     }
 
 }

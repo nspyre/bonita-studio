@@ -143,7 +143,7 @@ public class FormsExporter {
 
     public File createXmlForms(final AbstractProcess studioProcess,
             final boolean isAllInBarExport, final Set<EObject> excludedObject)
-                    throws Exception {
+            throws Exception {
         timestamp = System.currentTimeMillis();
         procDefid = studioProcess.getName() + "--" + studioProcess.getVersion();
         this.excludedObject = excludedObject;
@@ -178,8 +178,8 @@ public class FormsExporter {
                     .createExpression(mandatorySymbol);
             builder.addMandatorySymbolExpression(engineExpression.getName(),
                     engineExpression.getContent(), engineExpression
-                    .getExpressionType(), engineExpression
-                    .getReturnType(),
+                            .getExpressionType(), engineExpression
+                            .getReturnType(),
                     engineExpression.getInterpreter().isEmpty() ? null
                             : engineExpression.getInterpreter());
             addExpressionDependency(builder, engineExpression);
@@ -191,8 +191,8 @@ public class FormsExporter {
                     .createExpression(mandatoryLabel);
             builder.addMandatoryLabelExpression(engineExpression.getName(),
                     engineExpression.getContent(), engineExpression
-                    .getExpressionType(), engineExpression
-                    .getReturnType(),
+                            .getExpressionType(), engineExpression
+                            .getReturnType(),
                     engineExpression.getInterpreter().isEmpty() ? null
                             : engineExpression.getInterpreter());
             addExpressionDependency(builder, engineExpression);
@@ -346,14 +346,14 @@ public class FormsExporter {
      */
     protected void generatePageFlow(final AbstractPageFlow pageFlow,
             final IFormBuilder builder, final boolean isViewPageFlow)
-                    throws InvalidFormDefinitionException {
+            throws InvalidFormDefinitionException {
         final String toMatch = pageFlow.getRegExpToHideDefaultField();
         boolean noDataToHide = true;
         for (final Data data : ModelHelper.getAccessibleData(pageFlow)) {
             if (!data.isGenerated()
                     || (pageFlow.isUseRegExpToHideDefaultField()
                             && toMatch != null ? data.getName()
-                                    .matches(toMatch) : false)) {
+                            .matches(toMatch) : false)) {
                 noDataToHide = false;
                 break;
             }
@@ -461,8 +461,8 @@ public class FormsExporter {
                     .createExpression(expression);
             builder.addLabelExpression(engineExpression.getName(),
                     engineExpression.getContent(), engineExpression
-                    .getExpressionType(), engineExpression
-                    .getReturnType(),
+                            .getExpressionType(), engineExpression
+                            .getReturnType(),
                     engineExpression.getInterpreter().isEmpty() ? null
                             : engineExpression.getInterpreter());
             addExpressionDependency(builder, engineExpression);
@@ -516,7 +516,7 @@ public class FormsExporter {
             final org.bonitasoft.engine.expression.Expression dependency) {
         return dependency.getInterpreter() != null && !dependency
                 .getInterpreter().isEmpty() ? dependency
-                        .getInterpreter() : null;
+                .getInterpreter() : null;
     }
 
     /**
@@ -627,10 +627,9 @@ public class FormsExporter {
                 .getOperatorType(operation));
     }
 
-
     protected void addAction(final IFormBuilder builder,
             final Operation action, final String submitButtonIdName)
-                    throws InvalidFormDefinitionException {
+            throws InvalidFormDefinitionException {
         final ActionType actionType = getActionTypeFromStudioOperatorType(action
                 .getOperator().getType());
         final String variableName = action.getLeftOperand().getContent();
@@ -640,17 +639,17 @@ public class FormsExporter {
         final EList<String> inputTypes = action.getOperator().getInputTypes();
         final String operatorInputType = inputTypes != null
                 && !inputTypes.isEmpty() ? inputTypes.get(0) : null;
-                final Expression expression = action.getRightOperand();
+        final Expression expression = action.getRightOperand();
 
-                builder.addAction(actionType, variableName, variableType, operator,
-                        operatorInputType, submitButtonIdName);
-                if (expression != null) {
-                    addActionExpression(builder, expression);
-                }
-                if (action.eContainer() instanceof Widget) {
-                    final Widget widget = (Widget) action.eContainer();
-                    addConditionExpression(builder, widget);
-                }
+        builder.addAction(actionType, variableName, variableType, operator,
+                operatorInputType, submitButtonIdName);
+        if (expression != null) {
+            addActionExpression(builder, expression);
+        }
+        if (action.eContainer() instanceof Widget) {
+            final Widget widget = (Widget) action.eContainer();
+            addConditionExpression(builder, widget);
+        }
     }
 
     /**
@@ -704,9 +703,9 @@ public class FormsExporter {
         if (engineExpression != null) {
             builder.addActionExpression(engineExpression.getName(),
                     engineExpression.getContent(), engineExpression
-                    .getExpressionType(), engineExpression.getReturnType(),
+                            .getExpressionType(), engineExpression.getReturnType(),
                     engineExpression.getInterpreter() == null
-                    || engineExpression.getInterpreter().isEmpty() ? null
+                            || engineExpression.getInterpreter().isEmpty() ? null
                             : engineExpression.getInterpreter());
             addExpressionDependency(builder, engineExpression);
         }
@@ -722,7 +721,7 @@ public class FormsExporter {
     protected void addTransientData(final Element element,
             final EReference pageFlowTransientData,
             final EReference connectors, final IFormBuilder builder)
-                    throws InvalidFormDefinitionException {
+            throws InvalidFormDefinitionException {
         final List<?> list = (List<?>) element.eGet(pageFlowTransientData);
         for (final Object child : list) {
             if (child instanceof Data) {
@@ -750,9 +749,9 @@ public class FormsExporter {
                 .createExpression(expression);
         builder.addTransientDataExpression(engineExpression.getName(),
                 engineExpression.getContent(), engineExpression
-                .getExpressionType(), engineExpression.getReturnType(),
+                        .getExpressionType(), engineExpression.getReturnType(),
                 engineExpression.getInterpreter() == null
-                || engineExpression.getInterpreter().isEmpty() ? null
+                        || engineExpression.getInterpreter().isEmpty() ? null
                         : engineExpression.getInterpreter());
         addExpressionDependency(builder, engineExpression);
     }
@@ -801,7 +800,7 @@ public class FormsExporter {
      */
     protected void createDefaultPageFlow(final AbstractPageFlow pageFlow,
             final IFormBuilder builder, final boolean isViewPageFlow)
-                    throws InvalidFormDefinitionException {
+            throws InvalidFormDefinitionException {
         // nothing to do
 
     }
@@ -870,8 +869,8 @@ public class FormsExporter {
                 && !engineExpression.getContent().isEmpty()) {
             builder.addParameterExpression(engineExpression.getName(),
                     engineExpression.getContent(), engineExpression
-                    .getExpressionType(), engineExpression
-                    .getReturnType(),
+                            .getExpressionType(), engineExpression
+                            .getReturnType(),
                     engineExpression.getInterpreter().isEmpty() ? null
                             : engineExpression.getInterpreter());
             addExpressionDependency(builder, engineExpression);
@@ -1037,7 +1036,7 @@ public class FormsExporter {
                 .createExpression(expression);
         builder.addPopupToolTipExpression(engineExpression.getName(),
                 engineExpression.getContent(), engineExpression
-                .getExpressionType(), engineExpression.getReturnType(),
+                        .getExpressionType(), engineExpression.getReturnType(),
                 engineExpression.getInterpreter().isEmpty() ? null
                         : engineExpression.getInterpreter());
         addExpressionDependency(builder, engineExpression);
@@ -1050,7 +1049,7 @@ public class FormsExporter {
                 .createExpression(expression);
         builder.addDisplayConditionExpression(engineExpression.getName(),
                 engineExpression.getContent(), engineExpression
-                .getExpressionType(), engineExpression.getReturnType(),
+                        .getExpressionType(), engineExpression.getReturnType(),
                 engineExpression.getInterpreter().isEmpty() ? null
                         : engineExpression.getInterpreter());
 
@@ -1086,18 +1085,18 @@ public class FormsExporter {
                                     ExporterTools.toApplicationResourceURL(
                                             "application/"
                                                     + path.getContent().trim(),
-                                                    process.getName(),
-                                                    process.getVersion(), timestamp),
-                                                    ExpressionConstants.CONSTANT_TYPE,
-                                                    String.class.getName(), null);
+                                            process.getName(),
+                                            process.getVersion(), timestamp),
+                                    ExpressionConstants.CONSTANT_TYPE,
+                                    String.class.getName(), null);
                         } else if (isARootResource(process, path)) {
                             builder.addInitialValueExpression(path.getName(),
                                     ExporterTools.toApplicationResourceURL(path
                                             .getContent().trim(), process
                                             .getName(), process.getVersion(),
                                             timestamp),
-                                            ExpressionConstants.CONSTANT_TYPE,
-                                            String.class.getName(), null);
+                                    ExpressionConstants.CONSTANT_TYPE,
+                                    String.class.getName(), null);
                         } else {
                             addInitialValueExpression(builder, path);
                         }
@@ -1186,7 +1185,7 @@ public class FormsExporter {
 
     private void performOnAbstractTable(final IFormBuilder builder,
             final Widget widget, final boolean isViewForm)
-                    throws InvalidFormDefinitionException {
+            throws InvalidFormDefinitionException {
         final AbstractTable abstractTable = (AbstractTable) widget;
         if (widget instanceof Table) {
             final Table table = (Table) widget;
@@ -1288,7 +1287,7 @@ public class FormsExporter {
                 .createExpression(expression);
         builder.addValueColumnIndexExpression(engineExpression.getName(),
                 engineExpression.getContent(), engineExpression
-                .getExpressionType(), engineExpression.getReturnType(),
+                        .getExpressionType(), engineExpression.getReturnType(),
                 engineExpression.getInterpreter().isEmpty() ? null
                         : engineExpression.getInterpreter());
         addExpressionDependency(builder, engineExpression);
@@ -1300,7 +1299,7 @@ public class FormsExporter {
                 .createExpression(expression);
         builder.addMinColumnsExpression(engineExpression.getName(),
                 engineExpression.getContent(), engineExpression
-                .getExpressionType(), engineExpression.getReturnType(),
+                        .getExpressionType(), engineExpression.getReturnType(),
                 engineExpression.getInterpreter().isEmpty() ? null
                         : engineExpression.getInterpreter());
         addExpressionDependency(builder, engineExpression);
@@ -1312,7 +1311,7 @@ public class FormsExporter {
                 .createExpression(expression);
         builder.addMaxColumnsExpression(engineExpression.getName(),
                 engineExpression.getContent(), engineExpression
-                .getExpressionType(), engineExpression.getReturnType(),
+                        .getExpressionType(), engineExpression.getReturnType(),
                 engineExpression.getInterpreter().isEmpty() ? null
                         : engineExpression.getInterpreter());
         addExpressionDependency(builder, engineExpression);
@@ -1324,7 +1323,7 @@ public class FormsExporter {
                 .createExpression(expression);
         builder.addMinRowsExpression(engineExpression.getName(),
                 engineExpression.getContent(), engineExpression
-                .getExpressionType(), engineExpression.getReturnType(),
+                        .getExpressionType(), engineExpression.getReturnType(),
                 engineExpression.getInterpreter().isEmpty() ? null
                         : engineExpression.getInterpreter());
         addExpressionDependency(builder, engineExpression);
@@ -1337,7 +1336,7 @@ public class FormsExporter {
                 .createExpression(expression);
         builder.addMaxRowsExpression(engineExpression.getName(),
                 engineExpression.getContent(), engineExpression
-                .getExpressionType(), engineExpression.getReturnType(),
+                        .getExpressionType(), engineExpression.getReturnType(),
                 engineExpression.getInterpreter().isEmpty() ? null
                         : engineExpression.getInterpreter());
         addExpressionDependency(builder, engineExpression);
@@ -1402,8 +1401,8 @@ public class FormsExporter {
         if (engineExpression != null) {
             builder.addHorizontalHeaderExpression(engineExpression.getName(),
                     engineExpression.getContent(), engineExpression
-                    .getExpressionType(), engineExpression
-                    .getReturnType(),
+                            .getExpressionType(), engineExpression
+                            .getReturnType(),
                     engineExpression.getInterpreter().isEmpty() ? null
                             : engineExpression.getInterpreter());
             addExpressionDependency(builder, engineExpression);
@@ -1421,8 +1420,8 @@ public class FormsExporter {
         if (engineExpression != null) {
             builder.addVerticalHeaderExpression(engineExpression.getName(),
                     engineExpression.getContent(), engineExpression
-                    .getExpressionType(), engineExpression
-                    .getReturnType(),
+                            .getExpressionType(), engineExpression
+                            .getReturnType(),
                     engineExpression.getInterpreter().isEmpty() ? null
                             : engineExpression.getInterpreter());
             addExpressionDependency(builder, engineExpression);
@@ -1520,8 +1519,8 @@ public class FormsExporter {
                     .createExpression(expression);
             builder.addValueExpression(engineExpression.getName(),
                     engineExpression.getContent(), engineExpression
-                    .getExpressionType(), engineExpression
-                    .getReturnType(),
+                            .getExpressionType(), engineExpression
+                            .getReturnType(),
                     engineExpression.getInterpreter().isEmpty() ? null
                             : engineExpression.getInterpreter());
             addExpressionDependency(builder, engineExpression);
@@ -1544,7 +1543,7 @@ public class FormsExporter {
                     engineExpression.getExpressionType(),
                     engineExpression.getReturnType(),
                     engineExpression.getInterpreter() == null
-                    || engineExpression.getInterpreter().isEmpty() ? null
+                            || engineExpression.getInterpreter().isEmpty() ? null
                             : engineExpression.getInterpreter());
             addExpressionDependency(builder, engineExpression);
         }
@@ -1563,7 +1562,7 @@ public class FormsExporter {
 
     private void addReadOnlyBehavior(final IFormBuilder builder,
             final Widget widget, final boolean isViewForm)
-                    throws InvalidFormDefinitionException {
+            throws InvalidFormDefinitionException {
         boolean readOnly = false;
         if (widget.isReadOnly() || isViewForm) {
             readOnly = true;
@@ -1647,7 +1646,7 @@ public class FormsExporter {
                         engineExpression.getContent(),
                         engineExpression.getExpressionType(),
                         engineExpression.getReturnType(), interpreter == null
-                        || interpreter.isEmpty() ? null : interpreter);
+                                || interpreter.isEmpty() ? null : interpreter);
                 addExpressionDependency(builder, engineExpression);
             }
         } else { // add empty expression
@@ -1715,7 +1714,7 @@ public class FormsExporter {
      */
     protected void addSpecificFormField(final FormField widget,
             final IFormBuilder builder, final boolean isViewForm)
-                    throws InvalidFormDefinitionException {
+            throws InvalidFormDefinitionException {
         if (widget instanceof TextFormField) {
             builder.addWidget(widget.getName(), WidgetType.TEXTBOX);
             addInitialValue(widget, builder);
@@ -1734,7 +1733,7 @@ public class FormsExporter {
             final DurationFormField durationWidget = (DurationFormField) widget;
             addItemsStyle(builder, durationWidget,
                     durationWidget.getItemClass() != null
-                    && durationWidget.getItemClass().equals("v"));
+                            && durationWidget.getItemClass().equals("v"));
             builder.addDisplayFormat((durationWidget.getDay() ? "d" : "")
                     + (durationWidget.getHour() ? "h" : "")
                     + (durationWidget.getMin() ? "m" : "")
@@ -1760,8 +1759,8 @@ public class FormsExporter {
                     builder,
                     widget,
                     ((ItemContainer) widget).getItemClass() != null
-                    && ((ItemContainer) widget).getItemClass().equals(
-                            "h"));
+                            && ((ItemContainer) widget).getItemClass().equals(
+                                    "h"));
         } else if (widget instanceof SelectFormField) {
             builder.addWidget(widget.getName(), WidgetType.LISTBOX_SIMPLE);
         } else if (widget instanceof DateFormField) {
@@ -1783,8 +1782,8 @@ public class FormsExporter {
                     builder,
                     widget,
                     ((ItemContainer) widget).getItemClass() != null
-                    && ((ItemContainer) widget).getItemClass().equals(
-                            "h"));
+                            && ((ItemContainer) widget).getItemClass().equals(
+                                    "h"));
 
         } else if (widget instanceof HiddenWidget) {
             builder.addWidget(widget.getName(), WidgetType.HIDDEN);
@@ -1889,7 +1888,7 @@ public class FormsExporter {
      */
     private void addItemsStyle(final IFormBuilder builder,
             final FormField widget, final boolean alignmentCondition)
-                    throws InvalidFormDefinitionException {
+            throws InvalidFormDefinitionException {
         String classes = "";
         final String widgetUID = ExporterTools.getWidgetUID(widget);
         if (alignmentCondition) {
@@ -1913,8 +1912,8 @@ public class FormsExporter {
         if (widget.getHtmlAttributes() != null
                 && widget.getHtmlAttributes().containsKey(
                         ExporterTools.PREFIX_ITEMS + ExporterTools.CLASS_ATTR)
-                        && widget.getHtmlAttributes().get(
-                                ExporterTools.PREFIX_ITEMS + ExporterTools.CLASS_ATTR) != null) {
+                && widget.getHtmlAttributes().get(
+                        ExporterTools.PREFIX_ITEMS + ExporterTools.CLASS_ATTR) != null) {
             classes += widget.getHtmlAttributes().get(
                     ExporterTools.PREFIX_ITEMS + ExporterTools.CLASS_ATTR);
         }
@@ -1925,7 +1924,7 @@ public class FormsExporter {
 
     protected void addMultipleValuatedFormFieldInitialValue(
             final MultipleValuatedFormField widget, final IFormBuilder builder)
-                    throws InvalidFormDefinitionException {
+            throws InvalidFormDefinitionException {
         final Expression defaultValueExpression = widget.getDefaultExpression();
         if (defaultValueExpression != null
                 && defaultValueExpression.getContent() != null
@@ -2059,7 +2058,7 @@ public class FormsExporter {
                     && formFieldScript.getLeftOperand() != null
                     && formFieldScript.getLeftOperand().getReferencedElements() != null
                     && !formFieldScript.getLeftOperand()
-                    .getReferencedElements().isEmpty()) {
+                            .getReferencedElements().isEmpty()) {
                 final EObject element = formFieldScript.getLeftOperand()
                         .getReferencedElements().get(0);
                 if (element instanceof Data) {
@@ -2147,7 +2146,7 @@ public class FormsExporter {
                 formField.getName() + "_default_validator",
                 DefaultValidatorsProperties.getInstance().getDefaultValidator(
                         Character.class.getName()), null,
-                        ValidatorPosition.BOTTOM);
+                ValidatorPosition.BOTTOM);
         builder.addLabelExpression("#charFieldValidatorLabel",
                 "#charFieldValidatorLabel", ExpressionConstants.CONSTANT_TYPE,
                 String.class.getName(), null);
@@ -2159,7 +2158,7 @@ public class FormsExporter {
                 formField.getName() + "_default_validator",
                 DefaultValidatorsProperties.getInstance().getDefaultValidator(
                         Integer.class.getName()), null,
-                        ValidatorPosition.BOTTOM);
+                ValidatorPosition.BOTTOM);
         builder.addLabelExpression("#numericIntegerFieldValidatorLabel",
                 "#numericIntegerFieldValidatorLabel",
                 ExpressionConstants.CONSTANT_TYPE, String.class.getName(), null);
@@ -2274,7 +2273,7 @@ public class FormsExporter {
                 .createExpression(expression);
         builder.addConfirmationMessageExpression(engineExpression.getName(),
                 engineExpression.getContent(), engineExpression
-                .getExpressionType(), engineExpression.getReturnType(),
+                        .getExpressionType(), engineExpression.getReturnType(),
                 engineExpression.getInterpreter().isEmpty() ? null
                         : engineExpression.getInterpreter());
         addExpressionDependency(builder, engineExpression);
@@ -2355,7 +2354,7 @@ public class FormsExporter {
         }
         if (htmlAttributes != null
                 && htmlAttributes
-                .containsKey(prefix + ExporterTools.CLASS_ATTR)
+                        .containsKey(prefix + ExporterTools.CLASS_ATTR)
                 && htmlAttributes.get(prefix + ExporterTools.CLASS_ATTR) != null) {
             label_classes += (label_classes.length() > 0 ? " " : "") + htmlAttributes.get(prefix + ExporterTools.CLASS_ATTR); //$NON-NLS-1$ //$NON-NLS-2$
         }
@@ -2400,7 +2399,7 @@ public class FormsExporter {
      */
     protected void addFirstPageId(final EStructuralFeature feature,
             final Element pageflow, final IFormBuilder builder)
-                    throws InvalidFormDefinitionException {
+            throws InvalidFormDefinitionException {
         final String firstPageName = ((Form) ((List<?>) pageflow.eGet(feature))
                 .get(0)).getName();
         builder.addFirstPageIdExpression(firstPageName, firstPageName,

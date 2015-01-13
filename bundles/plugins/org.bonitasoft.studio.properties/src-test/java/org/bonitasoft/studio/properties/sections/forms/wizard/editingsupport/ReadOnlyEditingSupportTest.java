@@ -5,14 +5,12 @@
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2.0 of the License, or
  * (at your option) any later version.
- *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package org.bonitasoft.studio.properties.sections.forms.wizard.editingsupport;
 
@@ -32,47 +30,46 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 /**
  * @author Romain Bioteau
- *
  */
 @RunWith(MockitoJUnitRunner.class)
 public class ReadOnlyEditingSupportTest {
 
-	private ReadOnlyEditingSupport readOnlyEditingSupport;
-	
-	@Mock
-	private ColumnViewer columnViewer;
+    private ReadOnlyEditingSupport readOnlyEditingSupport;
 
-	/**
-	 * @throws java.lang.Exception
-	 */
-	@Before
-	public void setUp() throws Exception {
-		readOnlyEditingSupport = new ReadOnlyEditingSupport(columnViewer);
-	}
+    @Mock
+    private ColumnViewer columnViewer;
 
-	/**
-	 * @throws java.lang.Exception
-	 */
-	@After
-	public void tearDown() throws Exception {
-	}
+    /**
+     * @throws java.lang.Exception
+     */
+    @Before
+    public void setUp() throws Exception {
+        readOnlyEditingSupport = new ReadOnlyEditingSupport(columnViewer);
+    }
 
-	@Test
-	public void shouldCanEdit_ReturnTrue() throws Exception {
-		Data data = ProcessFactory.eINSTANCE.createData();
-		data.setDataType(ProcessFactory.eINSTANCE.createStringType());
-		WidgetMapping widgetMapping = new WidgetMapping(data);
-		assertThat(readOnlyEditingSupport.canEdit(widgetMapping)).isTrue();
-	}
-	
-	@Test
-	public void shouldCanEdit_ReturnFalse() throws Exception {
-		Data data = ProcessFactory.eINSTANCE.createData();
-		data.setDataType(ProcessFactory.eINSTANCE.createStringType());
-		WidgetMapping widgetMapping = new WidgetMapping(data);
-		widgetMapping.setWidgetType(FormFactory.eINSTANCE.createTextInfo());
-		assertThat(readOnlyEditingSupport.canEdit(widgetMapping)).isFalse();
-		assertThat(readOnlyEditingSupport.canEdit(widgetMapping.getWidgetType())).isFalse();
-	}
+    /**
+     * @throws java.lang.Exception
+     */
+    @After
+    public void tearDown() throws Exception {
+    }
+
+    @Test
+    public void shouldCanEdit_ReturnTrue() throws Exception {
+        Data data = ProcessFactory.eINSTANCE.createData();
+        data.setDataType(ProcessFactory.eINSTANCE.createStringType());
+        WidgetMapping widgetMapping = new WidgetMapping(data);
+        assertThat(readOnlyEditingSupport.canEdit(widgetMapping)).isTrue();
+    }
+
+    @Test
+    public void shouldCanEdit_ReturnFalse() throws Exception {
+        Data data = ProcessFactory.eINSTANCE.createData();
+        data.setDataType(ProcessFactory.eINSTANCE.createStringType());
+        WidgetMapping widgetMapping = new WidgetMapping(data);
+        widgetMapping.setWidgetType(FormFactory.eINSTANCE.createTextInfo());
+        assertThat(readOnlyEditingSupport.canEdit(widgetMapping)).isFalse();
+        assertThat(readOnlyEditingSupport.canEdit(widgetMapping.getWidgetType())).isFalse();
+    }
 
 }

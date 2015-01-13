@@ -5,17 +5,14 @@
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2.0 of the License, or
  * (at your option) any later version.
- *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package org.bonitasoft.studio.connector.model.definition.wizard.support;
-
 
 import java.util.List;
 import java.util.Map;
@@ -52,62 +49,61 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
+
 /**
  * @author Romain Bioteau
- *
  */
 public class OutputTypeEditingSupport extends ObservableValueEditingSupport {
 
-    private static  String[] defaultTypes = new String[]{
-        String.class.getName(),
-        Boolean.class.getName(),
-        Double.class.getName(),
-        Float.class.getName(),
-        Integer.class.getName(),
-        List.class.getName(),
-        Map.class.getName(),
-        Messages.browse
-    } ;
+    private static String[] defaultTypes = new String[] {
+            String.class.getName(),
+            Boolean.class.getName(),
+            Double.class.getName(),
+            Float.class.getName(),
+            Integer.class.getName(),
+            List.class.getName(),
+            Map.class.getName(),
+            Messages.browse
+    };
 
     private final DataBindingContext context;
     private Output output;
 
-    public OutputTypeEditingSupport(ColumnViewer viewer,DataBindingContext context) {
-        super(viewer,context);
-        this.context = context ;
+    public OutputTypeEditingSupport(ColumnViewer viewer, DataBindingContext context) {
+        super(viewer, context);
+        this.context = context;
     }
-
 
     @Override
     protected CellEditor getCellEditor(final Object element) {
-        final ComboBoxCellEditor editor = new ComboBoxCellEditor((Composite) getViewer().getControl(), defaultTypes) ;
+        final ComboBoxCellEditor editor = new ComboBoxCellEditor((Composite) getViewer().getControl(), defaultTypes);
         editor.getControl().addListener(SWT.Modify, new Listener() {
 
             @Override
             public void handleEvent(Event event) {
-                CCombo combo = (CCombo) editor.getControl() ;
-                if(Messages.browse.equals(combo.getText())){
-                    openClassSelectionDialog() ;
+                CCombo combo = (CCombo) editor.getControl();
+                if (Messages.browse.equals(combo.getText())) {
+                    openClassSelectionDialog();
                 }
             }
-        }) ;
-        return  editor;
+        });
+        return editor;
     }
 
     @Override
     protected Binding createBinding(IObservableValue target, IObservableValue model) {
-        UpdateValueStrategy targetToModel =  new UpdateValueStrategy() ;
+        UpdateValueStrategy targetToModel = new UpdateValueStrategy();
         targetToModel.setBeforeSetValidator(new IValidator() {
 
             @Override
             public IStatus validate(Object input) {
-                if(input == null || input.toString().isEmpty()){
-                    return ValidationStatus.error(Messages.typeIsEmpty) ;
+                if (input == null || input.toString().isEmpty()) {
+                    return ValidationStatus.error(Messages.typeIsEmpty);
                 }
                 return Status.OK_STATUS;
             }
-        }) ;
-        return context.bindValue(target, model,targetToModel , null);
+        });
+        return context.bindValue(target, model, targetToModel, null);
     }
 
     @SuppressWarnings("restriction")
@@ -118,10 +114,11 @@ public class OutputTypeEditingSupport extends ObservableValueEditingSupport {
         } catch (Exception ex) {
             BonitaStudioLog.error(ex);
         }
-        FilteredTypesSelectionDialog searchDialog = new FilteredTypesSelectionDialog(Display.getDefault().getActiveShell(), false, null, scope, IJavaSearchConstants.TYPE);
+        FilteredTypesSelectionDialog searchDialog = new FilteredTypesSelectionDialog(Display.getDefault().getActiveShell(), false, null, scope,
+                IJavaSearchConstants.TYPE);
         if (searchDialog.open() == Dialog.OK) {
-            output.setType(((IType) searchDialog.getFirstResult()).getFullyQualifiedName()) ;
-            getViewer().refresh() ;
+            output.setType(((IType) searchDialog.getFirstResult()).getFullyQualifiedName());
+            getViewer().refresh();
         }
     }
 
@@ -130,10 +127,9 @@ public class OutputTypeEditingSupport extends ObservableValueEditingSupport {
         return SWTObservables.observeText(cellEditor.getControl());
     }
 
-
     @Override
     protected IObservableValue doCreateElementObservable(Object element, ViewerCell cell) {
-        output = (Output) element ;
+        output = (Output) element;
         return EMFObservables.observeValue((EObject) element, ConnectorDefinitionPackage.Literals.OUTPUT__TYPE);
     }
 

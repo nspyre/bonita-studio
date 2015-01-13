@@ -202,7 +202,7 @@ public class DataWizard extends Wizard implements IBonitaVariableContext {
     protected void refreshXtextReferences() {
         try {
             RepositoryManager.getInstance().getCurrentRepository().getProject()
-            .build(IncrementalProjectBuilder.FULL_BUILD, XTEXT_BUILDER_ID, Collections.<String, String> emptyMap(), null);
+                    .build(IncrementalProjectBuilder.FULL_BUILD, XTEXT_BUILDER_ID, Collections.<String, String> emptyMap(), null);
         } catch (final CoreException e) {
             BonitaStudioLog.error(e, DataPlugin.PLUGIN_ID);
         }

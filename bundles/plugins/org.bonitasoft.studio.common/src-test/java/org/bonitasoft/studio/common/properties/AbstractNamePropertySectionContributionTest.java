@@ -30,7 +30,6 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
-
 @RunWith(MockitoJUnitRunner.class)
 public class AbstractNamePropertySectionContributionTest {
 
@@ -43,9 +42,8 @@ public class AbstractNamePropertySectionContributionTest {
     @Mock
     ExtensibleGridPropertySection extensibleGridPropertySection;
 
-
     @Before
-    public void setUp(){
+    public void setUp() {
         when(nameContribution.isContainerIsAFormOrAGroup(any(EObject.class))).thenCallRealMethod();
     }
 

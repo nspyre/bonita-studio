@@ -5,14 +5,12 @@
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2.0 of the License, or
  * (at your option) any later version.
- *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package org.bonitasoft.studio.importer.bar.processor;
 
@@ -35,20 +33,19 @@ import org.bonitasoft.studio.importer.bar.i18n.Messages;
 
 /**
  * @author Aurelien Pupier
- *
  */
 public class BarReaderUtil {
 
     static List<String> findCustomConnectorClassName(final File archiveFile) throws ZipException, IOException {
-    	final List<String> res = new ArrayList<String>();
+        final List<String> res = new ArrayList<String>();
         ZipFile zipfile = null;
         try {
-        	try {
-        		zipfile = new ZipFile(archiveFile);
-        	} catch (final ZipException ex){
-        		BonitaStudioLog.error(ex);
+            try {
+                zipfile = new ZipFile(archiveFile);
+            } catch (final ZipException ex) {
+                BonitaStudioLog.error(ex);
                 return res;
-        	}
+            }
             final Enumeration<?> enumEntries = zipfile.entries();
             ZipEntry zipEntry = null;
             String className = null;
@@ -62,7 +59,7 @@ public class BarReaderUtil {
                     while (newEntries.hasMoreElements()) {
                         final ZipEntry newEntry = newEntries.nextElement();
                         if (!newEntry.isDirectory() && newEntry.toString().endsWith(startWith + ".properties")) {
-                        	res.add(className);
+                            res.add(className);
                         }
                     }
                 }

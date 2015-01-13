@@ -1,7 +1,6 @@
 /**
  * <copyright>
  * </copyright>
- *
  * $Id$
  */
 package org.omg.spec.bpmn.model.impl;
@@ -21,23 +20,26 @@ import org.omg.spec.bpmn.model.TDataInputAssociation;
  * @generated
  */
 public class TDataInputAssociationImpl extends TDataAssociationImpl implements TDataInputAssociation {
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected TDataInputAssociationImpl() {
-		super();
-	}
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	protected EClass eStaticClass() {
-		return ModelPackage.Literals.TDATA_INPUT_ASSOCIATION;
-	}
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * 
+     * @generated
+     */
+    protected TDataInputAssociationImpl() {
+        super();
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * 
+     * @generated
+     */
+    @Override
+    protected EClass eStaticClass() {
+        return ModelPackage.Literals.TDATA_INPUT_ASSOCIATION;
+    }
 
 } //TDataInputAssociationImpl

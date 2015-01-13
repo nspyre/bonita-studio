@@ -34,10 +34,8 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
 
-
 /**
  * @author Elias Ricken de Medeiros
- *
  */
 public class CustomUserInfoConnectorConfigurationWizardPage extends AbstractConnectorConfigurationWizardPage {
 
@@ -79,18 +77,18 @@ public class CustomUserInfoConnectorConfigurationWizardPage extends AbstractConn
         final CheckBoxExpressionViewer viewer = componentSwitchBuilder.createCheckboxControl(pageComposite, automaticAssignInput);
         viewer.setMessage(Messages.assignOnlyIfOneUser, IStatus.INFO);
 
-        return mainComposite ;
+        return mainComposite;
     }
 
     private Composite createInputsComposite(final Composite mainComposite) {
-        final Composite pageComposite = new Composite(mainComposite, SWT.NONE) ;
+        final Composite pageComposite = new Composite(mainComposite, SWT.NONE);
         pageComposite.setLayout(GridLayoutFactory.fillDefaults().numColumns(2).margins(10, 10).spacing(3, 60).create());
         pageComposite.setLayoutData(GridDataFactory.fillDefaults().grab(true, true).create());
         return pageComposite;
     }
 
     private Composite createMainComposite(final Composite parent) {
-        final Composite mainComposite = new Composite(parent, SWT.NONE) ;
+        final Composite mainComposite = new Composite(parent, SWT.NONE);
         mainComposite.setLayoutData(GridDataFactory.fillDefaults().grab(true, false).create());
         mainComposite.setLayout(GridLayoutFactory.fillDefaults().numColumns(1).margins(0, 0).spacing(0, 20).create());
         return mainComposite;

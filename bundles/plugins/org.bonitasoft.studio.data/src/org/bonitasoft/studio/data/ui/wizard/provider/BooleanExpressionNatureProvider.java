@@ -49,5 +49,4 @@ public class BooleanExpressionNatureProvider implements IExpressionNatureProvide
         return result.toArray(new Expression[2]);
     }
 
-
 }

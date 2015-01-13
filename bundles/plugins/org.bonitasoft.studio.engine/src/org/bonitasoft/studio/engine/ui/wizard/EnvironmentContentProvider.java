@@ -5,14 +5,12 @@
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2.0 of the License, or
  * (at your option) any later version.
- *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package org.bonitasoft.studio.engine.ui.wizard;
 
@@ -22,14 +20,13 @@ import org.bonitasoft.studio.configuration.preferences.ConfigurationPreferenceCo
 import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.Viewer;
 
-
 /**
  * @author Romain Bioteau
- *
  */
 public class EnvironmentContentProvider implements IStructuredContentProvider {
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see org.eclipse.jface.viewers.IContentProvider#dispose()
      */
     @Override
@@ -38,7 +35,8 @@ public class EnvironmentContentProvider implements IStructuredContentProvider {
 
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see org.eclipse.jface.viewers.IContentProvider#inputChanged(org.eclipse.jface.viewers.Viewer, java.lang.Object, java.lang.Object)
      */
     @Override
@@ -49,8 +47,6 @@ public class EnvironmentContentProvider implements IStructuredContentProvider {
 
     @Override
     public Object[] getElements(Object inputElement) {
-
-
 
         return Collections.singleton(ConfigurationPreferenceConstants.LOCAL_CONFIGURAITON).toArray();
     }

@@ -5,14 +5,12 @@
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2.0 of the License, or
  * (at your option) any later version.
- *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package org.bonitasoft.studio.engine.store;
 
@@ -31,27 +29,27 @@ import org.eclipse.swt.graphics.Image;
 
 /**
  * @author Romain Bioteau
- *
  */
 public class DeploymentConfigurationRepositoryStore extends AbstractRepositoryStore {
 
-    private static final String STORE_NAME = "deployment" ;
-    public static final String CONF_EXT = "properties" ;
-    private static final Set<String> extensions = new HashSet<String>() ;
-    static{
-        extensions.add(CONF_EXT) ;
+    private static final String STORE_NAME = "deployment";
+    public static final String CONF_EXT = "properties";
+    private static final Set<String> extensions = new HashSet<String>();
+    static {
+        extensions.add(CONF_EXT);
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see org.bonitasoft.studio.common.repository.IRepositoryStore#createRepositoryFileStore(java.lang.String)
      */
     @Override
     public IRepositoryFileStore createRepositoryFileStore(String fileName) {
-        return new DeploymentConfigurationFileStore(fileName,this);
+        return new DeploymentConfigurationFileStore(fileName, this);
     }
 
-
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see org.bonitasoft.studio.common.repository.IRepositoryStore#getName()
      */
     @Override
@@ -59,7 +57,8 @@ public class DeploymentConfigurationRepositoryStore extends AbstractRepositorySt
         return STORE_NAME;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see org.bonitasoft.studio.common.repository.IRepositoryStore#getDisplayName()
      */
     @Override
@@ -67,15 +66,17 @@ public class DeploymentConfigurationRepositoryStore extends AbstractRepositorySt
         return Messages.engineConfigurations;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see org.bonitasoft.studio.common.repository.IRepositoryStore#getIcon()
      */
     @Override
     public Image getIcon() {
-        return Pics.getImage("engine_conf.gif",EnginePlugin.getDefault());
+        return Pics.getImage("engine_conf.gif", EnginePlugin.getDefault());
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see org.bonitasoft.studio.common.repository.IRepositoryStore#getCompatibleExtensions()
      */
     @Override
@@ -85,17 +86,17 @@ public class DeploymentConfigurationRepositoryStore extends AbstractRepositorySt
 
     @Override
     public List<IRepositoryFileStore> getChildren() {
-        List<IRepositoryFileStore> result = super.getChildren() ;
+        List<IRepositoryFileStore> result = super.getChildren();
         Enumeration<URL> profiles = EnginePlugin.getDefault().getBundle().findEntries(STORE_NAME, "*.*", false);
-        if(	profiles != null ){
+        if (profiles != null) {
             while (profiles.hasMoreElements()) {
                 URL url = profiles.nextElement();
-                String[] segments = url.getFile().split("/") ;
-                String fileName = segments[segments.length-1] ;
-                if(fileName.lastIndexOf(".") != -1){
-                    String extension = fileName.substring(fileName.lastIndexOf(".")+1, fileName.length()) ;
-                    if(extensions.contains(extension)){
-                        result.add(new URLDeploymentConfigurationFileStore(url,this)) ;
+                String[] segments = url.getFile().split("/");
+                String fileName = segments[segments.length - 1];
+                if (fileName.lastIndexOf(".") != -1) {
+                    String extension = fileName.substring(fileName.lastIndexOf(".") + 1, fileName.length());
+                    if (extensions.contains(extension)) {
+                        result.add(new URLDeploymentConfigurationFileStore(url, this));
                     }
                 }
             }
@@ -103,19 +104,18 @@ public class DeploymentConfigurationRepositoryStore extends AbstractRepositorySt
         return result;
     }
 
-
     @Override
     public IRepositoryFileStore getChild(String fileName) {
-        IRepositoryFileStore file =	super.getChild(fileName) ;
-        if(file == null){
-            URL url = EnginePlugin.getDefault().getBundle().getResource(STORE_NAME+ "/" +fileName);
-            if(url != null){
-                return new URLDeploymentConfigurationFileStore(url,this) ;
-            }else{
-                return null ;
+        IRepositoryFileStore file = super.getChild(fileName);
+        if (file == null) {
+            URL url = EnginePlugin.getDefault().getBundle().getResource(STORE_NAME + "/" + fileName);
+            if (url != null) {
+                return new URLDeploymentConfigurationFileStore(url, this);
+            } else {
+                return null;
             }
-        }else{
-            return file ;
+        } else {
+            return file;
         }
     }
 

@@ -1,19 +1,16 @@
 /**
  * Copyright (C) 2009-2012 BonitaSoft S.A.
  * BonitaSoft, 31 rue Gustave Eiffel - 38000 Grenoble
- *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2.0 of the License, or
  * (at your option) any later version.
- *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package org.bonitasoft.studio.properties.form.sections.general.contributions;
 
@@ -48,17 +45,18 @@ import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetWidgetFactory;
 /**
  * @author Baptiste Mesta
  * @author Aurelien Pupier : introduce databinding
- *
  */
 public class ShowPageLabelContribution implements
-IExtensibleGridPropertySectionContribution {
+        IExtensibleGridPropertySectionContribution {
 
     private Form element;
     private TransactionalEditingDomain editingDomain;
     private EMFDataBindingContext dataBindingContext;
 
-    /* (non-Javadoc)
-     * @see org.bonitasoft.studio.common.properties.IExtensibleGridPropertySectionContribution#createControl(org.eclipse.swt.widgets.Composite, org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetWidgetFactory, org.bonitasoft.studio.common.properties.ExtensibleGridPropertySection)
+    /*
+     * (non-Javadoc)
+     * @see org.bonitasoft.studio.common.properties.IExtensibleGridPropertySectionContribution#createControl(org.eclipse.swt.widgets.Composite,
+     * org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetWidgetFactory, org.bonitasoft.studio.common.properties.ExtensibleGridPropertySection)
      */
     public void createControl(Composite composite,
             TabbedPropertySheetWidgetFactory widgetFactory,
@@ -66,15 +64,16 @@ IExtensibleGridPropertySectionContribution {
         //		composite.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, true, false,2,1));
         composite.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, true, false));
         composite.setLayout(new GridLayout(3, false));
-        if(dataBindingContext != null){
+        if (dataBindingContext != null) {
             dataBindingContext.dispose();
         }
         dataBindingContext = new EMFDataBindingContext();
 
         Button enableLabel = widgetFactory.createButton(composite, "", SWT.CHECK); //$NON-NLS-1$
-        enableLabel.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false,false));
+        enableLabel.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
         enableLabel.setToolTipText(Messages.GeneralSection_EnableLabel_tooltip);
-        dataBindingContext.bindValue(SWTObservables.observeSelection(enableLabel), EMFEditObservables.observeValue(editingDomain, element, FormPackage.Literals.FORM__SHOW_PAGE_LABEL));
+        dataBindingContext.bindValue(SWTObservables.observeSelection(enableLabel),
+                EMFEditObservables.observeValue(editingDomain, element, FormPackage.Literals.FORM__SHOW_PAGE_LABEL));
 
         enableLabel.setSelection(element.getShowPageLabel() == null || element.getShowPageLabel());
 
@@ -83,14 +82,15 @@ IExtensibleGridPropertySectionContribution {
 
         ExpressionViewer pageLabelExpresssionViewer = new ExpressionViewer(composite, SWT.BORDER, widgetFactory, FormPackage.Literals.FORM__PAGE_LABEL);
         final Expression pageLabel = element.getPageLabel();
-        if(pageLabel == null){
-            editingDomain.getCommandStack().execute(SetCommand.create(editingDomain, element, FormPackage.Literals.FORM__PAGE_LABEL, ExpressionFactory.eINSTANCE.createExpression()));
+        if (pageLabel == null) {
+            editingDomain.getCommandStack().execute(
+                    SetCommand.create(editingDomain, element, FormPackage.Literals.FORM__PAGE_LABEL, ExpressionFactory.eINSTANCE.createExpression()));
         }
-        if(ModelHelper.isAnEntryPageFlowOnAPool(element)){
-            pageLabelExpresssionViewer.addFilter(new AvailableExpressionTypeFilter(new String[]{
-        			ExpressionConstants.CONSTANT_TYPE,
-        			ExpressionConstants.PARAMETER_TYPE,
-        			ExpressionConstants.SCRIPT_TYPE
+        if (ModelHelper.isAnEntryPageFlowOnAPool(element)) {
+            pageLabelExpresssionViewer.addFilter(new AvailableExpressionTypeFilter(new String[] {
+                    ExpressionConstants.CONSTANT_TYPE,
+                    ExpressionConstants.PARAMETER_TYPE,
+                    ExpressionConstants.SCRIPT_TYPE
             }));
         }
 
@@ -99,64 +99,74 @@ IExtensibleGridPropertySectionContribution {
                 ViewerProperties.singleSelection().observe(pageLabelExpresssionViewer),
                 EMFEditProperties.value(editingDomain, FormPackage.Literals.FORM__PAGE_LABEL).observe(element));
 
-        pageLabelExpresssionViewer.setMessage(Messages.GeneralSection_EnablePageLabel_tooltip,IStatus.INFO);
+        pageLabelExpresssionViewer.setMessage(Messages.GeneralSection_EnablePageLabel_tooltip, IStatus.INFO);
         pageLabelExpresssionViewer.getControl().setLayoutData(gData);
 
         Button allowHTMLButton = widgetFactory.createButton(composite, Messages.GeneralSection_allowHTML, SWT.CHECK);
-        dataBindingContext.bindValue(SWTObservables.observeSelection(allowHTMLButton), EMFEditObservables.observeValue(editingDomain, element, FormPackage.Literals.FORM__ALLOW_HTML_IN_PAGE_LABEL));
+        dataBindingContext.bindValue(SWTObservables.observeSelection(allowHTMLButton),
+                EMFEditObservables.observeValue(editingDomain, element, FormPackage.Literals.FORM__ALLOW_HTML_IN_PAGE_LABEL));
 
-        /*Enable/disable the combo for the text and the allow html*/
+        /* Enable/disable the combo for the text and the allow html */
         dataBindingContext.bindValue(SWTObservables.observeEnabled(pageLabelExpresssionViewer.getControl()), SWTObservables.observeSelection(enableLabel));
         dataBindingContext.bindValue(SWTObservables.observeEnabled(allowHTMLButton), SWTObservables.observeSelection(enableLabel));
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see org.bonitasoft.studio.common.properties.IExtensibleGridPropertySectionContribution#getLabel()
      */
     public String getLabel() {
         return Messages.GeneralSection_EnablePageLabel;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see org.bonitasoft.studio.common.properties.IExtensibleGridPropertySectionContribution#isRelevantFor(org.eclipse.emf.ecore.EObject)
      */
     public boolean isRelevantFor(EObject eObject) {
         return eObject instanceof Form;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see org.bonitasoft.studio.common.properties.IExtensibleGridPropertySectionContribution#refresh()
      */
     public void refresh() {
 
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see org.bonitasoft.studio.common.properties.IExtensibleGridPropertySectionContribution#setEObject(org.eclipse.emf.ecore.EObject)
      */
     public void setEObject(EObject object) {
         element = (Form) object;
     }
 
-    /* (non-Javadoc)
-     * @see org.bonitasoft.studio.common.properties.IExtensibleGridPropertySectionContribution#setEditingDomain(org.eclipse.emf.transaction.TransactionalEditingDomain)
+    /*
+     * (non-Javadoc)
+     * @see
+     * org.bonitasoft.studio.common.properties.IExtensibleGridPropertySectionContribution#setEditingDomain(org.eclipse.emf.transaction.TransactionalEditingDomain
+     * )
      */
     public void setEditingDomain(TransactionalEditingDomain editingDomain) {
         this.editingDomain = editingDomain;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see org.bonitasoft.studio.common.properties.IExtensibleGridPropertySectionContribution#setSelection(org.eclipse.jface.viewers.ISelection)
      */
     public void setSelection(ISelection selection) {
         // NOTHING
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see org.bonitasoft.studio.common.properties.IExtensibleGridPropertySectionContribution#dispose()
      */
     public void dispose() {
-        if(dataBindingContext!=null) {
+        if (dataBindingContext != null) {
             dataBindingContext.dispose();
         }
     }

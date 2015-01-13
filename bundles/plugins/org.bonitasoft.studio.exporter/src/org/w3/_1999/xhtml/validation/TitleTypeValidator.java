@@ -1,7 +1,6 @@
 /**
  * <copyright>
  * </copyright>
- *
  * $Id$
  */
 package org.w3._1999.xhtml.validation;
@@ -15,10 +14,14 @@ import org.w3._1999.xhtml.DirType;
  * This can be disabled with -vmargs -Dorg.eclipse.emf.examples.generator.validator=false.
  */
 public interface TitleTypeValidator {
-	boolean validate();
 
-	boolean validateDir(DirType value);
-	boolean validateId(String value);
-	boolean validateLang(String value);
-	boolean validateLang1(String value);
+    boolean validate();
+
+    boolean validateDir(DirType value);
+
+    boolean validateId(String value);
+
+    boolean validateLang(String value);
+
+    boolean validateLang1(String value);
 }

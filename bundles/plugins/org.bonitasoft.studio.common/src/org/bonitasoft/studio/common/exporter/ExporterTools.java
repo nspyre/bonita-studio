@@ -1,19 +1,16 @@
 /**
  * Copyright (C) 2009 BonitaSoft S.A.
  * BonitaSoft, 31 rue Gustave Eiffel - 38000 Grenoble
- *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2.0 of the License, or
  * (at your option) any later version.
- *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package org.bonitasoft.studio.common.exporter;
 
@@ -32,11 +29,9 @@ import org.bonitasoft.studio.model.process.ProcessPackage;
 import org.eclipse.emf.ecore.EObject;
 
 /**
- * 
  * Utility class used by the exporter
  * 
  * @author Baptiste Mesta
- * 
  */
 public class ExporterTools {
 
@@ -83,7 +78,6 @@ public class ExporterTools {
     }
 
     /**
-     * 
      * get the path where the page template must be put in the exported war
      * 
      * @param form
@@ -99,7 +93,7 @@ public class ExporterTools {
     }
 
     public static String getTemplateWarFileName(Element element, TemplateType templateType) {
-    	final String id = ModelHelper.getEObjectID(element);
+        final String id = ModelHelper.getEObjectID(element);
         switch (templateType) {
             case PAGE:
                 return getPageTemplateWarFileName((Form) element);
@@ -124,11 +118,11 @@ public class ExporterTools {
                     if (container != null) {
                         process = (AbstractProcess) container;
                     }
-                    String procId="" ;
-                    if(process!= null){
-                    	  procId = ModelHelper.getEObjectID(process)+"_";
+                    String procId = "";
+                    if (process != null) {
+                        procId = ModelHelper.getEObjectID(process) + "_";
                     }
-                   
+
                     return procId + id + "_confirmation_template.html"; //$NON-NLS-1$//$NON-NLS-2$ //$NON-NLS-3$
                 }
 
@@ -157,7 +151,6 @@ public class ExporterTools {
     }
 
     /**
-     * 
      * @param form
      * @return the form uuid for the exporter
      */
@@ -170,9 +163,9 @@ public class ExporterTools {
                 suffix = "_" + PROCESS;
             }
             if (form.eContainmentFeature().equals(ProcessPackage.Literals.VIEW_PAGE_FLOW__VIEW_FORM)) {
-                uuid = ModelHelper.getEObjectID(pageFlow) + suffix + "_" + CONSULTATION  + ModelHelper.getEObjectID(form); //$NON-NLS-1$ //$NON-NLS-2$
+                uuid = ModelHelper.getEObjectID(pageFlow) + suffix + "_" + CONSULTATION + ModelHelper.getEObjectID(form); //$NON-NLS-1$ //$NON-NLS-2$
             } else if (form.eContainmentFeature().equals(ProcessPackage.Literals.RECAP_FLOW__RECAP_FORMS)) {
-                uuid = ModelHelper.getEObjectID(pageFlow) + suffix + "_" + RECAP  + ModelHelper.getEObjectID(form); //$NON-NLS-1$ //$NON-NLS-2$
+                uuid = ModelHelper.getEObjectID(pageFlow) + suffix + "_" + RECAP + ModelHelper.getEObjectID(form); //$NON-NLS-1$ //$NON-NLS-2$
             } else {
                 uuid = ModelHelper.getEObjectID(pageFlow) + suffix + "_" + ModelHelper.getEObjectID(form); //$NON-NLS-1$
             }
@@ -229,13 +222,15 @@ public class ExporterTools {
     public static String toApplicationResourceURL(String url, String processName, String processVersion, long timestamp) {
         String newUrl = null;
         try {
-            newUrl = "applicationResource?location=" + URLEncoder.encode(url, UTF_8) + "&process=" + URLEncoder.encode(processName,UTF_8) + "--" +  URLEncoder.encode(processVersion,UTF_8) + "&timestamp=" + timestamp;
+            newUrl = "applicationResource?location=" + URLEncoder.encode(url, UTF_8) + "&process=" + URLEncoder.encode(processName, UTF_8) + "--"
+                    + URLEncoder.encode(processVersion, UTF_8) + "&timestamp=" + timestamp;
         } catch (UnsupportedEncodingException e) {
             BonitaStudioLog.error(e);
         }
         if (newUrl == null) {
             try {
-                newUrl = "applicationResource?location=" + url + "&process=" + URLEncoder.encode(processName,UTF_8) + "--" + URLEncoder.encode(processVersion,UTF_8) + "&timestamp=" + timestamp;
+                newUrl = "applicationResource?location=" + url + "&process=" + URLEncoder.encode(processName, UTF_8) + "--"
+                        + URLEncoder.encode(processVersion, UTF_8) + "&timestamp=" + timestamp;
             } catch (UnsupportedEncodingException e) {
                 BonitaStudioLog.error(e);
             }

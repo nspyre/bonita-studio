@@ -4,10 +4,9 @@
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- *
  * Contributors:
- *     BMW Car IT - Initial API and implementation
- *     Technische Universitaet Muenchen - Major refactoring and extension
+ * BMW Car IT - Initial API and implementation
+ * Technische Universitaet Muenchen - Major refactoring and extension
  *******************************************************************************/
 package org.eclipse.emf.edapt.migration.impl;
 
@@ -24,7 +23,6 @@ import org.eclipse.emf.edapt.migration.Instance;
 import org.eclipse.emf.edapt.migration.Model;
 import org.eclipse.emf.edapt.migration.Type;
 
-
 /**
  * An extent of a model that is built lazily.
  * 
@@ -35,121 +33,121 @@ import org.eclipse.emf.edapt.migration.Type;
  */
 public class LazyExtentMap implements Map<EClass, Set<Instance>> {
 
-	/** Delegate map */
-	private HashMap<EClass, Set<Instance>> delegate;
-	
-	/** Model */
-	private final Model model;
-	
-	/** Constructor */
-	public LazyExtentMap(Model model) {
-		this.model = model;
-	}
+    /** Delegate map */
+    private HashMap<EClass, Set<Instance>> delegate;
 
-	/** {@inheritDoc} */
-	public Set<Instance> get(Object arg0) {
-		if(delegate == null) {
-			init();
-		}
-		return delegate.get(arg0);
-	}
-	
-	/** Initialize the map. */
-	private void init() {
-		delegate = new HashMap<EClass, Set<Instance>>();
-		for(Type type : model.getTypes()) {
-			EClass clazz = type.getEClass();
-			EList<EClass> types = new UniqueEList<EClass>(clazz.getEAllSuperTypes());
-			types.add(clazz);
-			for(EClass t : types) {
-				Set<Instance> instances = delegate.get(t);
-				if(instances == null) {
-					instances = new HashSet<Instance>();
-					delegate.put(t, instances);
-				}
-				instances.addAll(type.getInstances());
-			}
-		}		
-	}
+    /** Model */
+    private final Model model;
 
-	// strictly delegating methods
-	
-	/** {@inheritDoc} */
-	public void clear() {
-		delegate.clear();
-	}
+    /** Constructor */
+    public LazyExtentMap(Model model) {
+        this.model = model;
+    }
 
-	/** {@inheritDoc} */
-	@Override
-	public Object clone() {
-		return delegate.clone();
-	}
+    /** {@inheritDoc} */
+    public Set<Instance> get(Object arg0) {
+        if (delegate == null) {
+            init();
+        }
+        return delegate.get(arg0);
+    }
 
-	/** {@inheritDoc} */
-	public boolean containsKey(Object arg0) {
-		return delegate.containsKey(arg0);
-	}
+    /** Initialize the map. */
+    private void init() {
+        delegate = new HashMap<EClass, Set<Instance>>();
+        for (Type type : model.getTypes()) {
+            EClass clazz = type.getEClass();
+            EList<EClass> types = new UniqueEList<EClass>(clazz.getEAllSuperTypes());
+            types.add(clazz);
+            for (EClass t : types) {
+                Set<Instance> instances = delegate.get(t);
+                if (instances == null) {
+                    instances = new HashSet<Instance>();
+                    delegate.put(t, instances);
+                }
+                instances.addAll(type.getInstances());
+            }
+        }
+    }
 
-	/** {@inheritDoc} */
-	public boolean containsValue(Object arg0) {
-		return delegate.containsValue(arg0);
-	}
+    // strictly delegating methods
 
-	/** {@inheritDoc} */
-	public Set<Entry<EClass, Set<Instance>>> entrySet() {
-		return delegate.entrySet();
-	}
+    /** {@inheritDoc} */
+    public void clear() {
+        delegate.clear();
+    }
 
-	/** {@inheritDoc} */
-	@Override
-	public boolean equals(Object arg0) {
-		return delegate.equals(arg0);
-	}
+    /** {@inheritDoc} */
+    @Override
+    public Object clone() {
+        return delegate.clone();
+    }
 
-	/** {@inheritDoc} */
-	@Override
-	public int hashCode() {
-		return delegate.hashCode();
-	}
+    /** {@inheritDoc} */
+    public boolean containsKey(Object arg0) {
+        return delegate.containsKey(arg0);
+    }
 
-	/** {@inheritDoc} */
-	public boolean isEmpty() {
-		return delegate.isEmpty();
-	}
+    /** {@inheritDoc} */
+    public boolean containsValue(Object arg0) {
+        return delegate.containsValue(arg0);
+    }
 
-	/** {@inheritDoc} */
-	public Set<EClass> keySet() {
-		return delegate.keySet();
-	}
+    /** {@inheritDoc} */
+    public Set<Entry<EClass, Set<Instance>>> entrySet() {
+        return delegate.entrySet();
+    }
 
-	/** {@inheritDoc} */
-	public Set<Instance> put(EClass arg0, Set<Instance> arg1) {
-		return delegate.put(arg0, arg1);
-	}
+    /** {@inheritDoc} */
+    @Override
+    public boolean equals(Object arg0) {
+        return delegate.equals(arg0);
+    }
 
-	/** {@inheritDoc} */
-	public void putAll(Map<? extends EClass, ? extends Set<Instance>> arg0) {
-		delegate.putAll(arg0);
-	}
+    /** {@inheritDoc} */
+    @Override
+    public int hashCode() {
+        return delegate.hashCode();
+    }
 
-	/** {@inheritDoc} */
-	public Set<Instance> remove(Object arg0) {
-		return delegate.remove(arg0);
-	}
+    /** {@inheritDoc} */
+    public boolean isEmpty() {
+        return delegate.isEmpty();
+    }
 
-	/** {@inheritDoc} */
-	public int size() {
-		return delegate.size();
-	}
+    /** {@inheritDoc} */
+    public Set<EClass> keySet() {
+        return delegate.keySet();
+    }
 
-	/** {@inheritDoc} */
-	@Override
-	public String toString() {
-		return delegate.toString();
-	}
+    /** {@inheritDoc} */
+    public Set<Instance> put(EClass arg0, Set<Instance> arg1) {
+        return delegate.put(arg0, arg1);
+    }
 
-	/** {@inheritDoc} */
-	public Collection<Set<Instance>> values() {
-		return delegate.values();
-	}
+    /** {@inheritDoc} */
+    public void putAll(Map<? extends EClass, ? extends Set<Instance>> arg0) {
+        delegate.putAll(arg0);
+    }
+
+    /** {@inheritDoc} */
+    public Set<Instance> remove(Object arg0) {
+        return delegate.remove(arg0);
+    }
+
+    /** {@inheritDoc} */
+    public int size() {
+        return delegate.size();
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public String toString() {
+        return delegate.toString();
+    }
+
+    /** {@inheritDoc} */
+    public Collection<Set<Instance>> values() {
+        return delegate.values();
+    }
 }

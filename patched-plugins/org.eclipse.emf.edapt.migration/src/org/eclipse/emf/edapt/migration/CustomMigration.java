@@ -10,17 +10,17 @@ package org.eclipse.emf.edapt.migration;
  */
 public abstract class CustomMigration {
 
-	/** Migration that needs to be performed before the metamodel change. */
-	@SuppressWarnings("unused")
-	public void migrateBefore(Model model, Metamodel metamodel)
-			throws MigrationException {
-		// to be implemented by sub classes
-	}
+    /** Migration that needs to be performed before the metamodel change. */
+    @SuppressWarnings("unused")
+    public void migrateBefore(Model model, Metamodel metamodel)
+            throws MigrationException {
+        // to be implemented by sub classes
+    }
 
-	/** Migration that needs to be performed after the metamodel change. */
-	@SuppressWarnings("unused")
-	public void migrateAfter(Model model, Metamodel metamodel)
-			throws MigrationException {
-		// to be implemented by sub classes
-	}
+    /** Migration that needs to be performed after the metamodel change. */
+    @SuppressWarnings("unused")
+    public void migrateAfter(Model model, Metamodel metamodel)
+            throws MigrationException {
+        // to be implemented by sub classes
+    }
 }

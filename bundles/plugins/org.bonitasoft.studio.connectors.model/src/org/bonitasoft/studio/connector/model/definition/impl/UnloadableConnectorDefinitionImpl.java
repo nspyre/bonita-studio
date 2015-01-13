@@ -1,7 +1,6 @@
 /**
  * <copyright>
  * </copyright>
- *
  * $Id$
  */
 package org.bonitasoft.studio.connector.model.definition.impl;
@@ -21,23 +20,26 @@ import org.eclipse.emf.ecore.EClass;
  * @generated
  */
 public class UnloadableConnectorDefinitionImpl extends ConnectorDefinitionImpl implements UnloadableConnectorDefinition {
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected UnloadableConnectorDefinitionImpl() {
-		super();
-	}
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	protected EClass eStaticClass() {
-		return ConnectorDefinitionPackage.Literals.UNLOADABLE_CONNECTOR_DEFINITION;
-	}
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * 
+     * @generated
+     */
+    protected UnloadableConnectorDefinitionImpl() {
+        super();
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * 
+     * @generated
+     */
+    @Override
+    protected EClass eStaticClass() {
+        return ConnectorDefinitionPackage.Literals.UNLOADABLE_CONNECTOR_DEFINITION;
+    }
 
 } //UnloadableConnectorDefinitionImpl

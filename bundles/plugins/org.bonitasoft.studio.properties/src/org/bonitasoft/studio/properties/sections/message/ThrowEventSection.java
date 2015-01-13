@@ -1,19 +1,16 @@
 /**
  * Copyright (C) 2009 BonitaSoft S.A.
  * BonitaSoft, 31 rue Gustave Eiffel - 38000 Grenoble
- *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2.0 of the License, or
  * (at your option) any later version.
- *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package org.bonitasoft.studio.properties.sections.message;
 
@@ -81,17 +78,17 @@ public abstract class ThrowEventSection extends AbstractBonitaDescriptionSection
         }
     };
     protected TabbedPropertySheetPage aTabbedPropertySheetPage;
-	private Button addEventButton;
+    private Button addEventButton;
 
     @Override
     public void refresh() {
         super.refresh();
         if (filteredTree != null) {
             if (getEObject() instanceof Node) {
-                Node node = (Node)getEObject();
+                Node node = (Node) getEObject();
                 filteredTree.getViewer().setInput(node.getElement());
             } else {
-                if(getEObject() != null && getEObject() instanceof ThrowMessageEvent) {
+                if (getEObject() != null && getEObject() instanceof ThrowMessageEvent) {
                     filteredTree.getViewer().setInput(getEObject());
                 }
             }
@@ -102,8 +99,9 @@ public abstract class ThrowEventSection extends AbstractBonitaDescriptionSection
     @Override
     public void setInput(IWorkbenchPart part, ISelection selection) {
         super.setInput(part, selection);
-        if(getEObject() != null && getEObject() instanceof ConnectableElement){
-            DiagramEventBroker.getInstance(getEditingDomain()).addNotificationListener(getEObject(),ProcessPackage.eINSTANCE.getConnectableElement_Connectors(),notificationListener);
+        if (getEObject() != null && getEObject() instanceof ConnectableElement) {
+            DiagramEventBroker.getInstance(getEditingDomain()).addNotificationListener(getEObject(),
+                    ProcessPackage.eINSTANCE.getConnectableElement_Connectors(), notificationListener);
         }
     }
 
@@ -131,6 +129,7 @@ public abstract class ThrowEventSection extends AbstractBonitaDescriptionSection
         filteredTree.getViewer().setContentProvider(new EMFListFeatureTreeContentProvider(ProcessPackage.Literals.THROW_MESSAGE_EVENT__EVENTS));
         filteredTree.getViewer().setLabelProvider(new EventLabelProvider());
         filteredTree.getViewer().addDoubleClickListener(new IDoubleClickListener() {
+
             @Override
             public void doubleClick(DoubleClickEvent event) {
                 updateEventAction();
@@ -144,30 +143,28 @@ public abstract class ThrowEventSection extends AbstractBonitaDescriptionSection
             }
         });
 
-
     }
 
     /**
      * 
      */
     private void updateButtons() {
-        ITreeSelection selection = (ITreeSelection)filteredTree.getViewer().getSelection();
-        if(!removeEventButton.isDisposed()) {
+        ITreeSelection selection = (ITreeSelection) filteredTree.getViewer().getSelection();
+        if (!removeEventButton.isDisposed()) {
             removeEventButton.setEnabled(selection.size() > 0);
         }
 
-        if(!updateEventButton.isDisposed()) {
+        if (!updateEventButton.isDisposed()) {
             updateEventButton.setEnabled(selection.size() == 1);
         }
-        
-        if(eObject instanceof SendTask){
-        	if(!addEventButton.isDisposed()) {
-        		addEventButton.setEnabled(((SendTask) eObject).getEvents().isEmpty());
+
+        if (eObject instanceof SendTask) {
+            if (!addEventButton.isDisposed()) {
+                addEventButton.setEnabled(((SendTask) eObject).getEvents().isEmpty());
             }
         }
 
     }
-
 
     private Button createUpdateConnectorButton(Composite buttonsComposite) {
         Button updateButton = getWidgetFactory().createButton(buttonsComposite, Messages.updateConnector, SWT.FLAT);
@@ -190,17 +187,17 @@ public abstract class ThrowEventSection extends AbstractBonitaDescriptionSection
             @Override
             @SuppressWarnings("unchecked")
             public void handleEvent(Event event) {
-                ITreeSelection selection = (ITreeSelection)filteredTree.getViewer().getSelection();
+                ITreeSelection selection = (ITreeSelection) filteredTree.getViewer().getSelection();
                 if (MessageDialog.openConfirm(buttonsComposite.getShell(), Messages.removeEventConfirmTitle, createMessage(selection))) {
-                    DiagramEditor editor = (DiagramEditor) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor() ;
-                    MessageFlowFactory.removeMessageFlow(getEditingDomain(),selection.toList(), getThrowMessageEvent(),editor.getDiagramEditPart()) ;
-                    IUndoableOperation operation = new DeleteMessageCommand(getEditingDomain(), (ThrowMessageEvent)getEObject(), selection.toList(), ThrowEventSection.this);
+                    DiagramEditor editor = (DiagramEditor) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor();
+                    MessageFlowFactory.removeMessageFlow(getEditingDomain(), selection.toList(), getThrowMessageEvent(), editor.getDiagramEditPart());
+                    IUndoableOperation operation = new DeleteMessageCommand(getEditingDomain(), (ThrowMessageEvent) getEObject(), selection.toList(),
+                            ThrowEventSection.this);
                     try {
                         OperationHistoryFactory.getOperationHistory().execute(operation, new NullProgressMonitor(), null);
                     } catch (ExecutionException e) {
                         BonitaStudioLog.error(e);
                     }
-
 
                     refresh();
                 }
@@ -210,7 +207,7 @@ public abstract class ThrowEventSection extends AbstractBonitaDescriptionSection
                 StringBuilder sb = new StringBuilder();
                 sb.append(Messages.removeEventConfirmMessage);
                 for (Object item : selection.toList()) {
-                    Message event = (Message)item;
+                    Message event = (Message) item;
                     sb.append('\n');
                     sb.append(event.getName());
                     sb.append(", "); //$NON-NLS-1$
@@ -223,16 +220,15 @@ public abstract class ThrowEventSection extends AbstractBonitaDescriptionSection
         return removeButton;
     }
 
-
-
     private Button createAddEventButton(Composite buttonsComposite) {
         Button addMessageEventButton = getWidgetFactory().createButton(buttonsComposite, Messages.addConnector, SWT.FLAT);
         addMessageEventButton.setLayoutData(GridDataFactory.fillDefaults().grab(true, false).hint(85, SWT.DEFAULT).create());
         addMessageEventButton.addListener(SWT.Selection, new Listener() {
+
             @Override
             public void handleEvent(Event event) {
                 new WizardDialog(ThrowEventSection.this.getPart().getSite().getShell(),
-                        createMessageEventWizard(ModelHelper.getMainProcess(getEObject()),null)).open();
+                        createMessageEventWizard(ModelHelper.getMainProcess(getEObject()), null)).open();
                 refresh();
             }
         });
@@ -240,32 +236,31 @@ public abstract class ThrowEventSection extends AbstractBonitaDescriptionSection
         return addMessageEventButton;
     }
 
-    protected abstract UpdateMessageEventWizard createMessageEventWizard(MainProcess diagram,Message message);
+    protected abstract UpdateMessageEventWizard createMessageEventWizard(MainProcess diagram, Message message);
 
     /**
      * @return
      */
     protected Message getSelectedEvent() {
-        return (Message)  ((IStructuredSelection)filteredTree.getViewer().getSelection()).getFirstElement();
+        return (Message) ((IStructuredSelection) filteredTree.getViewer().getSelection()).getFirstElement();
     }
 
     /**
      * @return
      */
     protected ThrowMessageEvent getThrowMessageEvent() {
-        return (ThrowMessageEvent)getEObject();
+        return (ThrowMessageEvent) getEObject();
     }
 
     /**
      * 
      */
     private void updateEventAction() {
-        ITreeSelection selection = (ITreeSelection)filteredTree.getViewer().getSelection();
+        ITreeSelection selection = (ITreeSelection) filteredTree.getViewer().getSelection();
         if (selection.size() == 1) {
             new WizardDialog(Display.getCurrent().getActiveShell(),
-                    createMessageEventWizard(ModelHelper.getMainProcess(getEObject()),(Message)selection.getFirstElement())).open();
+                    createMessageEventWizard(ModelHelper.getMainProcess(getEObject()), (Message) selection.getFirstElement())).open();
             refresh();
-
 
         }
     }
@@ -273,17 +268,17 @@ public abstract class ThrowEventSection extends AbstractBonitaDescriptionSection
     @Override
     public void dispose() {
         super.dispose();
-        if(getEObject() != null){
-            DiagramEventBroker.getInstance(getEditingDomain()).removeNotificationListener(getEObject(),notificationListener);
-            for(Message event : ((ThrowMessageEvent)getEObject()).getEvents()){
-                DiagramEventBroker.getInstance(getEditingDomain()).removeNotificationListener(event,notificationListener);
+        if (getEObject() != null) {
+            DiagramEventBroker.getInstance(getEditingDomain()).removeNotificationListener(getEObject(), notificationListener);
+            for (Message event : ((ThrowMessageEvent) getEObject()).getEvents()) {
+                DiagramEventBroker.getInstance(getEditingDomain()).removeNotificationListener(event, notificationListener);
             }
         }
     }
-    
+
     @Override
     public String getSectionDescription() {
-    	return Messages.messagesSectionDescription;
+        return Messages.messagesSectionDescription;
     }
 
 }

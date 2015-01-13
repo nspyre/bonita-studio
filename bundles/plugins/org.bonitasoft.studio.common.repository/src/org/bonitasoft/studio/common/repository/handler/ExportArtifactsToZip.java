@@ -5,7 +5,6 @@
 
 package org.bonitasoft.studio.common.repository.handler;
 
-
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashSet;
@@ -25,39 +24,37 @@ import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.ui.PlatformUI;
 
 /**
- * 
  * @author Romain Bioteau
- *
- *	Handler that launch a dialog to export artifacts to a zip file
- *
+ *         Handler that launch a dialog to export artifacts to a zip file
  */
 public class ExportArtifactsToZip extends AbstractHandler {
-
 
     @Override
     public Object execute(ExecutionEvent event) throws ExecutionException {
         IRepository currentRepository = RepositoryManager.getInstance().getCurrentRepository();
         String defaultName = currentRepository.getName() + "_" + new SimpleDateFormat("ddMMyy_HHmm").format(new Date()) + ".bos";
-        Set<Object> selectedFiles = new HashSet<Object>() ;
-        for(IRepositoryStore store : currentRepository.getAllExportableStores()){
-            List<IRepositoryFileStore> files = store.getChildren() ;
-            if( files != null){
-                files.remove(null) ;
-                selectedFiles.addAll(files) ;
+        Set<Object> selectedFiles = new HashSet<Object>();
+        for (IRepositoryStore store : currentRepository.getAllExportableStores()) {
+            List<IRepositoryFileStore> files = store.getChildren();
+            if (files != null) {
+                files.remove(null);
+                selectedFiles.addAll(files);
             }
         }
 
-        ExportRepositoryWizard wizard = new ExportRepositoryWizard(currentRepository.getAllExportableStores(),true,selectedFiles,defaultName,Messages.exportRepositoryTitle) ;
+        ExportRepositoryWizard wizard = new ExportRepositoryWizard(currentRepository.getAllExportableStores(), true, selectedFiles, defaultName,
+                Messages.exportRepositoryTitle);
         WizardDialog dialog = new WizardDialog(
                 PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
-                wizard ){
-        	protected void initializeBounds() {
-        		super.initializeBounds();
-        		getShell().setSize(500, 500); 
-        	}
+                wizard) {
+
+            protected void initializeBounds() {
+                super.initializeBounds();
+                getShell().setSize(500, 500);
+            }
         };
         dialog.setTitle(Messages.exportArtifactsWizard_title);
-        dialog.open() ;
+        dialog.open();
         return null;
     }
 

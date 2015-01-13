@@ -5,12 +5,10 @@
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2.0 of the License, or
  * (at your option) any later version.
- *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- *
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
@@ -38,10 +36,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-
 /**
  * @author Romain Bioteau
- *
  */
 public class ExpressionConditionModelSwitchTest {
 
@@ -57,9 +53,9 @@ public class ExpressionConditionModelSwitchTest {
         variable = DataBuilder.createDataBuilder().withName("amount").havingDataType(DoubleDataTypeBuilder.create()).build();
         parameter = ParameterBuilder.create().withName("commission").withType(Double.class.getName()).build();
         final ExpressionBuilder builder = ExpressionBuilder.create()
-        .withExpressionType(ExpressionConstants.CONDITION_TYPE)
+                .withExpressionType(ExpressionConstants.CONDITION_TYPE)
                 .withContent("amount <= 10000 + commission")
-        .withReturnType(Boolean.class.getName())
+                .withReturnType(Boolean.class.getName())
                 .havingReferencedElements(variable, parameter);
         conditionModelSwitch = new ExpressionConditionModelSwitch(builder.build());
     }

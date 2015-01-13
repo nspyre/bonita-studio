@@ -5,14 +5,12 @@
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2.0 of the License, or
  * (at your option) any later version.
- *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package org.bonitasoft.studio.actors.configuration;
 
@@ -28,24 +26,23 @@ import org.eclipse.swt.graphics.Image;
 
 /**
  * @author Romain Bioteau
- *
  */
 public class ActorMappingStyledTreeLabelProvider extends StyledCellLabelProvider {
 
     private AdapterFactoryLabelProvider labelProvider;
 
-    public ActorMappingStyledTreeLabelProvider(ComposedAdapterFactory adapterFactory){
-        labelProvider = new AdapterFactoryLabelProvider(adapterFactory){
+    public ActorMappingStyledTreeLabelProvider(ComposedAdapterFactory adapterFactory) {
+        labelProvider = new AdapterFactoryLabelProvider(adapterFactory) {
+
             @Override
             public Image getImage(Object object) {
-                if(object instanceof String || object instanceof MembershipType){
-                    return null ;
+                if (object instanceof String || object instanceof MembershipType) {
+                    return null;
                 }
                 return super.getImage(object);
             }
         };
     }
-
 
     @Override
     public String getToolTipText(Object element) {
@@ -59,21 +56,21 @@ public class ActorMappingStyledTreeLabelProvider extends StyledCellLabelProvider
             ActorMapping actor = (ActorMapping) cellElement;
             StyledString styledString = new StyledString();
             styledString.append(actor.getName(), null);
-            if(isNotDefined(actor)){
+            if (isNotDefined(actor)) {
                 styledString.append(" -- ");
                 styledString.append(Messages.notMappedActors, StyledString.DECORATIONS_STYLER);
             }
             cell.setText(styledString.getString());
-            cell.setImage(null) ;
+            cell.setImage(null);
             cell.setStyleRanges(styledString.getStyleRanges());
-        }else if(cellElement != null){
+        } else if (cellElement != null) {
             cell.setText(labelProvider.getText(cellElement));
             cell.setImage(labelProvider.getImage(cellElement));
         }
     }
 
     private boolean isNotDefined(ActorMapping actor) {
-        return  actor.getGroups().getGroup().isEmpty() &&
+        return actor.getGroups().getGroup().isEmpty() &&
                 actor.getMemberships().getMembership().isEmpty() &&
                 actor.getRoles().getRole().isEmpty() &&
                 actor.getUsers().getUser().isEmpty();

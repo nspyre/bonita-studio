@@ -1,7 +1,6 @@
 /**
  * <copyright>
  * </copyright>
- *
  * $Id$
  */
 package org.w3._1999.xhtml.validation;
@@ -17,12 +16,18 @@ import org.w3._1999.xhtml.HeadType;
  * This can be disabled with -vmargs -Dorg.eclipse.emf.examples.generator.validator=false.
  */
 public interface HtmlTypeValidator {
-	boolean validate();
 
-	boolean validateHead(HeadType value);
-	boolean validateBody(BodyType value);
-	boolean validateDir(DirType value);
-	boolean validateId(String value);
-	boolean validateLang(String value);
-	boolean validateLang1(String value);
+    boolean validate();
+
+    boolean validateHead(HeadType value);
+
+    boolean validateBody(BodyType value);
+
+    boolean validateDir(DirType value);
+
+    boolean validateId(String value);
+
+    boolean validateLang(String value);
+
+    boolean validateLang1(String value);
 }

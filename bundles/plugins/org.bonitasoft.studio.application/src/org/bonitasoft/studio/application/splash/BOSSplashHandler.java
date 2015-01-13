@@ -1,19 +1,16 @@
 /**
  * Copyright (C) 2011 BonitaSoft S.A.
  * BonitaSoft, 31 rue Gustave Eiffel - 38000 Grenoble
- *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2.0 of the License, or
  * (at your option) any later version.
- *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package org.bonitasoft.studio.application.splash;
 
@@ -44,30 +41,28 @@ import org.eclipse.ui.splash.AbstractSplashHandler;
 
 /**
  * @author Romain Bioteau
- *
  */
 public class BOSSplashHandler extends AbstractSplashHandler {
 
     public static final String BONITA_TASK = "Bonita";
 
-    private static BOSSplashHandler INSTANCE ;
+    private static BOSSplashHandler INSTANCE;
     private CustomAbsolutePositionProgressMonitorPart monitor;
     private Rectangle progressRect;
     private Rectangle messageRect;
     private Color foreground = null;
 
-    public BOSSplashHandler(){
-        if(INSTANCE == null){
+    public BOSSplashHandler() {
+        if (INSTANCE == null) {
             INSTANCE = this;
         }
     }
 
-
-    public static IProgressMonitor getMonitor(){
-        if(INSTANCE != null){
+    public static IProgressMonitor getMonitor() {
+        if (INSTANCE != null) {
             return INSTANCE.getBundleProgressMonitor();
-        }else{
-            return null ;
+        } else {
+            return null;
         }
     }
 
@@ -77,7 +72,6 @@ public class BOSSplashHandler extends AbstractSplashHandler {
 
     /*
      * (non-Javadoc)
-     * 
      * @see org.eclipse.ui.splash.AbstractSplashHandler#dispose()
      */
     @Override
@@ -89,11 +83,10 @@ public class BOSSplashHandler extends AbstractSplashHandler {
     }
 
     /**
-     * Set the foreground text color. This method has no effect after
-     * {@link #getBundleProgressMonitor()} has been invoked.
+     * Set the foreground text color. This method has no effect after {@link #getBundleProgressMonitor()} has been invoked.
      * 
      * @param foregroundRGB
-     *            the color
+     *        the color
      */
     protected void setForeground(RGB foregroundRGB) {
         if (monitor != null) {
@@ -121,7 +114,7 @@ public class BOSSplashHandler extends AbstractSplashHandler {
      * effect after {@link #getBundleProgressMonitor()} has been invoked.
      * 
      * @param messageRect
-     *            the location of the message text
+     *        the location of the message text
      */
     protected void setMessageRect(Rectangle messageRect) {
         this.messageRect = messageRect;
@@ -132,13 +125,11 @@ public class BOSSplashHandler extends AbstractSplashHandler {
      * effect after {@link #getBundleProgressMonitor()} has been invoked.
      * 
      * @param progressRect
-     *            the location of the progress bar
+     *        the location of the progress bar
      */
     protected void setProgressRect(Rectangle progressRect) {
         this.progressRect = progressRect;
     }
-
-
 
     @Override
     public void init(Shell splash) {
@@ -175,10 +166,8 @@ public class BOSSplashHandler extends AbstractSplashHandler {
                 foregroundColorInteger & 0xFF));
 
         // the following code will be removed for release time
-        if (PrefUtil.getInternalPreferenceStore().getBoolean(
-                "SHOW_BUILDID_ON_STARTUP")) { //$NON-NLS-1$
-            final String buildId = System.getProperty(
-                    "eclipse.buildId", "Unknown Build"); //$NON-NLS-1$ //$NON-NLS-2$
+        if (PrefUtil.getInternalPreferenceStore().getBoolean("SHOW_BUILDID_ON_STARTUP")) { //$NON-NLS-1$
+            final String buildId = System.getProperty("eclipse.buildId", "Unknown Build"); //$NON-NLS-1$ //$NON-NLS-2$
             // find the specified location.  Not currently API
             // hardcoded to be sensible with our current splash Graphic
             String buildIdLocString = product.getProperty("buildIdLocation"); //$NON-NLS-1$
@@ -189,10 +178,10 @@ public class BOSSplashHandler extends AbstractSplashHandler {
                 @Override
                 public void paintControl(PaintEvent e) {
                     e.gc.setForeground(getForeground());
-                    e.gc.setBackground(getForeground()) ;
+                    e.gc.setBackground(getForeground());
                     e.gc
-                    .drawText(buildId, buildIdPoint.x, buildIdPoint.y,
-                            true);
+                            .drawText(buildId, buildIdPoint.x, buildIdPoint.y,
+                                    true);
                 }
             });
         }
@@ -208,12 +197,12 @@ public class BOSSplashHandler extends AbstractSplashHandler {
     @Override
     public IProgressMonitor getBundleProgressMonitor() {
         if (monitor == null) {
-            if(getSplash() == null){
-                return null ;
+            if (getSplash() == null) {
+                return null;
             }
             Composite parent = new Composite(getSplash(), Window.getDefaultOrientation());
             Point size = getSplash().getSize();
-            parent.setBounds(new Rectangle(0,0,size.x,size.y));
+            parent.setBounds(new Rectangle(0, 0, size.x, size.y));
             monitor = new CustomAbsolutePositionProgressMonitorPart(parent);
             monitor.setSize(size);
             if (progressRect != null) {
@@ -227,7 +216,6 @@ public class BOSSplashHandler extends AbstractSplashHandler {
             } else {
                 monitor.getProgressText().setVisible(false);
             }
-
 
             monitor.getProgressText().setForeground(Display.getDefault().getSystemColor(SWT.COLOR_WHITE));
             monitor.setBackgroundMode(SWT.INHERIT_FORCE);
@@ -268,7 +256,7 @@ public class BOSSplashHandler extends AbstractSplashHandler {
      */
     class CustomAbsolutePositionProgressMonitorPart extends ProgressMonitorPart {
 
-        private boolean noMoreUpdate =false;
+        private boolean noMoreUpdate = false;
 
         public CustomAbsolutePositionProgressMonitorPart(Composite parent) {
             super(parent, null);
@@ -283,14 +271,14 @@ public class BOSSplashHandler extends AbstractSplashHandler {
             return fLabel;
         }
 
-
-        /* (non-Javadoc)
+        /*
+         * (non-Javadoc)
          * @see org.eclipse.jface.wizard.ProgressMonitorPart#beginTask(java.lang.String, int)
          */
         @Override
         public void beginTask(final String name, final int totalWork) {
 
-            if(name.equals(BONITA_TASK)){
+            if (name.equals(BONITA_TASK)) {
                 updateUI(new Runnable() {
 
                     @Override
@@ -306,10 +294,8 @@ public class BOSSplashHandler extends AbstractSplashHandler {
 
         }
 
-
         /*
          * (non-Javadoc)
-         * 
          * @see org.eclipse.jface.wizard.ProgressMonitorPart#done()
          */
         @Override
@@ -327,15 +313,14 @@ public class BOSSplashHandler extends AbstractSplashHandler {
             });
 
         }
-        
+
         @Override
         public void subTask(String name) {
-        	super.subTask("");
+            super.subTask("");
         }
 
         /*
          * (non-Javadoc)
-         * 
          * @see org.eclipse.jface.wizard.ProgressMonitorPart#internalWorked(double)
          */
         @Override
@@ -356,7 +341,6 @@ public class BOSSplashHandler extends AbstractSplashHandler {
 
         /*
          * (non-Javadoc)
-         * 
          * @see org.eclipse.jface.wizard.ProgressMonitorPart#setFont(org.eclipse.swt.graphics.Font)
          */
         @Override
@@ -377,7 +361,6 @@ public class BOSSplashHandler extends AbstractSplashHandler {
 
         /*
          * (non-Javadoc)
-         * 
          * @see org.eclipse.jface.wizard.ProgressMonitorPart#updateLabel()
          */
         @Override
@@ -385,27 +368,24 @@ public class BOSSplashHandler extends AbstractSplashHandler {
 
             updateUI(new Runnable() {
 
-
-
                 @Override
                 public void run() {
                     if (isDisposed()) {
                         return;
                     }
 
-                    if(!noMoreUpdate){
-                        if(fSubTaskName != null){
+                    if (!noMoreUpdate) {
+                        if (fSubTaskName != null) {
                             fLabel.setText(fSubTaskName);
-                        }else{
+                        } else {
                             fLabel.setText("");
                         }
                         //Force an update as we are in the UI Thread
                         fLabel.update();
                     }
-                    if(fSubTaskName != null && fSubTaskName.equals(Messages.openingStudio)){
-                        noMoreUpdate = true ;
+                    if (fSubTaskName != null && fSubTaskName.equals(Messages.openingStudio)) {
+                        noMoreUpdate = true;
                     }
-
 
                 }
             });

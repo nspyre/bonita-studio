@@ -1,19 +1,16 @@
 /**
  * Copyright (C) 2009 BonitaSoft S.A.
  * BonitaSoft, 31 rue Gustave Eiffel - 38000 Grenoble
- * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2.0 of the License, or
  * (at your option) any later version.
- *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package org.bonitasoft.studio.diagram.custom;
 
@@ -29,13 +26,13 @@ import org.eclipse.gmf.runtime.emf.type.core.IElementType;
 
 /**
  * @author Mickael Istria
- *
  */
 public class BonitaNodesElementTypeResolver implements ElementTypeResolver {
+
     public IElementType getElementType(GraphicalEditPart parentEditPart, EClass targetEClass) {
         final List<IElementType> allowedChildren = new ArrayList<IElementType>();
-        if(parentEditPart instanceof ShapeCompartmentEditPart){
-            
+        if (parentEditPart instanceof ShapeCompartmentEditPart) {
+
             allowedChildren.add(ProcessElementTypes.Activity_3006);
             allowedChildren.add(ProcessElementTypes.Task_3005);
             allowedChildren.add(ProcessElementTypes.CallActivity_3063);
@@ -63,7 +60,7 @@ public class BonitaNodesElementTypeResolver implements ElementTypeResolver {
             allowedChildren.add(ProcessElementTypes.ServiceTask_3027);
             allowedChildren.add(ProcessElementTypes.StartErrorEvent_3060);
             allowedChildren.add(ProcessElementTypes.EndTerminatedEvent_3062);
-        }else{
+        } else {
             allowedChildren.add(ProcessElementTypes.Activity_2006);
             allowedChildren.add(ProcessElementTypes.Task_2004);
             allowedChildren.add(ProcessElementTypes.CallActivity_2036);
@@ -95,13 +92,11 @@ public class BonitaNodesElementTypeResolver implements ElementTypeResolver {
             //allowedChildren = ModelingAssistantService.getInstance().getTypesForPopupBar(parentEditPart);
         }
 
-
         for (IElementType child : allowedChildren) {
             if (child.getEClass().equals(targetEClass)) {
                 return child;
             }
         }
-
 
         return null;
     }

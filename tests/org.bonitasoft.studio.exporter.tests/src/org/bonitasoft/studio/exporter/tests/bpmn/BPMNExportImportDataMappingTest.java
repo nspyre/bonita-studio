@@ -1,19 +1,16 @@
 /**
  * Copyright (C) 2012 BonitaSoft S.A.
  * BonitaSoft, 32 rue Gustave Eiffel - 38000 Grenoble
- *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2.0 of the License, or
  * (at your option) any later version.
- *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package org.bonitasoft.studio.exporter.tests.bpmn;
 
@@ -54,112 +51,111 @@ import org.omg.spec.bpmn.model.DocumentRoot;
 
 /**
  * @author Aurelien Pupier
- *
  */
 @RunWith(SWTBotJunit4ClassRunner.class)
 public class BPMNExportImportDataMappingTest extends SWTBotGefTestCase {
 
-	private static  MainProcess mainProcessAfterReimport;
-	private static boolean isInitalized = false;
-	private static CallActivity callActivity;
+    private static MainProcess mainProcessAfterReimport;
+    private static boolean isInitalized = false;
+    private static CallActivity callActivity;
 
-	@Before
-	public void init() throws IOException{
-		if(!isInitalized){
-			prepareTest();
-		}
-		isInitalized = true;
-	}
-	
-	@Test
-	public void testInputMappingWithTextVariable(){
-		for(InputMapping im : callActivity.getInputMappings()){
-			if("childTextData".equals(im.getSubprocessTarget())){
-				final Data processSourceData = im.getProcessSource();
-				assertNotNull(processSourceData);
-				assertEquals("parentTextData", processSourceData.getName());
-				return;
-			}
-		}
-		fail("Text input data mapping lost");
-	}
-	
-	@Test
-	public void testInputMappingWithBooleanVariable(){
-		for(InputMapping im : callActivity.getInputMappings()){
-			if("childBooleanData".equals(im.getSubprocessTarget())){
-				final Data processSourceData = im.getProcessSource();
-				assertNotNull(processSourceData);
-				assertEquals("parentBooleanData", processSourceData.getName());
-				return;
-			}
-		}
-		fail("Boolean input data mapping lost");
-	}
-	
-	@Test
-	public void testOutputMappingWithTextVariable(){
-		for(OutputMapping im : callActivity.getOutputMappings()){
-			if("childTextData".equals(im.getSubprocessSource())){
-				final Data processSourceData = im.getProcessTarget();
-				assertNotNull(processSourceData);
-				assertEquals("parentTextData", processSourceData.getName());
-				return;
-			}
-		}
-		fail("Text data mapping lost");
-	}
-	
-	@Test
-	public void testOutputMappingWithBooleanVariable(){
-		for(OutputMapping im : callActivity.getOutputMappings()){
-			if("childBooleanData".equals(im.getSubprocessSource())){
-				final Data processSourceData = im.getProcessTarget();
-				assertNotNull(processSourceData);
-				assertEquals("parentBooleanData", processSourceData.getName());
-				return;
-			}
-		}
-		fail("Boolean output data mapping lost");
-	}
-	
-	protected void prepareTest() throws IOException {
-		SWTBotTestUtil.importProcessWIthPathFromClass(bot, "testBPMNDataMapping-1.0.bos", "Bonita 6.x", "testBPMNDataMapping", BPMNExportImportDataMappingTest.class, false);
-		SWTBotGefEditor editor1 = bot.gefEditor(bot.activeEditor().getTitle());
-		SWTBotGefEditPart step1Part = editor1.getEditPart("Step1").parent();	
-		MainProcessEditPart mped = (MainProcessEditPart) step1Part.part().getRoot().getChildren().get(0);
-		IBonitaModelExporter exporter = new BonitaModelExporterImpl(mped) ;
-		File bpmnFileExported = File.createTempFile("testSingleConnectorOnServiceTask", ".bpmn");
-		final boolean transformed = new BonitaToBPMN().transform(exporter, bpmnFileExported, new NullProgressMonitor());
-		assertTrue("Error during export", transformed);
+    @Before
+    public void init() throws IOException {
+        if (!isInitalized) {
+            prepareTest();
+        }
+        isInitalized = true;
+    }
 
+    @Test
+    public void testInputMappingWithTextVariable() {
+        for (InputMapping im : callActivity.getInputMappings()) {
+            if ("childTextData".equals(im.getSubprocessTarget())) {
+                final Data processSourceData = im.getProcessSource();
+                assertNotNull(processSourceData);
+                assertEquals("parentTextData", processSourceData.getName());
+                return;
+            }
+        }
+        fail("Text input data mapping lost");
+    }
 
-		ResourceSet resourceSet1 = new ResourceSetImpl();
-		final Map<String, Object> extensionToFactoryMap = resourceSet1.getResourceFactoryRegistry().getExtensionToFactoryMap();
-		final DiResourceFactoryImpl diResourceFactoryImpl = new DiResourceFactoryImpl();
-		extensionToFactoryMap.put("bpmn", diResourceFactoryImpl);
-		Resource resource2 = resourceSet1.createResource(URI.createFileURI(bpmnFileExported.getAbsolutePath()));		
-		resource2.load(Collections.emptyMap());
+    @Test
+    public void testInputMappingWithBooleanVariable() {
+        for (InputMapping im : callActivity.getInputMappings()) {
+            if ("childBooleanData".equals(im.getSubprocessTarget())) {
+                final Data processSourceData = im.getProcessSource();
+                assertNotNull(processSourceData);
+                assertEquals("parentBooleanData", processSourceData.getName());
+                return;
+            }
+        }
+        fail("Boolean input data mapping lost");
+    }
 
-		final DocumentRoot model2 = (DocumentRoot) resource2.getContents().get(0);
-		
-		Display.getDefault().syncExec(new Runnable() {
+    @Test
+    public void testOutputMappingWithTextVariable() {
+        for (OutputMapping im : callActivity.getOutputMappings()) {
+            if ("childTextData".equals(im.getSubprocessSource())) {
+                final Data processSourceData = im.getProcessTarget();
+                assertNotNull(processSourceData);
+                assertEquals("parentTextData", processSourceData.getName());
+                return;
+            }
+        }
+        fail("Text data mapping lost");
+    }
 
-			public void run() {
-				try {
-					mainProcessAfterReimport = BPMNTestUtil.importBPMNFile(model2);
-				} catch (MalformedURLException e) {
-					e.printStackTrace();
-				}				
-			}
-		});
-		
-		for(Element element : ((Lane)((Pool)mainProcessAfterReimport.getElements().get(0)).getElements().get(0)).getElements()){
-			if(element instanceof CallActivity){
-				callActivity = (CallActivity) element;
-				break;
-			}
-		}
-	}
-	
+    @Test
+    public void testOutputMappingWithBooleanVariable() {
+        for (OutputMapping im : callActivity.getOutputMappings()) {
+            if ("childBooleanData".equals(im.getSubprocessSource())) {
+                final Data processSourceData = im.getProcessTarget();
+                assertNotNull(processSourceData);
+                assertEquals("parentBooleanData", processSourceData.getName());
+                return;
+            }
+        }
+        fail("Boolean output data mapping lost");
+    }
+
+    protected void prepareTest() throws IOException {
+        SWTBotTestUtil.importProcessWIthPathFromClass(bot, "testBPMNDataMapping-1.0.bos", "Bonita 6.x", "testBPMNDataMapping",
+                BPMNExportImportDataMappingTest.class, false);
+        SWTBotGefEditor editor1 = bot.gefEditor(bot.activeEditor().getTitle());
+        SWTBotGefEditPart step1Part = editor1.getEditPart("Step1").parent();
+        MainProcessEditPart mped = (MainProcessEditPart) step1Part.part().getRoot().getChildren().get(0);
+        IBonitaModelExporter exporter = new BonitaModelExporterImpl(mped);
+        File bpmnFileExported = File.createTempFile("testSingleConnectorOnServiceTask", ".bpmn");
+        final boolean transformed = new BonitaToBPMN().transform(exporter, bpmnFileExported, new NullProgressMonitor());
+        assertTrue("Error during export", transformed);
+
+        ResourceSet resourceSet1 = new ResourceSetImpl();
+        final Map<String, Object> extensionToFactoryMap = resourceSet1.getResourceFactoryRegistry().getExtensionToFactoryMap();
+        final DiResourceFactoryImpl diResourceFactoryImpl = new DiResourceFactoryImpl();
+        extensionToFactoryMap.put("bpmn", diResourceFactoryImpl);
+        Resource resource2 = resourceSet1.createResource(URI.createFileURI(bpmnFileExported.getAbsolutePath()));
+        resource2.load(Collections.emptyMap());
+
+        final DocumentRoot model2 = (DocumentRoot) resource2.getContents().get(0);
+
+        Display.getDefault().syncExec(new Runnable() {
+
+            public void run() {
+                try {
+                    mainProcessAfterReimport = BPMNTestUtil.importBPMNFile(model2);
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        for (Element element : ((Lane) ((Pool) mainProcessAfterReimport.getElements().get(0)).getElements().get(0)).getElements()) {
+            if (element instanceof CallActivity) {
+                callActivity = (CallActivity) element;
+                break;
+            }
+        }
+    }
+
 }

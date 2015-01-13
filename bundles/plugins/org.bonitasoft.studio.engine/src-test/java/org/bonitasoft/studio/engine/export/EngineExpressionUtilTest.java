@@ -282,10 +282,10 @@ public class EngineExpressionUtilTest {
     }
 
     @Test
-    public void toEngineExpressionType_returnDocumentListForDocumentReferenceList(){
+    public void toEngineExpressionType_returnDocumentListForDocumentReferenceList() {
         final Document document = ProcessFactory.eINSTANCE.createDocument();
         document.setMultiple(true);
-        final Expression expression= new DocumentReferenceExpressionProvider().createDocRefExpression(document);
+        final Expression expression = new DocumentReferenceExpressionProvider().createDocRefExpression(document);
         assertThat(EngineExpressionUtil.toEngineExpressionType(expression)).isEqualTo(ExpressionType.TYPE_DOCUMENT_LIST);
     }
 

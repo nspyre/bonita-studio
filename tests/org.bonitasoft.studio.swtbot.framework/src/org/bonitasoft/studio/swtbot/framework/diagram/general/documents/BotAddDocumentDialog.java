@@ -108,7 +108,6 @@ public class BotAddDocumentDialog extends BotWizardDialog {
         bot.textWithLabel(Messages.documentExternalLabel + " *").setText(pURL);
     }
 
-
     /**
      * get URL expressionEditor.
      * 
@@ -131,7 +130,6 @@ public class BotAddDocumentDialog extends BotWizardDialog {
     public void chooseMultipleContent() {
         bot.radio(Messages.radioButtonMultiple).click();
     }
-
 
     /**
      * MIME TYPE.
@@ -182,6 +180,7 @@ public class BotAddDocumentDialog extends BotWizardDialog {
     public boolean isMymeTypeFieldEnabled() {
         return bot.link("<A>" + Messages.manageMimeType + "</A>").isEnabled();
     }
+
     /**
      * VALIDATION
      */

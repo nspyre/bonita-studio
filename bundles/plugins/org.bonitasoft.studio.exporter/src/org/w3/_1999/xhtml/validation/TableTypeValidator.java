@@ -1,7 +1,6 @@
 /**
  * <copyright>
  * </copyright>
- *
  * $Id$
  */
 package org.w3._1999.xhtml.validation;
@@ -28,39 +27,70 @@ import org.w3._1999.xhtml.TrType;
  * This can be disabled with -vmargs -Dorg.eclipse.emf.examples.generator.validator=false.
  */
 public interface TableTypeValidator {
-	boolean validate();
 
-	boolean validateCaption(CaptionType value);
-	boolean validateCol(EList<ColType> value);
-	boolean validateColgroup(EList<ColgroupType> value);
-	boolean validateThead(TheadType value);
-	boolean validateTfoot(TfootType value);
-	boolean validateTbody(EList<TbodyType> value);
-	boolean validateTr(EList<TrType> value);
-	boolean validateBorder(BigInteger value);
-	boolean validateCellpadding(String value);
-	boolean validateCellspacing(String value);
-	boolean validateClass(String value);
+    boolean validate();
 
-	boolean validateClass(List<String> value);
-	boolean validateDir(DirType value);
-	boolean validateFrame(TFrame value);
-	boolean validateId(String value);
-	boolean validateLang(String value);
-	boolean validateLang1(String value);
-	boolean validateOnclick(String value);
-	boolean validateOndblclick(String value);
-	boolean validateOnkeydown(String value);
-	boolean validateOnkeypress(String value);
-	boolean validateOnkeyup(String value);
-	boolean validateOnmousedown(String value);
-	boolean validateOnmousemove(String value);
-	boolean validateOnmouseout(String value);
-	boolean validateOnmouseover(String value);
-	boolean validateOnmouseup(String value);
-	boolean validateRules(TRules value);
-	boolean validateStyle(String value);
-	boolean validateSummary(String value);
-	boolean validateTitle(String value);
-	boolean validateWidth(String value);
+    boolean validateCaption(CaptionType value);
+
+    boolean validateCol(EList<ColType> value);
+
+    boolean validateColgroup(EList<ColgroupType> value);
+
+    boolean validateThead(TheadType value);
+
+    boolean validateTfoot(TfootType value);
+
+    boolean validateTbody(EList<TbodyType> value);
+
+    boolean validateTr(EList<TrType> value);
+
+    boolean validateBorder(BigInteger value);
+
+    boolean validateCellpadding(String value);
+
+    boolean validateCellspacing(String value);
+
+    boolean validateClass(String value);
+
+    boolean validateClass(List<String> value);
+
+    boolean validateDir(DirType value);
+
+    boolean validateFrame(TFrame value);
+
+    boolean validateId(String value);
+
+    boolean validateLang(String value);
+
+    boolean validateLang1(String value);
+
+    boolean validateOnclick(String value);
+
+    boolean validateOndblclick(String value);
+
+    boolean validateOnkeydown(String value);
+
+    boolean validateOnkeypress(String value);
+
+    boolean validateOnkeyup(String value);
+
+    boolean validateOnmousedown(String value);
+
+    boolean validateOnmousemove(String value);
+
+    boolean validateOnmouseout(String value);
+
+    boolean validateOnmouseover(String value);
+
+    boolean validateOnmouseup(String value);
+
+    boolean validateRules(TRules value);
+
+    boolean validateStyle(String value);
+
+    boolean validateSummary(String value);
+
+    boolean validateTitle(String value);
+
+    boolean validateWidth(String value);
 }

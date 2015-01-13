@@ -1,19 +1,16 @@
 /**
  * Copyright (C) 2009 BonitaSoft S.A.
  * BonitaSoft, 31 rue Gustave Eiffel - 38000 Grenoble
- *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2.0 of the License, or
  * (at your option) any later version.
- *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package org.bonitasoft.studio.exporter.application;
 
@@ -61,11 +58,9 @@ import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.w3._1999.xhtml.DivType;
 
 /**
- * 
  * Generate the templates for the given form
  * 
  * @author Baptiste Mesta
- * 
  */
 public class HtmlTemplateGenerator {
 
@@ -75,19 +70,17 @@ public class HtmlTemplateGenerator {
     private static final String generated_css = "\t\t<link href=\"css/generatedcss.css\" rel=\"stylesheet\" type=\"text/css\"/>\n";
 
     /**
-     * 
      * create an xhtml template based on the form definition
-     * 
      * generate the widget table and put it in the global page template
      * 
      * @param toGenerate
-     *            the form to generate a template on
+     *        the form to generate a template on
      * @param isPreview
      * @return the path to the template file
      * @throws CoreException
      */
-    public List<String> createXhtmlTemplate(List<EObject> toGenerate,boolean isPreview, ApplicationLookNFeelFileStore artifact,boolean instantiationForm) throws CoreException {
-
+    public List<String> createXhtmlTemplate(List<EObject> toGenerate, boolean isPreview, ApplicationLookNFeelFileStore artifact, boolean instantiationForm)
+            throws CoreException {
 
         Form form = (Form) toGenerate.get(0);
         AbstractProcess process = ModelHelper.getParentProcess(form);
@@ -97,27 +90,26 @@ public class HtmlTemplateGenerator {
         boolean useBlackTemplate = false;
         //check if the default template should be used
         StringBuilder cssContents = new StringBuilder();
-        CssGeneratorService.getInstance().getCssGenerator().addToCss(process!=null?process:form, cssContents);
-        boolean useGeneratedCss = cssContents.length()>0;
+        CssGeneratorService.getInstance().getCssGenerator().addToCss(process != null ? process : form, cssContents);
+        boolean useGeneratedCss = cssContents.length() > 0;
 
-
-        if(process != null){
-            if(process.getPageTemplate()!= null ){
+        if (process != null) {
+            if (process.getPageTemplate() != null) {
                 pageTemplateFile = WebTemplatesUtil.getFile(process.getPageTemplate().getPath());
 
-                if(pageTemplateFile != null && !pageTemplateFile.exists()){
+                if (pageTemplateFile != null && !pageTemplateFile.exists()) {
                     pageTemplateFile = null;
                 } else {
-                    if(process.getProcessTemplate() == null || process.getProcessTemplate().getPath() == null
-                            || process.getProcessTemplate().getPath().length() ==0){
+                    if (process.getProcessTemplate() == null || process.getProcessTemplate().getPath() == null
+                            || process.getProcessTemplate().getPath().length() == 0) {
                         //no process template we add the black page template to be compliant with the default bonita template
                         useBlackTemplate = true;
                     }
                 }
             }
-            if(process.getConsultationTemplate()!=null){
+            if (process.getConsultationTemplate() != null) {
                 consultationTemplateFile = WebTemplatesUtil.getFile(process.getConsultationTemplate().getPath());
-                if(consultationTemplateFile != null && !consultationTemplateFile.exists()){
+                if (consultationTemplateFile != null && !consultationTemplateFile.exists()) {
                     consultationTemplateFile = null;
                 }
             }
@@ -128,28 +120,28 @@ public class HtmlTemplateGenerator {
             Source pageTemplateSource;
             try {
 
-                form = (Form)toGenerate.get(divs.indexOf(string));
+                form = (Form) toGenerate.get(divs.indexOf(string));
 
                 File templateFile = new File(string);
-                if(form instanceof ViewForm){
+                if (form instanceof ViewForm) {
                     //use global consultation form if it exists
-                    if(artifact != null && ((IFile)artifact.getConsultationTemplate()).exists()){
-                        pageTemplate = ((IFile)artifact.getConsultationTemplate()).getContents() ;
+                    if (artifact != null && ((IFile) artifact.getConsultationTemplate()).exists()) {
+                        pageTemplate = ((IFile) artifact.getConsultationTemplate()).getContents();
                     }
-                    if(pageTemplate == null){
-                        if(consultationTemplateFile != null && consultationTemplateFile.exists()){
+                    if (pageTemplate == null) {
+                        if (consultationTemplateFile != null && consultationTemplateFile.exists()) {
                             pageTemplate = new FileInputStream(consultationTemplateFile);
-                        }else{
+                        } else {
                             pageTemplate = HtmlTemplateGenerator.class.getResourceAsStream("default_page_template.html");
                         }
                     }
                 } else {
 
-                    if(artifact != null && ((IFile)artifact.getGlobalPageTemplate()).exists()){
-                        pageTemplate = ((IFile)artifact.getGlobalPageTemplate()).getContents() ;
+                    if (artifact != null && ((IFile) artifact.getGlobalPageTemplate()).exists()) {
+                        pageTemplate = ((IFile) artifact.getGlobalPageTemplate()).getContents();
                     }
-                    if(pageTemplate == null){
-                        if ( pageTemplateFile == null || !pageTemplateFile.exists()) {
+                    if (pageTemplate == null) {
+                        if (pageTemplateFile == null || !pageTemplateFile.exists()) {
                             if (useBlackTemplate) {
                                 pageTemplate = HtmlTemplateGenerator.class.getResourceAsStream("black_page_template.html");
                             } else {
@@ -170,10 +162,10 @@ public class HtmlTemplateGenerator {
                 Segment toInject = divSource.getFirstElementByClass(form_container).getContent();
                 net.htmlparser.jericho.Element divTarget = pageTemplateSource.getFirstElementByClass(form_container);
                 int injectIndex;
-                if(divTarget == null){
+                if (divTarget == null) {
                     BonitaStudioLog.log("No bonita_form_container found in the consultation template");
                     injectIndex = 0;
-                }else{
+                } else {
                     //index if the inside of bonita_form_container in the page template
                     injectIndex = divTarget.getContent().getBegin();
                 }
@@ -198,20 +190,20 @@ public class HtmlTemplateGenerator {
                     }
                 }
                 //instantiation form
-                if(instantiationForm || form.eContainer() instanceof AbstractProcess){
+                if (instantiationForm || form.eContainer() instanceof AbstractProcess) {
                     //remove the bonita_form_step_header
                     net.htmlparser.jericho.Element element = pageTemplateSource.getElementById(form_header);
                     List<net.htmlparser.jericho.Element> headers = pageTemplateSource.getAllElementsByClass(form_header);
                     HashSet<net.htmlparser.jericho.Element> hashSet = new HashSet<net.htmlparser.jericho.Element>(headers);
                     hashSet.add(element);
                     for (net.htmlparser.jericho.Element bonita_header : hashSet) {
-                        if(bonita_header != null){
+                        if (bonita_header != null) {
                             Attributes divAttributes = bonita_header.getAttributes();
                             Map<String, String> attributesMap = resultingTemplate.replace(divAttributes, true);
                             String classAttr;
-                            if(attributesMap.containsKey("class")){
+                            if (attributesMap.containsKey("class")) {
                                 classAttr = attributesMap.get("class") + " " + CssGenerator.HIDDEN_STYLE_CLASS;
-                            }else{
+                            } else {
                                 classAttr = CssGenerator.HIDDEN_STYLE_CLASS;
                             }
                             attributesMap.put("class", classAttr);
@@ -219,14 +211,13 @@ public class HtmlTemplateGenerator {
                     }
                 }
 
-
                 FileOutputStream outputStream = new FileOutputStream(templateFile);
-                OutputStreamWriter outputStreamWriter = new OutputStreamWriter(outputStream,Charset.forName("UTF-8"));
+                OutputStreamWriter outputStreamWriter = new OutputStreamWriter(outputStream, Charset.forName("UTF-8"));
                 resultingTemplate.writeTo(outputStreamWriter);
                 outputStream.close();
                 outputStreamWriter.close();
                 pageTemplate.close();
-                pageTemplate = null ;
+                pageTemplate = null;
                 fis.close();
 
             } catch (IOException e) {
@@ -238,8 +229,8 @@ public class HtmlTemplateGenerator {
     }
 
     /**
-     * 
      * create form containers divs containing the table of widgets
+     * 
      * @param toGenerate
      * @return
      */
@@ -266,8 +257,8 @@ public class HtmlTemplateGenerator {
                 URI uri = URI.createPlatformResourceURI("tmp/" + htmlFile.getName(), false); //$NON-NLS-1$
                 Resource outResource = resourceSet.createResource(uri);
                 final EObject htmlForm = getXhtmlForm(outObjects, eObject);
-                if(htmlForm == null){
-                    if(os != null){
+                if (htmlForm == null) {
+                    if (os != null) {
                         os.close();
                     }
                     throw new RuntimeException("Form template generation failed");
@@ -299,18 +290,20 @@ public class HtmlTemplateGenerator {
         List<EObject> newList = new ArrayList<EObject>();
         for (EObject eObject : toGenerate) {
             Form newForm = (Form) EcoreUtil.copy(eObject);
-            if(eObject.eContainer() != null){
+            if (eObject.eContainer() != null) {
                 String suffix = "";
-                if(eObject.eContainer() instanceof AbstractProcess){
-                    suffix= "_"+ExporterTools.PROCESS;
+                if (eObject.eContainer() instanceof AbstractProcess) {
+                    suffix = "_" + ExporterTools.PROCESS;
                 }
                 //if it's a consultation form we add consultation to the id
-                if(eObject.eContainmentFeature().equals(ProcessPackage.Literals.VIEW_PAGE_FLOW__VIEW_FORM)){
-                    newForm.setDocumentation(ModelHelper.getEObjectID(eObject.eContainer())+suffix+"_" + ExporterTools.CONSULTATION+ModelHelper.getEObjectID(eObject));
-                }else if(eObject.eContainmentFeature().equals(ProcessPackage.Literals.RECAP_FLOW__RECAP_FORMS)){
-                    newForm.setDocumentation(ModelHelper.getEObjectID(eObject.eContainer())+suffix+"_" + ExporterTools.RECAP+ModelHelper.getEObjectID(eObject));
-                }else{
-                    newForm.setDocumentation(ModelHelper.getEObjectID(eObject.eContainer())+suffix+"_"+ModelHelper.getEObjectID(eObject));
+                if (eObject.eContainmentFeature().equals(ProcessPackage.Literals.VIEW_PAGE_FLOW__VIEW_FORM)) {
+                    newForm.setDocumentation(ModelHelper.getEObjectID(eObject.eContainer()) + suffix + "_" + ExporterTools.CONSULTATION
+                            + ModelHelper.getEObjectID(eObject));
+                } else if (eObject.eContainmentFeature().equals(ProcessPackage.Literals.RECAP_FLOW__RECAP_FORMS)) {
+                    newForm.setDocumentation(ModelHelper.getEObjectID(eObject.eContainer()) + suffix + "_" + ExporterTools.RECAP
+                            + ModelHelper.getEObjectID(eObject));
+                } else {
+                    newForm.setDocumentation(ModelHelper.getEObjectID(eObject.eContainer()) + suffix + "_" + ModelHelper.getEObjectID(eObject));
                 }
             } else {
                 newForm.setDocumentation("");
@@ -324,6 +317,7 @@ public class HtmlTemplateGenerator {
     /**
      * Since qvto do not retreive elements in the same order that they were given
      * we have to put in the root object the id of the object (it's put in "documentation" of the form before the execution)
+     * 
      * @param outObjects
      * @param eObject
      * @return
@@ -335,7 +329,7 @@ public class HtmlTemplateGenerator {
             name = name.substring(0, name.length() - 5);//remove .html extension
             for (EObject xhtml : outObjects) {
                 if (xhtml instanceof DivType) {
-                    if (((DivType) xhtml).getId()!= null && ((DivType) xhtml).getId().equals(name)) {
+                    if (((DivType) xhtml).getId() != null && ((DivType) xhtml).getId().equals(name)) {
                         ((DivType) xhtml).setId(null);
                         return xhtml;
                     }
@@ -346,19 +340,18 @@ public class HtmlTemplateGenerator {
     }
 
     /**
-     * 
      * create an xhtml template based on the form definition
      * 
      * @param form
      * @param isPreview
      * @return
      */
-    public String createXhtmlTemplate(Form form,boolean isPreview, ApplicationLookNFeelFileStore artifact,boolean instantiationForm) {
+    public String createXhtmlTemplate(Form form, boolean isPreview, ApplicationLookNFeelFileStore artifact, boolean instantiationForm) {
         List<EObject> forms = new ArrayList<EObject>();
         forms.add(form);
 
         try {
-            return createXhtmlTemplate(forms,isPreview,artifact,instantiationForm).get(0);
+            return createXhtmlTemplate(forms, isPreview, artifact, instantiationForm).get(0);
         } catch (CoreException e) {
             e.printStackTrace();
         }
@@ -405,11 +398,11 @@ public class HtmlTemplateGenerator {
             Map<String, String> attributesMap = resultingTemplate.replace(divAttributes, true);
             attributesMap.put("id", newId);
         }
-        net.htmlparser.jericho.Element validator_div = pageTemplateSource.getElementById(oldId+"_default_validator");
+        net.htmlparser.jericho.Element validator_div = pageTemplateSource.getElementById(oldId + "_default_validator");
         if (validator_div != null) {
             Attributes divAttributes = validator_div.getAttributes();
             Map<String, String> attributesMap = resultingTemplate.replace(divAttributes, true);
-            attributesMap.put("id", newId+"_default_validator");
+            attributesMap.put("id", newId + "_default_validator");
         }
         resultingTemplate.writeTo(outputFileWriter);
     }

@@ -41,9 +41,9 @@ public class ValidationTestBase {
      * Helper method to find the status matching a constraint ID.
      *
      * @param statuses
-     *            the statuses to search
+     *        the statuses to search
      * @param id
-     *            the constraint ID to look for
+     *        the constraint ID to look for
      * @return the matching status, or <code>null</code> if it's not found
      */
     protected IStatus getStatus(final IStatus[] statuses, final String id) {
@@ -64,11 +64,10 @@ public class ValidationTestBase {
      * Helper method to find multiple statuses matching a constraint ID.
      *
      * @param statuses
-     *            the statuses to search
+     *        the statuses to search
      * @param id
-     *            the constraint ID to look for
+     *        the constraint ID to look for
      * @return the matching statuses, or empty array if none found
-     *
      * @since 1.1
      */
     protected IStatus[] getStatuses(final IStatus[] statuses, final String id) {
@@ -92,7 +91,7 @@ public class ValidationTestBase {
      * were evaluated results in an empty array being returned.
      *
      * @param status
-     *            the status, which may be multi or not
+     *        the status, which may be multi or not
      * @return all of the statuses represented by the incoming <code>status</code>
      */
     protected IStatus[] getStatuses(final IStatus status) {

@@ -5,14 +5,12 @@
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2.0 of the License, or
  * (at your option) any later version.
- *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package org.bonitasoft.studio.properties.sections.forms.wizard;
 
@@ -49,7 +47,6 @@ import org.eclipse.jface.wizard.Wizard;
 
 public class SelectFormWizard extends Wizard {
 
-
     protected Element pageFlow;
     protected TransactionalEditingDomain editingDomain;
     protected EStructuralFeature feature;
@@ -64,12 +61,13 @@ public class SelectFormWizard extends Wizard {
 
     @Override
     public void addPages() {
-        final SelectGeneratedWidgetsWizardPage selectGeneratedWidgetsWizardPage = createSelectGeneratedWidgetsWizardPage(generateDefaultFormName(),getAccessibleModelElements());
+        final SelectGeneratedWidgetsWizardPage selectGeneratedWidgetsWizardPage = createSelectGeneratedWidgetsWizardPage(generateDefaultFormName(),
+                getAccessibleModelElements());
         addPage(selectGeneratedWidgetsWizardPage);
     }
 
     protected SelectGeneratedWidgetsWizardPage createSelectGeneratedWidgetsWizardPage(final String defaultFormName, final List<EObject> inputElements) {
-        final SelectGeneratedWidgetsWizardPage page = new SelectGeneratedWidgetsWizardPage(defaultFormName,inputElements);
+        final SelectGeneratedWidgetsWizardPage page = new SelectGeneratedWidgetsWizardPage(defaultFormName, inputElements);
         page.setTitle(Messages.createForm_title);
         page.setDescription(Messages.createForm_desc);
         return page;
@@ -77,11 +75,11 @@ public class SelectFormWizard extends Wizard {
 
     protected List<EObject> getAccessibleModelElements() {
         final List<EObject> elements = new ArrayList<EObject>();
-        if(pageFlow instanceof PageFlow){
+        if (pageFlow instanceof PageFlow) {
             final List<Data> allData = ModelHelper.getAccessibleDataInFormsWithNoRestriction(pageFlow, feature);
             for (final Data currentData : allData) {
                 final EClass eClassData = currentData.getDataType().eClass();
-                if(!ProcessPackage.eINSTANCE.getJavaType().isSuperTypeOf(eClassData)
+                if (!ProcessPackage.eINSTANCE.getJavaType().isSuperTypeOf(eClassData)
                         && !ProcessPackage.eINSTANCE.getXMLType().isSuperTypeOf(eClassData)
                         && !(ProcessPackage.eINSTANCE.getBusinessObjectType().isSuperTypeOf(eClassData) && currentData.isMultiple())) {
                     elements.add(currentData);
@@ -99,7 +97,7 @@ public class SelectFormWizard extends Wizard {
             }
         }
         final AbstractProcess parentProcess = ModelHelper.getParentProcess(pageFlow);
-        if(parentProcess instanceof Pool){
+        if (parentProcess instanceof Pool) {
             elements.addAll(((Pool) parentProcess).getDocuments());
         }
 
@@ -116,12 +114,12 @@ public class SelectFormWizard extends Wizard {
         final int i = ((List<?>) pageFlow.eGet(feature)).size();
         for (final Iterator<?> iterator = ((List<?>) pageFlow.eGet(feature)).iterator(); iterator.hasNext();) {
             final Form form = (Form) iterator.next();
-            if(! form.getName().equals(baseName+i)){
-                return baseName+(i<=0?"":"_"+i);
+            if (!form.getName().equals(baseName + i)) {
+                return baseName + (i <= 0 ? "" : "_" + i);
             }
 
         }
-        return baseName+(i<=0?"":"_"+i);
+        return baseName + (i <= 0 ? "" : "_" + i);
     }
 
     @Override
@@ -134,9 +132,9 @@ public class SelectFormWizard extends Wizard {
         final String name = selectGeneratedWidgetsWizardPage.getFormName();
         selectGeneratedWidgetsWizardPage.setMessage(null);
         boolean allreadyExists = false;
-        for (final Iterator<?> iterator = ((List<?>)pageFlow.eGet(feature)).iterator(); iterator.hasNext();) {
+        for (final Iterator<?> iterator = ((List<?>) pageFlow.eGet(feature)).iterator(); iterator.hasNext();) {
             final Form form = (Form) iterator.next();
-            allreadyExists = form.getName().equals(NamingUtils.toJavaIdentifier(name,true));
+            allreadyExists = form.getName().equals(NamingUtils.toJavaIdentifier(name, true));
             if (allreadyExists) {
                 selectGeneratedWidgetsWizardPage.setMessage(Messages.error_allreadyExists, IMessageProvider.ERROR);
                 return false;
@@ -164,9 +162,9 @@ public class SelectFormWizard extends Wizard {
 
     protected CreateFormCommand getCreateFormCommand(final String name,
             final List<? extends WidgetMapping> widgesMappings) {
-        if(widgesMappings == null){
+        if (widgesMappings == null) {
             return new CreateFormCommand(pageFlow, feature, name, getSelectGeneratedWidgetsWizardPage().getFormDescription(), editingDomain);
-        }else{
+        } else {
             return new CreateFormCommand(pageFlow, feature, name, getSelectGeneratedWidgetsWizardPage().getFormDescription(), widgesMappings, editingDomain);
         }
     }

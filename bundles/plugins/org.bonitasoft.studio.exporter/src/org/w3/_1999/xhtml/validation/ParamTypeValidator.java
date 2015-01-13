@@ -1,7 +1,6 @@
 /**
  * <copyright>
  * </copyright>
- *
  * $Id$
  */
 package org.w3._1999.xhtml.validation;
@@ -15,11 +14,16 @@ import org.w3._1999.xhtml.ValuetypeType;
  * This can be disabled with -vmargs -Dorg.eclipse.emf.examples.generator.validator=false.
  */
 public interface ParamTypeValidator {
-	boolean validate();
 
-	boolean validateId(String value);
-	boolean validateName(Object value);
-	boolean validateType(String value);
-	boolean validateValue(Object value);
-	boolean validateValuetype(ValuetypeType value);
+    boolean validate();
+
+    boolean validateId(String value);
+
+    boolean validateName(Object value);
+
+    boolean validateType(String value);
+
+    boolean validateValue(Object value);
+
+    boolean validateValuetype(ValuetypeType value);
 }

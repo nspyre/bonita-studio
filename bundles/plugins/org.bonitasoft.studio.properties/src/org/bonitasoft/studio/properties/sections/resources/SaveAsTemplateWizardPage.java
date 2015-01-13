@@ -1,19 +1,16 @@
 /**
  * Copyright (C) 2010 BonitaSoft S.A.
  * BonitaSoft, 31 rue Gustave Eiffel - 38000 Grenoble
- *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2.0 of the License, or
  * (at your option) any later version.
- *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package org.bonitasoft.studio.properties.sections.resources;
 
@@ -37,13 +34,11 @@ import org.eclipse.swt.widgets.Text;
 
 /**
  * @author Baptiste Mesta
- *
  */
 public class SaveAsTemplateWizardPage extends WizardPage {
 
     private Text templateName;
     private Text previewPath;
-
 
     /**
      * @param pageName
@@ -51,10 +46,11 @@ public class SaveAsTemplateWizardPage extends WizardPage {
     protected SaveAsTemplateWizardPage() {
         super("saveAs");
         setTitle(Messages.saveAsTemplate_title);
-        setImageDescriptor(Pics.getWizban()) ;
+        setImageDescriptor(Pics.getWizban());
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see org.eclipse.jface.dialogs.IDialogPage#createControl(org.eclipse.swt.widgets.Composite)
      */
     @Override
@@ -71,22 +67,24 @@ public class SaveAsTemplateWizardPage extends WizardPage {
                 setPageComplete(templateName.getText().length() > 0 && !alreadyExists(templateName.getText()));
             }
         });
-        templateName.setLayoutData(GridDataFactory.swtDefaults().align(SWT.FILL, SWT.CENTER).span(2,1).create());
-        Label previewPathLabel = new Label(composite,SWT.NONE);
+        templateName.setLayoutData(GridDataFactory.swtDefaults().align(SWT.FILL, SWT.CENTER).span(2, 1).create());
+        Label previewPathLabel = new Label(composite, SWT.NONE);
         previewPathLabel.setText(Messages.saveAsTemplate_previewPathLabel);
         previewPath = new Text(composite, SWT.BORDER);
         previewPath.setLayoutData(GridDataFactory.swtDefaults().align(SWT.FILL, SWT.CENTER).grab(true, false).create());
         Button browseButton = new Button(composite, SWT.FLAT);
         browseButton.setText(Messages.Browse);
         browseButton.addSelectionListener(new SelectionAdapter() {
-            /* (non-Javadoc)
+
+            /*
+             * (non-Javadoc)
              * @see org.eclipse.swt.events.SelectionAdapter#widgetSelected(org.eclipse.swt.events.SelectionEvent)
              */
             @Override
             public void widgetSelected(SelectionEvent e) {
                 FileDialog dialog = new FileDialog(getShell());
                 String path = dialog.open();
-                if(path != null){
+                if (path != null) {
                     previewPath.setText(path);
                 }
             }
@@ -96,17 +94,16 @@ public class SaveAsTemplateWizardPage extends WizardPage {
         setControl(composite);
     }
 
-
     protected boolean alreadyExists(String text) {
         LookNFeelRepositoryStore store = (LookNFeelRepositoryStore) RepositoryManager.getInstance().getRepositoryStore(LookNFeelRepositoryStore.class);
         return store.getChild(text) != null;
     }
 
-    public String getTemplateName(){
+    public String getTemplateName() {
         return templateName.getText();
     }
 
-    public String getPreviewPath(){
+    public String getPreviewPath() {
         return previewPath.getText();
     }
 

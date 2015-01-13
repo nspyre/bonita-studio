@@ -38,63 +38,63 @@ import org.eclipse.jface.text.IRegion;
  */
 public class ComputePatternDependenciesJob extends Job {
 
-	private final Map<String, List<EObject>> cache;
-	private IDocument document;
-	private List<Expression> filteredExpressions;
+    private final Map<String, List<EObject>> cache;
+    private IDocument document;
+    private List<Expression> filteredExpressions;
 
-	public void setFilteredExpressions(List<Expression> filteredExpressions) {
-		this.filteredExpressions = filteredExpressions;
-	}
+    public void setFilteredExpressions(List<Expression> filteredExpressions) {
+        this.filteredExpressions = filteredExpressions;
+    }
 
-	public ComputePatternDependenciesJob(final IDocument document,List<Expression> filteredExpressions) {
-		super(ComputePatternDependenciesJob.class.getName());
-		cache = new HashMap<String, List<EObject>>();
-		this.document = document;
-		this.filteredExpressions = filteredExpressions;
-	}
+    public ComputePatternDependenciesJob(final IDocument document, List<Expression> filteredExpressions) {
+        super(ComputePatternDependenciesJob.class.getName());
+        cache = new HashMap<String, List<EObject>>();
+        this.document = document;
+        this.filteredExpressions = filteredExpressions;
+    }
 
-	@Override
-	protected IStatus run(final IProgressMonitor monitor) {
-		final String expression = getTextContent();
-		if (cache.get(expression) == null) {
-			final FindReplaceDocumentAdapter finder = new FindReplaceDocumentAdapter(document);
-			final Set<String> addedExp = new HashSet<String>();
-			final List<EObject> deps = new ArrayList<EObject>();
-			for(Expression exp : filteredExpressions){
-				IRegion index;
-				try {
-					int i = 0;
-					index = finder.find(0,exp.getName(), true, true, true, false);
-					while (index != null) {
-						if(!addedExp.contains(exp.getName())){
-							deps.add(ExpressionHelper.createDependencyFromEObject(exp.getReferencedElements().get(0)));
-							addedExp.add(exp.getName());
-						}
-						i = i + index.getLength();
-						index = finder.find(i,exp.getName(), true, true, true, false);
-					}
-				} catch (final BadLocationException e1) {
-					// Just ignore them
-				}
-			}
-			cache.put(expression, deps);
-		}
-		return Status.OK_STATUS;
-	}
+    @Override
+    protected IStatus run(final IProgressMonitor monitor) {
+        final String expression = getTextContent();
+        if (cache.get(expression) == null) {
+            final FindReplaceDocumentAdapter finder = new FindReplaceDocumentAdapter(document);
+            final Set<String> addedExp = new HashSet<String>();
+            final List<EObject> deps = new ArrayList<EObject>();
+            for (Expression exp : filteredExpressions) {
+                IRegion index;
+                try {
+                    int i = 0;
+                    index = finder.find(0, exp.getName(), true, true, true, false);
+                    while (index != null) {
+                        if (!addedExp.contains(exp.getName())) {
+                            deps.add(ExpressionHelper.createDependencyFromEObject(exp.getReferencedElements().get(0)));
+                            addedExp.add(exp.getName());
+                        }
+                        i = i + index.getLength();
+                        index = finder.find(i, exp.getName(), true, true, true, false);
+                    }
+                } catch (final BadLocationException e1) {
+                    // Just ignore them
+                }
+            }
+            cache.put(expression, deps);
+        }
+        return Status.OK_STATUS;
+    }
 
-	protected String getTextContent() {
-		return document.get();
-	}
+    protected String getTextContent() {
+        return document.get();
+    }
 
-	public List<EObject> getDependencies(final String expression) {
-		return cache.get(expression);
-	}
+    public List<EObject> getDependencies(final String expression) {
+        return cache.get(expression);
+    }
 
-	public IDocument getDocument() {
-		return document;
-	}
+    public IDocument getDocument() {
+        return document;
+    }
 
-	public void setDocument(final IDocument document) {
-		this.document = document;
-	}
+    public void setDocument(final IDocument document) {
+        this.document = document;
+    }
 }

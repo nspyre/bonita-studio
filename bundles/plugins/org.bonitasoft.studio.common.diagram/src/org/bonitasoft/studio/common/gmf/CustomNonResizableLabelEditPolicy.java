@@ -13,11 +13,11 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package org.bonitasoft.studio.common.gmf;
-import org.eclipse.gef.commands.Command;
+
+import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.UnexecutableCommand;
 import org.eclipse.gef.requests.ChangeBoundsRequest;
 import org.eclipse.gmf.runtime.diagram.ui.editpolicies.NonResizableLabelEditPolicy;
-
 
 public class CustomNonResizableLabelEditPolicy extends NonResizableLabelEditPolicy {
 
@@ -34,4 +34,3 @@ public class CustomNonResizableLabelEditPolicy extends NonResizableLabelEditPoli
     }
 
 }
-

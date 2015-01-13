@@ -38,16 +38,14 @@ import org.eclipse.ui.progress.IProgressService;
 
 /**
  * @author Romain Bioteau
- *
  */
 public class ResetEngineCommand extends AbstractHandler {
 
     @Override
     public Object execute(final ExecutionEvent event) throws ExecutionException {
 
-        final IProgressService progressManager = PlatformUI.getWorkbench().getProgressService() ;
-        final IRunnableWithProgress runnable = new IRunnableWithProgress(){
-
+        final IProgressService progressManager = PlatformUI.getWorkbench().getProgressService();
+        final IRunnableWithProgress runnable = new IRunnableWithProgress() {
 
             @Override
             public void run(final IProgressMonitor monitor) throws InvocationTargetException, InterruptedException {
@@ -58,28 +56,29 @@ public class ResetEngineCommand extends AbstractHandler {
                 } catch (final Exception e1) {
                     BonitaStudioLog.error(e1, EnginePlugin.PLUGIN_ID);
                 }
-                if(session == null){
+                if (session == null) {
                     return;
                 }
                 try {
                     final ProcessManagementAPI processManagementAPI = BOSEngineManager.getInstance().getProcessAPI(session);
-                    final int nbProcess = (int) processManagementAPI.getNumberOfProcessDeploymentInfos() ;
-                    if(nbProcess > 0){
-                        final List<ProcessDeploymentInfo> processes = processManagementAPI.getProcessDeploymentInfos(0,nbProcess , ProcessDeploymentInfoCriterion.DEFAULT) ;
-                        final List<Long> processIds = new ArrayList<Long>() ;
-                        for(final ProcessDeploymentInfo info : processes){
-                            processIds.add(info.getProcessId()) ;
+                    final int nbProcess = (int) processManagementAPI.getNumberOfProcessDeploymentInfos();
+                    if (nbProcess > 0) {
+                        final List<ProcessDeploymentInfo> processes = processManagementAPI.getProcessDeploymentInfos(0, nbProcess,
+                                ProcessDeploymentInfoCriterion.DEFAULT);
+                        final List<Long> processIds = new ArrayList<Long>();
+                        for (final ProcessDeploymentInfo info : processes) {
+                            processIds.add(info.getProcessId());
                         }
-                        for(final Long id: processIds){
+                        for (final Long id : processIds) {
                             processManagementAPI.disableAndDeleteProcessDefinition(id);
                         }
 
                     }
                 } catch (final Exception e) {
                     throw new InvocationTargetException(e);
-                }finally{
-                    if(BOSEngineManager.getInstance() != null){
-                        BOSEngineManager.getInstance().logoutDefaultTenant(session) ;
+                } finally {
+                    if (BOSEngineManager.getInstance() != null) {
+                        BOSEngineManager.getInstance().logoutDefaultTenant(session);
                     }
                 }
 
@@ -97,6 +96,5 @@ public class ResetEngineCommand extends AbstractHandler {
         }
         return null;
     }
-
 
 }

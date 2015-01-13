@@ -121,5 +121,4 @@ public class DuplicatedFileWidgetMultipleDocumentConsistencyConstraintTest {
         assertThat(status.isOK()).isFalse();
     }
 
-
 }

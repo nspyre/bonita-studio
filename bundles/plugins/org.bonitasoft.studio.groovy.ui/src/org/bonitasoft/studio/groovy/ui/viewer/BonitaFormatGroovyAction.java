@@ -1,12 +1,9 @@
 /**
  * Copyright 2003-2010 the original author or authors.
- *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
+ * http://www.apache.org/licenses/LICENSE-2.0
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -34,51 +31,49 @@ import org.eclipse.ui.IWorkbenchSite;
 /**
  * @author Andrew Eisenberg
  * @created Sep 24, 2010
- *
  */
 public class BonitaFormatGroovyAction extends SelectionDispatchAction {
 
+    private final FormatKind kind;
+    private GroovyCompilationUnit unit;
+    private GroovyEditor editor;
 
-	private final FormatKind kind;
-	private GroovyCompilationUnit unit;
-	private GroovyEditor editor;
+    public BonitaFormatGroovyAction(IWorkbenchSite site, FormatKind kind, GroovyEditor editor, GroovyCompilationUnit unit) {
+        super(site);
+        this.kind = kind;
+        this.unit = unit;
+        this.editor = editor;
+        if (kind == FormatKind.INDENT_ONLY) {
+            setText("Indent");
+            setToolTipText("Indent Groovy file");
+            setDescription("Indent selection in Groovy file");
+        } else if (kind == FormatKind.FORMAT) {
+            setText("Format");
+            setToolTipText("Format Groovy file");
+            setDescription("Format selection in Groovy file");
+        }
+    }
 
-	public BonitaFormatGroovyAction(IWorkbenchSite site, FormatKind kind, GroovyEditor editor ,GroovyCompilationUnit unit) {
-		super(site);
-		this.kind = kind;
-		this.unit = unit ;
-		this.editor = editor ;
-		if (kind == FormatKind.INDENT_ONLY) {
-			setText("Indent");
-			setToolTipText("Indent Groovy file");
-			setDescription("Indent selection in Groovy file");
-		} else if (kind == FormatKind.FORMAT) {
-			setText("Format");
-			setToolTipText("Format Groovy file");
-			setDescription("Format selection in Groovy file");
-		}
-	}
+    /*
+     * (non-Javadoc)
+     * Method declared on SelectionDispatchAction.
+     */
+    @Override
+    public void run(ITextSelection selection) {
+        IDocument doc = editor.getDocumentProvider().getDocument(editor.getEditorInput());
+        if (doc != null && unit != null) {
+            DefaultGroovyFormatter formatter = new DefaultGroovyFormatter(selection, doc, new FormatterPreferences(unit),
+                    kind == FormatKind.INDENT_ONLY);
+            TextEdit edit = formatter.format();
+            try {
+                unit.applyTextEdit(edit, new NullProgressMonitor());
+            } catch (MalformedTreeException e) {
+                GroovyCore.logException("Exception when formatting", e);
+            } catch (JavaModelException e) {
+                GroovyCore.logException("Exception when formatting", e);
+            }
+        }
 
-	/* (non-Javadoc)
-	 * Method declared on SelectionDispatchAction.
-	 */
-	@Override
-	public void run(ITextSelection selection) {
-		IDocument doc =editor.getDocumentProvider().getDocument(editor.getEditorInput());
-		if (doc != null && unit != null) {
-			DefaultGroovyFormatter formatter = new DefaultGroovyFormatter(selection, doc, new FormatterPreferences(unit),
-					kind == FormatKind.INDENT_ONLY);
-			TextEdit edit = formatter.format();
-			try {
-				unit.applyTextEdit(edit, new NullProgressMonitor());
-			} catch (MalformedTreeException e) {
-				GroovyCore.logException("Exception when formatting", e);
-			} catch (JavaModelException e) {
-				GroovyCore.logException("Exception when formatting", e);
-			}
-		}
-
-	}
-
+    }
 
 }

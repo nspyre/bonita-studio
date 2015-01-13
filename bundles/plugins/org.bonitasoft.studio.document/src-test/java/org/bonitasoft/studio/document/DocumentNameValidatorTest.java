@@ -28,7 +28,6 @@ import org.eclipse.core.runtime.IStatus;
 import org.junit.Before;
 import org.junit.Test;
 
-
 public class DocumentNameValidatorTest {
 
     private Pool pool;

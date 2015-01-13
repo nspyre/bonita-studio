@@ -5,12 +5,10 @@
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2.0 of the License, or
  * (at your option) any later version.
- *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- *
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
@@ -52,7 +50,6 @@ import org.ow2.bonita.connector.core.ConnectorDescription;
 
 /**
  * @author Romain Bioteau
- *
  */
 public class CustomConnectorMigrator {
 
@@ -93,7 +90,7 @@ public class CustomConnectorMigrator {
                 }
             }
             RepositoryManager.getInstance().getRepositoryStore(ConnectorDefRepositoryStore.class).getResourceProvider()
-            .loadDefinitionsCategories(progressMonitor);
+                    .loadDefinitionsCategories(progressMonitor);
             RepositoryManager.getInstance().getCurrentRepository().refresh(progressMonitor);
         } finally {
             FileActionDialog.deactivateYesNoToAll();
@@ -104,7 +101,8 @@ public class CustomConnectorMigrator {
 
     }
 
-    private void proceedCustomConnector(final String fileName, final InputStream inputStream, final File archiveFile,final IProgressMonitor progressMonitor) throws Exception {
+    private void proceedCustomConnector(final String fileName, final InputStream inputStream, final File archiveFile, final IProgressMonitor progressMonitor)
+            throws Exception {
         final File tmpConnectorJarFile = new File(ProjectUtil.getBonitaStudioWorkFolder(), fileName);
         if (tmpConnectorJarFile.exists()) {
             tmpConnectorJarFile.delete();
@@ -167,7 +165,7 @@ public class CustomConnectorMigrator {
      * @throws FileNotFoundException
      */
     protected URLClassLoader createBarClassloader(final File archiveFile, final File tmpConnectorJarFile) throws MalformedURLException,
-    ZipException, IOException, FileNotFoundException {
+            ZipException, IOException, FileNotFoundException {
         final List<URL> urls = new ArrayList<URL>();
         urls.add(tmpConnectorJarFile.toURI().toURL());
         final Enumeration<URL> urlEnum = BarImporterPlugin.getDefault().getBundle().findEntries("lib/", "*.jar", true);

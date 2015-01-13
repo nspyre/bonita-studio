@@ -5,14 +5,12 @@
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2.0 of the License, or
  * (at your option) any later version.
- *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package org.bonitasoft.studio.connector.model.definition.wizard;
 
@@ -26,10 +24,8 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.PlatformUI;
 
-
 /**
  * @author Romain Bioteau
- *
  */
 public class ConnectorConfiguraitonLabelProvider extends LabelProvider {
 
@@ -41,26 +37,27 @@ public class ConnectorConfiguraitonLabelProvider extends LabelProvider {
         }
         if (selection instanceof ConnectorParameter) {
             ConnectorParameter param = (ConnectorParameter) selection;
-            if(param.getExpression() instanceof Expression){
-                String value = ((Expression)param.getExpression()).getContent() ;
+            if (param.getExpression() instanceof Expression) {
+                String value = ((Expression) param.getExpression()).getContent();
                 return param.getKey() + "=" + value;
-            }else{
-                return param.getKey() ;
+            } else {
+                return param.getKey();
             }
 
         }
         return selection.toString();
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see org.eclipse.jface.viewers.LabelProvider#getImage(java.lang.Object)
      */
     @Override
     public Image getImage(Object element) {
-        if(element instanceof ConnectorParameter){
+        if (element instanceof ConnectorParameter) {
             return Pics.getImage(PicsConstants.dot);
         }
-        if(element instanceof ConnectorParameter) {
+        if (element instanceof ConnectorParameter) {
             return PlatformUI.getWorkbench().getSharedImages().getImage(ISharedImages.IMG_OBJ_ELEMENT);
         }
         return super.getImage(element);

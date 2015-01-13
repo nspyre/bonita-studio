@@ -155,7 +155,7 @@ public class DocumentWizard extends Wizard {
     private void refreshProject() {
         try {
             RepositoryManager.getInstance().getCurrentRepository().getProject()
-            .build(IncrementalProjectBuilder.FULL_BUILD, XTEXT_BUILDER_ID, Collections.<String, String> emptyMap(), null);
+                    .build(IncrementalProjectBuilder.FULL_BUILD, XTEXT_BUILDER_ID, Collections.<String, String> emptyMap(), null);
         } catch (final CoreException e1) {
             BonitaStudioLog.error(e1, DocumentPlugin.PLUGIN_ID);
         }

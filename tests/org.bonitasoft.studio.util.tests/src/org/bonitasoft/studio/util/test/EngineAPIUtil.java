@@ -5,14 +5,12 @@
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2.0 of the License, or
  * (at your option) any later version.
- *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package org.bonitasoft.studio.util.test;
 
@@ -29,10 +27,10 @@ import org.bonitasoft.engine.session.APISession;
 import org.bonitasoft.engine.session.InvalidSessionException;
 import org.bonitasoft.studio.engine.BOSEngineManager;
 
-
 public class EngineAPIUtil {
-	
-	public static HumanTaskInstance findNewPendingTaskForSpecifiedProcessDefAndUser(APISession session, List<HumanTaskInstance> previousTasks,long processDefinitionUUID, long userID) throws InvalidSessionException, UserNotFoundException, SearchException  {
+
+    public static HumanTaskInstance findNewPendingTaskForSpecifiedProcessDefAndUser(APISession session, List<HumanTaskInstance> previousTasks,
+            long processDefinitionUUID, long userID) throws InvalidSessionException, UserNotFoundException, SearchException {
         final ProcessAPI processApi = BOSEngineManager.getInstance().getProcessAPI(session);
         final SearchOptions searchOptions = new SearchOptionsBuilder(0, 10).done();
         SearchResult<HumanTaskInstance> tasks = processApi.searchPendingTasksForUser(userID, searchOptions);
@@ -45,11 +43,11 @@ public class EngineAPIUtil {
             for (HumanTaskInstance currentTask : tasks.getResult()) {
                 newTaskIsOld = false;//reinit the value
                 for (HumanTaskInstance oldTask : previousTasks) {
-                    if (currentTask.getId()==oldTask.getId()) {
+                    if (currentTask.getId() == oldTask.getId()) {
                         newTaskIsOld = true;
                     }
                 }
-                if (!newTaskIsOld && currentTask.getProcessDefinitionId()==processDefinitionUUID) {
+                if (!newTaskIsOld && currentTask.getProcessDefinitionId() == processDefinitionUUID) {
                     newTask = currentTask;
                     break;
                 }
@@ -57,8 +55,9 @@ public class EngineAPIUtil {
             return newTask;
         }
     }
-	
-	public static HumanTaskInstance findNewAssignedTaskForSpecifiedProcessDefAndUser(APISession session, List<HumanTaskInstance> previousTasks,long processDefinitionUUID, long userID) throws InvalidSessionException, UserNotFoundException  {
+
+    public static HumanTaskInstance findNewAssignedTaskForSpecifiedProcessDefAndUser(APISession session, List<HumanTaskInstance> previousTasks,
+            long processDefinitionUUID, long userID) throws InvalidSessionException, UserNotFoundException {
         final ProcessAPI processApi = BOSEngineManager.getInstance().getProcessAPI(session);
         final List<HumanTaskInstance> tasks = processApi.getAssignedHumanTaskInstances(userID, 0, 10, null);
 
@@ -70,11 +69,11 @@ public class EngineAPIUtil {
             for (HumanTaskInstance currentTask : tasks) {
                 newTaskIsOld = false;//reinit the value
                 for (HumanTaskInstance oldTask : previousTasks) {
-                    if (currentTask.getId()==oldTask.getId()) {
+                    if (currentTask.getId() == oldTask.getId()) {
                         newTaskIsOld = true;
                     }
                 }
-                if (!newTaskIsOld && currentTask.getProcessDefinitionId()==processDefinitionUUID) {
+                if (!newTaskIsOld && currentTask.getProcessDefinitionId() == processDefinitionUUID) {
                     newTask = currentTask;
                     break;
                 }
@@ -82,5 +81,5 @@ public class EngineAPIUtil {
             return newTask;
         }
     }
-	
+
 }

@@ -1,19 +1,16 @@
 /**
  * Copyright (C) 2010 BonitaSoft S.A.
  * BonitaSoft, 31 rue Gustave Eiffel - 38000 Grenoble
- *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2.0 of the License, or
  * (at your option) any later version.
- *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package org.bonitasoft.studio.tests.data;
 
@@ -62,11 +59,9 @@ import org.junit.runner.RunWith;
 
 /**
  * @author Baptiste Mesta
- *
  */
 @RunWith(SWTBotJunit4ClassRunner.class)
 public class DataWizardIT extends SWTBotGefTestCase {
-
 
     private boolean askRename;
 
@@ -94,16 +89,16 @@ public class DataWizardIT extends SWTBotGefTestCase {
         final SWTBotEditor botEditor = bot.activeEditor();
         final SWTBotGefEditor gmfEditor = bot.gefEditor(botEditor.getTitle());
 
-        final IGraphicalEditPart part = (IGraphicalEditPart)gmfEditor.mainEditPart().part();
-        final MainProcess model = (MainProcess)part.resolveSemanticElement();
-        final Pool pool = (Pool)model.getElements().get(0);
+        final IGraphicalEditPart part = (IGraphicalEditPart) gmfEditor.mainEditPart().part();
+        final MainProcess model = (MainProcess) part.resolveSemanticElement();
+        final Pool pool = (Pool) model.getElements().get(0);
 
         gmfEditor.getEditPart(pool.getName()).parent().select();
         bot.viewById(SWTBotTestUtil.VIEWS_PROPERTIES_PROCESS_GENERAL).show();
         addDataOnSelectedElementWithName("newData");
 
-        assertTrue("no data added",pool.getData().size()==1);
-        assertTrue("wrong data added",pool.getData().get(0).getName().equals("newData"));
+        assertTrue("no data added", pool.getData().size() == 1);
+        assertTrue("wrong data added", pool.getData().get(0).getName().equals("newData"));
 
         bot.menu("Diagram").menu("Close").click();
 
@@ -117,9 +112,9 @@ public class DataWizardIT extends SWTBotGefTestCase {
         final BotProcessDiagramPropertiesViewFolder diagramPropertiesPart = botProcessDiagramPerspective.getDiagramPropertiesPart();
         final BotGefProcessDiagramEditor activeProcessDiagramEditor = botProcessDiagramPerspective.activeProcessDiagramEditor();
         final SWTBotGefEditor gmfEditor = activeProcessDiagramEditor.getGmfEditor();
-        final IGraphicalEditPart part = (IGraphicalEditPart)gmfEditor.mainEditPart().part();
-        final MainProcess model = (MainProcess)part.resolveSemanticElement();
-        final Pool pool = (Pool)model.getElements().get(0);
+        final IGraphicalEditPart part = (IGraphicalEditPart) gmfEditor.mainEditPart().part();
+        final MainProcess model = (MainProcess) part.resolveSemanticElement();
+        final Pool pool = (Pool) model.getElements().get(0);
         gmfEditor.select(pool.getName());
         final BotDataPropertySection dataTab = diagramPropertiesPart.selectGeneralTab().selectDataTab();
         dataTab.dataList().select(1);
@@ -132,7 +127,7 @@ public class DataWizardIT extends SWTBotGefTestCase {
 
         final Data firstData = pool.getData().get(0);
         assertEquals("wrong rename", firstData.getName(), "anewName");
-        assertTrue("wrong change type",firstData.getDataType() instanceof IntegerType);
+        assertTrue("wrong change type", firstData.getDataType() instanceof IntegerType);
 
         applicationWorkbenchWindow.close();
     }
@@ -145,9 +140,9 @@ public class DataWizardIT extends SWTBotGefTestCase {
         final SWTBotEditor botEditor = bot.activeEditor();
         final SWTBotGefEditor gmfEditor = bot.gefEditor(botEditor.getTitle());
 
-        final IGraphicalEditPart part = (IGraphicalEditPart)gmfEditor.mainEditPart().part();
-        final MainProcess model = (MainProcess)part.resolveSemanticElement();
-        final Pool pool = (Pool)model.getElements().get(0);
+        final IGraphicalEditPart part = (IGraphicalEditPart) gmfEditor.mainEditPart().part();
+        final MainProcess model = (MainProcess) part.resolveSemanticElement();
+        final Pool pool = (Pool) model.getElements().get(0);
 
         gmfEditor.getEditPart(pool.getName()).parent().select();
 
@@ -156,7 +151,7 @@ public class DataWizardIT extends SWTBotGefTestCase {
 
         final int nbData = pool.getData().size();
         final Data firstData = pool.getData().get(0);
-        bot.table().select(firstData.getName()+" -- "+firstData.getDataType().getName());
+        bot.table().select(firstData.getName() + " -- " + firstData.getDataType().getName());
         // button("Remove")
         bot.button(Messages.removeData).click();
         bot.button(IDialogConstants.OK_LABEL).click();
@@ -165,8 +160,8 @@ public class DataWizardIT extends SWTBotGefTestCase {
         final SWTBotMenu menuDiagram = bot.menu("Diagram");
         menuDiagram.menu("Save").click();
 
-        assertEquals("data not removed",nbData -1, pool.getData().size());
-        assertFalse("the wrong data was removed",firstData.equals(pool.getData().get(0)));
+        assertEquals("data not removed", nbData - 1, pool.getData().size());
+        assertFalse("the wrong data was removed", firstData.equals(pool.getData().get(0)));
 
         SWTBotTestUtil.waitUntilBonitaBPmShellIsActive(bot);
         menuDiagram.menu("Close").click();
@@ -175,7 +170,7 @@ public class DataWizardIT extends SWTBotGefTestCase {
     @Test
     public void testMoveData() throws Exception {
         final Pool pool = createProcessWithData();
-        final Lane lane = (Lane)pool.getElements().get(0);
+        final Lane lane = (Lane) pool.getElements().get(0);
         final SWTBotEditor botEditor = bot.activeEditor();
         final SWTBotGefEditor gmfEditor = bot.gefEditor(botEditor.getTitle());
 
@@ -190,7 +185,7 @@ public class DataWizardIT extends SWTBotGefTestCase {
         bot.table().select("dataToMove -- Text");
         // button("Move...")
         bot.button(Messages.moveData).click();
-        bot.tree().getTreeItem("Pool "+pool.getName()).getNode("Lane "+lane.getName()).select("Task Step1");
+        bot.tree().getTreeItem("Pool " + pool.getName()).getNode("Lane " + lane.getName()).select("Task Step1");
         bot.button(IDialogConstants.FINISH_LABEL).click();
         SWTBotTestUtil.waitUntilBonitaBPmShellIsActive(bot);
         bot.menu("Diagram").menu("Save").click();
@@ -198,7 +193,7 @@ public class DataWizardIT extends SWTBotGefTestCase {
 
             @Override
             public boolean test() throws Exception {
-                return nbStepData +1 == step.getData().size();
+                return nbStepData + 1 == step.getData().size();
             }
 
             @Override
@@ -206,21 +201,19 @@ public class DataWizardIT extends SWTBotGefTestCase {
                 return "data not removed";
             }
         });
-        assertEquals("data not added",nbPoolData -1, pool.getData().size());
+        assertEquals("data not added", nbPoolData - 1, pool.getData().size());
         SWTBotTestUtil.waitUntilBonitaBPmShellIsActive(bot);
         bot.menu("Diagram").menu("Close").click();
     }
-
 
     private Pool createProcessWithData() {
         SWTBotTestUtil.createNewDiagram(bot);
         final SWTBotEditor botEditor = bot.activeEditor();
         final SWTBotGefEditor gmfEditor = bot.gefEditor(botEditor.getTitle());
 
-
-        final IGraphicalEditPart part = (IGraphicalEditPart)gmfEditor.mainEditPart().part();
-        final MainProcess model = (MainProcess)part.resolveSemanticElement();
-        final Pool pool = (Pool)model.getElements().get(0);
+        final IGraphicalEditPart part = (IGraphicalEditPart) gmfEditor.mainEditPart().part();
+        final MainProcess model = (MainProcess) part.resolveSemanticElement();
+        final Pool pool = (Pool) model.getElements().get(0);
 
         gmfEditor.getEditPart(pool.getName()).parent().select();
         final String dataName = "newData";
@@ -228,7 +221,8 @@ public class DataWizardIT extends SWTBotGefTestCase {
         return pool;
     }
 
-    /**Add a Text Data
+    /**
+     * Add a Text Data
      *
      * @param dataName
      */
@@ -240,7 +234,7 @@ public class DataWizardIT extends SWTBotGefTestCase {
         // Shell "New variable"
         bot.waitUntil(Conditions.shellIsActive(Messages.newVariable));
 
-        bot.textWithLabel(Messages.name+" *").setText(dataName);
+        bot.textWithLabel(Messages.name + " *").setText(dataName);
         bot.waitUntil(Conditions.widgetIsEnabled(bot.button(IDialogConstants.FINISH_LABEL)));
         bot.button(IDialogConstants.FINISH_LABEL).click();
         SWTBotTestUtil.waitUntilBonitaBPmShellIsActive(bot);
@@ -254,9 +248,9 @@ public class DataWizardIT extends SWTBotGefTestCase {
         final SWTBotEditor botEditor = bot.activeEditor();
         final SWTBotGefEditor gmfEditor = bot.gefEditor(botEditor.getTitle());
 
-        final IGraphicalEditPart part = (IGraphicalEditPart)gmfEditor.mainEditPart().part();
-        final MainProcess model = (MainProcess)part.resolveSemanticElement();
-        final Pool pool = (Pool)model.getElements().get(0);
+        final IGraphicalEditPart part = (IGraphicalEditPart) gmfEditor.mainEditPart().part();
+        final MainProcess model = (MainProcess) part.resolveSemanticElement();
+        final Pool pool = (Pool) model.getElements().get(0);
 
         gmfEditor.getEditPart(pool.getName()).parent().select();
         bot.viewById(SWTBotTestUtil.VIEWS_PROPERTIES_PROCESS_GENERAL).show();
@@ -268,16 +262,15 @@ public class DataWizardIT extends SWTBotGefTestCase {
         bot.waitUntil(Conditions.shellIsActive(Messages.newVariable));
 
         final String dataName = "myDataName";
-        bot.textWithLabel(Messages.name +" *").setText(dataName);
+        bot.textWithLabel(Messages.name + " *").setText(dataName);
 
         String defaultValue = "test return type";
         bot.textWithLabel(Messages.defaultValueLabel).setText(defaultValue);
         bot.sleep(500);
 
         bot.toolbarButtonWithId(ExpressionViewer.SWTBOT_ID_EDITBUTTON).click();
-        assertEquals("Expression return type should be "+String.class.getName(),String.class.getName(),bot.comboBoxWithLabel(Messages.returnType).getText());
+        assertEquals("Expression return type should be " + String.class.getName(), String.class.getName(), bot.comboBoxWithLabel(Messages.returnType).getText());
         bot.button(IDialogConstants.OK_LABEL).click();
-
 
         bot.comboBoxWithLabel(Messages.datatypeLabel).setSelection(DataTypeLabels.integerDataType);
 
@@ -285,7 +278,8 @@ public class DataWizardIT extends SWTBotGefTestCase {
         bot.textWithLabel(Messages.defaultValueLabel).setText(defaultValue);
         bot.sleep(500);
         bot.toolbarButtonWithId(ExpressionViewer.SWTBOT_ID_EDITBUTTON).click();
-        assertEquals("Expression return type should be "+Integer.class.getName(),Integer.class.getName(),bot.comboBoxWithLabel(Messages.returnType).getText());
+        assertEquals("Expression return type should be " + Integer.class.getName(), Integer.class.getName(), bot.comboBoxWithLabel(Messages.returnType)
+                .getText());
 
         bot.button(IDialogConstants.OK_LABEL).click();
 
@@ -299,7 +293,7 @@ public class DataWizardIT extends SWTBotGefTestCase {
     }
 
     @Test
-    public void testDatacantBeInitializeByItself(){
+    public void testDatacantBeInitializeByItself() {
         final BotApplicationWorkbenchWindow botApplicationWorkbenchWindow = new BotApplicationWorkbenchWindow(bot);
         final BotProcessDiagramPerspective diagramPerspective = botApplicationWorkbenchWindow.createNewDiagram();
         diagramPerspective.activeProcessDiagramEditor().selectDiagram();
@@ -349,7 +343,7 @@ public class DataWizardIT extends SWTBotGefTestCase {
                 "Error: Task data can't be initialized by task data").isFalse();
 
         assertThat(variableList.containsItem("procVar_1" + " -- " + "Text")).overridingErrorMessage(
-                "Error:  Task data sould be initialized by Process data",variableList.getSWTBotWidget().rowCount()).isTrue();
+                "Error:  Task data sould be initialized by Process data", variableList.getSWTBotWidget().rowCount()).isTrue();
         assertThat(variableList.containsItem("procVar_2" + " -- " + "Integer")).overridingErrorMessage(
                 "Error:  Task data sould be initialized by Process data", variableList.getSWTBotWidget().rowCount()).isTrue();
 
@@ -412,7 +406,7 @@ public class DataWizardIT extends SWTBotGefTestCase {
     }
 
     @Test
-    public void testCreateDataWithExistingId(){
+    public void testCreateDataWithExistingId() {
         //Add the data myData on pool
         final String dataName = "myData";
         final String dataName1 = "myData1";
@@ -434,7 +428,6 @@ public class DataWizardIT extends SWTBotGefTestCase {
         addDataDialog.setName(dataName1);
         addDataDialog.finish();
 
-
         //add a second task and add a data named myData1
         diagramPerspective.activeProcessDiagramEditor().addElement("Step1", "Human", PositionConstants.EAST);
         addDataDialog = dataTab.addData();
@@ -442,11 +435,10 @@ public class DataWizardIT extends SWTBotGefTestCase {
         addDataDialog.finish();
     }
 
-    public static void getDataSection(final SWTGefBot bot ){
+    public static void getDataSection(final SWTGefBot bot) {
         bot.viewById(SWTBotTestUtil.VIEWS_PROPERTIES_PROCESS_GENERAL).show();
         bot.viewById(SWTBotTestUtil.VIEWS_PROPERTIES_PROCESS_GENERAL).setFocus();
         SWTBotTestUtil.selectTabbedPropertyView(bot, "Data");
     }
-
 
 }

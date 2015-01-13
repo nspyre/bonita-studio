@@ -4,9 +4,8 @@
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- *
  * Contributors:
- *     IBM Corporation - initial API and implementation
+ * IBM Corporation - initial API and implementation
  ******************************************************************************/
 
 package org.eclipse.ui.views.properties.tabbed;
@@ -42,9 +41,9 @@ public interface IActionProvider {
      * contributions will be visible when the page is visible.
      * 
      * @param contributor
-     *            the tabbed property sheet page contributor.
+     *        the tabbed property sheet page contributor.
      * @param actionBars
-     *            the action bars for this page
+     *        the action bars for this page
      */
     public void setActionBars(ITabbedPropertySheetPageContributor contributor,
             IActionBars actionBars);

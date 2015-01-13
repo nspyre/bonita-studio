@@ -1,22 +1,18 @@
 /**
  * Copyright (C) 2010 BonitaSoft S.A.
  * BonitaSoft, 31 rue Gustave Eiffel - 38000 Grenoble
- *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2.0 of the License, or
  * (at your option) any later version.
- *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package org.bonitasoft.studio.properties.sections.resources;
-
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -72,7 +68,6 @@ import org.eclipse.swt.widgets.Label;
 
 /**
  * @author Mickael Istria
- *
  */
 public class SelectLocalTemplateWizardPage extends WizardPage {
 
@@ -83,9 +78,9 @@ public class SelectLocalTemplateWizardPage extends WizardPage {
     private Button remove;
     private final LookNFeelRepositoryStore looknfeelStore;
 
-    private static final Color GALLERY_HEADER_BACKGROUND_COLOR = new Color(null,225,225,225) ;
-    private static final Color GALLERY_HEADER_FOREGROUND_COLOR = Display.getDefault().getSystemColor(SWT.COLOR_BLACK) ;
-    private static final Color GALLERY_BACKGROUND_COLOR = new Color(null,248,248,248) ;
+    private static final Color GALLERY_HEADER_BACKGROUND_COLOR = new Color(null, 225, 225, 225);
+    private static final Color GALLERY_HEADER_FOREGROUND_COLOR = Display.getDefault().getSystemColor(SWT.COLOR_BLACK);
+    private static final Color GALLERY_BACKGROUND_COLOR = new Color(null, 248, 248, 248);
 
     /**
      * @param pageName
@@ -96,10 +91,11 @@ public class SelectLocalTemplateWizardPage extends WizardPage {
         setTitle(Messages.selectLocalTemplateWizardPageTitle);
         setDescription(Messages.selectLocalTemplateWizardPageDescription);
         setImageDescriptor(Pics.getWizban());
-        looknfeelStore = (LookNFeelRepositoryStore) RepositoryManager.getInstance().getRepositoryStore(LookNFeelRepositoryStore.class) ;
+        looknfeelStore = (LookNFeelRepositoryStore) RepositoryManager.getInstance().getRepositoryStore(LookNFeelRepositoryStore.class);
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see org.eclipse.jface.dialogs.IDialogPage#createControl(org.eclipse.swt.widgets.Composite)
      */
     @Override
@@ -132,7 +128,7 @@ public class SelectLocalTemplateWizardPage extends WizardPage {
 
             @Override
             public Object[] getElements(Object inputElement) {
-                return new String[]{Messages.webTemplates};
+                return new String[] { Messages.webTemplates };
             }
 
             @Override
@@ -147,35 +143,34 @@ public class SelectLocalTemplateWizardPage extends WizardPage {
 
             @Override
             public Object[] getChildren(Object parentElement) {
-                if(parentElement instanceof String
-                        && parentElement.equals(Messages.webTemplates)){
+                if (parentElement instanceof String
+                        && parentElement.equals(Messages.webTemplates)) {
                     List<ApplicationLookNFeelFileStore> applicationThemes = looknfeelStore.getApplicationLookNFeels();
                     return applicationThemes.toArray();
                 } else {
-                    return new Object[]{};
+                    return new Object[] {};
                 }
 
             }
         });
 
-        viewer.setLabelProvider(new LabelProvider(){
-
+        viewer.setLabelProvider(new LabelProvider() {
 
             @Override
             public Image getImage(Object element) {
-                if(element instanceof ApplicationLookNFeelFileStore){
+                if (element instanceof ApplicationLookNFeelFileStore) {
                     Image res = null;
                     try {
                         res = ((ApplicationLookNFeelFileStore) element).getPreviewImage();
                     } catch (IOException e) {
                         BonitaStudioLog.error(e);
                     }
-                    /*Store image to dispose them at the close*/
-                    if(res != null ) {
+                    /* Store image to dispose them at the close */
+                    if (res != null) {
                         images.add(res);
                     }
-                    if(res == null){
-                        return Pics.getImage(PicsConstants.noPreview) ;
+                    if (res == null) {
+                        return Pics.getImage(PicsConstants.noPreview);
                     }
                     return res;
                 }
@@ -184,7 +179,7 @@ public class SelectLocalTemplateWizardPage extends WizardPage {
 
             @Override
             public String getText(Object element) {
-                if(element instanceof ApplicationLookNFeelFileStore){
+                if (element instanceof ApplicationLookNFeelFileStore) {
                     return ((ApplicationLookNFeelFileStore) element).getDisplayName();
                 }
                 return super.getText(element);
@@ -201,18 +196,19 @@ public class SelectLocalTemplateWizardPage extends WizardPage {
         DefaultGalleryGroupRenderer groupRenderer = new DefaultGalleryGroupRenderer();
         groupRenderer.setItemSize(200, 100);
         groupRenderer.setAnimation(true);
-        groupRenderer.setTitleForeground(GALLERY_HEADER_FOREGROUND_COLOR) ;
-        groupRenderer.setTitleBackground(GALLERY_HEADER_BACKGROUND_COLOR) ;
+        groupRenderer.setTitleForeground(GALLERY_HEADER_FOREGROUND_COLOR);
+        groupRenderer.setTitleBackground(GALLERY_HEADER_BACKGROUND_COLOR);
         gallery.setBackground(GALLERY_BACKGROUND_COLOR);
         gallery.setGroupRenderer(groupRenderer);
 
         viewer.setInput(new Object());
-        /*Add a tool tip to display the image of the form in better size :)*/
+        /* Add a tool tip to display the image of the form in better size :) */
         new ToolTip(gallery) {
+
             @Override
             protected boolean shouldCreateToolTip(Event event) {
                 GalleryItem gi = gallery.getItem(new Point(event.x, event.y));
-                if(gi == null || gi.getParentItem() == null){//avoid tooltip on Group
+                if (gi == null || gi.getParentItem() == null) {//avoid tooltip on Group
                     return false;
                 }
                 return super.shouldCreateToolTip(event);
@@ -223,7 +219,7 @@ public class SelectLocalTemplateWizardPage extends WizardPage {
                 //TODO : manage size of the tooltip for gallery
                 //TODO : create a better UI for the tooltip of the gallery
                 GalleryItem gi = gallery.getItem(new Point(event.x, event.y));
-                if(gi != null){ //check that the item already exist
+                if (gi != null) { //check that the item already exist
                     Label testLabel = new Label(parent, SWT.BORDER);
                     testLabel.setImage(gi.getImage());
                     return parent;
@@ -237,8 +233,8 @@ public class SelectLocalTemplateWizardPage extends WizardPage {
 
             @Override
             public void selectionChanged(SelectionChangedEvent event) {
-                if(((StructuredSelection) event.getSelection()).getFirstElement()  instanceof ApplicationLookNFeelFileStore){
-                    selectedTheme = (ApplicationLookNFeelFileStore) ((StructuredSelection) event.getSelection()).getFirstElement() ;
+                if (((StructuredSelection) event.getSelection()).getFirstElement() instanceof ApplicationLookNFeelFileStore) {
+                    selectedTheme = (ApplicationLookNFeelFileStore) ((StructuredSelection) event.getSelection()).getFirstElement();
                     setPageComplete(selectedTheme != null);
                     updateButtons(selectedTheme);
                 }
@@ -249,17 +245,19 @@ public class SelectLocalTemplateWizardPage extends WizardPage {
         remove = new Button(buttonComposite, SWT.FLAT);
         remove.setText(Messages.Remove);
         remove.addSelectionListener(new SelectionAdapter() {
-            /* (non-Javadoc)
+
+            /*
+             * (non-Javadoc)
              * @see org.eclipse.swt.events.SelectionAdapter#widgetSelected(org.eclipse.swt.events.SelectionEvent)
              */
             @Override
             public void widgetSelected(SelectionEvent e) {
-                IStructuredSelection selection = (IStructuredSelection)viewer.getSelection();
+                IStructuredSelection selection = (IStructuredSelection) viewer.getSelection();
                 Iterator<?> it = selection.iterator();
                 while (it.hasNext()) {
                     ApplicationLookNFeelFileStore artifact = (ApplicationLookNFeelFileStore) it.next();
-                    artifact.delete() ;
-                    if(!looknfeelStore.getChildren().contains(artifact)){
+                    artifact.delete();
+                    if (!looknfeelStore.getChildren().contains(artifact)) {
                         viewer.remove(artifact);
                     }
                 }
@@ -268,30 +266,35 @@ public class SelectLocalTemplateWizardPage extends WizardPage {
         export = new Button(buttonComposite, SWT.FLAT);
         export.setText(Messages.ResourceSection_export);
         export.addSelectionListener(new SelectionAdapter() {
-            /* (non-Javadoc)
+
+            /*
+             * (non-Javadoc)
              * @see org.eclipse.swt.events.SelectionAdapter#widgetSelected(org.eclipse.swt.events.SelectionEvent)
              */
             @Override
             public void widgetSelected(SelectionEvent e) {
-                if(!viewer.getSelection().isEmpty()){
+                if (!viewer.getSelection().isEmpty()) {
                     final DirectoryDialog dialog = new DirectoryDialog(Display.getDefault().getActiveShell());
                     final String path = dialog.open();
-                    if(path != null){
+                    if (path != null) {
                         try {
-                            getContainer().run(false, false,new IRunnableWithProgress(){
+                            getContainer().run(false, false, new IRunnableWithProgress() {
+
                                 @Override
                                 public void run(IProgressMonitor monitor) throws InvocationTargetException, InterruptedException {
                                     monitor.beginTask(Messages.exporting, IProgressMonitor.UNKNOWN);
-                                    IStructuredSelection selection = (IStructuredSelection)viewer.getSelection();
+                                    IStructuredSelection selection = (IStructuredSelection) viewer.getSelection();
                                     Iterator<?> it = selection.iterator();
                                     while (it.hasNext()) {
                                         final ApplicationLookNFeelFileStore artifact = (ApplicationLookNFeelFileStore) it.next();
                                         artifact.export(path);
                                     }
                                     Display.getDefault().syncExec(new Runnable() {
+
                                         @Override
                                         public void run() {
-                                            MessageDialog.openInformation(Display.getDefault().getActiveShell(), Messages.exportSuccessfullTitle, Messages.exportSuccessfullMsg);
+                                            MessageDialog.openInformation(Display.getDefault().getActiveShell(), Messages.exportSuccessfullTitle,
+                                                    Messages.exportSuccessfullMsg);
                                         }
                                     });
                                 }
@@ -309,22 +312,24 @@ public class SelectLocalTemplateWizardPage extends WizardPage {
         Button importAction = new Button(buttonComposite, SWT.FLAT);
         importAction.setText(Messages.ResourceSection_importTemplate);
         importAction.addSelectionListener(new SelectionAdapter() {
-            /* (non-Javadoc)
+
+            /*
+             * (non-Javadoc)
              * @see org.eclipse.swt.events.SelectionAdapter#widgetSelected(org.eclipse.swt.events.SelectionEvent)
              */
             @Override
             public void widgetSelected(SelectionEvent e) {
                 FileDialog dialog = new FileDialog(getShell(), SWT.OPEN);
                 dialog.setFilterPath(System.getProperty("user.home"));
-                dialog.setFilterExtensions(new String[]{"*."+LookNFeelRepositoryStore.LF_EXTENSION});
+                dialog.setFilterExtensions(new String[] { "*." + LookNFeelRepositoryStore.LF_EXTENSION });
                 String path = dialog.open();
-                if(path != null){
+                if (path != null) {
                     FileInputStream fis = null;
                     try {
                         File file = new File(path);
                         fis = new FileInputStream(file);
                         IRepositoryFileStore artifact = looknfeelStore.importInputStream(file.getName(), fis);
-                        if(artifact != null){
+                        if (artifact != null) {
                             MessageDialog.openInformation(Display.getDefault().getActiveShell(), Messages.importResultTitle, Messages.importSuccessMsg);
                         }
                         if (artifact instanceof ApplicationLookNFeelFileStore) {
@@ -349,8 +354,8 @@ public class SelectLocalTemplateWizardPage extends WizardPage {
      * @param template
      */
     protected void updateButtons(ApplicationLookNFeelFileStore template) {
-        remove.setEnabled(template!= null && !template.isProvided());
-        export.setEnabled(template!= null);
+        remove.setEnabled(template != null && !template.isProvided());
+        export.setEnabled(template != null);
     }
 
     /**
@@ -363,8 +368,8 @@ public class SelectLocalTemplateWizardPage extends WizardPage {
     @Override
     public void dispose() {
         super.dispose();
-        if(images != null){
-            for(Image im : images){
+        if (images != null) {
+            for (Image im : images) {
                 im.dispose();
             }
         }

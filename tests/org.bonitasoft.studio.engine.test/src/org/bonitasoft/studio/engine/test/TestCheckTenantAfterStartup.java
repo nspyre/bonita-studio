@@ -1,19 +1,16 @@
 /**
  * Copyright (C) 2009 BonitaSoft S.A.
  * BonitaSoft, 31 rue Gustave Eiffel - 38000 Grenoble
- *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2.0 of the License, or
  * (at your option) any later version.
- *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package org.bonitasoft.studio.engine.test;
 
@@ -42,7 +39,6 @@ import org.junit.Test;
 
 /**
  * @author Romain Bioteau
- * 
  */
 public class TestCheckTenantAfterStartup {
 
@@ -55,10 +51,9 @@ public class TestCheckTenantAfterStartup {
         assertThat(session).isNotNull();
     }
 
-
     @After
     public void tearDown() throws Exception {
-        if(session != null){
+        if (session != null) {
             BOSEngineManager.getInstance().logoutDefaultTenant(session);
         }
     }
@@ -75,26 +70,25 @@ public class TestCheckTenantAfterStartup {
     public void testOrganizationSynchronization() throws Exception {
         final IdentityAPI identityAPI = BOSEngineManager.getInstance().getIdentityAPI(session);
 
-        final String activeOrganization = BonitaStudioPreferencesPlugin.getDefault().getPreferenceStore().getString(ActorsPreferenceConstants.DEFAULT_ORGANIZATION) ;
-        final OrganizationRepositoryStore store = (OrganizationRepositoryStore) RepositoryManager.getInstance().getRepositoryStore(OrganizationRepositoryStore.class);
-        final OrganizationFileStore fileStore = store.getChild(activeOrganization+"."+OrganizationRepositoryStore.ORGANIZATION_EXT);
+        final String activeOrganization = BonitaStudioPreferencesPlugin.getDefault().getPreferenceStore()
+                .getString(ActorsPreferenceConstants.DEFAULT_ORGANIZATION);
+        final OrganizationRepositoryStore store = (OrganizationRepositoryStore) RepositoryManager.getInstance().getRepositoryStore(
+                OrganizationRepositoryStore.class);
+        final OrganizationFileStore fileStore = store.getChild(activeOrganization + "." + OrganizationRepositoryStore.ORGANIZATION_EXT);
 
         final Organization organization = fileStore.getContent();
-        for(Group group : organization.getGroups().getGroup()){
-            assertThat(identityAPI.getGroupByPath(GroupContentProvider.getGroupPath(group))).isNotNull().as("Group "+group.getName()+" is missing after restart");
+        for (Group group : organization.getGroups().getGroup()) {
+            assertThat(identityAPI.getGroupByPath(GroupContentProvider.getGroupPath(group))).isNotNull().as(
+                    "Group " + group.getName() + " is missing after restart");
         }
 
-        for(Role role : organization.getRoles().getRole()){
-            assertThat(identityAPI.getRoleByName(role.getName())).isNotNull().as("Role "+role.getName()+" is missing after restart");
+        for (Role role : organization.getRoles().getRole()) {
+            assertThat(identityAPI.getRoleByName(role.getName())).isNotNull().as("Role " + role.getName() + " is missing after restart");
         }
 
-        for(User user : organization.getUsers().getUser()){
-            assertThat(identityAPI.getUserByUserName(user.getUserName())).isNotNull().as("User "+user.getUserName()+" is missing after restart");
+        for (User user : organization.getUsers().getUser()) {
+            assertThat(identityAPI.getUserByUserName(user.getUserName())).isNotNull().as("User " + user.getUserName() + " is missing after restart");
         }
     }
-
-
-
-
 
 }

@@ -25,12 +25,10 @@ import org.bonitasoft.studio.model.form.TextFormField;
 import org.bonitasoft.studio.model.form.Widget;
 import org.bonitasoft.studio.model.form.util.FormSwitch;
 
-
 /**
  * @author Romain Bioteau
- *
  */
-public class WidgetModifiersSwitch extends FormSwitch<Collection<String>>{
+public class WidgetModifiersSwitch extends FormSwitch<Collection<String>> {
 
     public static final String OLD_LIST_OF_DOCUMENT = List.class.getName() + "<" + String.class.getName() + ">";
     public static final String NEW_LIST_OF_DOCUMENT = List.class.getName() + "<" + DocumentValue.class.getName() + ">";

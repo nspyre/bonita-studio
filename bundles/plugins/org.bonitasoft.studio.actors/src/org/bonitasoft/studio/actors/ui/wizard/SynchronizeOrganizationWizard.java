@@ -5,14 +5,12 @@
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2.0 of the License, or
  * (at your option) any later version.
- *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package org.bonitasoft.studio.actors.ui.wizard;
 
@@ -48,7 +46,6 @@ import org.eclipse.ui.handlers.IHandlerService;
 
 /**
  * @author Romain Bioteau
- *
  */
 public class SynchronizeOrganizationWizard extends Wizard {
 
@@ -58,43 +55,44 @@ public class SynchronizeOrganizationWizard extends Wizard {
     private Organization activeOrganization;
     private final OrganizationValidator validator;
 
-    public SynchronizeOrganizationWizard(){
+    public SynchronizeOrganizationWizard() {
         setWindowTitle(Messages.synchronizeOrganizationTitle);
-        setDefaultPageImageDescriptor(Pics.getWizban()) ;
-        setForcePreviousAndNextButtons(false) ;
-        setNeedsProgressMonitor(true) ;
+        setDefaultPageImageDescriptor(Pics.getWizban());
+        setForcePreviousAndNextButtons(false);
+        setNeedsProgressMonitor(true);
         validator = new OrganizationValidator();
     }
 
     @Override
     public void addPages() {
-        page = new SynchronizeOrganizationWizardPage() ;
-        userPage = new DefaultUserOrganizationWizardPage() ;
-        final IPreferenceStore prefStore = BonitaStudioPreferencesPlugin.getDefault().getPreferenceStore() ;
+        page = new SynchronizeOrganizationWizardPage();
+        userPage = new DefaultUserOrganizationWizardPage();
+        final IPreferenceStore prefStore = BonitaStudioPreferencesPlugin.getDefault().getPreferenceStore();
         userPage.setUser(prefStore.getString(BonitaPreferenceConstants.USER_NAME));
         // userPage.setPassword(prefStore.getString(BonitaPreferenceConstants.USER_PASSWORD));
-        addPage(page) ;
-        addPage(userPage) ;
+        addPage(page);
+        addPage(userPage);
     }
 
     @Override
     public IWizardPage getNextPage(final IWizardPage page) {
-        if(page instanceof SynchronizeOrganizationWizardPage){
-            activeOrganization = ((SynchronizeOrganizationWizardPage)page).getFileStore().getContent();
-            userPage.setOrganization(activeOrganization) ;
-            return userPage ;
-        }else{
+        if (page instanceof SynchronizeOrganizationWizardPage) {
+            activeOrganization = ((SynchronizeOrganizationWizardPage) page).getFileStore().getContent();
+            userPage.setOrganization(activeOrganization);
+            return userPage;
+        } else {
             return super.getNextPage(page);
         }
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see org.eclipse.jface.wizard.Wizard#performFinish()
      */
     @Override
     public boolean performFinish() {
-            final IPreferenceStore prefStore = updateDefaultUserPreference();
-            final OrganizationFileStore artifact = getFileStore();
+        final IPreferenceStore prefStore = updateDefaultUserPreference();
+        final OrganizationFileStore artifact = getFileStore();
         try {
             getContainer().run(true, false, new IRunnableWithProgress() {
 
@@ -106,30 +104,30 @@ public class SynchronizeOrganizationWizard extends Wizard {
                         throw new InvocationTargetException(new OrganizationValidationException(status));
                     }
                     monitor.beginTask(Messages.synchronizingOrganization, IProgressMonitor.UNKNOWN);
-                    final ICommandService service = (ICommandService) PlatformUI.getWorkbench().getService(ICommandService.class) ;
-                    final IHandlerService handlerService = (IHandlerService) PlatformUI.getWorkbench().getService(IHandlerService.class) ;
-                    final Command cmd = service.getCommand("org.bonitasoft.studio.engine.installOrganization") ;
+                    final ICommandService service = (ICommandService) PlatformUI.getWorkbench().getService(ICommandService.class);
+                    final IHandlerService handlerService = (IHandlerService) PlatformUI.getWorkbench().getService(IHandlerService.class);
+                    final Command cmd = service.getCommand("org.bonitasoft.studio.engine.installOrganization");
                     try {
                         final Parameterization p = new Parameterization(cmd.getParameter("artifact"), artifact.getName());
-                        handlerService.executeCommand(new ParameterizedCommand(cmd, new Parameterization[]{p}), null);
-                        prefStore.setValue(ActorsPreferenceConstants.DEFAULT_ORGANIZATION, artifact.getDisplayName()) ;
+                        handlerService.executeCommand(new ParameterizedCommand(cmd, new Parameterization[] { p }), null);
+                        prefStore.setValue(ActorsPreferenceConstants.DEFAULT_ORGANIZATION, artifact.getDisplayName());
                     } catch (final Exception e) {
                         throw new InvocationTargetException(e);
                     }
                 }
-            }) ;
+            });
         } catch (final InvocationTargetException e) {
             if (e.getCause() instanceof OrganizationValidationException) {
                 MessageDialog.openError(Display.getDefault().getActiveShell(), Messages.organizationValidationFailed, e.getCause().getMessage());
             }
-            return false ;
+            return false;
         } catch (final InterruptedException e) {
             BonitaStudioLog.error(e);
             return false;
         }
         final String organizationName = artifact.getDisplayName();
-                MessageDialog.openInformation(Display.getDefault().getActiveShell(), Messages.synchronizeInformationTitle,
-                        Messages.bind(Messages.synchronizeOrganizationSuccessMsg, organizationName));
+        MessageDialog.openInformation(Display.getDefault().getActiveShell(), Messages.synchronizeInformationTitle,
+                Messages.bind(Messages.synchronizeOrganizationSuccessMsg, organizationName));
         return true;
     }
 
@@ -152,6 +150,5 @@ public class SynchronizeOrganizationWizard extends Wizard {
     public OrganizationFileStore getFileStore() {
         return page.getFileStore();
     }
-
 
 }

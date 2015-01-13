@@ -1,19 +1,16 @@
 /**
  * Copyright (C) 2012 BonitaSoft S.A.
  * BonitaSoft, 32 rue Gustave Eiffel - 38000 Grenoble
- *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2.0 of the License, or
  * (at your option) any later version.
- *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package org.bonitasoft.studio.connectors.test.swtbot;
 
@@ -42,7 +39,6 @@ import org.junit.runner.RunWith;
 
 /**
  * @author Aur�lie Zara
- * 
  */
 @RunWith(SWTBotJunit4ClassRunner.class)
 public class ConnectorDefinitionWizardPageTest extends SWTBotGefTestCase {
@@ -104,12 +100,12 @@ public class ConnectorDefinitionWizardPageTest extends SWTBotGefTestCase {
         bot.textWithLabel("Page id *").setText(pageId);
         assertTrue("button Apply should be disabled", bot.button(Messages.apply)
                 .isEnabled());
-		createWidget(widgetId0, "Text", 0);
-		createWidget(widgetId1, "Password", 1);
-		createWidget(widgetId2, "Checkbox", 3);
-		createWidget(widgetId3, "Select", 4);
-		createWidget(widgetId4, "Radio group", 5);
-		createWidget(widgetId5, "Group", 7);
+        createWidget(widgetId0, "Text", 0);
+        createWidget(widgetId1, "Password", 1);
+        createWidget(widgetId2, "Checkbox", 3);
+        createWidget(widgetId3, "Select", 4);
+        createWidget(widgetId4, "Radio group", 5);
+        createWidget(widgetId5, "Group", 7);
         bot.button(Messages.apply).click();
         bot.button(IDialogConstants.FINISH_LABEL).click();
         ConnectorDefRepositoryStore store = (ConnectorDefRepositoryStore) RepositoryManager
@@ -178,66 +174,63 @@ public class ConnectorDefinitionWizardPageTest extends SWTBotGefTestCase {
         bot.button(IDialogConstants.OK_LABEL).click();
 
     }
-    
+
     @Test
     public void testConnectorDefinitionWizardPageValidityName() {
         final String connectorDefId = "testWizardPage1";
         final String pageId = "pageTest";
-        final String pageIdLabelStar = Messages.pageId+" *";
-        final String widgetIdStar = Messages.widgetId+"*";
+        final String pageIdLabelStar = Messages.pageId + " *";
+        final String widgetIdStar = Messages.widgetId + "*";
         final String widgetIdValid = "myWidgetId";
-        
+
         openConnectorDefinitionWizardPage(connectorDefId);
         bot.button(Messages.Add).click();
         bot.waitUntil(Conditions.shellIsActive(Messages.newConnectorDefinition));
-        
+
         // ----- Test Page id name validity ----- 
         assertFalse("button Apply should be disabled", bot.button(Messages.apply).isEnabled());
 
         // valid id
         bot.textWithLabel(pageIdLabelStar).setText(pageId);
         assertTrue("button Apply should be enabled", bot.button(Messages.apply).isEnabled());
-        
+
         // whitespace in id
         bot.textWithLabel(pageIdLabelStar).setText("bla bla");
         assertFalse("button Apply should be disabled", bot.button(Messages.apply).isEnabled());
-        
+
         // forbidden characters
         bot.textWithLabel(pageIdLabelStar).setText("//dfgjkdfg**");
         assertFalse("button Apply should be disabled", bot.button(Messages.apply).isEnabled());
-        
+
         // valid id
         bot.textWithLabel(pageIdLabelStar).setText(pageId);
         assertTrue("button Apply should be enabled", bot.button(Messages.apply).isEnabled());
-        
-        
+
         // ----- test widget id validity ------
         bot.button(Messages.Add).click();
         bot.waitUntil(Conditions.shellIsActive(Messages.addWidget));
-        bot.comboBoxWithLabel(Messages.input+" *").setSelection(0);
-        
+        bot.comboBoxWithLabel(Messages.input + " *").setSelection(0);
+
         // valid text
         bot.textWithLabel(widgetIdStar).setText(widgetIdValid);
         assertTrue("button OK should be enabled", bot.button(IDialogConstants.OK_LABEL).isEnabled());
-        
+
         // forbidden characters
         bot.textWithLabel(widgetIdStar).setText("//lfhsduh**");
         assertFalse("button OK should be disabled", bot.button(IDialogConstants.OK_LABEL).isEnabled());
-        
+
         // whitespace
         bot.textWithLabel(widgetIdStar).setText("bla bla");
         assertFalse("button OK should be disabled", bot.button(IDialogConstants.OK_LABEL).isEnabled());
-        
+
         // valid text
         bot.textWithLabel(widgetIdStar).setText(widgetIdValid);
         assertTrue("button OK should be enabled", bot.button(IDialogConstants.OK_LABEL).isEnabled());
-        
+
         bot.button(IDialogConstants.OK_LABEL).click();
         bot.button(Messages.apply).click();
         bot.button(IDialogConstants.CANCEL_LABEL).click();
 
     }
-    
-
 
 }

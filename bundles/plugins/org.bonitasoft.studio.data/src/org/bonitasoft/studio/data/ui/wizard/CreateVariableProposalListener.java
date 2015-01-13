@@ -35,7 +35,6 @@ import org.eclipse.swt.widgets.Shell;
 
 /**
  * @author Maxence Raoux
- *
  */
 public class CreateVariableProposalListener implements IProposalListener {
 

@@ -1,19 +1,16 @@
 /**
  * Copyright (C) 2012 BonitaSoft S.A.
  * BonitaSoft, 32 rue Gustave Eiffel - 38000 Grenoble
- *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2.0 of the License, or
  * (at your option) any later version.
- *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package org.bonitasoft.studio.actors.tests.exporter;
 
@@ -44,7 +41,6 @@ import org.junit.runner.RunWith;
 
 /**
  * @author aurelie
- *
  */
 
 @RunWith(SWTBotJunit4ClassRunner.class)
@@ -69,11 +65,11 @@ public class SWTBotActorFilterExportTests extends SWTBotGefTestCase {
             bot.checkBoxWithLabel("Add dependencies").deselect();
         }
         bot.textWithLabel("Destination *").setText(exportPath);
-        bot.waitUntil(Conditions.widgetIsEnabled(bot.button(IDialogConstants.FINISH_LABEL)),5000);
+        bot.waitUntil(Conditions.widgetIsEnabled(bot.button(IDialogConstants.FINISH_LABEL)), 5000);
         bot.button(IDialogConstants.FINISH_LABEL).click();
         bot.waitUntil(new ShellIsActiveWithThreadSTacksOnFailure(org.bonitasoft.studio.common.repository.Messages.exportLabel), 15000);
         bot.button(IDialogConstants.OK_LABEL).click();
-        checkExportedFile(exportPath,fileName, hasDependencies, hasSources);
+        checkExportedFile(exportPath, fileName, hasDependencies, hasSources);
     }
 
     @Test
@@ -105,21 +101,21 @@ public class SWTBotActorFilterExportTests extends SWTBotGefTestCase {
         exportActorFilter(userActorFilter, fileName, false, true);
     }
 
-    private void checkExportedFile(final String path,final String fileName, final boolean hasDependencies,
+    private void checkExportedFile(final String path, final String fileName, final boolean hasDependencies,
             final boolean hasSources) throws Exception {
-        final File zipFile = new File(path+File.separator+fileName);
+        final File zipFile = new File(path + File.separator + fileName);
         assertTrue("actor filter zip file was not created", zipFile.exists());
         final File destDir = new File(ProjectUtil.getBonitaStudioWorkFolder().getAbsolutePath());
         final IProgressMonitor monitor = new NullProgressMonitor();
-        try{
-        	PlatformUtil.unzipZipFiles(zipFile, destDir, monitor);
-        }catch(final Exception e){
-        	if(e instanceof IOException){
-        		assertTrue("IO error while unzip file "+zipFile.getName(), false);
-        	}
-        	if(e instanceof ZipException){
-        		assertTrue("ZIP error while unzip file "+zipFile.getName(), false);
-        	}
+        try {
+            PlatformUtil.unzipZipFiles(zipFile, destDir, monitor);
+        } catch (final Exception e) {
+            if (e instanceof IOException) {
+                assertTrue("IO error while unzip file " + zipFile.getName(), false);
+            }
+            if (e instanceof ZipException) {
+                assertTrue("ZIP error while unzip file " + zipFile.getName(), false);
+            }
         }
         assertTrue("actor filter zip file was not unzipped correctly",
                 destDir.exists());
@@ -170,6 +166,7 @@ public class SWTBotActorFilterExportTests extends SWTBotGefTestCase {
 
     private void testDefinitionFileExistence(final File destDir) {
         final FilenameFilter defFilter = new FilenameFilter() {
+
             @Override
             public boolean accept(final File dir, final String name) {
                 return name.endsWith("."

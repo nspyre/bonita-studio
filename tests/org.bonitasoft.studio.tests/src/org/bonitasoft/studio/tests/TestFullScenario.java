@@ -1,19 +1,16 @@
 /**
  * Copyright (C) 2009-2012 BonitaSoft S.A.
  * BonitaSoft, 32 rue Gustave Eiffel - 38000 Grenoble
- *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2.0 of the License, or
  * (at your option) any later version.
- *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package org.bonitasoft.studio.tests;
 
@@ -58,7 +55,6 @@ import org.eclipse.ui.handlers.IHandlerService;
 
 /**
  * @author Mickael Istria
- *
  */
 public class TestFullScenario extends TestCase {
 
@@ -66,7 +62,8 @@ public class TestFullScenario extends TestCase {
 
         private int nbProc;
 
-        /* (non-Javadoc)
+        /*
+         * (non-Javadoc)
          * @see org.eclipse.core.resources.IResourceVisitor#visit(org.eclipse.core.resources.IResource)
          */
         public boolean visit(IResource resource) throws CoreException {
@@ -110,18 +107,17 @@ public class TestFullScenario extends TestCase {
         execute();
     }
 
-	protected void createProcess() throws ExecutionException {
-		new NewDiagramCommandHandler().execute(null);
+    protected void createProcess() throws ExecutionException {
+        new NewDiagramCommandHandler().execute(null);
         processEditor = getTheOnlyOneEditor();
         input = processEditor.getEditorInput();
 
         task = getTheTask(processEditor.getDiagramEditPart());
         assertNotNull("Default process should contain one task", task);
-	}
+    }
 
     /**
      * @throws ExecutionException
-     * 
      */
     public void editAndSave() throws ExecutionException {
         processEditor = getTheOnlyOneEditor();
@@ -132,7 +128,7 @@ public class TestFullScenario extends TestCase {
                         TESTNAME));
 
         IHandlerService handlerService = (IHandlerService) PlatformUI.getWorkbench().getService(IHandlerService.class);
-        ICommandService commandService = (ICommandService)  PlatformUI.getWorkbench().getService(ICommandService.class);
+        ICommandService commandService = (ICommandService) PlatformUI.getWorkbench().getService(ICommandService.class);
         Command saveCommand = commandService.getCommand("org.eclipse.ui.file.save");
         ExecutionEvent executionEvent = new ExecutionEvent(saveCommand, Collections.EMPTY_MAP, null, handlerService.getClass());
         try {
@@ -156,16 +152,14 @@ public class TestFullScenario extends TestCase {
                 TESTNAME, task.getName());
     }
 
-
     /**
      * @throws CoreException
      * @throws ExecutionException
-     * 
      */
     public void renameProcess() throws CoreException, ExecutionException {
         processEditor = getTheOnlyOneEditor();
         process = (MainProcess) processEditor.getDiagramEditPart().resolveSemanticElement();
-        MainProcess oldProc = EcoreUtil.copy(process) ;
+        MainProcess oldProc = EcoreUtil.copy(process);
 
         processEditor.getEditingDomain().getCommandStack().execute(new SetCommand(
                 processEditor.getEditingDomain(),
@@ -179,7 +173,7 @@ public class TestFullScenario extends TestCase {
                 webPurchaseVersion));
 
         IHandlerService handlerService = (IHandlerService) PlatformUI.getWorkbench().getService(IHandlerService.class);
-        ICommandService commandService = (ICommandService)  PlatformUI.getWorkbench().getService(ICommandService.class);
+        ICommandService commandService = (ICommandService) PlatformUI.getWorkbench().getService(ICommandService.class);
         Command saveCommand = commandService.getCommand("org.eclipse.ui.file.save");
         ExecutionEvent executionEvent = new ExecutionEvent(saveCommand, Collections.EMPTY_MAP, null, handlerService.getClass());
         try {
@@ -264,28 +258,27 @@ public class TestFullScenario extends TestCase {
         String line = null;
         while ((line = reader.readLine()) != null) {
             if (line.toLowerCase().contains("bonita")) {
-                return ; // OK
+                return; // OK
             }
         }
         fail("A line in application should contain \"Bonita\"...");
     }
-
 
     /**
      * @param diagramEditPart
      * @return
      */
     private Task getTheTask(IGraphicalEditPart diagramEditPart) {
-        MainProcess process = (MainProcess)diagramEditPart.resolveSemanticElement();
-        Pool pool = (Pool)process.getElements().get(0);
+        MainProcess process = (MainProcess) diagramEditPart.resolveSemanticElement();
+        Pool pool = (Pool) process.getElements().get(0);
         Task task = null;
         for (Element item : pool.getElements()) {
             if (item instanceof Task) {
-                task = (Task)item;
-            } else if(item instanceof Lane){
+                task = (Task) item;
+            } else if (item instanceof Lane) {
                 for (Element laneItem : ((Lane) item).getElements()) {
                     if (laneItem instanceof Task) {
-                        task = (Task)laneItem;
+                        task = (Task) laneItem;
                     }
                 }
             }
@@ -305,12 +298,12 @@ public class TestFullScenario extends TestCase {
         for (IEditorReference iEditorReference : editorReferences) {
             sb.append(iEditorReference);
         }
-        assertEquals("There should be only be 1 editor after save. But there are:\n"+sb.toString(),
+        assertEquals("There should be only be 1 editor after save. But there are:\n" + sb.toString(),
                 1,
                 editorReferences.length);
         editor = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor();
         assertTrue(editor instanceof ProcessDiagramEditor);
-        processEditor = (ProcessDiagramEditor)editor;
+        processEditor = (ProcessDiagramEditor) editor;
         return processEditor;
     }
 }

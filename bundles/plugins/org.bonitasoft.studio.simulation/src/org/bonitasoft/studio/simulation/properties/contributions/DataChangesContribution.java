@@ -1,19 +1,16 @@
 /**
  * Copyright (C) 2010 BonitaSoft S.A.
  * BonitaSoft, 31 rue Gustave Eiffel - 38000 Grenoble
- *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2.0 of the License, or
  * (at your option) any later version.
- *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package org.bonitasoft.studio.simulation.properties.contributions;
 
@@ -65,9 +62,8 @@ import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetWidgetFactory;
 
 /**
  * @author Baptiste Mesta
- *
  */
-public class DataChangesContribution  extends AbstractPropertySectionContribution{
+public class DataChangesContribution extends AbstractPropertySectionContribution {
 
     List<Combo> combos = new ArrayList<Combo>();
     List<Button> createButtons = new ArrayList<Button>();
@@ -77,8 +73,8 @@ public class DataChangesContribution  extends AbstractPropertySectionContributio
     private EMFDataBindingContext context;
     private final List<DataChange> dataChanges = new ArrayList<DataChange>();
 
-
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see org.bonitasoft.studio.common.properties.IExtensibleGridPropertySectionContribution#isRelevantFor(org.eclipse.emf.ecore.EObject)
      */
     @Override
@@ -86,7 +82,8 @@ public class DataChangesContribution  extends AbstractPropertySectionContributio
         return eObject instanceof SimulationActivity;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see org.bonitasoft.studio.common.properties.IExtensibleGridPropertySectionContribution#refresh()
      */
     @Override
@@ -94,7 +91,8 @@ public class DataChangesContribution  extends AbstractPropertySectionContributio
 
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see org.bonitasoft.studio.common.properties.IExtensibleGridPropertySectionContribution#getLabel()
      */
     @Override
@@ -102,16 +100,19 @@ public class DataChangesContribution  extends AbstractPropertySectionContributio
         return Messages.Data;
     }
 
-    /* (non-Javadoc)
-     * @see org.bonitasoft.studio.common.properties.IExtensibleGridPropertySectionContribution#createControl(org.eclipse.swt.widgets.Composite, org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetWidgetFactory, org.bonitasoft.studio.common.properties.ExtensibleGridPropertySection)
+    /*
+     * (non-Javadoc)
+     * @see org.bonitasoft.studio.common.properties.IExtensibleGridPropertySectionContribution#createControl(org.eclipse.swt.widgets.Composite,
+     * org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetWidgetFactory, org.bonitasoft.studio.common.properties.ExtensibleGridPropertySection)
      */
     @Override
-    public void createControl(final Composite composite, final TabbedPropertySheetWidgetFactory widgetFactory, final ExtensibleGridPropertySection extensibleGridPropertySection) {
+    public void createControl(final Composite composite, final TabbedPropertySheetWidgetFactory widgetFactory,
+            final ExtensibleGridPropertySection extensibleGridPropertySection) {
 
-        composite.setLayout(new GridLayout(1,false));
+        composite.setLayout(new GridLayout(1, false));
 
         context = new EMFDataBindingContext();
-        dynamicComposite = new DynamicAddRemoveLineComposite(composite,SWT.NONE){
+        dynamicComposite = new DynamicAddRemoveLineComposite(composite, SWT.NONE) {
 
             @Override
             protected org.eclipse.swt.widgets.Button createAddButton(Composite parent) {
@@ -121,82 +122,86 @@ public class DataChangesContribution  extends AbstractPropertySectionContributio
             };
 
             @Override
-            protected Control createLineComposite(Composite parent,Object object) {
+            protected Control createLineComposite(Composite parent, Object object) {
                 final DataChange dataChange;
-                if(object instanceof DataChange){
+                if (object instanceof DataChange) {
                     dataChange = (DataChange) object;
-                }else{
+                } else {
                     dataChange = SimulationFactory.eINSTANCE.createDataChange();
                     AddCommand addCommand = new AddCommand(editingDomain, eObject, SimulationPackage.Literals.SIMULATION_ACTIVITY__DATA_CHANGE, dataChange);
                     editingDomain.getCommandStack().execute(addCommand);
                 }
                 Composite lineComposite = getWidgetFactory().createComposite(parent);
                 composites.add(lineComposite);
-                lineComposite.setLayout(new GridLayout(5,false));
+                lineComposite.setLayout(new GridLayout(5, false));
 
                 getWidgetFactory().createLabel(lineComposite, Messages.Data);
 
                 final Combo combo = new Combo(lineComposite, SWT.READ_ONLY);
                 combo.setLayoutData(GridDataFactory.swtDefaults().hint(85, SWT.DEFAULT).create());
                 final ComboViewer viewer = new ComboViewer(combo);
-                viewer.setLabelProvider(new LabelProvider(){
+                viewer.setLabelProvider(new LabelProvider() {
+
                     @Override
                     public String getText(Object element) {
-                        return ((SimulationData)element).getName();
+                        return ((SimulationData) element).getName();
                     };
                 });
                 viewer.setContentProvider(ArrayContentProvider.getInstance());
                 viewer.setInput(ModelHelper.getParentProcess(eObject).getSimulationData());
-                if(dataChange.getData() != null){
+                if (dataChange.getData() != null) {
                     viewer.setSelection(new StructuredSelection(dataChange.getData()));
                 }
                 getWidgetFactory().createLabel(lineComposite, Messages.Expression);
 
-                final ExpressionViewer expressionText = new ExpressionViewer(lineComposite, SWT.BORDER,widgetFactory,editingDomain, SimulationPackage.Literals.DATA_CHANGE__VALUE);
-                expressionText.addFilter(new AvailableExpressionTypeFilter(new String[]{ExpressionConstants.CONSTANT_TYPE,ExpressionConstants.SIMULATION_VARIABLE_TYPE,ExpressionConstants.SCRIPT_TYPE}));
+                final ExpressionViewer expressionText = new ExpressionViewer(lineComposite, SWT.BORDER, widgetFactory, editingDomain,
+                        SimulationPackage.Literals.DATA_CHANGE__VALUE);
+                expressionText.addFilter(new AvailableExpressionTypeFilter(new String[] { ExpressionConstants.CONSTANT_TYPE,
+                        ExpressionConstants.SIMULATION_VARIABLE_TYPE, ExpressionConstants.SCRIPT_TYPE }));
                 expressionText.getControl().setLayoutData(GridDataFactory.swtDefaults().hint(250, SWT.DEFAULT).create());
-                
-                Expression selection = dataChange.getValue() ;
-                if(selection == null){
-                    selection = ExpressionFactory.eINSTANCE.createExpression() ;
-                    editingDomain.getCommandStack().execute(SetCommand.create(editingDomain, dataChange, SimulationPackage.Literals.DATA_CHANGE__VALUE, selection)) ;
+
+                Expression selection = dataChange.getValue();
+                if (selection == null) {
+                    selection = ExpressionFactory.eINSTANCE.createExpression();
+                    editingDomain.getCommandStack().execute(
+                            SetCommand.create(editingDomain, dataChange, SimulationPackage.Literals.DATA_CHANGE__VALUE, selection));
                 }
                 context.bindValue(ViewerProperties.singleSelection().observe(expressionText),
-                		EMFEditProperties.value(editingDomain, SimulationPackage.Literals.DATA_CHANGE__VALUE).observe(dataChange));
-                expressionText.setInput(dataChange) ;
+                        EMFEditProperties.value(editingDomain, SimulationPackage.Literals.DATA_CHANGE__VALUE).observe(dataChange));
+                expressionText.setInput(dataChange);
                 //expressionText.setSelection(new StructuredSelection(selection)) ;
 
-
-                Button createDataButton = new Button(lineComposite,SWT.FLAT) ;
-                createDataButton.setText(Messages.createSimulationData) ;
+                Button createDataButton = new Button(lineComposite, SWT.FLAT);
+                createDataButton.setText(Messages.createSimulationData);
                 createDataButton.addSelectionListener(new SelectionAdapter() {
+
                     @Override
                     public void widgetSelected(SelectionEvent e) {
-                        AddSimulationDataWizard wiz = new AddSimulationDataWizard(ModelHelper.getParentProcess(eObject), editingDomain) ;
-                        if(new WizardDialog(Display.getDefault().getActiveShell(), wiz).open() == WizardDialog.OK){
+                        AddSimulationDataWizard wiz = new AddSimulationDataWizard(ModelHelper.getParentProcess(eObject), editingDomain);
+                        if (new WizardDialog(Display.getDefault().getActiveShell(), wiz).open() == WizardDialog.OK) {
                             viewer.setInput(ModelHelper.getParentProcess(eObject).getSimulationData());
-                            viewer.setSelection(new StructuredSelection(wiz.getCreatedData())) ;
+                            viewer.setSelection(new StructuredSelection(wiz.getCreatedData()));
                             //                            expressionText.reset() ;
                             //                            expressionText.setText(GroovyUtil.GROOVY_PREFIX + wiz.getCreatedData().getName() + GroovyUtil.GROOVY_SUFFIX);
                         }
 
                     }
 
-                }) ;
+                });
 
-                createButtons.add(createDataButton) ;
+                createButtons.add(createDataButton);
                 combos.add(combo);
                 dataChanges.add(dataChange);
-                bindings.add(context.bindValue(ViewersObservables.observeSingleSelection(viewer), EMFEditObservables.observeValue(editingDomain, dataChange, SimulationPackage.Literals.DATA_CHANGE__DATA)));
-
-
+                bindings.add(context.bindValue(ViewersObservables.observeSingleSelection(viewer),
+                        EMFEditObservables.observeValue(editingDomain, dataChange, SimulationPackage.Literals.DATA_CHANGE__DATA)));
 
                 return lineComposite;
             }
+
             @Override
             protected void lineRemoved(int i) {
                 composites.remove(i);
-                createButtons.remove(i) ;
+                createButtons.remove(i);
                 combos.remove(i);
                 context.removeBinding(bindings.get(i));
                 bindings.remove(i);
@@ -206,40 +211,42 @@ public class DataChangesContribution  extends AbstractPropertySectionContributio
                 dataChanges.remove(i);
                 extensibleGridPropertySection.getTabbedPropertySheetPage().resizeScrolledComposite();
             }
+
             @Override
             protected void lineAdded(int i) {
                 extensibleGridPropertySection.getTabbedPropertySheetPage().resizeScrolledComposite();
             }
+
             @Override
             protected TabbedPropertySheetWidgetFactory getWidgetFactory() {
                 return widgetFactory;
             }
+
             @Override
             protected Composite getTopComposite() {
                 return (Composite) extensibleGridPropertySection.getTabbedPropertySheetPage().getControl();
             }
 
-
         };
         dynamicComposite.setLayoutData(GridDataFactory.fillDefaults().grab(true, false).create());
 
-
         fillDynamicWidget();
-
 
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see org.bonitasoft.studio.common.properties.IExtensibleGridPropertySectionContribution#dispose()
      */
     @Override
     public void dispose() {
-        if(context != null) {
+        if (context != null) {
             context.dispose();
         }
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see org.bonitasoft.studio.common.properties.AbstractPropertySectionContribution#setEObject(org.eclipse.emf.ecore.EObject)
      */
     @Override
@@ -256,6 +263,5 @@ public class DataChangesContribution  extends AbstractPropertySectionContributio
             dynamicComposite.addLine(dataChange);
         }
     }
-
 
 }

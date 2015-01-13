@@ -18,25 +18,28 @@ import org.eclipse.emf.ecore.EClass;
  */
 public class Operation_Less_EqualsImpl extends OperationImpl implements Operation_Less_Equals
 {
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  protected Operation_Less_EqualsImpl()
-  {
-    super();
-  }
 
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  @Override
-  protected EClass eStaticClass()
-  {
-    return ConditionModelPackage.Literals.OPERATION_LESS_EQUALS;
-  }
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * 
+     * @generated
+     */
+    protected Operation_Less_EqualsImpl()
+    {
+        super();
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * 
+     * @generated
+     */
+    @Override
+    protected EClass eStaticClass()
+    {
+        return ConditionModelPackage.Literals.OPERATION_LESS_EQUALS;
+    }
 
 } //Operation_Less_EqualsImpl

@@ -24,7 +24,6 @@ import org.bonitasoft.studio.actors.model.organization.User;
 import org.bonitasoft.studio.actors.model.organization.Users;
 import org.junit.Test;
 
-
 public class PublishOrganizationOperationTest {
 
     @Test

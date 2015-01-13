@@ -1,19 +1,16 @@
 /**
  * Copyright (C) 2012 BonitaSoft S.A.
  * BonitaSoft, 32 rue Gustave Eiffel - 38000 Grenoble
- * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2.0 of the License, or
  * (at your option) any later version.
- *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
 package org.bonitasoft.studio.simulation.expression;
@@ -43,25 +40,23 @@ import org.eclipse.swt.graphics.Image;
 
 /**
  * @author Romain Bioteau
- *
  */
 public class SimulationDataExpressionProvider implements IExpressionProvider {
 
     private final ComposedAdapterFactory adapterFactory;
     private final AdapterFactoryLabelProvider adapterLabelProvider;
 
-
-    public SimulationDataExpressionProvider(){
+    public SimulationDataExpressionProvider() {
         adapterFactory = new ComposedAdapterFactory(ComposedAdapterFactory.Descriptor.Registry.INSTANCE);
-        adapterLabelProvider  = new AdapterFactoryLabelProvider(adapterFactory) ;
+        adapterLabelProvider = new AdapterFactoryLabelProvider(adapterFactory);
     }
 
     @Override
     public Set<Expression> getExpressions(EObject context) {
-        Set<Expression> result = new HashSet<Expression>() ;
-        List<SimulationData> simData = ModelHelper.getAccessibleSimulationData(context) ;
-        for(SimulationData d : simData){
-            result.add(createExpression(d)) ;
+        Set<Expression> result = new HashSet<Expression>();
+        List<SimulationData> simData = ModelHelper.getAccessibleSimulationData(context);
+        for (SimulationData d : simData) {
+            result.add(createExpression(d));
         }
         return result;
     }
@@ -73,12 +68,12 @@ public class SimulationDataExpressionProvider implements IExpressionProvider {
 
     @Override
     public Image getIcon(Expression expression) {
-        if(expression.getReferencedElements().isEmpty()){
-            return null ;
+        if (expression.getReferencedElements().isEmpty()) {
+            return null;
         }
 
         EObject reference = expression.getReferencedElements().get(0);
-        return adapterLabelProvider.getImage(reference) ;
+        return adapterLabelProvider.getImage(reference);
     }
 
     @Override
@@ -86,15 +81,13 @@ public class SimulationDataExpressionProvider implements IExpressionProvider {
         return expression.getName();
     }
 
-
-
     private Expression createExpression(SimulationData d) {
-        Expression exp = ExpressionFactory.eINSTANCE.createExpression() ;
-        exp.setType(getExpressionType()) ;
-        exp.setContent(d.getName()) ;
-        exp.setName(d.getName()) ;
-        exp.setReturnType(SimulationDataUtil.getTechnicalTypeFor(d)) ;
-        exp.getReferencedElements().add(ExpressionHelper.createDependencyFromEObject(d)) ;
+        Expression exp = ExpressionFactory.eINSTANCE.createExpression();
+        exp.setType(getExpressionType());
+        exp.setContent(d.getName());
+        exp.setName(d.getName());
+        exp.setReturnType(SimulationDataUtil.getTechnicalTypeFor(d));
+        exp.getReferencedElements().add(ExpressionHelper.createDependencyFromEObject(d));
         return exp;
     }
 
@@ -115,10 +108,8 @@ public class SimulationDataExpressionProvider implements IExpressionProvider {
     }
 
     @Override
-    public IExpressionEditor getExpressionEditor(Expression expression,EObject context) {
+    public IExpressionEditor getExpressionEditor(Expression expression, EObject context) {
         return new SimulationDataExpressionEditor();
     }
-
-
 
 }

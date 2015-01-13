@@ -4,10 +4,9 @@
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- *
  * Contributors:
- *     BMW Car IT - Initial API and implementation
- *     Technische Universitaet Muenchen - Major refactoring and extension
+ * BMW Car IT - Initial API and implementation
+ * Technische Universitaet Muenchen - Major refactoring and extension
  *******************************************************************************/
 package org.eclipse.emf.edapt.migration;
 
@@ -42,191 +41,191 @@ import org.xml.sax.helpers.XMLReaderFactory;
  */
 public final class ReleaseUtils {
 
-	/** Constructor. */
-	private ReleaseUtils() {
-		// hidden, since this class only provides static helper methods
-	}
+    /** Constructor. */
+    private ReleaseUtils() {
+        // hidden, since this class only provides static helper methods
+    }
 
-	/** Extract the namespace URI from a model. */
-	public static String getNamespaceURI(URI uri) {
-		return getNamespaceURI_SAX(URIUtils.getJavaFile(uri));
-	}
+    /** Extract the namespace URI from a model. */
+    public static String getNamespaceURI(URI uri) {
+        return getNamespaceURI_SAX(URIUtils.getJavaFile(uri));
+    }
 
-	/** Extract the namespace URI from a model file using SAX. */
-	public static String getNamespaceURI_SAX(File file) {
+    /** Extract the namespace URI from a model file using SAX. */
+    public static String getNamespaceURI_SAX(File file) {
 
-		ContentHandler contentHandler = new ContentHandler();
-		try {
-			XMLReader reader = XMLReaderFactory.createXMLReader();
-			reader.setContentHandler(contentHandler);
+        ContentHandler contentHandler = new ContentHandler();
+        try {
+            XMLReader reader = XMLReaderFactory.createXMLReader();
+            reader.setContentHandler(contentHandler);
 
-			FileReader fileReader = new FileReader(file);
+            FileReader fileReader = new FileReader(file);
 
-			reader.parse(new InputSource(fileReader));
-		} catch (Exception e) {
-			// loading should fail
-		}
+            reader.parse(new InputSource(fileReader));
+        } catch (Exception e) {
+            // loading should fail
+        }
 
-		return contentHandler.getNsURI();
-	}
+        return contentHandler.getNsURI();
+    }
 
-	/** Content handler for extraction of namespace URI using SAX. */
-	private static class ContentHandler extends DefaultHandler {
+    /** Content handler for extraction of namespace URI using SAX. */
+    private static class ContentHandler extends DefaultHandler {
 
-		/** Namespace URI. */
-		private String nsURI;
+        /** Namespace URI. */
+        private String nsURI;
 
-		/** {@inheritDoc} */
-		@Override
-		public void startElement(String uri, String localName, String qName,
-				Attributes attributes) throws SAXException {
-			if (!ExtendedMetaData.XMI_URI.equals(uri)
-					&& !ExtendedMetaData.XML_SCHEMA_URI.equals(uri)) {
-				nsURI = uri;
-				throw new SAXException();
-			}
-		}
+        /** {@inheritDoc} */
+        @Override
+        public void startElement(String uri, String localName, String qName,
+                Attributes attributes) throws SAXException {
+            if (!ExtendedMetaData.XMI_URI.equals(uri)
+                    && !ExtendedMetaData.XML_SCHEMA_URI.equals(uri)) {
+                nsURI = uri;
+                throw new SAXException();
+            }
+        }
 
-		/** Returns the namespace URI. */
-		public String getNsURI() {
-			return nsURI;
-		}
-	}
+        /** Returns the namespace URI. */
+        public String getNsURI() {
+            return nsURI;
+        }
+    }
 
-	/** Extract the namespace URI from a model file using EMF Resource loading. */
-	public static String getNamespaceURI_Registry(URI modelURI) {
-		ResourceSet resourceSet = new ResourceSetImpl();
+    /** Extract the namespace URI from a model file using EMF Resource loading. */
+    public static String getNamespaceURI_Registry(URI modelURI) {
+        ResourceSet resourceSet = new ResourceSetImpl();
 
-		// register delegating package registry
-		PackageRegistry registry = new PackageRegistry(resourceSet
-				.getPackageRegistry());
-		resourceSet.setPackageRegistry(registry);
+        // register delegating package registry
+        PackageRegistry registry = new PackageRegistry(resourceSet
+                .getPackageRegistry());
+        resourceSet.setPackageRegistry(registry);
 
-		Resource resource = resourceSet.createResource(modelURI);
-		try {
-			resource.load(null);
-		} catch (Exception e) {
-			// loading should fail here
-		}
+        Resource resource = resourceSet.createResource(modelURI);
+        try {
+            resource.load(null);
+        } catch (Exception e) {
+            // loading should fail here
+        }
 
-		return registry.getNsURI();
-	}
+        return registry.getNsURI();
+    }
 
-	/**
-	 * Package registry for extraction of namespace URI using EMF Resource
-	 * loading.
-	 */
-	private static class PackageRegistry implements EPackage.Registry {
+    /**
+     * Package registry for extraction of namespace URI using EMF Resource
+     * loading.
+     */
+    private static class PackageRegistry implements EPackage.Registry {
 
-		/** Registry to which method calls are delegated. */
-		private final EPackage.Registry delegate;
+        /** Registry to which method calls are delegated. */
+        private final EPackage.Registry delegate;
 
-		/** Namespace URI. */
-		private String nsURI;
+        /** Namespace URI. */
+        private String nsURI;
 
-		/**
-		 * Default constructor.
-		 * 
-		 * @param delegate
-		 *            Registry to which method calls are delegated
-		 */
-		public PackageRegistry(EPackage.Registry delegate) {
-			this.delegate = delegate;
-		}
+        /**
+         * Default constructor.
+         * 
+         * @param delegate
+         *        Registry to which method calls are delegated
+         */
+        public PackageRegistry(EPackage.Registry delegate) {
+            this.delegate = delegate;
+        }
 
-		/** {@inheritDoc} */
-		public void clear() {
-			delegate.clear();
-		}
+        /** {@inheritDoc} */
+        public void clear() {
+            delegate.clear();
+        }
 
-		/** {@inheritDoc} */
-		public boolean containsKey(Object key) {
-			return delegate.containsKey(key);
-		}
+        /** {@inheritDoc} */
+        public boolean containsKey(Object key) {
+            return delegate.containsKey(key);
+        }
 
-		/** {@inheritDoc} */
-		public boolean containsValue(Object value) {
-			return delegate.containsValue(value);
-		}
+        /** {@inheritDoc} */
+        public boolean containsValue(Object value) {
+            return delegate.containsValue(value);
+        }
 
-		/** {@inheritDoc} */
-		@SuppressWarnings("unchecked")
-		public Set entrySet() {
-			return delegate.entrySet();
-		}
+        /** {@inheritDoc} */
+        @SuppressWarnings("unchecked")
+        public Set entrySet() {
+            return delegate.entrySet();
+        }
 
-		/** {@inheritDoc} */
-		@Override
-		public boolean equals(Object o) {
-			return delegate.equals(o);
-		}
+        /** {@inheritDoc} */
+        @Override
+        public boolean equals(Object o) {
+            return delegate.equals(o);
+        }
 
-		/** {@inheritDoc} */
-		public Object get(Object key) {
-			return delegate.get(key);
-		}
+        /** {@inheritDoc} */
+        public Object get(Object key) {
+            return delegate.get(key);
+        }
 
-		/** {@inheritDoc} */
-		public EFactory getEFactory(String nsURI) {
-			return delegate.getEFactory(nsURI);
-		}
+        /** {@inheritDoc} */
+        public EFactory getEFactory(String nsURI) {
+            return delegate.getEFactory(nsURI);
+        }
 
-		/** {@inheritDoc} */
-		public EPackage getEPackage(String nsURI) {
-			if (this.nsURI == null) {
-				this.nsURI = nsURI;
-			}
-			return delegate.getEPackage(nsURI);
-		}
+        /** {@inheritDoc} */
+        public EPackage getEPackage(String nsURI) {
+            if (this.nsURI == null) {
+                this.nsURI = nsURI;
+            }
+            return delegate.getEPackage(nsURI);
+        }
 
-		/** {@inheritDoc} */
-		@Override
-		public int hashCode() {
-			return delegate.hashCode();
-		}
+        /** {@inheritDoc} */
+        @Override
+        public int hashCode() {
+            return delegate.hashCode();
+        }
 
-		/** {@inheritDoc} */
-		public boolean isEmpty() {
-			return delegate.isEmpty();
-		}
+        /** {@inheritDoc} */
+        public boolean isEmpty() {
+            return delegate.isEmpty();
+        }
 
-		/** {@inheritDoc} */
-		@SuppressWarnings("unchecked")
-		public Set keySet() {
-			return delegate.keySet();
-		}
+        /** {@inheritDoc} */
+        @SuppressWarnings("unchecked")
+        public Set keySet() {
+            return delegate.keySet();
+        }
 
-		/** {@inheritDoc} */
-		public Object put(String key, Object value) {
-			return delegate.put(key, value);
-		}
+        /** {@inheritDoc} */
+        public Object put(String key, Object value) {
+            return delegate.put(key, value);
+        }
 
-		/** {@inheritDoc} */
-		@SuppressWarnings("unchecked")
-		public void putAll(Map t) {
-			delegate.putAll(t);
-		}
+        /** {@inheritDoc} */
+        @SuppressWarnings("unchecked")
+        public void putAll(Map t) {
+            delegate.putAll(t);
+        }
 
-		/** {@inheritDoc} */
-		public Object remove(Object key) {
-			return delegate.remove(key);
-		}
+        /** {@inheritDoc} */
+        public Object remove(Object key) {
+            return delegate.remove(key);
+        }
 
-		/** {@inheritDoc} */
-		public int size() {
-			return delegate.size();
-		}
+        /** {@inheritDoc} */
+        public int size() {
+            return delegate.size();
+        }
 
-		/** {@inheritDoc} */
-		@SuppressWarnings("unchecked")
-		public Collection values() {
-			return delegate.values();
-		}
+        /** {@inheritDoc} */
+        @SuppressWarnings("unchecked")
+        public Collection values() {
+            return delegate.values();
+        }
 
-		/** Returns the namespace URI. */
-		public String getNsURI() {
-			return nsURI;
-		}
+        /** Returns the namespace URI. */
+        public String getNsURI() {
+            return nsURI;
+        }
 
-	}
+    }
 }

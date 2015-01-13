@@ -5,14 +5,12 @@
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2.0 of the License, or
  * (at your option) any later version.
- *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package org.bonitasoft.studio.migration.custom.migration;
 
@@ -27,33 +25,32 @@ import org.eclipse.emf.edapt.migration.Model;
 
 /**
  * @author Romain Bioteau
- *
  */
 public class DeadlineToNonInterruptingEventMigration extends CustomMigration {
 
-	@Override
-	public void migrateAfter(Model model, Metamodel metamodel)
-			throws MigrationException {
-		for(Instance task : model.getAllInstances("process.Task")){
-			if(DeadlineMigrationStore.hasDeadline(task.getUuid())){
-				addNonInterrutongTimerEvent(model, task);
-			}
-		}
-		for(Instance callactivity : model.getAllInstances("process.CallActivity")){
-			if(DeadlineMigrationStore.hasDeadline(callactivity.getUuid())){
-				addNonInterrutongTimerEvent(model, callactivity);
-			}
-		}
-	}
+    @Override
+    public void migrateAfter(Model model, Metamodel metamodel)
+            throws MigrationException {
+        for (Instance task : model.getAllInstances("process.Task")) {
+            if (DeadlineMigrationStore.hasDeadline(task.getUuid())) {
+                addNonInterrutongTimerEvent(model, task);
+            }
+        }
+        for (Instance callactivity : model.getAllInstances("process.CallActivity")) {
+            if (DeadlineMigrationStore.hasDeadline(callactivity.getUuid())) {
+                addNonInterrutongTimerEvent(model, callactivity);
+            }
+        }
+    }
 
-	protected void addNonInterrutongTimerEvent(Model model, Instance task) {
-		for(DeadlineStore deadline : DeadlineMigrationStore.getDeadlines(task.getUuid())){
-			Instance instance = model.newInstance("process.NonInterruptingBoundaryTimerEvent");
-			instance.set("name",deadline.getName());
-			Instance exp = new StringToExpressionConverter(model, task).parse(deadline.getCondition(), Long.class.getName(), false);
-			instance.set("condition", exp);
-			task.add("BoundaryIntermediateEvents", instance);
-		}
-	}
+    protected void addNonInterrutongTimerEvent(Model model, Instance task) {
+        for (DeadlineStore deadline : DeadlineMigrationStore.getDeadlines(task.getUuid())) {
+            Instance instance = model.newInstance("process.NonInterruptingBoundaryTimerEvent");
+            instance.set("name", deadline.getName());
+            Instance exp = new StringToExpressionConverter(model, task).parse(deadline.getCondition(), Long.class.getName(), false);
+            instance.set("condition", exp);
+            task.add("BoundaryIntermediateEvents", instance);
+        }
+    }
 
 }

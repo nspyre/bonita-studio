@@ -5,14 +5,12 @@
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2.0 of the License, or
  * (at your option) any later version.
- *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package org.bonitasoft.studio.validators.ui.providers;
 
@@ -30,19 +28,19 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.Viewer;
 
-
 /**
  * @author Romain Bioteau
- *
  */
 public class ValidatorDependenciesContentProvider implements ITreeContentProvider {
 
-
     private final ValidatorDescriptorRepositoryStore validatorStore;
-    public ValidatorDependenciesContentProvider(Configuration configuration){
-        validatorStore = (ValidatorDescriptorRepositoryStore) RepositoryManager.getInstance().getRepositoryStore(ValidatorDescriptorRepositoryStore.class) ;
+
+    public ValidatorDependenciesContentProvider(Configuration configuration) {
+        validatorStore = (ValidatorDescriptorRepositoryStore) RepositoryManager.getInstance().getRepositoryStore(ValidatorDescriptorRepositoryStore.class);
     }
-    /* (non-Javadoc)
+
+    /*
+     * (non-Javadoc)
      * @see org.eclipse.jface.viewers.IContentProvider#dispose()
      */
     @Override
@@ -51,7 +49,8 @@ public class ValidatorDependenciesContentProvider implements ITreeContentProvide
 
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see org.eclipse.jface.viewers.IContentProvider#inputChanged(org.eclipse.jface.viewers.Viewer, java.lang.Object, java.lang.Object)
      */
     @Override
@@ -60,7 +59,8 @@ public class ValidatorDependenciesContentProvider implements ITreeContentProvide
 
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see org.eclipse.jface.viewers.ITreeContentProvider#getChildren(java.lang.Object)
      */
     @Override
@@ -79,31 +79,34 @@ public class ValidatorDependenciesContentProvider implements ITreeContentProvide
         return null;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see org.eclipse.jface.viewers.ITreeContentProvider#getElements(java.lang.Object)
      */
     @Override
     public Object[] getElements(Object element) {
-        if(element instanceof Collection<?>){
-            List<ValidatorDescriptorFileStore> result = new ArrayList<ValidatorDescriptorFileStore>() ;
-            for(Object elem : ((Collection<?>) element)){
-                if(elem instanceof Validator){
-                    ValidatorDescriptor descriptor = validatorStore.getValidatorDescriptor(((Validator) elem).getValidatorClass()) ;
-                    if(descriptor != null){
-                        ValidatorDescriptorFileStore file = (ValidatorDescriptorFileStore) validatorStore.getChild(URI.decode(descriptor.eResource().getURI().lastSegment())) ;
-                        if(file != null && file.canBeShared()){
-                            result.add(file) ;
+        if (element instanceof Collection<?>) {
+            List<ValidatorDescriptorFileStore> result = new ArrayList<ValidatorDescriptorFileStore>();
+            for (Object elem : ((Collection<?>) element)) {
+                if (elem instanceof Validator) {
+                    ValidatorDescriptor descriptor = validatorStore.getValidatorDescriptor(((Validator) elem).getValidatorClass());
+                    if (descriptor != null) {
+                        ValidatorDescriptorFileStore file = (ValidatorDescriptorFileStore) validatorStore.getChild(URI.decode(descriptor.eResource().getURI()
+                                .lastSegment()));
+                        if (file != null && file.canBeShared()) {
+                            result.add(file);
                         }
                     }
 
                 }
             }
-            return result.toArray() ;
+            return result.toArray();
         }
         return null;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see org.eclipse.jface.viewers.ITreeContentProvider#getParent(java.lang.Object)
      */
     @Override
@@ -112,14 +115,15 @@ public class ValidatorDependenciesContentProvider implements ITreeContentProvide
         return null;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see org.eclipse.jface.viewers.ITreeContentProvider#hasChildren(java.lang.Object)
      */
     @Override
     public boolean hasChildren(Object element) {
-        if(element instanceof ValidatorDescriptorFileStore){
-            ValidatorDescriptor descriptor = ((ValidatorDescriptorFileStore) element).getContent() ;
-            return !descriptor.getDependencies().isEmpty() ;
+        if (element instanceof ValidatorDescriptorFileStore) {
+            ValidatorDescriptor descriptor = ((ValidatorDescriptorFileStore) element).getContent();
+            return !descriptor.getDependencies().isEmpty();
         }
         return false;
     }

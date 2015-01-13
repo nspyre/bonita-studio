@@ -1,19 +1,16 @@
 /**
  * Copyright (C) 2009 BonitaSoft S.A.
  * BonitaSoft, 31 rue Gustave Eiffel - 38000 Grenoble
- * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2.0 of the License, or
  * (at your option) any later version.
- *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
 package org.bonitasoft.studio.diagram.custom.parts;
@@ -36,61 +33,60 @@ import org.eclipse.gmf.runtime.notation.View;
 
 /**
  * @author Romain Bioteau
- *
  */
 public class CustomMainProcessEditPart extends MainProcessEditPart {
 
-	public CustomMainProcessEditPart(View view) {
-		super(view);
-	}
+    public CustomMainProcessEditPart(View view) {
+        super(view);
+    }
 
+    @SuppressWarnings("rawtypes")
+    @Override
+    public Object getAdapter(Class key) {
 
-	@SuppressWarnings("rawtypes")
-	@Override
-	public Object getAdapter(Class key) {
-		 
-		if (key == SnapToHelper.class) {
-	            return GMFTools.getSnapHelper(this);
-	        }
-		 
-		return super.getAdapter(key);
-	}
-	
-	/* (non-Javadoc)
-	 * @see org.bonitasoft.studio.model.process.diagram.edit.parts.MainProcessEditPart#createDefaultEditPolicies()
-	 */
-	@Override
-	protected void createDefaultEditPolicies() {
-		super.createDefaultEditPolicies();
+        if (key == SnapToHelper.class) {
+            return GMFTools.getSnapHelper(this);
+        }
 
-		removeEditPolicy(EditPolicyRoles.SEMANTIC_ROLE);
-		installEditPolicy(EditPolicyRoles.SEMANTIC_ROLE,
-				new CustomMainProcessItemSemanticEditPolicy());
-		removeEditPolicy(EditPolicyRoles.SNAP_FEEDBACK_ROLE);
-		installEditPolicy(EditPolicyRoles.SNAP_FEEDBACK_ROLE,
-				new CustomSnapFeedbackPolicy());
-	
-		removeEditPolicy(EditPolicy.LAYOUT_ROLE);
-		installEditPolicy(EditPolicy.LAYOUT_ROLE, new CompartmentEditPolicy(ProcessPackage.Literals.CONTAINER__ELEMENTS));
-		removeEditPolicy(EditPolicyRoles.CREATION_ROLE);
-		installEditPolicy(EditPolicyRoles.CREATION_ROLE, new CompartmentChildCreationEditPolicy());
-	}
+        return super.getAdapter(key);
+    }
 
-	protected IFigure createFigure() {
-		IFigure l = super.createFigure() ;
-		l.setBorder(new MarginBorder(30));
+    /*
+     * (non-Javadoc)
+     * @see org.bonitasoft.studio.model.process.diagram.edit.parts.MainProcessEditPart#createDefaultEditPolicies()
+     */
+    @Override
+    protected void createDefaultEditPolicies() {
+        super.createDefaultEditPolicies();
 
-		GravityConstrainedFlowLayout lm = new CustomGravityConstrainedFlowLayout();
-	
-		lm.setVertical(true);
-		lm.setStretchMajorAxis(false);
-		lm.setStretchMinorAxis(false);
+        removeEditPolicy(EditPolicyRoles.SEMANTIC_ROLE);
+        installEditPolicy(EditPolicyRoles.SEMANTIC_ROLE,
+                new CustomMainProcessItemSemanticEditPolicy());
+        removeEditPolicy(EditPolicyRoles.SNAP_FEEDBACK_ROLE);
+        installEditPolicy(EditPolicyRoles.SNAP_FEEDBACK_ROLE,
+                new CustomSnapFeedbackPolicy());
 
-		lm.setMinorAlignment(GravityConstrainedFlowLayout.ALIGN_TOPLEFT);
-		lm.setSpacing(20);
-		l.setLayoutManager(lm);
-		
-		return l;
-	}
+        removeEditPolicy(EditPolicy.LAYOUT_ROLE);
+        installEditPolicy(EditPolicy.LAYOUT_ROLE, new CompartmentEditPolicy(ProcessPackage.Literals.CONTAINER__ELEMENTS));
+        removeEditPolicy(EditPolicyRoles.CREATION_ROLE);
+        installEditPolicy(EditPolicyRoles.CREATION_ROLE, new CompartmentChildCreationEditPolicy());
+    }
+
+    protected IFigure createFigure() {
+        IFigure l = super.createFigure();
+        l.setBorder(new MarginBorder(30));
+
+        GravityConstrainedFlowLayout lm = new CustomGravityConstrainedFlowLayout();
+
+        lm.setVertical(true);
+        lm.setStretchMajorAxis(false);
+        lm.setStretchMinorAxis(false);
+
+        lm.setMinorAlignment(GravityConstrainedFlowLayout.ALIGN_TOPLEFT);
+        lm.setSpacing(20);
+        l.setLayoutManager(lm);
+
+        return l;
+    }
 
 }

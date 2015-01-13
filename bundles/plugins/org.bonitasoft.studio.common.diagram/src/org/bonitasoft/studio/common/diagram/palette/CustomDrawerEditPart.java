@@ -5,14 +5,12 @@
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2.0 of the License, or
  * (at your option) any later version.
- *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package org.bonitasoft.studio.common.diagram.palette;
 
@@ -45,203 +43,202 @@ import org.eclipse.ui.IMemento;
 
 /**
  * @author Romain Bioteau
- *
  */
 public class CustomDrawerEditPart extends PaletteEditPart implements EditPart {
 
-	private String label;
+    private String label;
 
-	public CustomDrawerEditPart(PaletteDrawer model) {
-		super(model);
-	}
+    public CustomDrawerEditPart(PaletteDrawer model) {
+        super(model);
+    }
 
-	@Override
-	public IFigure createFigure() {
-		final CustomDrawerFigure fig = new CustomDrawerFigure(getViewer().getControl());
-		fig.setExpanded(true);
-		fig.setPinned(true);
+    @Override
+    public IFigure createFigure() {
+        final CustomDrawerFigure fig = new CustomDrawerFigure(getViewer().getControl());
+        fig.setExpanded(true);
+        fig.setPinned(true);
 
-		fig.getCollapseToggle().addFocusListener(new FocusListener.Stub() {
-			public void focusGained(FocusEvent fe) {
-				getViewer().select(CustomDrawerEditPart.this);
-			}
-		});
+        fig.getCollapseToggle().addFocusListener(new FocusListener.Stub() {
 
-		return fig;
-	}
-	
-	/**
-	 * @see org.eclipse.core.runtime.IAdaptable#getAdapter(Class)
-	 */
-	public Object getAdapter(Class key) {
-		if (key == ExposeHelper.class) {
-			ViewportExposeHelper helper = new ViewportExposeHelper(this);
-			helper.setMinimumFrameCount(6);
-			helper.setMargin(new Insets(PaletteScrollBar.BUTTON_HEIGHT, 0,
-					PaletteScrollBar.BUTTON_HEIGHT, 0));
-			return helper;
-		}
-		if (key == MouseWheelHelper.class)
-			return new ViewportMouseWheelHelper(this);
-		return super.getAdapter(key);
-	}
+            public void focusGained(FocusEvent fe) {
+                getViewer().select(CustomDrawerEditPart.this);
+            }
+        });
 
-	private PaletteAnimator getPaletteAnimator() {
-		return (PaletteAnimator) getViewer().getEditPartRegistry().get(
-				PaletteAnimator.class);
-	}
+        return fig;
+    }
 
-	/**
-	 * Convenience method that provides access to the PaletteDrawer that is the
-	 * model.
-	 * 
-	 * @return The model PaletteDrawer
-	 */
-	public PaletteDrawer getDrawer() {
-		return (PaletteDrawer) getPaletteEntry();
-	}
+    /**
+     * @see org.eclipse.core.runtime.IAdaptable#getAdapter(Class)
+     */
+    public Object getAdapter(Class key) {
+        if (key == ExposeHelper.class) {
+            ViewportExposeHelper helper = new ViewportExposeHelper(this);
+            helper.setMinimumFrameCount(6);
+            helper.setMargin(new Insets(PaletteScrollBar.BUTTON_HEIGHT, 0,
+                    PaletteScrollBar.BUTTON_HEIGHT, 0));
+            return helper;
+        }
+        if (key == MouseWheelHelper.class)
+            return new ViewportMouseWheelHelper(this);
+        return super.getAdapter(key);
+    }
 
-	/**
-	 * Convenience method to get the DrawerFigure for the model drawer.
-	 * 
-	 * @return The DrawerFigure created in {@link #createFigure()}
-	 */
-	public CustomDrawerFigure getDrawerFigure() {
-		return (CustomDrawerFigure) getFigure();
-	}
+    private PaletteAnimator getPaletteAnimator() {
+        return (PaletteAnimator) getViewer().getEditPartRegistry().get(
+                PaletteAnimator.class);
+    }
 
-	/**
-	 * @see org.eclipse.gef.GraphicalEditPart#getContentPane()
-	 */
-	public IFigure getContentPane() {
-		return getDrawerFigure().getContentPane();
-	}
+    /**
+     * Convenience method that provides access to the PaletteDrawer that is the
+     * model.
+     * 
+     * @return The model PaletteDrawer
+     */
+    public PaletteDrawer getDrawer() {
+        return (PaletteDrawer) getPaletteEntry();
+    }
 
-	public boolean isExpanded() {
-		return getDrawerFigure().isExpanded();
-	}
+    /**
+     * Convenience method to get the DrawerFigure for the model drawer.
+     * 
+     * @return The DrawerFigure created in {@link #createFigure()}
+     */
+    public CustomDrawerFigure getDrawerFigure() {
+        return (CustomDrawerFigure) getFigure();
+    }
 
-	public boolean isPinnedOpen() {
-		return getDrawerFigure().isPinnedOpen();
-	}
+    /**
+     * @see org.eclipse.gef.GraphicalEditPart#getContentPane()
+     */
+    public IFigure getContentPane() {
+        return getDrawerFigure().getContentPane();
+    }
 
-	/**
-	 * @see org.eclipse.gef.ui.palette.editparts.PaletteEditPart#nameNeededInToolTip()
-	 */
-	protected boolean nameNeededInToolTip() {
-		return false;
-	}
+    public boolean isExpanded() {
+        return getDrawerFigure().isExpanded();
+    }
 
-	/**
-	 * @return <code>true</code> if the DrawerFigure can be pinned open. This is
-	 *         only true when the drawer is expanded and the auto-collapse
-	 *         strategy is
-	 *         <code>PaletteViewerPreferences.COLLAPSE_AS_NEEDED</code>.
-	 */
-	public boolean canBePinned() {
-		return getDrawerFigure().isPinShowing();
-	}
+    public boolean isPinnedOpen() {
+        return getDrawerFigure().isPinnedOpen();
+    }
 
-	/**
-	 * @see org.eclipse.gef.ui.palette.editparts.PaletteEditPart#createAccessible()
-	 */
-	protected AccessibleEditPart createAccessible() {
-		return new AccessibleGraphicalEditPart() {
-			public void getDescription(AccessibleEvent e) {
-				e.result = getPaletteEntry().getDescription();
-			}
+    /**
+     * @see org.eclipse.gef.ui.palette.editparts.PaletteEditPart#nameNeededInToolTip()
+     */
+    protected boolean nameNeededInToolTip() {
+        return false;
+    }
 
-			public void getName(AccessibleEvent e) {
-				e.result = getPaletteEntry().getLabel();
-			}
+    /**
+     * @return <code>true</code> if the DrawerFigure can be pinned open. This is
+     *         only true when the drawer is expanded and the auto-collapse
+     *         strategy is
+     *         <code>PaletteViewerPreferences.COLLAPSE_AS_NEEDED</code>.
+     */
+    public boolean canBePinned() {
+        return getDrawerFigure().isPinShowing();
+    }
 
-			public void getRole(AccessibleControlEvent e) {
-				e.detail = ACC.ROLE_TREE;
-			}
+    /**
+     * @see org.eclipse.gef.ui.palette.editparts.PaletteEditPart#createAccessible()
+     */
+    protected AccessibleEditPart createAccessible() {
+        return new AccessibleGraphicalEditPart() {
 
-			public void getState(AccessibleControlEvent e) {
-				super.getState(e);
-				e.detail |= isExpanded() ? ACC.STATE_EXPANDED
-						: ACC.STATE_COLLAPSED;
-			}
-		};
-	}
+            public void getDescription(AccessibleEvent e) {
+                e.result = getPaletteEntry().getDescription();
+            }
 
-	/**
-	 * @see org.eclipse.gef.editparts.AbstractEditPart#refreshVisuals()
-	 */
-	protected void refreshVisuals() {
-		getDrawerFigure().setToolTip(createToolTip());
+            public void getName(AccessibleEvent e) {
+                e.result = getPaletteEntry().getLabel();
+            }
 
-		ImageDescriptor img = getDrawer().getSmallIcon();
-		if (img == null && getDrawer().showDefaultIcon()) {
-			img = InternalImages.DESC_FOLDER_OPEN;
-		}
-		setImageDescriptor(img);
+            public void getRole(AccessibleControlEvent e) {
+                e.detail = ACC.ROLE_TREE;
+            }
 
-		getDrawerFigure().setTitle(getPaletteEntry().getLabel());
-		getDrawerFigure().setLayoutMode(getLayoutSetting());
+            public void getState(AccessibleControlEvent e) {
+                super.getState(e);
+                e.detail |= isExpanded() ? ACC.STATE_EXPANDED
+                        : ACC.STATE_COLLAPSED;
+            }
+        };
+    }
 
-		boolean showPin = getPreferenceSource().getAutoCollapseSetting() == PaletteViewerPreferences.COLLAPSE_AS_NEEDED;
-		getDrawerFigure().showPin(showPin);
+    /**
+     * @see org.eclipse.gef.editparts.AbstractEditPart#refreshVisuals()
+     */
+    protected void refreshVisuals() {
+        getDrawerFigure().setToolTip(createToolTip());
 
-		Color background = getDrawer().getDrawerType().equals(
-				PaletteTemplateEntry.PALETTE_TYPE_TEMPLATE) ? PaletteColorUtil.WIDGET_LIST_BACKGROUND
-				: null;
-//		getDrawerFigure().getScrollpane().setBackgroundColor(background);
-	}
+        ImageDescriptor img = getDrawer().getSmallIcon();
+        if (img == null && getDrawer().showDefaultIcon()) {
+            img = InternalImages.DESC_FOLDER_OPEN;
+        }
+        setImageDescriptor(img);
 
+        getDrawerFigure().setTitle(getPaletteEntry().getLabel());
+        getDrawerFigure().setLayoutMode(getLayoutSetting());
 
-	/**
-	 * @see org.eclipse.gef.ui.palette.editparts.PaletteEditPart#restoreState(org.eclipse.ui.IMemento)
-	 */
-	public void restoreState(IMemento memento) {
-		RangeModel rModel = getDrawerFigure().getScrollpane().getViewport()
-				.getVerticalRangeModel();
-		rModel.setMinimum(memento.getInteger(RangeModel.PROPERTY_MINIMUM)
-				.intValue());
-		rModel.setMaximum(memento.getInteger(RangeModel.PROPERTY_MAXIMUM)
-				.intValue());
-		rModel.setExtent(memento.getInteger(RangeModel.PROPERTY_EXTENT)
-				.intValue());
-		rModel.setValue(memento.getInteger(RangeModel.PROPERTY_VALUE)
-				.intValue());
-		super.restoreState(memento);
-	}
+        boolean showPin = getPreferenceSource().getAutoCollapseSetting() == PaletteViewerPreferences.COLLAPSE_AS_NEEDED;
+        getDrawerFigure().showPin(showPin);
 
-	/**
-	 * @see org.eclipse.gef.ui.palette.editparts.PaletteEditPart#saveState(org.eclipse.ui.IMemento)
-	 */
-	public void saveState(IMemento memento) {
-		RangeModel rModel = getDrawerFigure().getScrollpane().getViewport()
-				.getVerticalRangeModel();
-		memento.putInteger(RangeModel.PROPERTY_MINIMUM, rModel.getMinimum());
-		memento.putInteger(RangeModel.PROPERTY_MAXIMUM, rModel.getMaximum());
-		memento.putInteger(RangeModel.PROPERTY_EXTENT, rModel.getExtent());
-		memento.putInteger(RangeModel.PROPERTY_VALUE, rModel.getValue());
-		super.saveState(memento);
-	}
+        Color background = getDrawer().getDrawerType().equals(
+                PaletteTemplateEntry.PALETTE_TYPE_TEMPLATE) ? PaletteColorUtil.WIDGET_LIST_BACKGROUND
+                : null;
+        //		getDrawerFigure().getScrollpane().setBackgroundColor(background);
+    }
 
-	/**
-	 * Sets the expansion state of the DrawerFigure
-	 * 
-	 * @param expanded
-	 *            <code>true</code> if the drawer is expanded; false otherwise.
-	 */
-	public void setExpanded(boolean expanded) {
-		getDrawerFigure().setExpanded(expanded);
-	}
+    /**
+     * @see org.eclipse.gef.ui.palette.editparts.PaletteEditPart#restoreState(org.eclipse.ui.IMemento)
+     */
+    public void restoreState(IMemento memento) {
+        RangeModel rModel = getDrawerFigure().getScrollpane().getViewport()
+                .getVerticalRangeModel();
+        rModel.setMinimum(memento.getInteger(RangeModel.PROPERTY_MINIMUM)
+                .intValue());
+        rModel.setMaximum(memento.getInteger(RangeModel.PROPERTY_MAXIMUM)
+                .intValue());
+        rModel.setExtent(memento.getInteger(RangeModel.PROPERTY_EXTENT)
+                .intValue());
+        rModel.setValue(memento.getInteger(RangeModel.PROPERTY_VALUE)
+                .intValue());
+        super.restoreState(memento);
+    }
 
-	/**
-	 * @see org.eclipse.gef.ui.palette.editparts.PaletteEditPart#setImageInFigure(Image)
-	 */
-	protected void setImageInFigure(Image image) {
-;
-	}
+    /**
+     * @see org.eclipse.gef.ui.palette.editparts.PaletteEditPart#saveState(org.eclipse.ui.IMemento)
+     */
+    public void saveState(IMemento memento) {
+        RangeModel rModel = getDrawerFigure().getScrollpane().getViewport()
+                .getVerticalRangeModel();
+        memento.putInteger(RangeModel.PROPERTY_MINIMUM, rModel.getMinimum());
+        memento.putInteger(RangeModel.PROPERTY_MAXIMUM, rModel.getMaximum());
+        memento.putInteger(RangeModel.PROPERTY_EXTENT, rModel.getExtent());
+        memento.putInteger(RangeModel.PROPERTY_VALUE, rModel.getValue());
+        super.saveState(memento);
+    }
 
-	public void setPinnedOpen(boolean pinned) {
-	
-	}
+    /**
+     * Sets the expansion state of the DrawerFigure
+     * 
+     * @param expanded
+     *        <code>true</code> if the drawer is expanded; false otherwise.
+     */
+    public void setExpanded(boolean expanded) {
+        getDrawerFigure().setExpanded(expanded);
+    }
 
+    /**
+     * @see org.eclipse.gef.ui.palette.editparts.PaletteEditPart#setImageInFigure(Image)
+     */
+    protected void setImageInFigure(Image image) {
+        ;
+    }
+
+    public void setPinnedOpen(boolean pinned) {
+
+    }
 
 }

@@ -56,7 +56,6 @@ public class EngineExpressionUtil {
 
     private static List<IExpressionConverter> converters;
 
-
     public static org.bonitasoft.engine.operation.Operation createOperation(final Operation operation) {
         return createOperation(operation, createLeftOperand(operation.getLeftOperand()));
     }
@@ -460,8 +459,8 @@ public class EngineExpressionUtil {
         if (converters == null) {
             converters = new ArrayList<IExpressionConverter>();
             if (ConditionModelActivator.getInstance() != null) {
-            converters.add(new ComparisonExpressionConverter(new XtextComparisonExpressionLoader(ConditionModelActivator.getInstance().getInjector(
-                    ConditionModelActivator.ORG_BONITASOFT_STUDIO_CONDITION_CONDITIONMODEL))));
+                converters.add(new ComparisonExpressionConverter(new XtextComparisonExpressionLoader(ConditionModelActivator.getInstance().getInjector(
+                        ConditionModelActivator.ORG_BONITASOFT_STUDIO_CONDITION_CONDITIONMODEL))));
             }
         }
         for (final IExpressionConverter converter : converters) {
@@ -574,7 +573,6 @@ public class EngineExpressionUtil {
             throw new RuntimeException(e);
         }
     }
-
 
     static ExpressionType toEngineExpressionType(final org.bonitasoft.studio.model.expression.Expression expression) {
         final String type = expression.getType();

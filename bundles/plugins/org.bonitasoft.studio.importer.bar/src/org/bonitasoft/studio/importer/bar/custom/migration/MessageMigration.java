@@ -5,14 +5,12 @@
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2.0 of the License, or
  * (at your option) any later version.
- *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package org.bonitasoft.studio.importer.bar.custom.migration;
 
@@ -33,7 +31,6 @@ import org.eclipse.emf.edapt.migration.Model;
 
 /**
  * @author Romain Bioteau
- *
  */
 public class MessageMigration extends ReportCustomMigration {
 
@@ -44,12 +41,12 @@ public class MessageMigration extends ReportCustomMigration {
     @Override
     public void migrateBefore(final Model model, final Metamodel metamodel)
             throws MigrationException {
-        for(final Instance message : model.getAllInstances("process.Message")){
+        for (final Instance message : model.getAllInstances("process.Message")) {
             setTargetProcessName(message, model);
             setTargetElementName(message, model);
             final List<Instance> data = message.get("data");
             final List<Instance> content = new ArrayList<Instance>();
-            for(final Instance d : data){
+            for (final Instance d : data) {
                 final Instance expInstance = (Instance) d.get("defaultValue");
 
                 final Instance expression = expInstance.copy();
@@ -67,7 +64,7 @@ public class MessageMigration extends ReportCustomMigration {
                 content.add(expression);
                 model.delete(d);
             }
-            if(!content.isEmpty()){
+            if (!content.isEmpty()) {
                 messageContents.put(message.getUuid(), content);
 
             }
@@ -90,7 +87,7 @@ public class MessageMigration extends ReportCustomMigration {
             }
         }
 
-        if(targetElement != null && !targetElement.trim().isEmpty()){
+        if (targetElement != null && !targetElement.trim().isEmpty()) {
             targetElementNameConditions.put(message.getUuid(), targetElement);
         }
     }
@@ -115,22 +112,21 @@ public class MessageMigration extends ReportCustomMigration {
         }
     }
 
-
     @Override
     public void migrateAfter(final Model model, final Metamodel metamodel)
             throws MigrationException {
-        for(final Instance message : model.getAllInstances("process.Message")){
+        for (final Instance message : model.getAllInstances("process.Message")) {
             setMessageContent(message, model);
             setTargetProcessExpression(message, model);
             setTargetElementExpression(message, model);
         }
     }
 
-    private void setMessageContent(final Instance message,final Model model) {
+    private void setMessageContent(final Instance message, final Model model) {
         final Instance tableExpression = model.newInstance("expression.TableExpression");
         if (messageContents.containsKey(message.getUuid())) {
             final List<Instance> content = messageContents.get(message.getUuid());
-            for(final Instance expression : content){
+            for (final Instance expression : content) {
                 final Instance rowExpression = model.newInstance("expression.ListExpression");
                 final Instance keyExpression = StringToExpressionConverter.createExpressionInstance(model, expression.get("name") + "Key",
                         expression.get("name") + "Key", String.class.getName(), ExpressionConstants.CONSTANT_TYPE, true);
@@ -157,14 +153,12 @@ public class MessageMigration extends ReportCustomMigration {
             }
             addReportChange((String) message.get("name"), message.getType().getEClass().getName(), message.getUuid(),
                     Messages.targetProcessNameMigrationDescription, Messages.messagesProperty, ExpressionConstants.SCRIPT_TYPE.equals(expression.get("type"))
-                    ? IStatus.WARNING : IStatus.OK);
+                            ? IStatus.WARNING : IStatus.OK);
         } else {
             expression = StringToExpressionConverter.createExpressionInstance(model, "", "", String.class.getName(), ExpressionConstants.CONSTANT_TYPE, true);
         }
         message.set("targetProcessExpression", expression);
     }
-
-
 
     private void setTargetElementExpression(final Instance message, final Model model) {
         Instance expression = null;
@@ -177,7 +171,7 @@ public class MessageMigration extends ReportCustomMigration {
             }
             addReportChange((String) message.get("name"), message.getType().getEClass().getName(), message.getUuid(),
                     Messages.targetElementNameMigrationDescription, Messages.messagesProperty, ExpressionConstants.SCRIPT_TYPE.equals(expression.get("type"))
-                    ? IStatus.WARNING : IStatus.OK);
+                            ? IStatus.WARNING : IStatus.OK);
         } else {
             expression = StringToExpressionConverter.createExpressionInstance(model, "", "", String.class.getName(), ExpressionConstants.CONSTANT_TYPE, true);
         }

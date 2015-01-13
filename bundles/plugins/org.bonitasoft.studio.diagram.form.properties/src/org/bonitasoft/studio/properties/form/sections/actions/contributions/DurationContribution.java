@@ -46,24 +46,26 @@ public class DurationContribution extends InitialValueContribution {
         sec = widgetFactory.createButton(panel, Messages.secondsLabel, SWT.CHECK);
         sec.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, true, false));
 
-        expressionViewer.setMessage(Messages.data_tooltip_long,IStatus.INFO);
+        expressionViewer.setMessage(Messages.data_tooltip_long, IStatus.INFO);
         bindDurationWidget();
 
     }
 
     private void bindDurationWidget() {
-        dataBindingContext.bindValue(SWTObservables.observeSelection(day), EMFEditObservables.observeValue(editingDomain, widget, FormPackage.Literals.DURATION_FORM_FIELD__DAY));
-        dataBindingContext.bindValue(SWTObservables.observeSelection(hour), EMFEditObservables.observeValue(editingDomain, widget, FormPackage.Literals.DURATION_FORM_FIELD__HOUR));
-        dataBindingContext.bindValue(SWTObservables.observeSelection(min), EMFEditObservables.observeValue(editingDomain, widget, FormPackage.Literals.DURATION_FORM_FIELD__MIN));
-        dataBindingContext.bindValue(SWTObservables.observeSelection(sec), EMFEditObservables.observeValue(editingDomain, widget, FormPackage.Literals.DURATION_FORM_FIELD__SEC));
+        dataBindingContext.bindValue(SWTObservables.observeSelection(day),
+                EMFEditObservables.observeValue(editingDomain, widget, FormPackage.Literals.DURATION_FORM_FIELD__DAY));
+        dataBindingContext.bindValue(SWTObservables.observeSelection(hour),
+                EMFEditObservables.observeValue(editingDomain, widget, FormPackage.Literals.DURATION_FORM_FIELD__HOUR));
+        dataBindingContext.bindValue(SWTObservables.observeSelection(min),
+                EMFEditObservables.observeValue(editingDomain, widget, FormPackage.Literals.DURATION_FORM_FIELD__MIN));
+        dataBindingContext.bindValue(SWTObservables.observeSelection(sec),
+                EMFEditObservables.observeValue(editingDomain, widget, FormPackage.Literals.DURATION_FORM_FIELD__SEC));
 
     }
-
 
     @Override
     public boolean isRelevantFor(EObject eObject) {
         return eObject instanceof DurationFormField;
     }
-
 
 }

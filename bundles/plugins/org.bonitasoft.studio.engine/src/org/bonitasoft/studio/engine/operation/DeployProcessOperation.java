@@ -1,17 +1,14 @@
 /**
  * Copyright (C) 2009-2011 BonitaSoft S.A.
  * BonitaSoft, 31 rue Gustave Eiffel - 38000 Grenoble
- * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2.0 of the License, or
  * (at your option) any later version.
- * 
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- * 
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
@@ -95,7 +92,8 @@ public class DeployProcessOperation {
         this.configurationId = configurationId;
     }
 
-    public URL getUrlFor(final AbstractProcess process, final IProgressMonitor monitor) throws MalformedURLException, UnsupportedEncodingException, URISyntaxException {
+    public URL getUrlFor(final AbstractProcess process, final IProgressMonitor monitor) throws MalformedURLException, UnsupportedEncodingException,
+            URISyntaxException {
         long pId = 0;
         for (final AbstractProcess p : processIdsMap.keySet()) {
             if (p.getName().equals(process.getName()) && p.getVersion().equals(process.getVersion())) {
@@ -267,7 +265,8 @@ public class DeployProcessOperation {
         }
     }
 
-    private void deleteProcessDefinition(final AbstractProcess process, final ProcessAPI processApi, final long processDefinitionId, final IProgressMonitor monitor)
+    private void deleteProcessDefinition(final AbstractProcess process, final ProcessAPI processApi, final long processDefinitionId,
+            final IProgressMonitor monitor)
             throws DeletionException {
         monitor.subTask(Messages.bind(Messages.deletingProcessDefinition, getProcessLabel(process)));
         processApi.deleteProcessDefinition(processDefinitionId);
@@ -281,7 +280,8 @@ public class DeployProcessOperation {
         }
     }
 
-    private void deleteProcessInstances(final AbstractProcess process, final ProcessAPI processApi, final long processDefinitionId, final IProgressMonitor monitor)
+    private void deleteProcessInstances(final AbstractProcess process, final ProcessAPI processApi, final long processDefinitionId,
+            final IProgressMonitor monitor)
             throws DeletionException {
         boolean allInstancesDeleted = false;
         monitor.subTask(Messages.bind(Messages.deletingProcessInstances, getProcessLabel(process)));
@@ -300,7 +300,8 @@ public class DeployProcessOperation {
         }
     }
 
-    private void disableProcessDefinition(final AbstractProcess process, final ProcessAPI processApi, final long processDefinitionId, final IProgressMonitor monitor)
+    private void disableProcessDefinition(final AbstractProcess process, final ProcessAPI processApi, final long processDefinitionId,
+            final IProgressMonitor monitor)
             throws ProcessDefinitionNotFoundException {
         monitor.subTask(Messages.bind(Messages.undeploying, getProcessLabel(process)));
         try {

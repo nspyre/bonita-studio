@@ -1,19 +1,16 @@
 /**
  * Copyright (C) 2010 BonitaSoft S.A.
  * BonitaSoft, 31 rue Gustave Eiffel - 38000 Grenoble
- *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2.0 of the License, or
  * (at your option) any later version.
- *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package org.bonitasoft.studio.simulation.commands;
 
@@ -39,10 +36,8 @@ import org.eclipse.gmf.runtime.emf.commands.core.command.AbstractTransactionalCo
 
 /**
  * @author Baptiste Mesta
- *
  */
 public class AddSimulationDataOperation extends AbstractTransactionalCommand {
-
 
     private final SimulationDataContainer element;
     private final Expression dataExpression;
@@ -62,8 +57,9 @@ public class AddSimulationDataOperation extends AbstractTransactionalCommand {
      * @param dataExpression2
      * @param dataDescription
      */
-    public AddSimulationDataOperation(TransactionalEditingDomain editingDomain, SimulationDataContainer element, String dataName, String dataDescription, Expression dataExpression, boolean expressionBased) {
-        super(editingDomain, "edit data operation",getWorkspaceFiles(element));
+    public AddSimulationDataOperation(TransactionalEditingDomain editingDomain, SimulationDataContainer element, String dataName, String dataDescription,
+            Expression dataExpression, boolean expressionBased) {
+        super(editingDomain, "edit data operation", getWorkspaceFiles(element));
         this.element = element;
         this.dataName = dataName;
         this.dataExpression = dataExpression;
@@ -111,13 +107,11 @@ public class AddSimulationDataOperation extends AbstractTransactionalCommand {
      * @param dataExpression
      */
     public AddSimulationDataOperation(TransactionalEditingDomain editingDomain, SimulationDataContainer element, String dataName, String dataDescription,
-            Expression dataExpression,List<SimulationLiteral> literals, boolean expressionBased) {
-        this(editingDomain,element,dataName,dataDescription,dataExpression, expressionBased);
+            Expression dataExpression, List<SimulationLiteral> literals, boolean expressionBased) {
+        this(editingDomain, element, dataName, dataDescription, dataExpression, expressionBased);
         this.literals = literals;
         dataClass = SimulationPackage.eINSTANCE.getSimulationLiteralData();
     }
-
-
 
     /**
      * @return the dataClass
@@ -126,19 +120,21 @@ public class AddSimulationDataOperation extends AbstractTransactionalCommand {
         return data;
     }
 
-    /* (non-Javadoc)
-     * @see org.eclipse.gmf.runtime.emf.commands.core.command.AbstractTransactionalCommand#doExecuteWithResult(org.eclipse.core.runtime.IProgressMonitor, org.eclipse.core.runtime.IAdaptable)
+    /*
+     * (non-Javadoc)
+     * @see org.eclipse.gmf.runtime.emf.commands.core.command.AbstractTransactionalCommand#doExecuteWithResult(org.eclipse.core.runtime.IProgressMonitor,
+     * org.eclipse.core.runtime.IAdaptable)
      */
     @Override
     protected CommandResult doExecuteWithResult(IProgressMonitor monitor, IAdaptable info) throws ExecutionException {
 
-        if(dataClass.equals(SimulationPackage.eINSTANCE.getSimulationLiteralData())){
+        if (dataClass.equals(SimulationPackage.eINSTANCE.getSimulationLiteralData())) {
             data = SimulationFactory.eINSTANCE.createSimulationLiteralData();
             ((SimulationLiteralData) data).getLiterals().addAll(literals);
-        } else if (dataClass.equals(SimulationPackage.eINSTANCE.getSimulationBoolean())){
+        } else if (dataClass.equals(SimulationPackage.eINSTANCE.getSimulationBoolean())) {
             data = SimulationFactory.eINSTANCE.createSimulationBoolean();
             ((SimulationBoolean) data).setProbabilityOfTrue(probabilityOfTrue);
-        } else if (dataClass.equals(SimulationPackage.eINSTANCE.getSimulationNumberData())){
+        } else if (dataClass.equals(SimulationPackage.eINSTANCE.getSimulationNumberData())) {
             data = SimulationFactory.eINSTANCE.createSimulationNumberData();
             ((SimulationNumberData) data).getRanges().addAll(ranges);
         }

@@ -49,7 +49,7 @@ public class MergeXmlFiles extends Task {
 
     /**
      * @param destFolder
-     *            the destFolder to set
+     *        the destFolder to set
      */
     public void setDestFile(final String destFile) {
         this.destFile = destFile;
@@ -59,12 +59,12 @@ public class MergeXmlFiles extends Task {
         DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
         docBuilderFactory.setIgnoringElementContentWhitespace(true);
         DocumentBuilder docBuilder = docBuilderFactory.newDocumentBuilder();
-        Document rootNode = docBuilder.parse(new File(basedir,files[0]));
-        System.out.println("Merging file:"+files[0]);
+        Document rootNode = docBuilder.parse(new File(basedir, files[0]));
+        System.out.println("Merging file:" + files[0]);
         Node beans = rootNode.getFirstChild();
         for (int i = 1; i < files.length; i++) {
-            System.out.println("Merging file:"+files[i]);
-            Document merge = docBuilder.parse(new File(basedir,files[i]));
+            System.out.println("Merging file:" + files[i]);
+            Document merge = docBuilder.parse(new File(basedir, files[i]));
             NodeList childNodes = merge.getFirstChild().getChildNodes();
             for (int j = 0; j < childNodes.getLength(); j++) {
                 Node importNode = rootNode.importNode(childNodes.item(j), true);
@@ -73,6 +73,7 @@ public class MergeXmlFiles extends Task {
         }
         return rootNode;
     }
+
     private static void print(final Document doc, final String destFile) throws Exception {
         TransformerFactory transformerFactory = TransformerFactory.newInstance();
         Transformer transformer = transformerFactory.newTransformer();

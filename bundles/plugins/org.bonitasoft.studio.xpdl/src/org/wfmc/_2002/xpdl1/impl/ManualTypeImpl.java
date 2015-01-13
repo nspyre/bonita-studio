@@ -1,7 +1,6 @@
 /**
  * <copyright>
  * </copyright>
- *
  * $Id$
  */
 package org.wfmc._2002.xpdl1.impl;
@@ -21,23 +20,26 @@ import org.wfmc._2002.xpdl1.Xpdl1Package;
  * @generated
  */
 public class ManualTypeImpl extends EObjectImpl implements ManualType {
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected ManualTypeImpl() {
-		super();
-	}
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	protected EClass eStaticClass() {
-		return Xpdl1Package.Literals.MANUAL_TYPE;
-	}
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * 
+     * @generated
+     */
+    protected ManualTypeImpl() {
+        super();
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * 
+     * @generated
+     */
+    @Override
+    protected EClass eStaticClass() {
+        return Xpdl1Package.Literals.MANUAL_TYPE;
+    }
 
 } //ManualTypeImpl

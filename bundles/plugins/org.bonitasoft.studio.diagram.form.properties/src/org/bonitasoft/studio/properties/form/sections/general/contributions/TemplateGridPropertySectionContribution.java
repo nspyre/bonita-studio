@@ -1,19 +1,16 @@
 /**
  * Copyright (C) 2009 BonitaSoft S.A.
  * BonitaSoft, 31 rue Gustave Eiffel - 38000 Grenoble
- *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2.0 of the License, or
  * (at your option) any later version.
- *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package org.bonitasoft.studio.properties.form.sections.general.contributions;
 
@@ -71,17 +68,18 @@ public class TemplateGridPropertySectionContribution implements IExtensibleGridP
 
     /**
      * @author Baptiste Mesta
-     *
      */
     private final class GenerateFormTemplate implements IRunnableWithProgress {
+
         private String filePath;
 
         public void run(IProgressMonitor monitor) throws InvocationTargetException, InterruptedException {
             monitor.setTaskName(Messages.templateGenerationInProgress);
-            filePath = ((HtmlTemplateGenerator) ExporterService.getInstance().getExporterService(SERVICE_TYPE.HtmlTemplateGenerator)).createXhtmlTemplate(form, false,null,false);
+            filePath = ((HtmlTemplateGenerator) ExporterService.getInstance().getExporterService(SERVICE_TYPE.HtmlTemplateGenerator)).createXhtmlTemplate(form,
+                    false, null, false);
         }
 
-        public String getFilePath(){
+        public String getFilePath() {
             return filePath;
         }
     }
@@ -114,6 +112,7 @@ public class TemplateGridPropertySectionContribution implements IExtensibleGridP
         useDefaultTemplate.setLayoutData(new GridData(GridData.FILL, GridData.FILL, false, false, 1, 1));
 
         editTemplateButton.addSelectionListener(new SelectionAdapter() {
+
             @Override
             public void widgetSelected(final SelectionEvent e) {
                 AssociatedFile htmlTemplate = form.getHtmlTemplate();
@@ -122,7 +121,8 @@ public class TemplateGridPropertySectionContribution implements IExtensibleGridP
                     if (file != null && file.exists()) {
                         try {
 
-                            FileEditorInput fileEditorInput = new FileEditorInput(file){
+                            FileEditorInput fileEditorInput = new FileEditorInput(file) {
+
                                 @Override
                                 public String getName() {
                                     return form.getName();
@@ -150,9 +150,11 @@ public class TemplateGridPropertySectionContribution implements IExtensibleGridP
                                 Messages.confirm_remove_template);
                     }
                 }
-                if(confirm){
-                    editingDomain.getCommandStack().execute(new SetCommand(editingDomain, form, ProcessPackage.Literals.RESOURCE_CONTAINER__HTML_TEMPLATE, null));
-                    ApplicationResourceRepositoryStore resourceStore = (ApplicationResourceRepositoryStore) RepositoryManager.getInstance().getRepositoryStore(ApplicationResourceRepositoryStore.class) ;
+                if (confirm) {
+                    editingDomain.getCommandStack().execute(
+                            new SetCommand(editingDomain, form, ProcessPackage.Literals.RESOURCE_CONTAINER__HTML_TEMPLATE, null));
+                    ApplicationResourceRepositoryStore resourceStore = (ApplicationResourceRepositoryStore) RepositoryManager.getInstance().getRepositoryStore(
+                            ApplicationResourceRepositoryStore.class);
                     String processUUID = ModelHelper.getEObjectID(ModelHelper.getParentProcess(form));
                     ApplicationResourceFileStore file = (ApplicationResourceFileStore) resourceStore.getChild(processUUID);
                     file.removeResource(htmlTemplate.getPath());
@@ -161,6 +163,7 @@ public class TemplateGridPropertySectionContribution implements IExtensibleGridP
             }
         });
         useDefaultTemplate.addSelectionListener(new SelectionAdapter() {
+
             @Override
             public void widgetSelected(final SelectionEvent e) {
                 boolean confirm = true;
@@ -193,7 +196,6 @@ public class TemplateGridPropertySectionContribution implements IExtensibleGridP
      * @throws IOException
      * @throws InterruptedException
      * @throws InvocationTargetException
-     * 
      */
     protected void restoreTemplate() throws IOException, InvocationTargetException, InterruptedException {
 
@@ -201,11 +203,12 @@ public class TemplateGridPropertySectionContribution implements IExtensibleGridP
         PlatformUI.getWorkbench().getProgressService().busyCursorWhile(generateForm);
         String filePath = generateForm.getFilePath();
         File from = new File(filePath);
-        ApplicationResourceRepositoryStore resourceStore = (ApplicationResourceRepositoryStore) RepositoryManager.getInstance().getRepositoryStore(ApplicationResourceRepositoryStore.class) ;
+        ApplicationResourceRepositoryStore resourceStore = (ApplicationResourceRepositoryStore) RepositoryManager.getInstance().getRepositoryStore(
+                ApplicationResourceRepositoryStore.class);
         String processUUID = ModelHelper.getEObjectID(ModelHelper.getParentProcess(form));
         ApplicationResourceFileStore file = (ApplicationResourceFileStore) resourceStore.getChild(processUUID);
         if (file == null) {
-            file = (ApplicationResourceFileStore) resourceStore.createRepositoryFileStore(processUUID) ;
+            file = (ApplicationResourceFileStore) resourceStore.createRepositoryFileStore(processUUID);
         }
         String res = file.setPageTemplate(filePath, form);
         AssociatedFile af = ProcessFactory.eINSTANCE.createAssociatedFile();
@@ -233,7 +236,7 @@ public class TemplateGridPropertySectionContribution implements IExtensibleGridP
      * @param b
      */
     private void setPathIsFilled(boolean isFilled) {
-        if(isSetLabel != null){
+        if (isSetLabel != null) {
             if (isFilled) {
                 isSetLabel.setImage(Pics.getImage(PicsConstants.greenCheck20));
             } else {

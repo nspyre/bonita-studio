@@ -5,14 +5,12 @@
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2.0 of the License, or
  * (at your option) any later version.
- *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package org.bonitasoft.studio.connectors.ui.wizard;
 
@@ -31,20 +29,18 @@ import org.eclipse.jface.wizard.IWizard;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Shell;
 
-
 /**
  * @author Romain Bioteau
- *
  */
 public class TestConnectorDefinitionWizardDialog extends AbstractDefinitionWizardDialog {
 
     public TestConnectorDefinitionWizardDialog(Shell parentShell, IWizard newWizard) {
         super(
-        		parentShell, 
-        		newWizard,
-        		RepositoryManager.getInstance().getRepositoryStore(ConnectorConfRepositoryStore.class),
-        		RepositoryManager.getInstance().getRepositoryStore(ConnectorDefRepositoryStore.class), 
-        		(IImplementationRepositoryStore) RepositoryManager.getInstance().getRepositoryStore(ConnectorImplRepositoryStore.class));
+                parentShell,
+                newWizard,
+                RepositoryManager.getInstance().getRepositoryStore(ConnectorConfRepositoryStore.class),
+                RepositoryManager.getInstance().getRepositoryStore(ConnectorDefRepositoryStore.class),
+                (IImplementationRepositoryStore) RepositoryManager.getInstance().getRepositoryStore(ConnectorImplRepositoryStore.class));
     }
 
     @Override
@@ -53,17 +49,16 @@ public class TestConnectorDefinitionWizardDialog extends AbstractDefinitionWizar
         getButton(IDialogConstants.FINISH_ID).setText(Messages.testConfiguration);
     }
 
-	@Override
-	protected ITestConfigurationListener getTestListener(
-			ConnectorConfiguration configuration, Connector connector) {
-		return null;
-	}
+    @Override
+    protected ITestConfigurationListener getTestListener(
+            ConnectorConfiguration configuration, Connector connector) {
+        return null;
+    }
 
-	@Override
-	protected ITestConfigurationListener getTestListener(
-			ConnectorConfiguration configuration, IWizard wizard) {
-		return null;
-	}
-
+    @Override
+    protected ITestConfigurationListener getTestListener(
+            ConnectorConfiguration configuration, IWizard wizard) {
+        return null;
+    }
 
 }

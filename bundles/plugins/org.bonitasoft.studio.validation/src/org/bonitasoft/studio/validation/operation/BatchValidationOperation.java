@@ -61,6 +61,7 @@ public class BatchValidationOperation implements IRunnableWithProgress {
     public BatchValidationOperation(final org.bonitasoft.studio.validation.operation.OffscreenEditPartFactory offscreenEditPartFactory) {
         this.offscreenEditPartFactory = offscreenEditPartFactory;
     }
+
     /*
      * (non-Javadoc)
      * @see org.eclipse.jface.operation.IRunnableWithProgress#run(org.eclipse.core.runtime.IProgressMonitor)
@@ -95,6 +96,7 @@ public class BatchValidationOperation implements IRunnableWithProgress {
         }
 
     }
+
     private void clearMarkers() {
         final Iterator<Entry<Diagram, DiagramEditPart>> iterator = diagramsToDiagramEditPart.entrySet().iterator();
         while (iterator.hasNext()) {
@@ -113,7 +115,6 @@ public class BatchValidationOperation implements IRunnableWithProgress {
             }
         }
     }
-
 
     private DiagramEditPart getDiagramEditPart(final Diagram d) {
         DiagramEditPart res = retrieveEditPartFromOpenedEditors(d);
@@ -137,6 +138,7 @@ public class BatchValidationOperation implements IRunnableWithProgress {
         }
         return null;
     }
+
     protected DiagramEditPart createDiagramEditPart(final Diagram d) {
         if (d != null && d.eResource() != null) {
             DiagramEditPart offscreenDiagramEditPart = null;
@@ -157,7 +159,6 @@ public class BatchValidationOperation implements IRunnableWithProgress {
         }
         return null;
     }
-
 
     public IStatus getResult() {
         final MultiStatus result = new MultiStatus(ValidationPlugin.PLUGIN_ID, IStatus.OK, "", null);

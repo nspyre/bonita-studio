@@ -1,19 +1,16 @@
 /**
  * Copyright (C) 2010 BonitaSoft S.A.
  * BonitaSoft, 31 rue Gustave Eiffel - 38000 Grenoble
- *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2.0 of the License, or
  * (at your option) any later version.
- *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package org.bonitasoft.studio.data.provider;
 
@@ -41,13 +38,11 @@ import org.eclipse.ui.PlatformUI;
 
 /**
  * @author Romain Bioteau
- * 
  */
 public class JavaSetterContentProvider implements ITreeContentProvider {
 
     /*
      * (non-Javadoc)
-     * 
      * @see org.eclipse.jface.viewers.IContentProvider#dispose()
      */
     @Override
@@ -56,7 +51,6 @@ public class JavaSetterContentProvider implements ITreeContentProvider {
 
     /*
      * (non-Javadoc)
-     * 
      * @see
      * org.eclipse.jface.viewers.IContentProvider#inputChanged(org.eclipse.jface
      * .viewers.Viewer, java.lang.Object, java.lang.Object)
@@ -67,30 +61,28 @@ public class JavaSetterContentProvider implements ITreeContentProvider {
 
     /*
      * (non-Javadoc)
-     * 
      * @see
      * org.eclipse.jface.viewers.ITreeContentProvider#getElements(java.lang.
      * Object)
      */
     @Override
     public Object[] getElements(Object inputElement) {
-        if(inputElement instanceof String){
-            IType type = null ;
+        if (inputElement instanceof String) {
+            IType type = null;
             try {
                 type = RepositoryManager.getInstance().getCurrentRepository().getJavaProject().findType(inputElement.toString());
             } catch (JavaModelException e1) {
-                BonitaStudioLog.error(e1) ;
+                BonitaStudioLog.error(e1);
             }
-            return new Object[]{type};
-        }else if(inputElement instanceof IType){
-            return getChildren(inputElement) ;
+            return new Object[] { type };
+        } else if (inputElement instanceof IType) {
+            return getChildren(inputElement);
         }
         return null;
     }
 
     /*
      * (non-Javadoc)
-     * 
      * @see
      * org.eclipse.jface.viewers.ITreeContentProvider#getChildren(java.lang.
      * Object)
@@ -100,11 +92,11 @@ public class JavaSetterContentProvider implements ITreeContentProvider {
         try {
             if (parentElement instanceof IMethod) {
                 String typeName = ((IMethod) parentElement).getReturnType();
-                IType type = null ;
+                IType type = null;
                 try {
                     type = RepositoryManager.getInstance().getCurrentRepository().getJavaProject().findType(Signature.toString(typeName));
                 } catch (JavaModelException e1) {
-                    BonitaStudioLog.error(e1) ;
+                    BonitaStudioLog.error(e1);
                 }
                 return getChildren(type);
             } else if (parentElement instanceof IType) {
@@ -163,10 +155,8 @@ public class JavaSetterContentProvider implements ITreeContentProvider {
         return res.toArray();
     }
 
-
     /*
      * (non-Javadoc)
-     * 
      * @see
      * org.eclipse.jface.viewers.ITreeContentProvider#getParent(java.lang.Object
      * )
@@ -178,7 +168,6 @@ public class JavaSetterContentProvider implements ITreeContentProvider {
 
     /*
      * (non-Javadoc)
-     * 
      * @see
      * org.eclipse.jface.viewers.ITreeContentProvider#hasChildren(java.lang.
      * Object)

@@ -1,19 +1,16 @@
 /**
  * Copyright (C) 2009-2012 BonitaSoft S.A.
  * BonitaSoft, 31 rue Gustave Eiffel - 38000 Grenoble
- * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2.0 of the License, or
  * (at your option) any later version.
- * 
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- * 
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package org.bonitasoft.studio.actors.model.organization.impl;
 
@@ -34,542 +31,594 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link org.bonitasoft.studio.actors.model.organization.impl.ContactDataImpl#getEmail <em>Email</em>}</li>
- *   <li>{@link org.bonitasoft.studio.actors.model.organization.impl.ContactDataImpl#getPhoneNumber <em>Phone Number</em>}</li>
- *   <li>{@link org.bonitasoft.studio.actors.model.organization.impl.ContactDataImpl#getMobileNumber <em>Mobile Number</em>}</li>
- *   <li>{@link org.bonitasoft.studio.actors.model.organization.impl.ContactDataImpl#getFaxNumber <em>Fax Number</em>}</li>
- *   <li>{@link org.bonitasoft.studio.actors.model.organization.impl.ContactDataImpl#getBuilding <em>Building</em>}</li>
- *   <li>{@link org.bonitasoft.studio.actors.model.organization.impl.ContactDataImpl#getRoom <em>Room</em>}</li>
- *   <li>{@link org.bonitasoft.studio.actors.model.organization.impl.ContactDataImpl#getAddress <em>Address</em>}</li>
- *   <li>{@link org.bonitasoft.studio.actors.model.organization.impl.ContactDataImpl#getZipCode <em>Zip Code</em>}</li>
- *   <li>{@link org.bonitasoft.studio.actors.model.organization.impl.ContactDataImpl#getCity <em>City</em>}</li>
- *   <li>{@link org.bonitasoft.studio.actors.model.organization.impl.ContactDataImpl#getState <em>State</em>}</li>
- *   <li>{@link org.bonitasoft.studio.actors.model.organization.impl.ContactDataImpl#getCountry <em>Country</em>}</li>
- *   <li>{@link org.bonitasoft.studio.actors.model.organization.impl.ContactDataImpl#getWebsite <em>Website</em>}</li>
+ * <li>{@link org.bonitasoft.studio.actors.model.organization.impl.ContactDataImpl#getEmail <em>Email</em>}</li>
+ * <li>{@link org.bonitasoft.studio.actors.model.organization.impl.ContactDataImpl#getPhoneNumber <em>Phone Number</em>}</li>
+ * <li>{@link org.bonitasoft.studio.actors.model.organization.impl.ContactDataImpl#getMobileNumber <em>Mobile Number</em>}</li>
+ * <li>{@link org.bonitasoft.studio.actors.model.organization.impl.ContactDataImpl#getFaxNumber <em>Fax Number</em>}</li>
+ * <li>{@link org.bonitasoft.studio.actors.model.organization.impl.ContactDataImpl#getBuilding <em>Building</em>}</li>
+ * <li>{@link org.bonitasoft.studio.actors.model.organization.impl.ContactDataImpl#getRoom <em>Room</em>}</li>
+ * <li>{@link org.bonitasoft.studio.actors.model.organization.impl.ContactDataImpl#getAddress <em>Address</em>}</li>
+ * <li>{@link org.bonitasoft.studio.actors.model.organization.impl.ContactDataImpl#getZipCode <em>Zip Code</em>}</li>
+ * <li>{@link org.bonitasoft.studio.actors.model.organization.impl.ContactDataImpl#getCity <em>City</em>}</li>
+ * <li>{@link org.bonitasoft.studio.actors.model.organization.impl.ContactDataImpl#getState <em>State</em>}</li>
+ * <li>{@link org.bonitasoft.studio.actors.model.organization.impl.ContactDataImpl#getCountry <em>Country</em>}</li>
+ * <li>{@link org.bonitasoft.studio.actors.model.organization.impl.ContactDataImpl#getWebsite <em>Website</em>}</li>
  * </ul>
  * </p>
  *
  * @generated
  */
 public class ContactDataImpl extends EObjectImpl implements ContactData {
-	/**
+
+    /**
      * The default value of the '{@link #getEmail() <em>Email</em>}' attribute.
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
+     * 
      * @see #getEmail()
      * @generated
      * @ordered
      */
-	protected static final String EMAIL_EDEFAULT = null;
+    protected static final String EMAIL_EDEFAULT = null;
 
-	/**
+    /**
      * The cached value of the '{@link #getEmail() <em>Email</em>}' attribute.
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
+     * 
      * @see #getEmail()
      * @generated
      * @ordered
      */
-	protected String email = EMAIL_EDEFAULT;
+    protected String email = EMAIL_EDEFAULT;
 
-	/**
+    /**
      * The default value of the '{@link #getPhoneNumber() <em>Phone Number</em>}' attribute.
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
+     * 
      * @see #getPhoneNumber()
      * @generated
      * @ordered
      */
-	protected static final String PHONE_NUMBER_EDEFAULT = null;
+    protected static final String PHONE_NUMBER_EDEFAULT = null;
 
-	/**
+    /**
      * The cached value of the '{@link #getPhoneNumber() <em>Phone Number</em>}' attribute.
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
+     * 
      * @see #getPhoneNumber()
      * @generated
      * @ordered
      */
-	protected String phoneNumber = PHONE_NUMBER_EDEFAULT;
+    protected String phoneNumber = PHONE_NUMBER_EDEFAULT;
 
-	/**
+    /**
      * The default value of the '{@link #getMobileNumber() <em>Mobile Number</em>}' attribute.
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
+     * 
      * @see #getMobileNumber()
      * @generated
      * @ordered
      */
-	protected static final String MOBILE_NUMBER_EDEFAULT = null;
+    protected static final String MOBILE_NUMBER_EDEFAULT = null;
 
-	/**
+    /**
      * The cached value of the '{@link #getMobileNumber() <em>Mobile Number</em>}' attribute.
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
+     * 
      * @see #getMobileNumber()
      * @generated
      * @ordered
      */
-	protected String mobileNumber = MOBILE_NUMBER_EDEFAULT;
+    protected String mobileNumber = MOBILE_NUMBER_EDEFAULT;
 
-	/**
+    /**
      * The default value of the '{@link #getFaxNumber() <em>Fax Number</em>}' attribute.
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
+     * 
      * @see #getFaxNumber()
      * @generated
      * @ordered
      */
-	protected static final String FAX_NUMBER_EDEFAULT = null;
+    protected static final String FAX_NUMBER_EDEFAULT = null;
 
-	/**
+    /**
      * The cached value of the '{@link #getFaxNumber() <em>Fax Number</em>}' attribute.
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
+     * 
      * @see #getFaxNumber()
      * @generated
      * @ordered
      */
-	protected String faxNumber = FAX_NUMBER_EDEFAULT;
+    protected String faxNumber = FAX_NUMBER_EDEFAULT;
 
-	/**
+    /**
      * The default value of the '{@link #getBuilding() <em>Building</em>}' attribute.
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
+     * 
      * @see #getBuilding()
      * @generated
      * @ordered
      */
-	protected static final String BUILDING_EDEFAULT = null;
+    protected static final String BUILDING_EDEFAULT = null;
 
-	/**
+    /**
      * The cached value of the '{@link #getBuilding() <em>Building</em>}' attribute.
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
+     * 
      * @see #getBuilding()
      * @generated
      * @ordered
      */
-	protected String building = BUILDING_EDEFAULT;
+    protected String building = BUILDING_EDEFAULT;
 
-	/**
+    /**
      * The default value of the '{@link #getRoom() <em>Room</em>}' attribute.
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
+     * 
      * @see #getRoom()
      * @generated
      * @ordered
      */
-	protected static final String ROOM_EDEFAULT = null;
+    protected static final String ROOM_EDEFAULT = null;
 
-	/**
+    /**
      * The cached value of the '{@link #getRoom() <em>Room</em>}' attribute.
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
+     * 
      * @see #getRoom()
      * @generated
      * @ordered
      */
-	protected String room = ROOM_EDEFAULT;
+    protected String room = ROOM_EDEFAULT;
 
-	/**
+    /**
      * The default value of the '{@link #getAddress() <em>Address</em>}' attribute.
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
+     * 
      * @see #getAddress()
      * @generated
      * @ordered
      */
-	protected static final String ADDRESS_EDEFAULT = null;
+    protected static final String ADDRESS_EDEFAULT = null;
 
-	/**
+    /**
      * The cached value of the '{@link #getAddress() <em>Address</em>}' attribute.
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
+     * 
      * @see #getAddress()
      * @generated
      * @ordered
      */
-	protected String address = ADDRESS_EDEFAULT;
+    protected String address = ADDRESS_EDEFAULT;
 
-	/**
+    /**
      * The default value of the '{@link #getZipCode() <em>Zip Code</em>}' attribute.
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
+     * 
      * @see #getZipCode()
      * @generated
      * @ordered
      */
-	protected static final String ZIP_CODE_EDEFAULT = null;
+    protected static final String ZIP_CODE_EDEFAULT = null;
 
-	/**
+    /**
      * The cached value of the '{@link #getZipCode() <em>Zip Code</em>}' attribute.
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
+     * 
      * @see #getZipCode()
      * @generated
      * @ordered
      */
-	protected String zipCode = ZIP_CODE_EDEFAULT;
+    protected String zipCode = ZIP_CODE_EDEFAULT;
 
-	/**
+    /**
      * The default value of the '{@link #getCity() <em>City</em>}' attribute.
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
+     * 
      * @see #getCity()
      * @generated
      * @ordered
      */
-	protected static final String CITY_EDEFAULT = null;
+    protected static final String CITY_EDEFAULT = null;
 
-	/**
+    /**
      * The cached value of the '{@link #getCity() <em>City</em>}' attribute.
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
+     * 
      * @see #getCity()
      * @generated
      * @ordered
      */
-	protected String city = CITY_EDEFAULT;
+    protected String city = CITY_EDEFAULT;
 
-	/**
+    /**
      * The default value of the '{@link #getState() <em>State</em>}' attribute.
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
+     * 
      * @see #getState()
      * @generated
      * @ordered
      */
-	protected static final String STATE_EDEFAULT = null;
+    protected static final String STATE_EDEFAULT = null;
 
-	/**
+    /**
      * The cached value of the '{@link #getState() <em>State</em>}' attribute.
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
+     * 
      * @see #getState()
      * @generated
      * @ordered
      */
-	protected String state = STATE_EDEFAULT;
+    protected String state = STATE_EDEFAULT;
 
-	/**
+    /**
      * The default value of the '{@link #getCountry() <em>Country</em>}' attribute.
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
+     * 
      * @see #getCountry()
      * @generated
      * @ordered
      */
-	protected static final String COUNTRY_EDEFAULT = null;
+    protected static final String COUNTRY_EDEFAULT = null;
 
-	/**
+    /**
      * The cached value of the '{@link #getCountry() <em>Country</em>}' attribute.
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
+     * 
      * @see #getCountry()
      * @generated
      * @ordered
      */
-	protected String country = COUNTRY_EDEFAULT;
+    protected String country = COUNTRY_EDEFAULT;
 
-	/**
+    /**
      * The default value of the '{@link #getWebsite() <em>Website</em>}' attribute.
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
+     * 
      * @see #getWebsite()
      * @generated
      * @ordered
      */
-	protected static final String WEBSITE_EDEFAULT = null;
+    protected static final String WEBSITE_EDEFAULT = null;
 
-	/**
+    /**
      * The cached value of the '{@link #getWebsite() <em>Website</em>}' attribute.
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
+     * 
      * @see #getWebsite()
      * @generated
      * @ordered
      */
-	protected String website = WEBSITE_EDEFAULT;
+    protected String website = WEBSITE_EDEFAULT;
 
-	/**
+    /**
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
+     * 
      * @generated
      */
-	protected ContactDataImpl() {
+    protected ContactDataImpl() {
         super();
     }
 
-	/**
+    /**
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
+     * 
      * @generated
      */
-	@Override
-	protected EClass eStaticClass() {
+    @Override
+    protected EClass eStaticClass() {
         return OrganizationPackage.Literals.CONTACT_DATA;
     }
 
-	/**
+    /**
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
+     * 
      * @generated
      */
-	public String getEmail() {
+    public String getEmail() {
         return email;
     }
 
-	/**
+    /**
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
+     * 
      * @generated
      */
-	public void setEmail(String newEmail) {
+    public void setEmail(String newEmail) {
         String oldEmail = email;
         email = newEmail;
         if (eNotificationRequired())
             eNotify(new ENotificationImpl(this, Notification.SET, OrganizationPackage.CONTACT_DATA__EMAIL, oldEmail, email));
     }
 
-	/**
+    /**
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
+     * 
      * @generated
      */
-	public String getPhoneNumber() {
+    public String getPhoneNumber() {
         return phoneNumber;
     }
 
-	/**
+    /**
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
+     * 
      * @generated
      */
-	public void setPhoneNumber(String newPhoneNumber) {
+    public void setPhoneNumber(String newPhoneNumber) {
         String oldPhoneNumber = phoneNumber;
         phoneNumber = newPhoneNumber;
         if (eNotificationRequired())
             eNotify(new ENotificationImpl(this, Notification.SET, OrganizationPackage.CONTACT_DATA__PHONE_NUMBER, oldPhoneNumber, phoneNumber));
     }
 
-	/**
+    /**
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
+     * 
      * @generated
      */
-	public String getMobileNumber() {
+    public String getMobileNumber() {
         return mobileNumber;
     }
 
-	/**
+    /**
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
+     * 
      * @generated
      */
-	public void setMobileNumber(String newMobileNumber) {
+    public void setMobileNumber(String newMobileNumber) {
         String oldMobileNumber = mobileNumber;
         mobileNumber = newMobileNumber;
         if (eNotificationRequired())
             eNotify(new ENotificationImpl(this, Notification.SET, OrganizationPackage.CONTACT_DATA__MOBILE_NUMBER, oldMobileNumber, mobileNumber));
     }
 
-	/**
+    /**
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
+     * 
      * @generated
      */
-	public String getFaxNumber() {
+    public String getFaxNumber() {
         return faxNumber;
     }
 
-	/**
+    /**
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
+     * 
      * @generated
      */
-	public void setFaxNumber(String newFaxNumber) {
+    public void setFaxNumber(String newFaxNumber) {
         String oldFaxNumber = faxNumber;
         faxNumber = newFaxNumber;
         if (eNotificationRequired())
             eNotify(new ENotificationImpl(this, Notification.SET, OrganizationPackage.CONTACT_DATA__FAX_NUMBER, oldFaxNumber, faxNumber));
     }
 
-	/**
+    /**
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
+     * 
      * @generated
      */
-	public String getBuilding() {
+    public String getBuilding() {
         return building;
     }
 
-	/**
+    /**
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
+     * 
      * @generated
      */
-	public void setBuilding(String newBuilding) {
+    public void setBuilding(String newBuilding) {
         String oldBuilding = building;
         building = newBuilding;
         if (eNotificationRequired())
             eNotify(new ENotificationImpl(this, Notification.SET, OrganizationPackage.CONTACT_DATA__BUILDING, oldBuilding, building));
     }
 
-	/**
+    /**
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
+     * 
      * @generated
      */
-	public String getRoom() {
+    public String getRoom() {
         return room;
     }
 
-	/**
+    /**
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
+     * 
      * @generated
      */
-	public void setRoom(String newRoom) {
+    public void setRoom(String newRoom) {
         String oldRoom = room;
         room = newRoom;
         if (eNotificationRequired())
             eNotify(new ENotificationImpl(this, Notification.SET, OrganizationPackage.CONTACT_DATA__ROOM, oldRoom, room));
     }
 
-	/**
+    /**
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
+     * 
      * @generated
      */
-	public String getAddress() {
+    public String getAddress() {
         return address;
     }
 
-	/**
+    /**
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
+     * 
      * @generated
      */
-	public void setAddress(String newAddress) {
+    public void setAddress(String newAddress) {
         String oldAddress = address;
         address = newAddress;
         if (eNotificationRequired())
             eNotify(new ENotificationImpl(this, Notification.SET, OrganizationPackage.CONTACT_DATA__ADDRESS, oldAddress, address));
     }
 
-	/**
+    /**
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
+     * 
      * @generated
      */
-	public String getZipCode() {
+    public String getZipCode() {
         return zipCode;
     }
 
-	/**
+    /**
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
+     * 
      * @generated
      */
-	public void setZipCode(String newZipCode) {
+    public void setZipCode(String newZipCode) {
         String oldZipCode = zipCode;
         zipCode = newZipCode;
         if (eNotificationRequired())
             eNotify(new ENotificationImpl(this, Notification.SET, OrganizationPackage.CONTACT_DATA__ZIP_CODE, oldZipCode, zipCode));
     }
 
-	/**
+    /**
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
+     * 
      * @generated
      */
-	public String getCity() {
+    public String getCity() {
         return city;
     }
 
-	/**
+    /**
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
+     * 
      * @generated
      */
-	public void setCity(String newCity) {
+    public void setCity(String newCity) {
         String oldCity = city;
         city = newCity;
         if (eNotificationRequired())
             eNotify(new ENotificationImpl(this, Notification.SET, OrganizationPackage.CONTACT_DATA__CITY, oldCity, city));
     }
 
-	/**
+    /**
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
+     * 
      * @generated
      */
-	public String getState() {
+    public String getState() {
         return state;
     }
 
-	/**
+    /**
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
+     * 
      * @generated
      */
-	public void setState(String newState) {
+    public void setState(String newState) {
         String oldState = state;
         state = newState;
         if (eNotificationRequired())
             eNotify(new ENotificationImpl(this, Notification.SET, OrganizationPackage.CONTACT_DATA__STATE, oldState, state));
     }
 
-	/**
+    /**
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
+     * 
      * @generated
      */
-	public String getCountry() {
+    public String getCountry() {
         return country;
     }
 
-	/**
+    /**
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
+     * 
      * @generated
      */
-	public void setCountry(String newCountry) {
+    public void setCountry(String newCountry) {
         String oldCountry = country;
         country = newCountry;
         if (eNotificationRequired())
             eNotify(new ENotificationImpl(this, Notification.SET, OrganizationPackage.CONTACT_DATA__COUNTRY, oldCountry, country));
     }
 
-	/**
+    /**
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
+     * 
      * @generated
      */
-	public String getWebsite() {
+    public String getWebsite() {
         return website;
     }
 
-	/**
+    /**
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
+     * 
      * @generated
      */
-	public void setWebsite(String newWebsite) {
+    public void setWebsite(String newWebsite) {
         String oldWebsite = website;
         website = newWebsite;
         if (eNotificationRequired())
             eNotify(new ENotificationImpl(this, Notification.SET, OrganizationPackage.CONTACT_DATA__WEBSITE, oldWebsite, website));
     }
 
-	/**
+    /**
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
+     * 
      * @generated
      */
-	@Override
-	public Object eGet(int featureID, boolean resolve, boolean coreType) {
+    @Override
+    public Object eGet(int featureID, boolean resolve, boolean coreType) {
         switch (featureID) {
             case OrganizationPackage.CONTACT_DATA__EMAIL:
                 return getEmail();
@@ -599,61 +648,63 @@ public class ContactDataImpl extends EObjectImpl implements ContactData {
         return super.eGet(featureID, resolve, coreType);
     }
 
-	/**
+    /**
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
+     * 
      * @generated
      */
-	@Override
-	public void eSet(int featureID, Object newValue) {
+    @Override
+    public void eSet(int featureID, Object newValue) {
         switch (featureID) {
             case OrganizationPackage.CONTACT_DATA__EMAIL:
-                setEmail((String)newValue);
+                setEmail((String) newValue);
                 return;
             case OrganizationPackage.CONTACT_DATA__PHONE_NUMBER:
-                setPhoneNumber((String)newValue);
+                setPhoneNumber((String) newValue);
                 return;
             case OrganizationPackage.CONTACT_DATA__MOBILE_NUMBER:
-                setMobileNumber((String)newValue);
+                setMobileNumber((String) newValue);
                 return;
             case OrganizationPackage.CONTACT_DATA__FAX_NUMBER:
-                setFaxNumber((String)newValue);
+                setFaxNumber((String) newValue);
                 return;
             case OrganizationPackage.CONTACT_DATA__BUILDING:
-                setBuilding((String)newValue);
+                setBuilding((String) newValue);
                 return;
             case OrganizationPackage.CONTACT_DATA__ROOM:
-                setRoom((String)newValue);
+                setRoom((String) newValue);
                 return;
             case OrganizationPackage.CONTACT_DATA__ADDRESS:
-                setAddress((String)newValue);
+                setAddress((String) newValue);
                 return;
             case OrganizationPackage.CONTACT_DATA__ZIP_CODE:
-                setZipCode((String)newValue);
+                setZipCode((String) newValue);
                 return;
             case OrganizationPackage.CONTACT_DATA__CITY:
-                setCity((String)newValue);
+                setCity((String) newValue);
                 return;
             case OrganizationPackage.CONTACT_DATA__STATE:
-                setState((String)newValue);
+                setState((String) newValue);
                 return;
             case OrganizationPackage.CONTACT_DATA__COUNTRY:
-                setCountry((String)newValue);
+                setCountry((String) newValue);
                 return;
             case OrganizationPackage.CONTACT_DATA__WEBSITE:
-                setWebsite((String)newValue);
+                setWebsite((String) newValue);
                 return;
         }
         super.eSet(featureID, newValue);
     }
 
-	/**
+    /**
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
+     * 
      * @generated
      */
-	@Override
-	public void eUnset(int featureID) {
+    @Override
+    public void eUnset(int featureID) {
         switch (featureID) {
             case OrganizationPackage.CONTACT_DATA__EMAIL:
                 setEmail(EMAIL_EDEFAULT);
@@ -695,13 +746,14 @@ public class ContactDataImpl extends EObjectImpl implements ContactData {
         super.eUnset(featureID);
     }
 
-	/**
+    /**
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
+     * 
      * @generated
      */
-	@Override
-	public boolean eIsSet(int featureID) {
+    @Override
+    public boolean eIsSet(int featureID) {
         switch (featureID) {
             case OrganizationPackage.CONTACT_DATA__EMAIL:
                 return EMAIL_EDEFAULT == null ? email != null : !EMAIL_EDEFAULT.equals(email);
@@ -731,14 +783,16 @@ public class ContactDataImpl extends EObjectImpl implements ContactData {
         return super.eIsSet(featureID);
     }
 
-	/**
+    /**
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
+     * 
      * @generated
      */
-	@Override
-	public String toString() {
-        if (eIsProxy()) return super.toString();
+    @Override
+    public String toString() {
+        if (eIsProxy())
+            return super.toString();
 
         StringBuffer result = new StringBuffer(super.toString());
         result.append(" (email: ");

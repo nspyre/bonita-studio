@@ -32,18 +32,14 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-
 /**
  * @author Florine Boudin
- *
  */
 @RunWith(SWTBotJunit4ClassRunner.class)
 public class TestDecisionTable extends SWTBotGefTestCase {
 
-
-
     @Test
-    public void testConditionExpressions() throws IOException, InterruptedException{
+    public void testConditionExpressions() throws IOException, InterruptedException {
 
         SWTBotTestUtil.importProcessWIthPathFromClass(bot, "TestDecisionTable-1.0.bos", "Bonita 6.x", "TestDecisionTable", getClass(), false);
 
@@ -70,7 +66,7 @@ public class TestDecisionTable extends SWTBotGefTestCase {
 
         changeCondition(2, "myBoolean");
         testUpdateLineButtonEnabled();
-        bot.toolbarButtonWithId(ExpressionViewer.SWTBOT_ID_ERASEBUTTON,0).click();
+        bot.toolbarButtonWithId(ExpressionViewer.SWTBOT_ID_ERASEBUTTON, 0).click();
         bot.sleep(1000);
         testUpdateLineButtonNotEnabled();
 
@@ -82,7 +78,7 @@ public class TestDecisionTable extends SWTBotGefTestCase {
         bot.saveAllEditors();
     }
 
-    private void addTrueCondition(final int idx, final String condition){
+    private void addTrueCondition(final int idx, final String condition) {
         bot.link("<A>" + Messages.addCondition + "</A>").click(Messages.addCondition);
 
         testUpdateLineButtonNotEnabled();
@@ -90,7 +86,7 @@ public class TestDecisionTable extends SWTBotGefTestCase {
         testUpdateLineButtonEnabled();
     }
 
-    private void addFalseCondition(final int idx, final String condition){
+    private void addFalseCondition(final int idx, final String condition) {
         bot.link("<A>" + Messages.addCondition + "</A>").click(Messages.addCondition);
 
         testUpdateLineButtonNotEnabled();
@@ -98,17 +94,17 @@ public class TestDecisionTable extends SWTBotGefTestCase {
         testUpdateLineButtonNotEnabled();
     }
 
-
-    private void changeCondition(final int idx, final String condition){
+    private void changeCondition(final int idx, final String condition) {
         bot.text(idx).setText(condition);
         bot.sleep(1000);
     }
 
-    private void testUpdateLineButtonEnabled(){
+    private void testUpdateLineButtonEnabled() {
         Assert.assertTrue("Update Line Button should  be enabled", bot.button(Messages.updateLine).isEnabled());
 
     }
-    private void testUpdateLineButtonNotEnabled(){
+
+    private void testUpdateLineButtonNotEnabled() {
         Assert.assertTrue("Update Line Button should not be enabled", !bot.button(Messages.updateLine).isEnabled());
 
     }

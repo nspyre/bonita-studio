@@ -5,12 +5,10 @@
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2.0 of the License, or
  * (at your option) any later version.
- *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- *
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
@@ -42,10 +40,8 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.commands.ICommandService;
 
-
 /**
  * @author Romain Bioteau
- *
  */
 public class RunProcessOperation implements IRunnableWithProgress, Runnable {
 
@@ -64,8 +60,8 @@ public class RunProcessOperation implements IRunnableWithProgress, Runnable {
         return new DeployProcessOperation();
     }
 
-
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see org.eclipse.jface.operation.IRunnableWithProgress#run(org.eclipse.core.runtime.IProgressMonitor)
      */
     @Override
@@ -116,8 +112,8 @@ public class RunProcessOperation implements IRunnableWithProgress, Runnable {
                                     MessageDialogWithToggle.openWarning(Display.getDefault().getActiveShell(), Messages.noInitiatorDefinedTitle,
                                             Messages.bind(Messages.noInitiatorDefinedMessage,
                                                     processToRun.getName()),
-                                                    Messages.dontaskagain,
-                                                    false, preferenceStore, EnginePreferenceConstants.TOGGLE_STATE_FOR_NO_INITIATOR);
+                                            Messages.dontaskagain,
+                                            false, preferenceStore, EnginePreferenceConstants.TOGGLE_STATE_FOR_NO_INITIATOR);
                                 }
 
                             }

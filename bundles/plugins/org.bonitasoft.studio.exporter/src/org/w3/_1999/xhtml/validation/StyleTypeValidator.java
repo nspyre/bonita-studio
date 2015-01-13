@@ -1,7 +1,6 @@
 /**
  * <copyright>
  * </copyright>
- *
  * $Id$
  */
 package org.w3._1999.xhtml.validation;
@@ -17,15 +16,24 @@ import org.w3._1999.xhtml.DirType;
  * This can be disabled with -vmargs -Dorg.eclipse.emf.examples.generator.validator=false.
  */
 public interface StyleTypeValidator {
-	boolean validate();
 
-	boolean validateMixed(FeatureMap value);
-	boolean validateDir(DirType value);
-	boolean validateId(String value);
-	boolean validateLang(String value);
-	boolean validateLang1(String value);
-	boolean validateMedia(String value);
-	boolean validateSpace(SpaceType value);
-	boolean validateTitle(String value);
-	boolean validateType(String value);
+    boolean validate();
+
+    boolean validateMixed(FeatureMap value);
+
+    boolean validateDir(DirType value);
+
+    boolean validateId(String value);
+
+    boolean validateLang(String value);
+
+    boolean validateLang1(String value);
+
+    boolean validateMedia(String value);
+
+    boolean validateSpace(SpaceType value);
+
+    boolean validateTitle(String value);
+
+    boolean validateType(String value);
 }

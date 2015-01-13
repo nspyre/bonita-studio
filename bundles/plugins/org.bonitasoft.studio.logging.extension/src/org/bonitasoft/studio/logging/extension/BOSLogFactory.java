@@ -5,14 +5,12 @@
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2.0 of the License, or
  * (at your option) any later version.
- *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package org.bonitasoft.studio.logging.extension;
 
@@ -30,13 +28,10 @@ import org.osgi.framework.ServiceFactory;
 import org.osgi.framework.ServiceRegistration;
 import org.osgi.service.log.LogService;
 
-
 /**
  * @author Romain Bioteau
- *
  */
 public class BOSLogFactory implements ServiceFactory<FrameworkLog> {
-
 
     final BOSLogWriter defaultWriter;
     final LogServiceManager logManager;
@@ -53,7 +48,8 @@ public class BOSLogFactory implements ServiceFactory<FrameworkLog> {
 
     FrameworkLog createFrameworkLog(Bundle bundle, BOSLogWriter eclipseWriter) {
         final BOSLogWriter logWriter = eclipseWriter == null ? defaultWriter : eclipseWriter;
-        final Logger logger = bundle == null ? logManager.getSystemBundleLog().getLogger(eclipseWriter.getLoggerName()) : logManager.getSystemBundleLog().getLogger(bundle, logWriter.getLoggerName());
+        final Logger logger = bundle == null ? logManager.getSystemBundleLog().getLogger(eclipseWriter.getLoggerName()) : logManager.getSystemBundleLog()
+                .getLogger(bundle, logWriter.getLoggerName());
         return new FrameworkLog() {
 
             @Override
@@ -89,16 +85,16 @@ public class BOSLogFactory implements ServiceFactory<FrameworkLog> {
                 String entry = b.getSymbolicName() == null ? b.getLocation() : b.getSymbolicName();
                 int severity;
                 switch (frameworkEvent.getType()) {
-                    case FrameworkEvent.INFO :
+                    case FrameworkEvent.INFO:
                         severity = FrameworkLogEntry.INFO;
                         break;
-                    case FrameworkEvent.ERROR :
+                    case FrameworkEvent.ERROR:
                         severity = FrameworkLogEntry.ERROR;
                         break;
-                    case FrameworkEvent.WARNING :
+                    case FrameworkEvent.WARNING:
                         severity = FrameworkLogEntry.WARNING;
                         break;
-                    default :
+                    default:
                         severity = FrameworkLogEntry.OK;
                 }
                 FrameworkLogEntry logEntry = new FrameworkLogEntry(entry, severity, 0, "", 0, t, null); //$NON-NLS-1$
@@ -124,16 +120,16 @@ public class BOSLogFactory implements ServiceFactory<FrameworkLog> {
 
     static int convertLevel(FrameworkLogEntry logEntry) {
         switch (logEntry.getSeverity()) {
-            case FrameworkLogEntry.ERROR :
+            case FrameworkLogEntry.ERROR:
                 return LogService.LOG_ERROR;
-            case FrameworkLogEntry.WARNING :
+            case FrameworkLogEntry.WARNING:
                 return LogService.LOG_WARNING;
-            case FrameworkLogEntry.INFO :
+            case FrameworkLogEntry.INFO:
                 return LogService.LOG_INFO;
-            case FrameworkLogEntry.OK :
+            case FrameworkLogEntry.OK:
                 return LogService.LOG_DEBUG;
-            case FrameworkLogEntry.CANCEL :
-            default :
+            case FrameworkLogEntry.CANCEL:
+            default:
                 return 32; // unknown
         }
     }

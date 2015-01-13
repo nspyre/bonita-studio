@@ -25,10 +25,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-
 /**
  * @author Florine Boudin
- *
  */
 @RunWith(SWTBotJunit4ClassRunner.class)
 public class DeleteCommandTest extends SWTBotGefTestCase {

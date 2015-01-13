@@ -22,7 +22,7 @@ import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link org.bonitasoft.studio.condition.conditionModel.impl.Operation_CompareImpl#getOp <em>Op</em>}</li>
+ * <li>{@link org.bonitasoft.studio.condition.conditionModel.impl.Operation_CompareImpl#getOp <em>Op</em>}</li>
  * </ul>
  * </p>
  *
@@ -30,165 +30,181 @@ import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
  */
 public class Operation_CompareImpl extends MinimalEObjectImpl.Container implements Operation_Compare
 {
-  /**
-   * The cached value of the '{@link #getOp() <em>Op</em>}' containment reference.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see #getOp()
-   * @generated
-   * @ordered
-   */
-  protected EObject op;
 
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  protected Operation_CompareImpl()
-  {
-    super();
-  }
+    /**
+     * The cached value of the '{@link #getOp() <em>Op</em>}' containment reference.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * 
+     * @see #getOp()
+     * @generated
+     * @ordered
+     */
+    protected EObject op;
 
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  @Override
-  protected EClass eStaticClass()
-  {
-    return ConditionModelPackage.Literals.OPERATION_COMPARE;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public EObject getOp()
-  {
-    return op;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public NotificationChain basicSetOp(EObject newOp, NotificationChain msgs)
-  {
-    EObject oldOp = op;
-    op = newOp;
-    if (eNotificationRequired())
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * 
+     * @generated
+     */
+    protected Operation_CompareImpl()
     {
-      ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, ConditionModelPackage.OPERATION_COMPARE__OP, oldOp, newOp);
-      if (msgs == null) msgs = notification; else msgs.add(notification);
+        super();
     }
-    return msgs;
-  }
 
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public void setOp(EObject newOp)
-  {
-    if (newOp != op)
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * 
+     * @generated
+     */
+    @Override
+    protected EClass eStaticClass()
     {
-      NotificationChain msgs = null;
-      if (op != null)
-        msgs = ((InternalEObject)op).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - ConditionModelPackage.OPERATION_COMPARE__OP, null, msgs);
-      if (newOp != null)
-        msgs = ((InternalEObject)newOp).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - ConditionModelPackage.OPERATION_COMPARE__OP, null, msgs);
-      msgs = basicSetOp(newOp, msgs);
-      if (msgs != null) msgs.dispatch();
+        return ConditionModelPackage.Literals.OPERATION_COMPARE;
     }
-    else if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, ConditionModelPackage.OPERATION_COMPARE__OP, newOp, newOp));
-  }
 
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  @Override
-  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
-  {
-    switch (featureID)
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * 
+     * @generated
+     */
+    public EObject getOp()
     {
-      case ConditionModelPackage.OPERATION_COMPARE__OP:
-        return basicSetOp(null, msgs);
+        return op;
     }
-    return super.eInverseRemove(otherEnd, featureID, msgs);
-  }
 
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  @Override
-  public Object eGet(int featureID, boolean resolve, boolean coreType)
-  {
-    switch (featureID)
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * 
+     * @generated
+     */
+    public NotificationChain basicSetOp(EObject newOp, NotificationChain msgs)
     {
-      case ConditionModelPackage.OPERATION_COMPARE__OP:
-        return getOp();
+        EObject oldOp = op;
+        op = newOp;
+        if (eNotificationRequired())
+        {
+            ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, ConditionModelPackage.OPERATION_COMPARE__OP, oldOp, newOp);
+            if (msgs == null)
+                msgs = notification;
+            else
+                msgs.add(notification);
+        }
+        return msgs;
     }
-    return super.eGet(featureID, resolve, coreType);
-  }
 
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  @Override
-  public void eSet(int featureID, Object newValue)
-  {
-    switch (featureID)
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * 
+     * @generated
+     */
+    public void setOp(EObject newOp)
     {
-      case ConditionModelPackage.OPERATION_COMPARE__OP:
-        setOp((EObject)newValue);
-        return;
+        if (newOp != op)
+        {
+            NotificationChain msgs = null;
+            if (op != null)
+                msgs = ((InternalEObject) op).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - ConditionModelPackage.OPERATION_COMPARE__OP, null, msgs);
+            if (newOp != null)
+                msgs = ((InternalEObject) newOp).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - ConditionModelPackage.OPERATION_COMPARE__OP, null, msgs);
+            msgs = basicSetOp(newOp, msgs);
+            if (msgs != null)
+                msgs.dispatch();
+        }
+        else if (eNotificationRequired())
+            eNotify(new ENotificationImpl(this, Notification.SET, ConditionModelPackage.OPERATION_COMPARE__OP, newOp, newOp));
     }
-    super.eSet(featureID, newValue);
-  }
 
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  @Override
-  public void eUnset(int featureID)
-  {
-    switch (featureID)
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * 
+     * @generated
+     */
+    @Override
+    public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
     {
-      case ConditionModelPackage.OPERATION_COMPARE__OP:
-        setOp((EObject)null);
-        return;
+        switch (featureID)
+        {
+            case ConditionModelPackage.OPERATION_COMPARE__OP:
+                return basicSetOp(null, msgs);
+        }
+        return super.eInverseRemove(otherEnd, featureID, msgs);
     }
-    super.eUnset(featureID);
-  }
 
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  @Override
-  public boolean eIsSet(int featureID)
-  {
-    switch (featureID)
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * 
+     * @generated
+     */
+    @Override
+    public Object eGet(int featureID, boolean resolve, boolean coreType)
     {
-      case ConditionModelPackage.OPERATION_COMPARE__OP:
-        return op != null;
+        switch (featureID)
+        {
+            case ConditionModelPackage.OPERATION_COMPARE__OP:
+                return getOp();
+        }
+        return super.eGet(featureID, resolve, coreType);
     }
-    return super.eIsSet(featureID);
-  }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * 
+     * @generated
+     */
+    @Override
+    public void eSet(int featureID, Object newValue)
+    {
+        switch (featureID)
+        {
+            case ConditionModelPackage.OPERATION_COMPARE__OP:
+                setOp((EObject) newValue);
+                return;
+        }
+        super.eSet(featureID, newValue);
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * 
+     * @generated
+     */
+    @Override
+    public void eUnset(int featureID)
+    {
+        switch (featureID)
+        {
+            case ConditionModelPackage.OPERATION_COMPARE__OP:
+                setOp((EObject) null);
+                return;
+        }
+        super.eUnset(featureID);
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * 
+     * @generated
+     */
+    @Override
+    public boolean eIsSet(int featureID)
+    {
+        switch (featureID)
+        {
+            case ConditionModelPackage.OPERATION_COMPARE__OP:
+                return op != null;
+        }
+        return super.eIsSet(featureID);
+    }
 
 } //Operation_CompareImpl

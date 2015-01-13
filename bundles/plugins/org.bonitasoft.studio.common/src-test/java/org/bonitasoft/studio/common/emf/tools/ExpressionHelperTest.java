@@ -149,7 +149,7 @@ public class ExpressionHelperTest {
         widget.setReturnTypeModifier(Integer.class.getName());
 
         final EObject dependencyFromEObject = ExpressionHelper.createDependencyFromEObject(widget);
-        assertThat(((Widget)dependencyFromEObject).getReturnTypeModifier()).isEqualTo(Integer.class.getName());
+        assertThat(((Widget) dependencyFromEObject).getReturnTypeModifier()).isEqualTo(Integer.class.getName());
     }
 
     @Test
@@ -158,7 +158,7 @@ public class ExpressionHelperTest {
         ((Duplicable) widget).setDuplicate(true);
 
         final EObject dependencyFromEObject = ExpressionHelper.createDependencyFromEObject(widget);
-        assertThat(((Duplicable)dependencyFromEObject).isDuplicate()).isTrue();
+        assertThat(((Duplicable) dependencyFromEObject).isDuplicate()).isTrue();
     }
 
     @Test
@@ -210,10 +210,10 @@ public class ExpressionHelperTest {
     public void shouldCreateEmptyListGroovyScriptExpression_ReturnAValidEmptyListExpression() throws Exception {
         final Expression expression = ExpressionHelper.createEmptyListGroovyScriptExpression();
         assertThat(expression).hasContent("[]").
-        hasInterpreter(ExpressionConstants.GROOVY).
-        hasType(ExpressionConstants.SCRIPT_TYPE).
-        hasName(Messages.emptyListExpressionName).
-        hasReturnType(Collection.class.getName());
+                hasInterpreter(ExpressionConstants.GROOVY).
+                hasType(ExpressionConstants.SCRIPT_TYPE).
+                hasName(Messages.emptyListExpressionName).
+                hasReturnType(Collection.class.getName());
     }
 
     @Test

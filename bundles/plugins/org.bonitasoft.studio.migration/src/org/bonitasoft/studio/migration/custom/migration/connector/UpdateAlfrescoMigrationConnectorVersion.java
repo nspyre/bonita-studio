@@ -14,13 +14,11 @@
  */
 package org.bonitasoft.studio.migration.custom.migration.connector;
 
-
 public abstract class UpdateAlfrescoMigrationConnectorVersion extends UpdateConnectorVersionMigration {
 
     public UpdateAlfrescoMigrationConnectorVersion() {
         super();
     }
-
 
     @Override
     protected boolean shouldUpdateVersion(final String defId) {

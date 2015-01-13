@@ -1,19 +1,16 @@
 /**
  * Copyright (C) 2009 BonitaSoft S.A.
  * BonitaSoft, 31 rue Gustave Eiffel - 38000 Grenoble
- *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2.0 of the License, or
  * (at your option) any later version.
- *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package org.bonitasoft.studio.diagram.custom.resources;
 
@@ -36,10 +33,7 @@ import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.Viewer;
 
 /**
- * 
- * 
  * @author Baptiste Mesta
- * 
  */
 public class ResourceTreeContentProvider implements ITreeContentProvider {
 
@@ -47,12 +41,11 @@ public class ResourceTreeContentProvider implements ITreeContentProvider {
     public static final Object[] CATEGORYS = { RESOURCES_CATEGORY };
     private ResourceContainer container;
 
-
     /**
      * Gets the children of the specified object
      * 
      * @param parentElement
-     *            the parent object
+     *        the parent object
      * @return Object[]
      */
     public Object[] getChildren(Object parentElement) {
@@ -60,13 +53,14 @@ public class ResourceTreeContentProvider implements ITreeContentProvider {
             return toResourceArray(container);
         } else if (parentElement instanceof ResourceFolder) {
             //parentElement.getre
-            return getChildren(getFile((ResourceFolder)parentElement));
+            return getChildren(getFile((ResourceFolder) parentElement));
         } else if (parentElement instanceof File) {
             // Return the files and subdirectories in this directory except the .svn folder and files
             if (((File) parentElement).isDirectory()) {
                 File[] listFilesIgnoringSvn = ((File) parentElement).listFiles(new FilenameFilter() {
+
                     public boolean accept(File dir, String name) {
-                        return ! (dir.getName().endsWith(".svn") || name.equals(".svn"));
+                        return !(dir.getName().endsWith(".svn") || name.equals(".svn"));
                     }
                 });
                 List<File> files = new ArrayList<File>();
@@ -76,7 +70,7 @@ public class ResourceTreeContentProvider implements ITreeContentProvider {
                 Collections.sort(files);
                 return files.toArray();
             }
-        } else if(parentElement instanceof IContainer){
+        } else if (parentElement instanceof IContainer) {
             try {
                 return ((IContainer) parentElement).members();
             } catch (CoreException e) {
@@ -102,8 +96,8 @@ public class ResourceTreeContentProvider implements ITreeContentProvider {
     }
 
     /**
-     * 
      * List resource that are present in the template
+     * 
      * @param resourceFiles
      * @param resourceFolders
      * @return
@@ -123,7 +117,7 @@ public class ResourceTreeContentProvider implements ITreeContentProvider {
      * Gets the parent of the specified object
      * 
      * @param parentElement
-     *            the object
+     *        the object
      * @return Object
      */
     public Object getParent(Object element) {
@@ -140,7 +134,7 @@ public class ResourceTreeContentProvider implements ITreeContentProvider {
      * Returns whether the passed object has children
      * 
      * @param arg0
-     *            the parent object
+     *        the parent object
      * @return boolean
      */
     public boolean hasChildren(Object arg0) {
@@ -159,7 +153,7 @@ public class ResourceTreeContentProvider implements ITreeContentProvider {
      * Gets the root element(s) of the tree
      * 
      * @param arg0
-     *            the input data
+     *        the input data
      * @return Object[]
      */
     public Object[] getElements(Object arg0) {
@@ -181,14 +175,14 @@ public class ResourceTreeContentProvider implements ITreeContentProvider {
      * Called when the input changes
      * 
      * @param arg0
-     *            the viewer
+     *        the viewer
      * @param arg1
-     *            the old input
+     *        the old input
      * @param arg2
-     *            the new input
+     *        the new input
      */
     public void inputChanged(Viewer arg0, Object arg1, Object arg2) {
-        container = (ResourceContainer)arg2;
+        container = (ResourceContainer) arg2;
     }
 
     /**

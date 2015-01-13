@@ -1,21 +1,18 @@
 /**
  * Copyright (C) 2009 BonitaSoft S.A.
  * BonitaSoft, 31 rue Gustave Eiffel - 38000 Grenoble
- * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2.0 of the License, or
  * (at your option) any later version.
- *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
- 
+
 package org.bonitasoft.studio.diagram.custom.clipboard;
 
 import java.util.List;
@@ -33,51 +30,47 @@ import org.eclipse.gmf.runtime.diagram.ui.editparts.IGraphicalEditPart;
 
 /**
  * @author Romain Bioteau
- *
  */
 public class CustomCutCommand extends AbstractCommand {
 
-	private List<IGraphicalEditPart> toCopyElement ;
-	
-	
-	public CustomCutCommand(String label,List<IGraphicalEditPart> list) {
-		super(label);
-		this.toCopyElement = list;
-	}
+    private List<IGraphicalEditPart> toCopyElement;
 
+    public CustomCutCommand(String label, List<IGraphicalEditPart> list) {
+        super(label);
+        this.toCopyElement = list;
+    }
 
-	@Override
-	protected CommandResult doExecuteWithResult(
-			IProgressMonitor progressMonitor, IAdaptable info)
-			throws ExecutionException {
-		
-		Clipboard.setToCopyEditParts(toCopyElement);
-		TransactionalEditingDomain domain = (TransactionalEditingDomain) AdapterFactoryEditingDomain.getEditingDomainFor(toCopyElement);
-		domain.getCommandStack().execute(new RecordingCommand(domain) {
-			protected void doExecute() {
-				for (IGraphicalEditPart part : toCopyElement) {
-					EcoreUtil.delete(part.resolveSemanticElement());
-				}
-			}
-		});		
-		
-		return CommandResult.newOKCommandResult();
-	}
+    @Override
+    protected CommandResult doExecuteWithResult(
+            IProgressMonitor progressMonitor, IAdaptable info)
+            throws ExecutionException {
 
-	@Override
-	protected CommandResult doRedoWithResult(IProgressMonitor progressMonitor,
-			IAdaptable info) throws ExecutionException {
-	
-		return CommandResult.newOKCommandResult();
-	}
-	
+        Clipboard.setToCopyEditParts(toCopyElement);
+        TransactionalEditingDomain domain = (TransactionalEditingDomain) AdapterFactoryEditingDomain.getEditingDomainFor(toCopyElement);
+        domain.getCommandStack().execute(new RecordingCommand(domain) {
 
-	@Override
-	protected CommandResult doUndoWithResult(IProgressMonitor progressMonitor,
-			IAdaptable info) throws ExecutionException {
-	
-		return CommandResult.newOKCommandResult();
-	}
-	
+            protected void doExecute() {
+                for (IGraphicalEditPart part : toCopyElement) {
+                    EcoreUtil.delete(part.resolveSemanticElement());
+                }
+            }
+        });
+
+        return CommandResult.newOKCommandResult();
+    }
+
+    @Override
+    protected CommandResult doRedoWithResult(IProgressMonitor progressMonitor,
+            IAdaptable info) throws ExecutionException {
+
+        return CommandResult.newOKCommandResult();
+    }
+
+    @Override
+    protected CommandResult doUndoWithResult(IProgressMonitor progressMonitor,
+            IAdaptable info) throws ExecutionException {
+
+        return CommandResult.newOKCommandResult();
+    }
 
 }

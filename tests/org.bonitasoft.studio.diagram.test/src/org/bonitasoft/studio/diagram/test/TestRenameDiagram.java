@@ -40,7 +40,6 @@ import org.junit.runner.RunWith;
 @RunWith(SWTBotJunit4ClassRunner.class)
 public class TestRenameDiagram extends SWTBotGefTestCase {
 
-
     // Before and After
     private static boolean disablePopup;
     private static boolean askRenameOnFirstSave;
@@ -53,7 +52,6 @@ public class TestRenameDiagram extends SWTBotGefTestCase {
         FileActionDialog.setDisablePopup(true);
     }
 
-
     @AfterClass
     public static void tearDownAfterClass() {
         FileActionDialog.setDisablePopup(disablePopup);
@@ -62,14 +60,13 @@ public class TestRenameDiagram extends SWTBotGefTestCase {
 
     @Override
     @After
-    public void tearDown(){
+    public void tearDown() {
         BonitaStudioPreferencesPlugin.getDefault().getPreferenceStore().setValue(BonitaPreferenceConstants.ASK_RENAME_ON_FIRST_SAVE, false);
         bot.saveAllEditors();
     }
 
-
     @Test
-    public void testFirstSaveRenaming(){
+    public void testFirstSaveRenaming() {
         BonitaStudioPreferencesPlugin.getDefault().getPreferenceStore().setValue(BonitaPreferenceConstants.ASK_RENAME_ON_FIRST_SAVE, true);
         SWTBotTestUtil.createNewDiagram(bot);
         SWTBotEditor botEditor = bot.activeEditor();
@@ -78,9 +75,9 @@ public class TestRenameDiagram extends SWTBotGefTestCase {
         String originalName = diagram.getName();
         bot.menu("Diagram").menu("Save").click();
         bot.waitUntil(Conditions.shellIsActive(org.bonitasoft.studio.common.Messages.openNameAndVersionDialogTitle));
-        assertTrue("OK should be enabled",bot.button(IDialogConstants.OK_LABEL).isEnabled());
+        assertTrue("OK should be enabled", bot.button(IDialogConstants.OK_LABEL).isEnabled());
 
-        final String newName = originalName +" renamed"+System.currentTimeMillis();
+        final String newName = originalName + " renamed" + System.currentTimeMillis();
         bot.textWithLabel(org.bonitasoft.studio.common.Messages.name, 0).setText(newName);
 
         bot.button(IDialogConstants.OK_LABEL).click();
@@ -109,11 +106,11 @@ public class TestRenameDiagram extends SWTBotGefTestCase {
         originalName = diagram.getName();
         bot.menu("Diagram").menu("Save").click();
         bot.waitUntil(Conditions.shellIsActive(org.bonitasoft.studio.common.Messages.openNameAndVersionDialogTitle));
-        assertTrue("OK should be enabled",bot.button(IDialogConstants.OK_LABEL).isEnabled());
+        assertTrue("OK should be enabled", bot.button(IDialogConstants.OK_LABEL).isEnabled());
 
         bot.checkBox(org.bonitasoft.studio.application.i18n.Messages.doNotDisplayForOtherDiagrams).select();
         bot.button(IDialogConstants.OK_LABEL).click();
-        assertEquals(originalName +" (1.0)", bot.activeEditor().getTitle());
+        assertEquals(originalName + " (1.0)", bot.activeEditor().getTitle());
         assertFalse("Editor is dirty", bot.activeEditor().isDirty());
 
         SWTBotTestUtil.createNewDiagram(bot);
@@ -124,7 +121,7 @@ public class TestRenameDiagram extends SWTBotGefTestCase {
     }
 
     @Test
-    public void testRenameMenu(){
+    public void testRenameMenu() {
         SWTBotTestUtil.createNewDiagram(bot);
 
         bot.menu("Diagram").menu("Save").click();
@@ -136,16 +133,15 @@ public class TestRenameDiagram extends SWTBotGefTestCase {
         bot.menu("Diagram").menu("Rename...").click();
         bot.waitUntil(Conditions.shellIsActive(org.bonitasoft.studio.common.Messages.openNameAndVersionDialogTitle));
 
-        assertTrue("OK should be enabled",bot.button(IDialogConstants.OK_LABEL).isEnabled());
+        assertTrue("OK should be enabled", bot.button(IDialogConstants.OK_LABEL).isEnabled());
 
-        final String newName = originalName +" renamed"+System.currentTimeMillis();
+        final String newName = originalName + " renamed" + System.currentTimeMillis();
         bot.textWithLabel(org.bonitasoft.studio.common.Messages.name, 0).setText(newName);
 
         bot.button(IDialogConstants.OK_LABEL).click();
-        assertEquals(newName +" (1.0)", bot.activeEditor().getTitle());
+        assertEquals(newName + " (1.0)", bot.activeEditor().getTitle());
         assertFalse("Editor is dirty", bot.activeEditor().isDirty());
     }
-
 
     @Test
     public void testRenameDiagramOnce() throws Exception {

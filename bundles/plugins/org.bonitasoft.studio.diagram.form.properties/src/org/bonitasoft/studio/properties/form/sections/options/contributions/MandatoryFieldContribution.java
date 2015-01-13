@@ -29,105 +29,107 @@ import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetWidgetFactory;
 
 public class MandatoryFieldContribution implements IExtensibleGridPropertySectionContribution {
 
-	private Widget widget;
-	private TransactionalEditingDomain editingDomain;
-	private Button check;
-	private SelectionListener listener = new SelectionListener() {
+    private Widget widget;
+    private TransactionalEditingDomain editingDomain;
+    private Button check;
+    private SelectionListener listener = new SelectionListener() {
 
-		public void widgetSelected(SelectionEvent e) {
-			updateWidget();
-		}
+        public void widgetSelected(SelectionEvent e) {
+            updateWidget();
+        }
 
-		public void widgetDefaultSelected(SelectionEvent e) {
-		}
-	};
-	private Link mandatoryStyleLink;
+        public void widgetDefaultSelected(SelectionEvent e) {
+        }
+    };
+    private Link mandatoryStyleLink;
 
-	public void createControl(final Composite composite, TabbedPropertySheetWidgetFactory widgetFactory, ExtensibleGridPropertySection extensibleGridPropertySection) {
+    public void createControl(final Composite composite, TabbedPropertySheetWidgetFactory widgetFactory,
+            ExtensibleGridPropertySection extensibleGridPropertySection) {
 
-		GridData gridData = new GridData(SWT.FILL, SWT.CENTER, false, true);
-		composite.setLayoutData(gridData);
-		composite.setLayout(new GridLayout(2,false));
-		check = widgetFactory.createButton(composite, " ", SWT.CHECK); //$NON-NLS-1$
-		check.setToolTipText(Messages.isMandatory_tooltip);
-		if(ModelHelper.getParentProcess(widget) != null){
-			mandatoryStyleLink = new Link(composite, SWT.NONE);
-			mandatoryStyleLink.setBackground(composite.getBackground());
-			mandatoryStyleLink.setText("<A>" + Messages.customizeMandatorySymbol + "</A>");
-			mandatoryStyleLink.addSelectionListener(new SelectionAdapter() {
-				@Override
-				public void widgetSelected(SelectionEvent e) {
-					if(ModelHelper.getParentProcess(widget) != null){
-						openMandatoryStyleWizard(composite.getShell(), ModelHelper.getParentProcess(widget));
-					}
-				}
-			});
-		}
-		check.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				if(mandatoryStyleLink != null){
-					mandatoryStyleLink.setVisible(check.getSelection());
-				}
-			}
-		});
-	}
+        GridData gridData = new GridData(SWT.FILL, SWT.CENTER, false, true);
+        composite.setLayoutData(gridData);
+        composite.setLayout(new GridLayout(2, false));
+        check = widgetFactory.createButton(composite, " ", SWT.CHECK); //$NON-NLS-1$
+        check.setToolTipText(Messages.isMandatory_tooltip);
+        if (ModelHelper.getParentProcess(widget) != null) {
+            mandatoryStyleLink = new Link(composite, SWT.NONE);
+            mandatoryStyleLink.setBackground(composite.getBackground());
+            mandatoryStyleLink.setText("<A>" + Messages.customizeMandatorySymbol + "</A>");
+            mandatoryStyleLink.addSelectionListener(new SelectionAdapter() {
 
-	/**
-	 * @param shell 
-	 * 
-	 */
-	protected void openMandatoryStyleWizard(Shell shell, MandatoryFieldsCustomization mandatoryCusto) {
-		new WizardDialog(shell, new CustomMandatoryFeedbackWizard(mandatoryCusto, editingDomain)).open();
-	}
+                @Override
+                public void widgetSelected(SelectionEvent e) {
+                    if (ModelHelper.getParentProcess(widget) != null) {
+                        openMandatoryStyleWizard(composite.getShell(), ModelHelper.getParentProcess(widget));
+                    }
+                }
+            });
+        }
+        check.addSelectionListener(new SelectionAdapter() {
 
-	public void dispose() {
+            @Override
+            public void widgetSelected(SelectionEvent e) {
+                if (mandatoryStyleLink != null) {
+                    mandatoryStyleLink.setVisible(check.getSelection());
+                }
+            }
+        });
+    }
 
-	}
+    /**
+     * @param shell
+     */
+    protected void openMandatoryStyleWizard(Shell shell, MandatoryFieldsCustomization mandatoryCusto) {
+        new WizardDialog(shell, new CustomMandatoryFeedbackWizard(mandatoryCusto, editingDomain)).open();
+    }
 
-	public String getLabel() {
-		return Messages.isMandatory;
-	}
+    public void dispose() {
 
-	public boolean isRelevantFor(EObject eObject) {
-		return eObject instanceof FormField && !(eObject instanceof HiddenWidget) || eObject instanceof Group;
-	}
+    }
 
-	public void refresh() {
-		if(check != null && !check.isDisposed()){
-			removeListeners();
-			check.setSelection(widget.isMandatory());
-			if(mandatoryStyleLink != null){
-				mandatoryStyleLink.setVisible(widget.isMandatory());
-			}
-			addListeners();
-		}
+    public String getLabel() {
+        return Messages.isMandatory;
+    }
 
-	}
+    public boolean isRelevantFor(EObject eObject) {
+        return eObject instanceof FormField && !(eObject instanceof HiddenWidget) || eObject instanceof Group;
+    }
 
-	private void addListeners() {
-		check.addSelectionListener(listener);
-	}
+    public void refresh() {
+        if (check != null && !check.isDisposed()) {
+            removeListeners();
+            check.setSelection(widget.isMandatory());
+            if (mandatoryStyleLink != null) {
+                mandatoryStyleLink.setVisible(widget.isMandatory());
+            }
+            addListeners();
+        }
 
-	private void removeListeners() {
-		check.removeSelectionListener(listener);
-	}
+    }
 
-	public void setEObject(EObject object) {
-		widget = (Widget) object;
-	}
+    private void addListeners() {
+        check.addSelectionListener(listener);
+    }
 
-	public void setEditingDomain(TransactionalEditingDomain editingDomain) {
-		this.editingDomain = editingDomain;
+    private void removeListeners() {
+        check.removeSelectionListener(listener);
+    }
 
-	}
+    public void setEObject(EObject object) {
+        widget = (Widget) object;
+    }
 
-	public void setSelection(ISelection selection) {
-	}
+    public void setEditingDomain(TransactionalEditingDomain editingDomain) {
+        this.editingDomain = editingDomain;
 
-	private void updateWidget() {
-		editingDomain.getCommandStack().execute(
-				new SetCommand(editingDomain, widget, FormPackage.Literals.WIDGET__MANDATORY, check.getSelection()));
-	}
+    }
+
+    public void setSelection(ISelection selection) {
+    }
+
+    private void updateWidget() {
+        editingDomain.getCommandStack().execute(
+                new SetCommand(editingDomain, widget, FormPackage.Literals.WIDGET__MANDATORY, check.getSelection()));
+    }
 
 }

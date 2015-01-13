@@ -5,14 +5,12 @@
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2.0 of the License, or
  * (at your option) any later version.
- *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package org.bonitasoft.studio.properties.sections.forms;
 
@@ -75,7 +73,6 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.PlatformUI;
 
 /**
- *
  * @author Charles Souillard
  * @author Aurelien Pupier
  * @author Baptiste Mesta
@@ -85,11 +82,11 @@ public class FormsUtils {
     protected static final String TMP_DIR = ProjectUtil.getBonitaStudioWorkFolder().getAbsolutePath();
 
     public static enum WidgetEnum {
-        TEXT, TEXT_AREA, COMBO, CHECKBOX,CHECKBOX_LIST, DATE, LIST, PASSWORD, RADIO, SELECT, FILE
+        TEXT, TEXT_AREA, COMBO, CHECKBOX, CHECKBOX_LIST, DATE, LIST, PASSWORD, RADIO, SELECT, FILE
     };
 
-
-    public static void duplicateForm(final Element pageFlow, final TransactionalEditingDomain editingDomain, final EStructuralFeature feature, final Form baseForm, final String id, final String formDesc) {
+    public static void duplicateForm(final Element pageFlow, final TransactionalEditingDomain editingDomain, final EStructuralFeature feature,
+            final Form baseForm, final String id, final String formDesc) {
         try {
             OperationHistoryFactory.getOperationHistory().execute(new DuplicateFormCommand(pageFlow, feature, baseForm, id, formDesc, editingDomain),
                     Repository.NULL_PROGRESS_MONITOR, null);
@@ -102,7 +99,7 @@ public class FormsUtils {
      * create the diagram of the form and put it in the same resource file
      *
      * @param form
-     *            create the diagram corresponding to this form
+     *        create the diagram corresponding to this form
      * @return created diagram
      */
     public static void createDiagram(final Form form, final TransactionalEditingDomain editingDomain, final Element pageFlow) {
@@ -120,7 +117,7 @@ public class FormsUtils {
             @Override
             protected CommandResult doExecuteWithResult(final IProgressMonitor monitor, final IAdaptable info) throws ExecutionException {
                 final Diagram diagram = ViewService.createDiagram(form, FormEditPart.MODEL_ID, FormDiagramEditorPlugin.DIAGRAM_PREFERENCES_HINT);
-                final Resource resource =  getEditingDomain().getResourceSet().getResource(form.eResource().getURI(), false);
+                final Resource resource = getEditingDomain().getResourceSet().getResource(form.eResource().getURI(), false);
                 resource.getContents().add(diagram);
                 diagram.persist();
                 diagram.setElement(form);
@@ -140,12 +137,12 @@ public class FormsUtils {
      * open the diagram corresponding to the form
      *
      * @param form
-     *            the form to open
+     *        the form to open
      */
-    public static DiagramEditor openDiagram(final Form form,final EditingDomain domain) {
+    public static DiagramEditor openDiagram(final Form form, final EditingDomain domain) {
 
         /* get the Diagram element related to the form in the resource */
-        final Diagram diag = ModelHelper.getDiagramFor(form,domain);
+        final Diagram diag = ModelHelper.getDiagramFor(form, domain);
 
         /*
          * need to get the URI after save because the name can change as it is
@@ -235,7 +232,5 @@ public class FormsUtils {
             });
         }
     }
-
-
 
 }

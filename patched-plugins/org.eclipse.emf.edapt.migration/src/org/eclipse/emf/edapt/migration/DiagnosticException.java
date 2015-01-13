@@ -4,10 +4,9 @@
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- *
  * Contributors:
- *     BMW Car IT - Initial API and implementation
- *     Technische Universitaet Muenchen - Major refactoring and extension
+ * BMW Car IT - Initial API and implementation
+ * Technische Universitaet Muenchen - Major refactoring and extension
  *******************************************************************************/
 package org.eclipse.emf.edapt.migration;
 
@@ -23,32 +22,32 @@ import org.eclipse.emf.common.util.Diagnostic;
  */
 public class DiagnosticException extends Exception {
 
-	/** Constraint violation. */
-	private final Diagnostic diagnostic;
+    /** Constraint violation. */
+    private final Diagnostic diagnostic;
 
-	/** Constructor. */
-	public DiagnosticException(String message, Diagnostic diagnostic) {
-		super(message);
-		this.diagnostic = diagnostic;
-	}
-	
-	/** {@inheritDoc} */
-	@Override
-	public String getMessage() {
-		return super.getMessage() + "\n" + assembleViolations();
-	}
-	
-	/** Assemble textual representation of violations. */
-	protected String assembleViolations() {
-		StringBuffer buffer = new StringBuffer();
-		for(Diagnostic d : diagnostic.getChildren()) {
-			buffer.append(d.getMessage() + "\n");
-		}
-		return buffer.toString();
-	}
+    /** Constructor. */
+    public DiagnosticException(String message, Diagnostic diagnostic) {
+        super(message);
+        this.diagnostic = diagnostic;
+    }
 
-	/** Get the diagnostic. */
-	public Diagnostic getDiagnostic() {
-		return diagnostic;
-	}
+    /** {@inheritDoc} */
+    @Override
+    public String getMessage() {
+        return super.getMessage() + "\n" + assembleViolations();
+    }
+
+    /** Assemble textual representation of violations. */
+    protected String assembleViolations() {
+        StringBuffer buffer = new StringBuffer();
+        for (Diagnostic d : diagnostic.getChildren()) {
+            buffer.append(d.getMessage() + "\n");
+        }
+        return buffer.toString();
+    }
+
+    /** Get the diagnostic. */
+    public Diagnostic getDiagnostic() {
+        return diagnostic;
+    }
 }

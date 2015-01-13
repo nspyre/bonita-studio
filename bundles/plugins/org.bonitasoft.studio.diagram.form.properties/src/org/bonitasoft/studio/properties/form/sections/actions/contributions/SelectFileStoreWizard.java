@@ -7,7 +7,6 @@ import org.eclipse.jface.wizard.Wizard;
 
 /**
  * @author Aurelien Pupier
- *
  */
 public class SelectFileStoreWizard extends Wizard {
 
@@ -16,14 +15,12 @@ public class SelectFileStoreWizard extends Wizard {
     private SelectFileStoreWizardPage page;
     private final String initialValue;
 
-
     public SelectFileStoreWizard(TransactionalEditingDomain editingDomain, ResourceContainer resourceContainer, String initialValue) {
         this.editingDomain = editingDomain;
         this.resourceContainer = resourceContainer;
         this.initialValue = initialValue;
         setDefaultPageImageDescriptor(Pics.getWizban());
     }
-
 
     @Override
     public void addPages() {
@@ -32,16 +29,13 @@ public class SelectFileStoreWizard extends Wizard {
         addPage(page);
     }
 
-
     @Override
     public boolean performFinish() {
         return true;
     }
 
-
     public String getSelectedFilePath() {
         return page.getSelectedFilePath();
     }
-
 
 }

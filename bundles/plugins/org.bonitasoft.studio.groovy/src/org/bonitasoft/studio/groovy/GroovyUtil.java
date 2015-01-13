@@ -155,18 +155,18 @@ public class GroovyUtil {
         while (currentObject != null) {
             if (isInEntryPageFlow && currentObject instanceof PageFlow) {
                 pageFlowTransientData
-                .addAll((List<Data>) currentObject
-                        .eGet(ProcessPackage.Literals.PAGE_FLOW__TRANSIENT_DATA));
+                        .addAll((List<Data>) currentObject
+                                .eGet(ProcessPackage.Literals.PAGE_FLOW__TRANSIENT_DATA));
             }
             if (isInViewPageFlow && currentObject instanceof ViewPageFlow) {
                 pageFlowTransientData
-                .addAll((List<Data>) currentObject
-                        .eGet(ProcessPackage.Literals.VIEW_PAGE_FLOW__VIEW_TRANSIENT_DATA));
+                        .addAll((List<Data>) currentObject
+                                .eGet(ProcessPackage.Literals.VIEW_PAGE_FLOW__VIEW_TRANSIENT_DATA));
             }
             if (isInOverviewPageFlow && currentObject instanceof RecapFlow) {
                 pageFlowTransientData
-                .addAll((List<Data>) currentObject
-                        .eGet(ProcessPackage.Literals.RECAP_FLOW__RECAP_TRANSIENT_DATA));
+                        .addAll((List<Data>) currentObject
+                                .eGet(ProcessPackage.Literals.RECAP_FLOW__RECAP_TRANSIENT_DATA));
             }
             currentObject = (Element) currentObject.eContainer();
         }

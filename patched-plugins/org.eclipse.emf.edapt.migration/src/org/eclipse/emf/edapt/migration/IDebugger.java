@@ -4,10 +4,9 @@
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- *
  * Contributors:
- *     BMW Car IT - Initial API and implementation
- *     Technische Universitaet Muenchen - Major refactoring and extension
+ * BMW Car IT - Initial API and implementation
+ * Technische Universitaet Muenchen - Major refactoring and extension
  *******************************************************************************/
 package org.eclipse.emf.edapt.migration;
 
@@ -21,13 +20,13 @@ package org.eclipse.emf.edapt.migration;
  */
 public interface IDebugger {
 
-	/**
-	 * Show debug information.
-	 * 
-	 * @param context
-	 *            The context instance
-	 * @param message
-	 *            A message
-	 */
-	public void debug(Instance context, String message);
+    /**
+     * Show debug information.
+     * 
+     * @param context
+     *        The context instance
+     * @param message
+     *        A message
+     */
+    public void debug(Instance context, String message);
 }

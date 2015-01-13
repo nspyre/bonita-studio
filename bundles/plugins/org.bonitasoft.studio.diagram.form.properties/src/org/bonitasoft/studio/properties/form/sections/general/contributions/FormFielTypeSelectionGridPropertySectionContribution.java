@@ -1,19 +1,16 @@
 /**
  * Copyright (C) 2009-2010 BonitaSoft S.A.
  * BonitaSoft, 31 rue Gustave Eiffel - 38000 Grenoble
- *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2.0 of the License, or
  * (at your option) any later version.
- *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package org.bonitasoft.studio.properties.form.sections.general.contributions;
 
@@ -64,12 +61,10 @@ import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetWidgetFactory;
 
 /**
- *
  * display a combo that allow to change the type of a form field
  *
  * @author Aurelien Pupier
  * @author Baptiste Mesta
- *
  */
 public class FormFielTypeSelectionGridPropertySectionContribution implements IExtensibleGridPropertySectionContribution {
 
@@ -86,7 +81,6 @@ public class FormFielTypeSelectionGridPropertySectionContribution implements IEx
     private EClass lastSelection;
     private TransactionalEditingDomain editingDomain;
 
-
     public FormFielTypeSelectionGridPropertySectionContribution(final TabbedPropertySheetPage tabbedPropertySheetPage) {
         buttonsEclasses.addAll(Arrays.asList(FormPackage.Literals.SUBMIT_FORM_BUTTON,
                 FormPackage.Literals.PREVIOUS_FORM_BUTTON,
@@ -100,10 +94,8 @@ public class FormFielTypeSelectionGridPropertySectionContribution implements IEx
                 FormPackage.Literals.SELECT_FORM_FIELD,
                 FormPackage.Literals.SUGGEST_BOX));
 
-
         infoFieldEclasses.addAll(Arrays.asList(FormPackage.Literals.MESSAGE_INFO,
                 FormPackage.Literals.TEXT_INFO));
-
 
         singleFieldEclasses.addAll(Arrays.asList(FormPackage.Literals.CHECK_BOX_SINGLE_FORM_FIELD,
                 FormPackage.Literals.DATE_FORM_FIELD,

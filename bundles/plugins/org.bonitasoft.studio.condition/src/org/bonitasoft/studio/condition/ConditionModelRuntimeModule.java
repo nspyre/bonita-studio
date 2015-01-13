@@ -12,15 +12,14 @@ import org.eclipse.xtext.resource.impl.SimpleResourceDescriptionsBasedContainerM
  */
 public class ConditionModelRuntimeModule extends org.bonitasoft.studio.condition.AbstractConditionModelRuntimeModule {
 
-	@Override
-	public Class<? extends org.eclipse.xtext.scoping.IGlobalScopeProvider> bindIGlobalScopeProvider() {
-		return ConditionModelGlobalScopeProvider.class;
-	}
+    @Override
+    public Class<? extends org.eclipse.xtext.scoping.IGlobalScopeProvider> bindIGlobalScopeProvider() {
+        return ConditionModelGlobalScopeProvider.class;
+    }
 
-	@Override
-	public Class<? extends Manager> bindIContainer$Manager() {
-		return SimpleResourceDescriptionsBasedContainerManager.class;
-	}
+    @Override
+    public Class<? extends Manager> bindIContainer$Manager() {
+        return SimpleResourceDescriptionsBasedContainerManager.class;
+    }
 
-	
 }

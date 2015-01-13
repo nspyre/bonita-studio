@@ -1,19 +1,16 @@
 /**
  * Copyright (C) 2009 BonitaSoft S.A.
  * BonitaSoft, 31 rue Gustave Eiffel - 38000 Grenoble
- *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2.0 of the License, or
  * (at your option) any later version.
- *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package org.bonitasoft.studio.exporter.application;
 
@@ -53,24 +50,21 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.common.util.EList;
 
 /**
- * 
  * Exports resources from a process
  * 
  * @author Baptiste Mesta
- * 
  */
 public class ResourcesExporter {
 
     private static final String TMP_DIR = ProjectUtil.getBonitaStudioWorkFolder().getAbsolutePath();
 
     /**
-     * 
      * export and add process resources to the war file
      * 
      * @param process
-     *            from which resources are exported
+     *        from which resources are exported
      * @param warFile
-     *            were to put resources
+     *        were to put resources
      * @param monitor
      * @return true if all files are exported
      */
@@ -106,8 +100,8 @@ public class ResourcesExporter {
             Entry<File, String> entry = it.next();
             String absolutePath = entry.getKey().getAbsolutePath();
             String value = entry.getValue();
-            if(value.endsWith(File.separatorChar+"")){
-                value = value.substring(0, value.length()-1);
+            if (value.endsWith(File.separatorChar + "")) {
+                value = value.substring(0, value.length() - 1);
             }
             String pathFromRoot = absolutePath.substring(
                     absolutePath.indexOf(value) + value.length() + 1,
@@ -116,7 +110,7 @@ public class ResourcesExporter {
             File parent = new File(destTree.getParent());
             parent.mkdirs();
             File file = entry.getKey();
-            if(file.exists()) {
+            if (file.exists()) {
                 PlatformUtil.copyResource(new File(destTree.getParent()), file, monitor);
             }
 
@@ -137,7 +131,7 @@ public class ResourcesExporter {
         }
 
         if (loginPage != null && loginPage.exists()) {
-            File tempFile = new File(TMP_DIR + File.separatorChar + "application" + File.separatorChar +"login.jsp"); //$NON-NLS-1$
+            File tempFile = new File(TMP_DIR + File.separatorChar + "application" + File.separatorChar + "login.jsp"); //$NON-NLS-1$
             tempFile.getParentFile().mkdirs();
             tempFile.delete();
             try {
@@ -175,7 +169,6 @@ public class ResourcesExporter {
     }
 
     /**
-     * 
      * add resources to the list
      * 
      * @param process
@@ -193,7 +186,7 @@ public class ResourcesExporter {
             resFolder = WebTemplatesUtil.getFile(resourceFolder.getPath());
 
             // TODO log file missing
-            if(resFolder != null){
+            if (resFolder != null) {
                 addFileRecusive(resFolder, resFolder.getParent(), toAdd);
             }
         }
@@ -213,9 +206,10 @@ public class ResourcesExporter {
     private static void addFileRecusive(File file, String path, HashMap<File, String> toAdd) {
         if (file.isDirectory()) {
             File[] listFilesIgnoringSvn = file.listFiles(new FilenameFilter() {
+
                 @Override
                 public boolean accept(File dir, String name) {
-                    return ! (dir.getName().endsWith(".svn") || name.equals(".svn"));
+                    return !(dir.getName().endsWith(".svn") || name.equals(".svn"));
                 }
             });
             for (File child : listFilesIgnoringSvn) {
@@ -226,18 +220,18 @@ public class ResourcesExporter {
         }
     }
 
-    public static boolean exportJars(AbstractProcess process,Configuration configuration, File destFolder, IProgressMonitor monitor){
+    public static boolean exportJars(AbstractProcess process, Configuration configuration, File destFolder, IProgressMonitor monitor) {
         boolean succes = false;
 
         List<File> fileToIncludes = new ArrayList<File>();
-        final DependencyRepositoryStore store = (DependencyRepositoryStore) RepositoryManager.getInstance().getRepositoryStore(DependencyRepositoryStore.class) ;
+        final DependencyRepositoryStore store = (DependencyRepositoryStore) RepositoryManager.getInstance().getRepositoryStore(DependencyRepositoryStore.class);
         for (FragmentContainer fc : configuration.getApplicationDependencies()) {
-            List<Fragment> fragments = ModelHelper.getAllItemsOfType(fc, ConfigurationPackage.Literals.FRAGMENT) ;
+            List<Fragment> fragments = ModelHelper.getAllItemsOfType(fc, ConfigurationPackage.Literals.FRAGMENT);
             for (Fragment fragment : fragments) {
-                if(FragmentTypes.JAR.equals(fragment.getType()) && fragment.isExported()){
-                    final String jarName = fragment.getValue() ;
-                    IRepositoryFileStore fileStore =  store.getChild(jarName) ;
-                    if(fileStore != null){
+                if (FragmentTypes.JAR.equals(fragment.getType()) && fragment.isExported()) {
+                    final String jarName = fragment.getValue();
+                    IRepositoryFileStore fileStore = store.getChild(jarName);
+                    if (fileStore != null) {
                         fileToIncludes.add(fileStore.getResource().getLocation().toFile());
                     }
                 }

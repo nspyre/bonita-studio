@@ -1,7 +1,6 @@
 /**
  * <copyright>
  * </copyright>
- *
  * $Id$
  */
 package org.w3._1999.xhtml.validation;
@@ -94,88 +93,168 @@ import org.w3._1999.xhtml.VarType;
  * This can be disabled with -vmargs -Dorg.eclipse.emf.examples.generator.validator=false.
  */
 public interface DocumentRootValidator {
-	boolean validate();
 
-	boolean validateMixed(FeatureMap value);
-	boolean validateXMLNSPrefixMap(EMap<String, String> value);
-	boolean validateXSISchemaLocation(EMap<String, String> value);
-	boolean validateA(AType value);
-	boolean validateAbbr(AbbrType value);
-	boolean validateAcronym(AcronymType value);
-	boolean validateAddress(AddressType value);
-	boolean validateArea(AreaType value);
-	boolean validateB(BType value);
-	boolean validateBase(BaseType value);
-	boolean validateBdo(BdoType value);
-	boolean validateBig(BigType value);
-	boolean validateBlockquote(BlockquoteType value);
-	boolean validateBody(BodyType value);
-	boolean validateBr(BrType value);
-	boolean validateButton(ButtonType value);
-	boolean validateCaption(CaptionType value);
-	boolean validateCite(CiteType value);
-	boolean validateCode(CodeType value);
-	boolean validateCol(ColType value);
-	boolean validateColgroup(ColgroupType value);
-	boolean validateDd(DdType value);
-	boolean validateDel(DelType value);
-	boolean validateDfn(DfnType value);
-	boolean validateDiv(DivType value);
-	boolean validateDl(DlType value);
-	boolean validateDt(DtType value);
-	boolean validateEm(EmType value);
-	boolean validateFieldset(FieldsetType value);
-	boolean validateForm(FormType value);
-	boolean validateH1(H1Type value);
-	boolean validateH2(H2Type value);
-	boolean validateH3(H3Type value);
-	boolean validateH4(H4Type value);
-	boolean validateH5(H5Type value);
-	boolean validateH6(H6Type value);
-	boolean validateHead(HeadType value);
-	boolean validateHr(HrType value);
-	boolean validateHtml(Html value);
+    boolean validate();
 
-	boolean validateHtml(HtmlType value);
-	boolean validateI(IType value);
-	boolean validateImg(ImgType value);
-	boolean validateInput(InputType1 value);
-	boolean validateIns(InsType value);
-	boolean validateKbd(KbdType value);
-	boolean validateLabel(LabelType value);
-	boolean validateLegend(LegendType value);
-	boolean validateLi(LiType value);
-	boolean validateLink(LinkType value);
-	boolean validateMap(MapType value);
-	boolean validateMeta(MetaType value);
-	boolean validateNoscript(NoscriptType value);
-	boolean validateObject(ObjectType value);
-	boolean validateOl(OlType value);
-	boolean validateOptgroup(OptgroupType value);
-	boolean validateOption(OptionType value);
-	boolean validateP(PType value);
-	boolean validateParam(ParamType value);
-	boolean validatePre(PreType value);
-	boolean validateQ(QType value);
-	boolean validateSamp(SampType value);
-	boolean validateScript(ScriptType value);
-	boolean validateSelect(SelectType value);
-	boolean validateSmall(SmallType value);
-	boolean validateSpan(SpanType value);
-	boolean validateStrong(StrongType value);
-	boolean validateStyle(StyleType value);
-	boolean validateSub(SubType value);
-	boolean validateSup(SupType value);
-	boolean validateTable(TableType value);
-	boolean validateTbody(TbodyType value);
-	boolean validateTd(TdType value);
-	boolean validateTextarea(TextareaType value);
-	boolean validateTfoot(TfootType value);
-	boolean validateTh(ThType value);
-	boolean validateThead(TheadType value);
-	boolean validateTitle(TitleType value);
-	boolean validateTr(TrType value);
-	boolean validateTt(TtType value);
-	boolean validateUl(UlType value);
-	boolean validateVar(VarType value);
+    boolean validateMixed(FeatureMap value);
+
+    boolean validateXMLNSPrefixMap(EMap<String, String> value);
+
+    boolean validateXSISchemaLocation(EMap<String, String> value);
+
+    boolean validateA(AType value);
+
+    boolean validateAbbr(AbbrType value);
+
+    boolean validateAcronym(AcronymType value);
+
+    boolean validateAddress(AddressType value);
+
+    boolean validateArea(AreaType value);
+
+    boolean validateB(BType value);
+
+    boolean validateBase(BaseType value);
+
+    boolean validateBdo(BdoType value);
+
+    boolean validateBig(BigType value);
+
+    boolean validateBlockquote(BlockquoteType value);
+
+    boolean validateBody(BodyType value);
+
+    boolean validateBr(BrType value);
+
+    boolean validateButton(ButtonType value);
+
+    boolean validateCaption(CaptionType value);
+
+    boolean validateCite(CiteType value);
+
+    boolean validateCode(CodeType value);
+
+    boolean validateCol(ColType value);
+
+    boolean validateColgroup(ColgroupType value);
+
+    boolean validateDd(DdType value);
+
+    boolean validateDel(DelType value);
+
+    boolean validateDfn(DfnType value);
+
+    boolean validateDiv(DivType value);
+
+    boolean validateDl(DlType value);
+
+    boolean validateDt(DtType value);
+
+    boolean validateEm(EmType value);
+
+    boolean validateFieldset(FieldsetType value);
+
+    boolean validateForm(FormType value);
+
+    boolean validateH1(H1Type value);
+
+    boolean validateH2(H2Type value);
+
+    boolean validateH3(H3Type value);
+
+    boolean validateH4(H4Type value);
+
+    boolean validateH5(H5Type value);
+
+    boolean validateH6(H6Type value);
+
+    boolean validateHead(HeadType value);
+
+    boolean validateHr(HrType value);
+
+    boolean validateHtml(Html value);
+
+    boolean validateHtml(HtmlType value);
+
+    boolean validateI(IType value);
+
+    boolean validateImg(ImgType value);
+
+    boolean validateInput(InputType1 value);
+
+    boolean validateIns(InsType value);
+
+    boolean validateKbd(KbdType value);
+
+    boolean validateLabel(LabelType value);
+
+    boolean validateLegend(LegendType value);
+
+    boolean validateLi(LiType value);
+
+    boolean validateLink(LinkType value);
+
+    boolean validateMap(MapType value);
+
+    boolean validateMeta(MetaType value);
+
+    boolean validateNoscript(NoscriptType value);
+
+    boolean validateObject(ObjectType value);
+
+    boolean validateOl(OlType value);
+
+    boolean validateOptgroup(OptgroupType value);
+
+    boolean validateOption(OptionType value);
+
+    boolean validateP(PType value);
+
+    boolean validateParam(ParamType value);
+
+    boolean validatePre(PreType value);
+
+    boolean validateQ(QType value);
+
+    boolean validateSamp(SampType value);
+
+    boolean validateScript(ScriptType value);
+
+    boolean validateSelect(SelectType value);
+
+    boolean validateSmall(SmallType value);
+
+    boolean validateSpan(SpanType value);
+
+    boolean validateStrong(StrongType value);
+
+    boolean validateStyle(StyleType value);
+
+    boolean validateSub(SubType value);
+
+    boolean validateSup(SupType value);
+
+    boolean validateTable(TableType value);
+
+    boolean validateTbody(TbodyType value);
+
+    boolean validateTd(TdType value);
+
+    boolean validateTextarea(TextareaType value);
+
+    boolean validateTfoot(TfootType value);
+
+    boolean validateTh(ThType value);
+
+    boolean validateThead(TheadType value);
+
+    boolean validateTitle(TitleType value);
+
+    boolean validateTr(TrType value);
+
+    boolean validateTt(TtType value);
+
+    boolean validateUl(UlType value);
+
+    boolean validateVar(VarType value);
 }

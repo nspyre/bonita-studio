@@ -4,9 +4,8 @@
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- *
  * Contributors:
- *  Actuate Corporation  - initial API and implementation
+ * Actuate Corporation - initial API and implementation
  *******************************************************************************/
 
 package org.bonitasoft.studio.repository.themes.model.css;
@@ -24,12 +23,9 @@ import org.bonitasoft.studio.repository.themes.model.css.property.PropertyParser
 public class ParserFactory
 {
 
-
-	static public PropertyParser createPropertyParser( String inputProperty )
-	{
-		return new PropertyParser( inputProperty );
-	}
-
-
+    static public PropertyParser createPropertyParser(String inputProperty)
+    {
+        return new PropertyParser(inputProperty);
+    }
 
 }

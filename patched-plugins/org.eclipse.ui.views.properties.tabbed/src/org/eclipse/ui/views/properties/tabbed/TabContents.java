@@ -4,9 +4,8 @@
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- *
  * Contributors:
- *     IBM Corporation - initial API and implementation
+ * IBM Corporation - initial API and implementation
  *******************************************************************************/
 package org.eclipse.ui.views.properties.tabbed;
 
@@ -42,27 +41,29 @@ public final class TabContents {
 
     /**
      * Retrieve a numbered index for the section.
+     * 
      * @param section the section.
      * @return the section index.
      */
     public int getSectionIndex(ISection section) {
         for (int i = 0; i < sections.length; i++) {
-			if (section == sections[i]) {
-				return i;
-			}
-		}
+            if (section == sections[i]) {
+                return i;
+            }
+        }
         return -1;
     }
 
     /**
      * Retrieve the section at a numbered index.
+     * 
      * @param i a numbered index.
      * @return the section.
      */
     public ISection getSectionAtIndex(int i) {
         if (i >= 0 && i < sections.length) {
-			return sections[i];
-		}
+            return sections[i];
+        }
         return null;
     }
 
@@ -84,7 +85,7 @@ public final class TabContents {
     public void createControls(Composite parent,
             final TabbedPropertySheetPage page) {
         Composite pageComposite = page.getWidgetFactory().createComposite(
-            parent, SWT.NO_FOCUS);
+                parent, SWT.NO_FOCUS);
         GridLayout layout = new GridLayout();
         layout.marginWidth = 0;
         layout.marginHeight = 0;
@@ -94,10 +95,10 @@ public final class TabContents {
         for (int i = 0; i < sections.length; i++) {
             final ISection section = sections[i];
             final Composite sectionComposite = page.getWidgetFactory()
-                .createComposite(pageComposite, SWT.NO_FOCUS);
+                    .createComposite(pageComposite, SWT.NO_FOCUS);
             sectionComposite.setLayout(new FillLayout());
             int style = (section.shouldUseExtraSpace()) ? GridData.FILL_BOTH
-                : GridData.FILL_HORIZONTAL;
+                    : GridData.FILL_HORIZONTAL;
             GridData data = new GridData(style);
             data.heightHint = section.getMinimumHeight();
             sectionComposite.setLayoutData(data);
@@ -105,7 +106,7 @@ public final class TabContents {
             ISafeRunnable runnable = new SafeRunnable() {
 
                 public void run()
-                    throws Exception {
+                        throws Exception {
                     section.createControls(sectionComposite, page);
                 }
             };
@@ -123,7 +124,7 @@ public final class TabContents {
             ISafeRunnable runnable = new SafeRunnable() {
 
                 public void run()
-                    throws Exception {
+                        throws Exception {
                     section.dispose();
                 }
             };
@@ -140,7 +141,7 @@ public final class TabContents {
             ISafeRunnable runnable = new SafeRunnable() {
 
                 public void run()
-                    throws Exception {
+                        throws Exception {
                     section.aboutToBeShown();
                 }
             };
@@ -157,7 +158,7 @@ public final class TabContents {
             ISafeRunnable runnable = new SafeRunnable() {
 
                 public void run()
-                    throws Exception {
+                        throws Exception {
                     section.aboutToBeHidden();
                 }
             };
@@ -177,7 +178,7 @@ public final class TabContents {
             ISafeRunnable runnable = new SafeRunnable() {
 
                 public void run()
-                    throws Exception {
+                        throws Exception {
                     section.setInput(part, selection);
                 }
             };
@@ -213,7 +214,7 @@ public final class TabContents {
                 ISafeRunnable runnable = new SafeRunnable() {
 
                     public void run()
-                        throws Exception {
+                            throws Exception {
                         section.refresh();
                     }
                 };

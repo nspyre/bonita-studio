@@ -5,14 +5,12 @@
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2.0 of the License, or
  * (at your option) any later version.
- *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package org.bonitasoft.studio.xml.repository;
 
@@ -40,27 +38,27 @@ import org.eclipse.xsd.util.XSDResourceFactoryImpl;
 
 /**
  * @author Romain Bioteau
- *
  */
 public class XSDRepositoryStore extends AbstractEMFRepositoryStore<XSDFileStore> {
 
     public static final String PREFIX_IN_BAR = "xsd/";
     private static final String STORE_NAME = "xsd";
-    private static final Set<String> extensions = new HashSet<String>() ;
-    static{
-        extensions.add("xsd") ;
+    private static final Set<String> extensions = new HashSet<String>();
+    static {
+        extensions.add("xsd");
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see org.bonitasoft.studio.common.repository.model.IRepositoryStore#createRepositoryFileStore(java.lang.String)
      */
     @Override
     public XSDFileStore createRepositoryFileStore(String fileName) {
-        return new XSDFileStore(fileName,this);
+        return new XSDFileStore(fileName, this);
     }
 
-
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see org.bonitasoft.studio.common.repository.model.IRepositoryStore#getName()
      */
     @Override
@@ -68,7 +66,8 @@ public class XSDRepositoryStore extends AbstractEMFRepositoryStore<XSDFileStore>
         return STORE_NAME;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see org.bonitasoft.studio.common.repository.model.IRepositoryStore#getDisplayName()
      */
     @Override
@@ -76,7 +75,8 @@ public class XSDRepositoryStore extends AbstractEMFRepositoryStore<XSDFileStore>
         return Messages.xsdRepositoryName;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see org.bonitasoft.studio.common.repository.model.IRepositoryStore#getIcon()
      */
     @Override
@@ -84,7 +84,8 @@ public class XSDRepositoryStore extends AbstractEMFRepositoryStore<XSDFileStore>
         return Pics.getImage(PicsConstants.xml);
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see org.bonitasoft.studio.common.repository.model.IRepositoryStore#getCompatibleExtensions()
      */
     @Override
@@ -93,21 +94,21 @@ public class XSDRepositoryStore extends AbstractEMFRepositoryStore<XSDFileStore>
     }
 
     public IStatus isXSDFileValid(File file) {
-        Resource resource = null ;
+        Resource resource = null;
         final String filePath = file.getAbsolutePath();
-		try {
+        try {
             XSDResourceFactoryImpl factory = new XSDResourceFactoryImpl();
             resource = factory.createResource(URI.createFileURI(filePath));
             resource.load(Collections.EMPTY_MAP);
             XSDSchema schema = (XSDSchema) resource.getContents().get(0);
-            if(schema.getTargetNamespace() == null){
+            if (schema.getTargetNamespace() == null) {
                 return new Status(IStatus.ERROR, XMLPlugin.PLUGIN_ID, Messages.missingATargetNamespace);
             }
         } catch (Exception ex) {
-            return new Status(IStatus.ERROR, XMLPlugin.PLUGIN_ID, "An xsd file seems corrupted in your workspace ("+filePath+").\n"+ex.getMessage(),ex);
-        } finally{
-            if(resource != null){
-                resource.unload() ;
+            return new Status(IStatus.ERROR, XMLPlugin.PLUGIN_ID, "An xsd file seems corrupted in your workspace (" + filePath + ").\n" + ex.getMessage(), ex);
+        } finally {
+            if (resource != null) {
+                resource.unload();
             }
         }
         return Status.OK_STATUS;
@@ -115,7 +116,7 @@ public class XSDRepositoryStore extends AbstractEMFRepositoryStore<XSDFileStore>
 
     public XSDElementDeclaration findElementDeclaration(String namespace, String elementName) {
         for (IRepositoryFileStore artifact : getChildren()) {
-            XSDFileStore file = (XSDFileStore) artifact ;
+            XSDFileStore file = (XSDFileStore) artifact;
             XSDElementDeclaration decl = file.findElementDeclaration(namespace, elementName);
             if (decl != null) {
                 return decl;
@@ -126,7 +127,7 @@ public class XSDRepositoryStore extends AbstractEMFRepositoryStore<XSDFileStore>
 
     public XSDFileStore findArtifactWithNamespace(String xmlNamespace) {
         for (IRepositoryFileStore artifact : getChildren()) {
-            XSDSchema schema = (XSDSchema) artifact.getContent() ;
+            XSDSchema schema = (XSDSchema) artifact.getContent();
             if (schema.getTargetNamespace() != null && schema.getTargetNamespace().equals(xmlNamespace)) {
                 return (XSDFileStore) artifact;
             }
@@ -134,10 +135,9 @@ public class XSDRepositoryStore extends AbstractEMFRepositoryStore<XSDFileStore>
         return null;
     }
 
-
     @Override
     protected void addAdapterFactory(ComposedAdapterFactory adapterFactory) {
-        adapterFactory.addAdapterFactory(new XSDAdapterFactory()) ;
+        adapterFactory.addAdapterFactory(new XSDAdapterFactory());
     }
 
 }

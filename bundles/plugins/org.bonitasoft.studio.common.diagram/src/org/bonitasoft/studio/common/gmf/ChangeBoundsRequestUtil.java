@@ -1,11 +1,11 @@
 /**
  * Copyright (C) 2014 Bonitasoft S.A.
  * import org.bonitasoft.studio.common.emf.tools.ModelHelper;
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.gef.EditPart;
-import org.eclipse.gef.requests.ChangeBoundsRequest;
-import org.eclipse.gmf.runtime.diagram.ui.editparts.IGraphicalEditPart;
-ense, or
+ * import org.eclipse.emf.ecore.EObject;
+ * import org.eclipse.gef.EditPart;
+ * import org.eclipse.gef.requests.ChangeBoundsRequest;
+ * import org.eclipse.gmf.runtime.diagram.ui.editparts.IGraphicalEditPart;
+ * ense, or
  * (at your option) any later version.
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of

@@ -5,14 +5,12 @@
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2.0 of the License, or
  * (at your option) any later version.
- *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package org.bonitasoft.studio.expression.editor.constant;
 
@@ -31,13 +29,11 @@ import org.eclipse.swt.graphics.Image;
 
 /**
  * @author Romain Bioteau
- *
  */
 public class ConstantExpressionProvider implements IExpressionProvider {
 
-
-
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see org.bonitasoft.studio.expression.editor.provider.IExpressionProvider#getExpressions(org.eclipse.emf.ecore.EObject)
      */
     @Override
@@ -45,7 +41,8 @@ public class ConstantExpressionProvider implements IExpressionProvider {
         return Collections.emptySet();
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see org.bonitasoft.studio.expression.editor.provider.IExpressionProvider#getExpressionType()
      */
     @Override
@@ -53,15 +50,17 @@ public class ConstantExpressionProvider implements IExpressionProvider {
         return ExpressionConstants.CONSTANT_TYPE;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see org.bonitasoft.studio.expression.editor.provider.IExpressionProvider#getIcon(org.bonitasoft.studio.model.expression.Expression)
      */
     @Override
     public Image getIcon(Expression expression) {
-        return null ;//Pics.getImage(PicsConstants.constant);
+        return null;//Pics.getImage(PicsConstants.constant);
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see org.bonitasoft.studio.expression.editor.provider.IExpressionProvider#getTypeIcon()
      */
     @Override
@@ -69,7 +68,8 @@ public class ConstantExpressionProvider implements IExpressionProvider {
         return Pics.getImage(PicsConstants.constant);
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see org.bonitasoft.studio.expression.editor.provider.IExpressionProvider#getProposalLabel(org.bonitasoft.studio.model.expression.Expression)
      */
     @Override
@@ -77,7 +77,8 @@ public class ConstantExpressionProvider implements IExpressionProvider {
         return expression.getContent();
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see org.bonitasoft.studio.expression.editor.provider.IExpressionProvider#isRelevantFor(org.eclipse.emf.ecore.EObject)
      */
     @Override
@@ -91,9 +92,8 @@ public class ConstantExpressionProvider implements IExpressionProvider {
     }
 
     @Override
-    public IExpressionEditor getExpressionEditor(Expression expression,EObject context) {
+    public IExpressionEditor getExpressionEditor(Expression expression, EObject context) {
         return new ConstantExpressionEditor();
     }
-
 
 }

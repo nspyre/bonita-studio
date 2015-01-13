@@ -26,11 +26,8 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.progress.IProgressService;
 
 /**
- * 
  * @author Baptiste Mesta
- * 
  *         Handler that launch a dialog to import artifacts from a zip
- * 
  */
 public class ImportArtifactsFromZip extends AbstractHandler {
 

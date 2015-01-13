@@ -5,14 +5,12 @@
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2.0 of the License, or
  * (at your option) any later version.
- *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
 package org.bonitasoft.studio.form.preview;
@@ -124,193 +122,178 @@ import org.eclipse.ui.internal.browser.ExternalBrowserInstance;
 import org.eclipse.ui.internal.browser.IBrowserDescriptor;
 
 /**
- *@Author Aurelie Zara
- *
+ * @Author Aurelie Zara
  */
 public class FormPreviewOperation implements IRunnableWithProgress {
 
-	private Form form;
-	private Form formCopy;
-	private ApplicationLookNFeelFileStore lookNFeel;
-	private IBrowserDescriptor browser;
-	private static String lastProcessDeployed;
-	private static final int MAX_IT= 100;
-	private TransactionalEditingDomain editingDomain;
-	private AbstractFormPreviewInitialization formPreviewInit;
+    private Form form;
+    private Form formCopy;
+    private ApplicationLookNFeelFileStore lookNFeel;
+    private IBrowserDescriptor browser;
+    private static String lastProcessDeployed;
+    private static final int MAX_IT = 100;
+    private TransactionalEditingDomain editingDomain;
+    private AbstractFormPreviewInitialization formPreviewInit;
 
+    public FormPreviewOperation(AbstractFormPreviewInitialization formPreviewInit) {
+        this.formPreviewInit = formPreviewInit;
+        this.form = formPreviewInit.getForm();
+        this.lookNFeel = formPreviewInit.getLookNFeel();
+        this.browser = formPreviewInit.getBrowser();
 
+    }
 
-	public FormPreviewOperation(AbstractFormPreviewInitialization formPreviewInit){
-		this.formPreviewInit = formPreviewInit;
-		this.form = formPreviewInit.getForm();
-		this.lookNFeel = formPreviewInit.getLookNFeel();
-		this.browser = formPreviewInit.getBrowser();
-		
-		
-	}
-	/* (non-Javadoc)
-	 * @see org.eclipse.jface.operation.IRunnableWithProgress#run(org.eclipse.core.runtime.IProgressMonitor)
-	 */
-	@Override
-	public void run(IProgressMonitor monitor) throws InvocationTargetException,
-	InterruptedException {
+    /*
+     * (non-Javadoc)
+     * @see org.eclipse.jface.operation.IRunnableWithProgress#run(org.eclipse.core.runtime.IProgressMonitor)
+     */
+    @Override
+    public void run(IProgressMonitor monitor) throws InvocationTargetException,
+            InterruptedException {
 
-		monitor.beginTask(Messages.formPreview, IProgressMonitor.UNKNOWN);
+        monitor.beginTask(Messages.formPreview, IProgressMonitor.UNKNOWN);
 
-		APISession session = null;
-		ProcessAPI processApi = null;
-		long procId = -1;
-		final Configuration configuration = ConfigurationFactory.eINSTANCE.createConfiguration();
-		final AbstractProcess proc = formPreviewInit.createAbstractProcess(configuration);
-		
-		if (formPreviewInit.isCanPreview()){
-			configuration.setName("formPreviewConfig");
+        APISession session = null;
+        ProcessAPI processApi = null;
+        long procId = -1;
+        final Configuration configuration = ConfigurationFactory.eINSTANCE.createConfiguration();
+        final AbstractProcess proc = formPreviewInit.createAbstractProcess(configuration);
 
-			new ConfigurationSynchronizer(proc, configuration).synchronize();
+        if (formPreviewInit.isCanPreview()) {
+            configuration.setName("formPreviewConfig");
 
-			try {
-				Resource resource = doCreateEMFResource(proc,monitor);
-				initializeLookNFeel(proc, resource);
-				session = BOSEngineManager.getInstance().loginDefaultTenant(Repository.NULL_PROGRESS_MONITOR);
-				processApi = BOSEngineManager.getInstance().getProcessAPI(session);
-				Assert.isNotNull(processApi) ;
+            new ConfigurationSynchronizer(proc, configuration).synchronize();
 
-				undeployProcess(proc, processApi);
-				
-				BusinessArchive businessArchive = BarExporter.getInstance().createBusinessArchive(proc,configuration,Collections.EMPTY_SET,false);
-				cleanResources(proc, resource);
-				ProcessDefinition def = processApi.deploy(businessArchive);
-				procId = def.getId();
-				processApi.enableProcess(procId) ;
+            try {
+                Resource resource = doCreateEMFResource(proc, monitor);
+                initializeLookNFeel(proc, resource);
+                session = BOSEngineManager.getInstance().loginDefaultTenant(Repository.NULL_PROGRESS_MONITOR);
+                processApi = BOSEngineManager.getInstance().getProcessAPI(session);
+                Assert.isNotNull(processApi);
 
+                undeployProcess(proc, processApi);
 
-				ExternalBrowserInstance browserInstance = new ExternalBrowserInstance(null, browser);
-				if (!formPreviewInit.isOnTask()){
-					ApplicationURLBuilder builder = new ApplicationURLBuilder(proc,procId,configuration.getName(),ApplicationURLBuilder.MODE_FORM);
-					URL url = builder.toURL(monitor);
-					OpenBrowserCommand openCmd = new OpenBrowserCommand(url, browserInstance.getId(), "");
-					if(browser.getLocation() != null){
-						openCmd.setExternalBrowser(browserInstance);
-					}
-					openCmd.execute(null);
-				} else {
-					IdentityAPI identityApi = BOSEngineManager.getInstance().getIdentityAPI(session);
-					long userId = identityApi.getUserByUserName(BonitaConstants.STUDIO_TECHNICAL_USER_NAME).getId();
-					ProcessInstance procInstance = processApi.startProcess(procId);
-					boolean isAvailable = false;
-					int it = 0;
-					while(!isAvailable && it<MAX_IT){
-						isAvailable = !processApi.getOpenActivityInstances(procInstance.getId(), 0, 1, null).isEmpty();
-						it++;
-						Thread.sleep(100);
-					}
-					if (it<MAX_IT && !processApi.getPendingHumanTaskInstances(userId, 0, 20, null).isEmpty() ){
-						HumanTaskInstance task = processApi.getPendingHumanTaskInstances(userId,0, 20, null).get(0);
-						processApi.assignUserTask(task.getId(), userId);
-						URL taskURL = toTaskURL(configuration,proc,procId,task,monitor);
-						OpenBrowserCommand openCmd = new OpenBrowserCommand(taskURL, browserInstance.getId(), "");
-						if(browser.getLocation() != null){
-							openCmd.setExternalBrowser(browserInstance);
-						}
-						openCmd.execute(null);
-					} 
-				}
-			} catch (Exception e) {
-				BonitaStudioLog.error(e);
+                BusinessArchive businessArchive = BarExporter.getInstance().createBusinessArchive(proc, configuration, Collections.EMPTY_SET, false);
+                cleanResources(proc, resource);
+                ProcessDefinition def = processApi.deploy(businessArchive);
+                procId = def.getId();
+                processApi.enableProcess(procId);
 
-			}finally{
-				if(session != null){
-					BOSEngineManager.getInstance().logoutDefaultTenant(session);
-					lastProcessDeployed = proc.getName();
-				}
-			}
-		}
+                ExternalBrowserInstance browserInstance = new ExternalBrowserInstance(null, browser);
+                if (!formPreviewInit.isOnTask()) {
+                    ApplicationURLBuilder builder = new ApplicationURLBuilder(proc, procId, configuration.getName(), ApplicationURLBuilder.MODE_FORM);
+                    URL url = builder.toURL(monitor);
+                    OpenBrowserCommand openCmd = new OpenBrowserCommand(url, browserInstance.getId(), "");
+                    if (browser.getLocation() != null) {
+                        openCmd.setExternalBrowser(browserInstance);
+                    }
+                    openCmd.execute(null);
+                } else {
+                    IdentityAPI identityApi = BOSEngineManager.getInstance().getIdentityAPI(session);
+                    long userId = identityApi.getUserByUserName(BonitaConstants.STUDIO_TECHNICAL_USER_NAME).getId();
+                    ProcessInstance procInstance = processApi.startProcess(procId);
+                    boolean isAvailable = false;
+                    int it = 0;
+                    while (!isAvailable && it < MAX_IT) {
+                        isAvailable = !processApi.getOpenActivityInstances(procInstance.getId(), 0, 1, null).isEmpty();
+                        it++;
+                        Thread.sleep(100);
+                    }
+                    if (it < MAX_IT && !processApi.getPendingHumanTaskInstances(userId, 0, 20, null).isEmpty()) {
+                        HumanTaskInstance task = processApi.getPendingHumanTaskInstances(userId, 0, 20, null).get(0);
+                        processApi.assignUserTask(task.getId(), userId);
+                        URL taskURL = toTaskURL(configuration, proc, procId, task, monitor);
+                        OpenBrowserCommand openCmd = new OpenBrowserCommand(taskURL, browserInstance.getId(), "");
+                        if (browser.getLocation() != null) {
+                            openCmd.setExternalBrowser(browserInstance);
+                        }
+                        openCmd.execute(null);
+                    }
+                }
+            } catch (Exception e) {
+                BonitaStudioLog.error(e);
 
-	}
+            } finally {
+                if (session != null) {
+                    BOSEngineManager.getInstance().logoutDefaultTenant(session);
+                    lastProcessDeployed = proc.getName();
+                }
+            }
+        }
 
+    }
 
-	public URL toTaskURL(Configuration configuration,AbstractProcess process,long procId,HumanTaskInstance task,IProgressMonitor monitor) throws UnsupportedEncodingException, MalformedURLException{
-		IPreferenceStore store =  BonitaStudioPreferencesPlugin.getDefault().getPreferenceStore() ;
-		String locale = store.getString(BonitaPreferenceConstants.CURRENT_UXP_LOCALE) ;
-		String port = store.getString(BonitaPreferenceConstants.CONSOLE_PORT);
-		String host = store.getString(BonitaPreferenceConstants.CONSOLE_HOST) ;
-		String token = "" ;
-		String userName = BonitaStudioPreferencesPlugin.getDefault().getPreferenceStore().getString(BonitaPreferenceConstants.USER_NAME) ;
-		String password = BonitaStudioPreferencesPlugin.getDefault().getPreferenceStore().getString(BonitaPreferenceConstants.USER_PASSWORD) ;
-		if(configuration != null && configuration.getUsername() != null){
-			userName = configuration.getUsername() ;
-			password = configuration.getPassword() ;
-		}
-		final String taskName=((Task)process.getElements().get(0)).getName();
-		final String loginURL = BOSWebServerManager.getInstance().generateLoginURL(userName, password) ;
-		final String runUrl = ApplicationURLBuilder.APPLI_PATH + token +"ui=form&theme="+procId+"&locale="+locale+"#form="+URLEncoder.encode(process.getName()+"--"+process.getVersion()+"--"+taskName, "UTF-8")+"$entry&task="+task.getId()+"&mode=form";
-		return new URL(loginURL+"&redirectUrl="+URLEncoder.encode(runUrl, "UTF-8"));
+    public URL toTaskURL(Configuration configuration, AbstractProcess process, long procId, HumanTaskInstance task, IProgressMonitor monitor)
+            throws UnsupportedEncodingException, MalformedURLException {
+        IPreferenceStore store = BonitaStudioPreferencesPlugin.getDefault().getPreferenceStore();
+        String locale = store.getString(BonitaPreferenceConstants.CURRENT_UXP_LOCALE);
+        String port = store.getString(BonitaPreferenceConstants.CONSOLE_PORT);
+        String host = store.getString(BonitaPreferenceConstants.CONSOLE_HOST);
+        String token = "";
+        String userName = BonitaStudioPreferencesPlugin.getDefault().getPreferenceStore().getString(BonitaPreferenceConstants.USER_NAME);
+        String password = BonitaStudioPreferencesPlugin.getDefault().getPreferenceStore().getString(BonitaPreferenceConstants.USER_PASSWORD);
+        if (configuration != null && configuration.getUsername() != null) {
+            userName = configuration.getUsername();
+            password = configuration.getPassword();
+        }
+        final String taskName = ((Task) process.getElements().get(0)).getName();
+        final String loginURL = BOSWebServerManager.getInstance().generateLoginURL(userName, password);
+        final String runUrl = ApplicationURLBuilder.APPLI_PATH + token + "ui=form&theme=" + procId + "&locale=" + locale + "#form="
+                + URLEncoder.encode(process.getName() + "--" + process.getVersion() + "--" + taskName, "UTF-8") + "$entry&task=" + task.getId() + "&mode=form";
+        return new URL(loginURL + "&redirectUrl=" + URLEncoder.encode(runUrl, "UTF-8"));
 
-	}
+    }
 
+    private Resource doCreateEMFResource(final AbstractProcess proc, IProgressMonitor monitor) throws IOException, ExecutionException {
+        URI uri = URI.createFileURI(ProjectUtil.getBonitaStudioWorkFolder().getAbsolutePath() + File.separator + proc.getName() + ".proc");
 
+        final XMLResourceImpl resource = new XMLResourceImpl(uri) {
 
+            protected boolean useUUIDs() {
+                return true;
+            };
+        };
+        resource.getContents().add(proc);
+        resource.save(ProcessDiagramEditorUtil.getSaveOptions());
+        return resource;
+    }
 
-	
+    private void cleanResources(AbstractProcess proc, Resource resource) throws IOException {
+        ApplicationResourceRepositoryStore store = (ApplicationResourceRepositoryStore) RepositoryManager.getInstance().getRepositoryStore(
+                ApplicationResourceRepositoryStore.class);
+        store.getChild(ModelHelper.getEObjectID(proc)).delete();
+        resource.delete(Collections.EMPTY_MAP);
+    }
 
+    private void initializeLookNFeel(AbstractProcess proc, Resource resource) {
+        ResourceSet resourceSet = new ResourceSetImpl();
+        editingDomain = GMFEditingDomainFactory.getInstance().createEditingDomain(resourceSet);
+        proc = (AbstractProcess) resource.getEObject(proc.eResource().getURIFragment(proc));
+        CompoundCommand cc = WebTemplatesUtil.createAddTemplateCommand(editingDomain, proc, lookNFeel, new NullProgressMonitor());
+        editingDomain.getCommandStack().execute(cc);
+    }
 
-	private Resource doCreateEMFResource(final AbstractProcess proc,IProgressMonitor monitor) throws IOException, ExecutionException{
-		URI uri = URI.createFileURI(ProjectUtil.getBonitaStudioWorkFolder().getAbsolutePath()+File.separator+proc.getName()+".proc");
-
-		final XMLResourceImpl resource =	new XMLResourceImpl(uri){
-			protected boolean useUUIDs() {
-				return true;
-			};
-		};
-		resource.getContents().add(proc);
-		resource.save(ProcessDiagramEditorUtil.getSaveOptions()) ;
-		return resource;
-	}
-	
-	private void cleanResources(AbstractProcess proc, Resource resource) throws IOException{
-		ApplicationResourceRepositoryStore store = (ApplicationResourceRepositoryStore)RepositoryManager.getInstance().getRepositoryStore(ApplicationResourceRepositoryStore.class);
-		store.getChild(ModelHelper.getEObjectID(proc)).delete();
-		resource.delete(Collections.EMPTY_MAP);
-	}
-	
-	private void initializeLookNFeel(AbstractProcess proc,Resource resource){
-		ResourceSet resourceSet = new ResourceSetImpl();
-		editingDomain  = GMFEditingDomainFactory.getInstance().createEditingDomain(resourceSet);
-		proc = (AbstractProcess) resource.getEObject(proc.eResource().getURIFragment(proc));
-		CompoundCommand cc = WebTemplatesUtil.createAddTemplateCommand(editingDomain, proc, lookNFeel, new NullProgressMonitor());
-		editingDomain.getCommandStack().execute(cc);
-	}
-
-
-
-
-
-
-
-
-	protected void undeployProcess(AbstractProcess process, ProcessAPI processApi) throws InvalidSessionException,   ProcessDefinitionNotFoundException,  IllegalProcessStateException, DeletionException {
-		long nbDeployedProcesses = processApi.getNumberOfProcessDeploymentInfos() ;
-		if(nbDeployedProcesses > 0){
-			if(lastProcessDeployed == null){
-				lastProcessDeployed = process.getName();
-			}
-			List<ProcessDeploymentInfo> processes = processApi.getProcessDeploymentInfos(0, (int) nbDeployedProcesses, ProcessDeploymentInfoCriterion.DEFAULT) ;
-			for(ProcessDeploymentInfo info : processes){
-				if(info.getName().equals(lastProcessDeployed) && info.getVersion().equals(formPreviewInit.VERSION)){
-					try{
-						if (processApi.getProcessDeploymentInfo(info.getProcessId()).getActivationState() == ActivationState.ENABLED){
-							processApi.disableProcess(info.getProcessId()) ;
-						}
-					}catch (ProcessActivationException e) {
-						BonitaStudioLog.error(e);
-					}
-					processApi.deleteProcess(info.getProcessId()) ;
-				}
-			}
-		}
-	}
-
-
-
+    protected void undeployProcess(AbstractProcess process, ProcessAPI processApi) throws InvalidSessionException, ProcessDefinitionNotFoundException,
+            IllegalProcessStateException, DeletionException {
+        long nbDeployedProcesses = processApi.getNumberOfProcessDeploymentInfos();
+        if (nbDeployedProcesses > 0) {
+            if (lastProcessDeployed == null) {
+                lastProcessDeployed = process.getName();
+            }
+            List<ProcessDeploymentInfo> processes = processApi.getProcessDeploymentInfos(0, (int) nbDeployedProcesses, ProcessDeploymentInfoCriterion.DEFAULT);
+            for (ProcessDeploymentInfo info : processes) {
+                if (info.getName().equals(lastProcessDeployed) && info.getVersion().equals(formPreviewInit.VERSION)) {
+                    try {
+                        if (processApi.getProcessDeploymentInfo(info.getProcessId()).getActivationState() == ActivationState.ENABLED) {
+                            processApi.disableProcess(info.getProcessId());
+                        }
+                    } catch (ProcessActivationException e) {
+                        BonitaStudioLog.error(e);
+                    }
+                    processApi.deleteProcess(info.getProcessId());
+                }
+            }
+        }
+    }
 
 }

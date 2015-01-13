@@ -5,14 +5,12 @@
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2.0 of the License, or
  * (at your option) any later version.
- *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package org.bonitasoft.studio.properties.sections.forms.adapters;
 
@@ -43,6 +41,7 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.PlatformUI;
 
 public class WidgetAddedOrRemoved extends AdapterImpl {
+
     private final Form form;
     private final DefaultElementNameProvider elementNameProvider;
 
@@ -72,9 +71,11 @@ public class WidgetAddedOrRemoved extends AdapterImpl {
         if (form.getHtmlTemplate() != null && form.getHtmlTemplate().getPath() != null && !form.getHtmlTemplate().getPath().isEmpty()) {
             // there is a template
             Display.getDefault().syncExec(new Runnable() {
+
                 @Override
                 public void run() {
-                    MessageDialog.openWarning(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), Messages.widgetRemovedWarning_title, Messages.widgetRemovedWarning_msg);
+                    MessageDialog.openWarning(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), Messages.widgetRemovedWarning_title,
+                            Messages.widgetRemovedWarning_msg);
                 }
             });
         }
@@ -104,6 +105,7 @@ public class WidgetAddedOrRemoved extends AdapterImpl {
     private void handleExceptionWhileAddingWidgetInTemplate(final Exception e) {
         BonitaStudioLog.error(e);
         Display.getDefault().syncExec(new Runnable() {
+
             @Override
             public void run() {
                 new BonitaErrorDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), Messages.Error, "Unexpected error", e).open();

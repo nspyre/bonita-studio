@@ -1,7 +1,6 @@
 /**
  * <copyright>
  * </copyright>
- *
  * $Id$
  */
 package org.bonitasoft.studio.connector.model.definition.impl;
@@ -21,23 +20,26 @@ import org.eclipse.emf.ecore.EClass;
  * @generated
  */
 public class CheckboxImpl extends WidgetImpl implements Checkbox {
-    /**
-	 * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-	 * @generated
-	 */
-    protected CheckboxImpl() {
-		super();
-	}
 
     /**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * 
+     * @generated
+     */
+    protected CheckboxImpl() {
+        super();
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * 
+     * @generated
+     */
     @Override
     protected EClass eStaticClass() {
-		return ConnectorDefinitionPackage.Literals.CHECKBOX;
-	}
+        return ConnectorDefinitionPackage.Literals.CHECKBOX;
+    }
 
 } //CheckboxImpl

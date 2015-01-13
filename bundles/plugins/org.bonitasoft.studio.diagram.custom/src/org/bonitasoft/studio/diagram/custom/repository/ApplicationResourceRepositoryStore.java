@@ -5,14 +5,12 @@
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2.0 of the License, or
  * (at your option) any later version.
- *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package org.bonitasoft.studio.diagram.custom.repository;
 
@@ -44,56 +42,61 @@ import org.eclipse.swt.graphics.Image;
 
 /**
  * @author Romain Bioteau
- *
  */
 public class ApplicationResourceRepositoryStore extends AbstractRepositoryStore<IRepositoryFileStore> {
 
-    private static final String STORE_NAME = "application_resources" ;
+    private static final String STORE_NAME = "application_resources";
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see org.bonitasoft.studio.common.repository.model.IRepositoryStore#createRepositoryFileStore(java.lang.String)
      */
     @Override
     public IRepositoryFileStore createRepositoryFileStore(String processUUID) {
-    	if(processUUID.contains(".")){
-    		return null;
-    	}
-    	IFile f = getResource().getFile(processUUID);
-    	if(f.exists() && f.getLocation().toFile().isFile()){
-    		return null;
-    	}
+        if (processUUID.contains(".")) {
+            return null;
+        }
+        IFile f = getResource().getFile(processUUID);
+        if (f.exists() && f.getLocation().toFile().isFile()) {
+            return null;
+        }
         return new ApplicationResourceFileStore(processUUID, this);
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see org.bonitasoft.studio.common.repository.model.IRepositoryStore#canImportBARResource(java.lang.String)
      */
     public boolean canImportBARResource(String resourceName) {
         return false;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see org.bonitasoft.studio.common.repository.model.IRepositoryStore#getName()
      */
     public String getName() {
         return STORE_NAME;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see org.bonitasoft.studio.common.repository.model.IRepositoryStore#getDisplayName()
      */
     public String getDisplayName() {
         return Messages.applicationResources;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see org.bonitasoft.studio.common.repository.model.IRepositoryStore#getIcon()
      */
     public Image getIcon() {
-        return Pics.getImage("resources.gif",Activator.getDefault());
+        return Pics.getImage("resources.gif", Activator.getDefault());
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see org.bonitasoft.studio.common.repository.model.IRepositoryStore#getCompatibleExtensions()
      */
     public Set<String> getCompatibleExtensions() {
@@ -102,36 +105,36 @@ public class ApplicationResourceRepositoryStore extends AbstractRepositoryStore<
 
     @Override
     public IRepositoryFileStore getChild(String processUUID) {
-        if(processUUID != null){
-            IFolder folder = getResource().getFolder(processUUID) ;
-            if(!folder.isSynchronized(IResource.DEPTH_INFINITE) && folder.isAccessible()){
+        if (processUUID != null) {
+            IFolder folder = getResource().getFolder(processUUID);
+            if (!folder.isSynchronized(IResource.DEPTH_INFINITE) && folder.isAccessible()) {
                 try {
-                    folder.refreshLocal(IResource.DEPTH_INFINITE, Repository.NULL_PROGRESS_MONITOR) ;
+                    folder.refreshLocal(IResource.DEPTH_INFINITE, Repository.NULL_PROGRESS_MONITOR);
                 } catch (CoreException e) {
-                    BonitaStudioLog.error(e) ;
+                    BonitaStudioLog.error(e);
                 }
             }
-            if(folder.exists()){
-                return createRepositoryFileStore(processUUID) ;
+            if (folder.exists()) {
+                return createRepositoryFileStore(processUUID);
             }
         }
-        return null ;
+        return null;
     }
 
     @Override
     public List<IRepositoryFileStore> getChildren() {
-        refresh() ;
+        refresh();
 
-        List<IRepositoryFileStore> result = new ArrayList<IRepositoryFileStore>() ;
+        List<IRepositoryFileStore> result = new ArrayList<IRepositoryFileStore>();
         IFolder folder = getResource();
         try {
-            for(IResource r : folder.members()){
-                if(!r.isHidden() && !r.getName().startsWith(".")){ //Hoping that .DS_STORE & .svn are hidden resources
-                    result.add(createRepositoryFileStore(r.getName())) ;
+            for (IResource r : folder.members()) {
+                if (!r.isHidden() && !r.getName().startsWith(".")) { //Hoping that .DS_STORE & .svn are hidden resources
+                    result.add(createRepositoryFileStore(r.getName()));
                 }
             }
         } catch (CoreException e) {
-            BonitaStudioLog.error(e) ;
+            BonitaStudioLog.error(e);
         }
         return result;
     }
@@ -142,43 +145,44 @@ public class ApplicationResourceRepositoryStore extends AbstractRepositoryStore<
 
     public IFile getIFileInProject(String path) {
         Path ipath = new Path(path);
-        return getResource().getFile(ipath) ;
+        return getResource().getFile(ipath);
     }
 
     @Override
     protected IRepositoryFileStore doImportIResource(String fileName, IResource resource) {
-        try{
-            if(resource instanceof IFile){
-                return doImportInputStream(fileName, ((IFile) resource).getContents()) ;
-            }else if(resource instanceof IFolder){
-                IPath path = getResource().getFullPath().append(fileName) ;
-                IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot() ;
+        try {
+            if (resource instanceof IFile) {
+                return doImportInputStream(fileName, ((IFile) resource).getContents());
+            } else if (resource instanceof IFolder) {
+                IPath path = getResource().getFullPath().append(fileName);
+                IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
                 IFolder targetFolder = root.getFolder(path);
-                if(targetFolder.exists()){
+                if (targetFolder.exists()) {
                     String fileNameLabel = fileName;
-                    final String processUUID = fileName ;
-                    final DiagramRepositoryStore diagramStore = (DiagramRepositoryStore) RepositoryManager.getInstance().getRepositoryStore(DiagramRepositoryStore.class);
+                    final String processUUID = fileName;
+                    final DiagramRepositoryStore diagramStore = (DiagramRepositoryStore) RepositoryManager.getInstance().getRepositoryStore(
+                            DiagramRepositoryStore.class);
                     final AbstractProcess process = diagramStore.getProcessByUUID(processUUID);
-                    if(process != null){
-                        fileNameLabel =Messages.bind(Messages.applicationResourcesFor,process.getName() +" ("+process.getVersion()+")");
+                    if (process != null) {
+                        fileNameLabel = Messages.bind(Messages.applicationResourcesFor, process.getName() + " (" + process.getVersion() + ")");
                     }
-                    if(FileActionDialog.overwriteQuestion(fileNameLabel)){
-                        targetFolder.delete(true, Repository.NULL_PROGRESS_MONITOR) ;
-                    }else{
+                    if (FileActionDialog.overwriteQuestion(fileNameLabel)) {
+                        targetFolder.delete(true, Repository.NULL_PROGRESS_MONITOR);
+                    } else {
                         return createRepositoryFileStore(fileName);
                     }
                 }
-                resource.copy(getResource().getFullPath().append(fileName), true, Repository.NULL_PROGRESS_MONITOR) ;
+                resource.copy(getResource().getFullPath().append(fileName), true, Repository.NULL_PROGRESS_MONITOR);
             }
-        }catch (Exception e) {
-            BonitaStudioLog.error(e) ;
+        } catch (Exception e) {
+            BonitaStudioLog.error(e);
         }
         return createRepositoryFileStore(fileName);
     }
 
-	@Override
-	public void migrate() throws CoreException, MigrationException {
-		//NOTHING TO MIGRATE
-	}
+    @Override
+    public void migrate() throws CoreException, MigrationException {
+        //NOTHING TO MIGRATE
+    }
 
 }

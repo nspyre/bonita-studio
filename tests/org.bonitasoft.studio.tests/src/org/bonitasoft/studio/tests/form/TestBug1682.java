@@ -29,7 +29,6 @@ import org.junit.runner.RunWith;
 
 /**
  * @author Mickael Istria
- *
  */
 @RunWith(SWTBotJunit4ClassRunner.class)
 public class TestBug1682 extends SWTBotGefTestCase {
@@ -51,10 +50,10 @@ public class TestBug1682 extends SWTBotGefTestCase {
             }
         });
 
-        /*The editor for process*/
+        /* The editor for process */
         final String title = bot.activeEditor().getTitle();
         final SWTBotGefEditor gefEditor = bot.gefEditor(title);
-        /*get the form in the first process (pool)*/
+        /* get the form in the first process (pool) */
         gefEditor.mainEditPart().children().get(0).select();
         gefEditor.clickContextMenu("Delete");
         bot.button(IDialogConstants.OK_LABEL).click();

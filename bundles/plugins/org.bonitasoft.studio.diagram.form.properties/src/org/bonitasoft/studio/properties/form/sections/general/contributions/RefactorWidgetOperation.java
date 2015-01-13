@@ -5,12 +5,10 @@
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2.0 of the License, or
  * (at your option) any later version.
- *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- *
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
@@ -47,10 +45,8 @@ import org.eclipse.emf.edit.domain.EditingDomain;
 
 /**
  * @author Romain Bioteau
- *
  */
 public class RefactorWidgetOperation extends AbstractRefactorOperation<Widget, Widget, WidgetRefactorPair> {
-
 
     public RefactorWidgetOperation(final Widget widget, final String newName) {
         super(RefactoringOperationType.UPDATE);
@@ -60,7 +56,6 @@ public class RefactorWidgetOperation extends AbstractRefactorOperation<Widget, W
 
     }
 
-
     @Override
     protected void doExecute(final IProgressMonitor monitor) {
         monitor.beginTask(Messages.updatingWidgetReferences, IProgressMonitor.UNKNOWN);
@@ -68,7 +63,7 @@ public class RefactorWidgetOperation extends AbstractRefactorOperation<Widget, W
             compoundCommand = new CompoundCommand();
         }
 
-        for(final WidgetRefactorPair pairToRefactor : pairsToRefactor){
+        for (final WidgetRefactorPair pairToRefactor : pairsToRefactor) {
             final Widget widget = pairToRefactor.getOldValue();
             final String newReferenceName = pairToRefactor.getNewValueName();
             final List<Expression> expressions = ModelHelper.getAllItemsOfType(ModelHelper.getPageFlow(widget), ExpressionPackage.Literals.EXPRESSION);
@@ -108,7 +103,6 @@ public class RefactorWidgetOperation extends AbstractRefactorOperation<Widget, W
                         FormsUtils.changeIdInTemplate((Form) widget.eContainer(), srcName, pairToRefactor.getNewValue().getName());
                     }
 
-
                     @Override
                     public void doExecute() {
                         FormsUtils.changeIdInTemplate((Form) widget.eContainer(), srcName, pairToRefactor.getNewValue().getName());
@@ -124,8 +118,10 @@ public class RefactorWidgetOperation extends AbstractRefactorOperation<Widget, W
     }
 
     @Override
-    protected AbstractScriptExpressionRefactoringAction<WidgetRefactorPair> getScriptExpressionRefactoringAction(final List<WidgetRefactorPair> pairsToRefactor,
-            final List<Expression> scriptExpressions, final List<Expression> refactoredScriptExpression, final CompoundCommand compoundCommand, final EditingDomain domain,
+    protected AbstractScriptExpressionRefactoringAction<WidgetRefactorPair> getScriptExpressionRefactoringAction(
+            final List<WidgetRefactorPair> pairsToRefactor,
+            final List<Expression> scriptExpressions, final List<Expression> refactoredScriptExpression, final CompoundCommand compoundCommand,
+            final EditingDomain domain,
             final RefactoringOperationType operationType) {
         return new WidgetScriptExpressionRefactoringAction(pairsToRefactor, scriptExpressions, refactoredScriptExpression, compoundCommand, domain,
                 operationType);
@@ -137,7 +133,7 @@ public class RefactorWidgetOperation extends AbstractRefactorOperation<Widget, W
     }
 
     @Override
-    protected WidgetRefactorPair createRefactorPair(final Widget newItem,	final Widget oldItem) {
+    protected WidgetRefactorPair createRefactorPair(final Widget newItem, final Widget oldItem) {
         return new WidgetRefactorPair(newItem, oldItem);
     }
 

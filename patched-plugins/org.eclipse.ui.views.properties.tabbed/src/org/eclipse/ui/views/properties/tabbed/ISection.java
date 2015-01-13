@@ -4,9 +4,8 @@
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- * 
  * Contributors:
- *     IBM Corporation - initial API and implementation
+ * IBM Corporation - initial API and implementation
  *******************************************************************************/
 package org.eclipse.ui.views.properties.tabbed;
 
@@ -59,76 +58,78 @@ import org.eclipse.ui.IWorkbenchPart;
  * This interface should not be extended or implemented. New section instances
  * should be created using <code>AbstractPropertySection</code>.
  * </p>
- * @see org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage
  * 
+ * @see org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage
  * @author Anthony Hunter
  */
 public interface ISection {
 
-	/**
-	 * Creates the controls for the section.
-	 * <p>
-	 * Clients should take advantage of the widget factory provided by the
-	 * framework to achieve a common look between property sections.
-	 * </p>
-	 * @see org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage#getWidgetFactory()
-	 * 
-	 * @param parent
-	 *            the parent composite for the section.
-	 * @param tabbedPropertySheetPage
-	 *            the tabbed property sheet page.
-	 */
-	public abstract void createControls(Composite parent,
-			TabbedPropertySheetPage tabbedPropertySheetPage);
+    /**
+     * Creates the controls for the section.
+     * <p>
+     * Clients should take advantage of the widget factory provided by the
+     * framework to achieve a common look between property sections.
+     * </p>
+     * 
+     * @see org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage#getWidgetFactory()
+     * @param parent
+     *        the parent composite for the section.
+     * @param tabbedPropertySheetPage
+     *        the tabbed property sheet page.
+     */
+    public abstract void createControls(Composite parent,
+            TabbedPropertySheetPage tabbedPropertySheetPage);
 
-	/**
-	 * Notifies the section that the workbench selection has changed. 
-	 * @param part The active workench part.
-	 * @param selection The active selection in the workbench part.
-	 */
-	public abstract void setInput(IWorkbenchPart part, ISelection selection);
+    /**
+     * Notifies the section that the workbench selection has changed.
+     * 
+     * @param part The active workench part.
+     * @param selection The active selection in the workbench part.
+     */
+    public abstract void setInput(IWorkbenchPart part, ISelection selection);
 
-	/**
-	 * Notifies the section that its controls are about to be shown. It is
-	 * expected that sections enable domain related functions in this method,
-	 * most commonly add listeners.
-	 * <p>
-	 * Since the controls are not visible, the section should wait for the
-	 * refresh() before updating the section controls.
-	 * </p>
-	 */
-	public abstract void aboutToBeShown();
+    /**
+     * Notifies the section that its controls are about to be shown. It is
+     * expected that sections enable domain related functions in this method,
+     * most commonly add listeners.
+     * <p>
+     * Since the controls are not visible, the section should wait for the
+     * refresh() before updating the section controls.
+     * </p>
+     */
+    public abstract void aboutToBeShown();
 
-	/**
-	 * Notifies the section that its controls are about to be hidden. It is
-	 * expected that sections disable domain related functions in this method,
-	 * most commonly remove listeners.
-	 */
-	public abstract void aboutToBeHidden();
+    /**
+     * Notifies the section that its controls are about to be hidden. It is
+     * expected that sections disable domain related functions in this method,
+     * most commonly remove listeners.
+     */
+    public abstract void aboutToBeHidden();
 
-	/**
-	 * Dispose this section.
-	 */
-	public abstract void dispose();
+    /**
+     * Dispose this section.
+     */
+    public abstract void dispose();
 
-	/**
-	 * Returns the minimum height needed by this section. A return value of
-	 * <code>SWT.DEFAULT</code> indicates that no minimum height is defined.
-	 * 
-	 * @return the minimum height needed by this section.
-	 */
-	public abstract int getMinimumHeight();
+    /**
+     * Returns the minimum height needed by this section. A return value of
+     * <code>SWT.DEFAULT</code> indicates that no minimum height is defined.
+     * 
+     * @return the minimum height needed by this section.
+     */
+    public abstract int getMinimumHeight();
 
-	/**
-	 * Determine whether this section would like extra height space in case
-	 * there is some left. Normally this is true when the section is the last to
-	 * be displayed on a tab or is the only section on a tab.
-	 * @return <code>true</code> if this section would like extra height space.
-	 */
-	public abstract boolean shouldUseExtraSpace();
+    /**
+     * Determine whether this section would like extra height space in case
+     * there is some left. Normally this is true when the section is the last to
+     * be displayed on a tab or is the only section on a tab.
+     * 
+     * @return <code>true</code> if this section would like extra height space.
+     */
+    public abstract boolean shouldUseExtraSpace();
 
-	/**
-	 * Refresh the contents of the controls displayed in this section.
-	 */
-	public abstract void refresh();
+    /**
+     * Refresh the contents of the controls displayed in this section.
+     */
+    public abstract void refresh();
 }

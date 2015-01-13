@@ -28,9 +28,7 @@ import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-
 public class TestSave extends SWTBotGefTestCase {
-
 
     // Before and After
     private static boolean disablePopup;
@@ -40,7 +38,6 @@ public class TestSave extends SWTBotGefTestCase {
         disablePopup = FileActionDialog.getDisablePopup();
         FileActionDialog.setDisablePopup(true);
     }
-
 
     @AfterClass
     public static void tearDownAfterClass() {
@@ -61,7 +58,7 @@ public class TestSave extends SWTBotGefTestCase {
             return "Save menu is still enabled !";
         }
     };
-    private final ICondition saveMenuEnabled  = new ICondition() {
+    private final ICondition saveMenuEnabled = new ICondition() {
 
         public boolean test() throws Exception {
             return bot.menu("Diagram").menu("Save").isEnabled();
@@ -78,30 +75,29 @@ public class TestSave extends SWTBotGefTestCase {
 
     @Override
     @After
-    public void tearDown(){
+    public void tearDown() {
         bot.saveAllEditors();
     }
 
-    final static String SAVE_BUTTON_TEXT="Save";
-    final static String WELCOME_EDITOR_TEXT="Welcome to Bonita Studio";
+    final static String SAVE_BUTTON_TEXT = "Save";
+    final static String WELCOME_EDITOR_TEXT = "Welcome to Bonita Studio";
     private static final String SAVE_COMMAND_ID = "org.eclipse.ui.file.save";
 
-
     @Test
-    public void testSaveButtonAndMenuNotEnableAtInitiationAndEnableAfterChange(){
+    public void testSaveButtonAndMenuNotEnableAtInitiationAndEnableAfterChange() {
 
-        boolean isSaveButtonEnable= true;
+        boolean isSaveButtonEnable = true;
 
         // When opening Bonita soft
         final Matcher<MenuItem> matcher = withMnemonic(SAVE_BUTTON_TEXT);
         bot.waitUntil(Conditions.waitForMenu(bot.activeShell(), matcher));
 
         // test button
-        isSaveButtonEnable=  bot.toolbarButton(SAVE_BUTTON_TEXT).isEnabled();
+        isSaveButtonEnable = bot.toolbarButton(SAVE_BUTTON_TEXT).isEnabled();
         Assert.assertFalse("Error: Save button must be disabled when opening Bonita Studio.", isSaveButtonEnable);
 
         // test menu
-        bot.waitUntil(saveMenuDisabled,5000,500);
+        bot.waitUntil(saveMenuDisabled, 5000, 500);
 
         // When Creating a new Diagram
         SWTBotTestUtil.createNewDiagram(bot);
@@ -121,58 +117,56 @@ public class TestSave extends SWTBotGefTestCase {
         gmfEditor.select(runnableEPs.get(0));
 
         // test button
-        isSaveButtonEnable=  bot.toolbarButton(SAVE_BUTTON_TEXT).isEnabled();
+        isSaveButtonEnable = bot.toolbarButton(SAVE_BUTTON_TEXT).isEnabled();
         Assert.assertTrue("Error: Save button must be enabled when creating a new diagram.", isSaveButtonEnable);
 
         // test menu
-        bot.waitUntil(saveMenuEnabled,5000,500);
+        bot.waitUntil(saveMenuEnabled, 5000, 500);
 
         bot.toolbarButton(SAVE_BUTTON_TEXT).click();
 
         // test button
-        isSaveButtonEnable=  bot.toolbarButton(SAVE_BUTTON_TEXT).isEnabled();
+        isSaveButtonEnable = bot.toolbarButton(SAVE_BUTTON_TEXT).isEnabled();
         Assert.assertFalse("Error: Save button must be disabled when creating a new diagram.", isSaveButtonEnable);
 
-        final ICommandService service =  (ICommandService) PlatformUI.getWorkbench().getService(ICommandService.class);
+        final ICommandService service = (ICommandService) PlatformUI.getWorkbench().getService(ICommandService.class);
         final Command cmd = service.getCommand(SAVE_COMMAND_ID);
         assertFalse(cmd.isEnabled());
 
-
     }
 
-
     @Test
-    public void testSaveButtonAndMenuEnableWhenNewDiagram(){
+    public void testSaveButtonAndMenuEnableWhenNewDiagram() {
 
-        boolean isSaveButtonEnable= false;
+        boolean isSaveButtonEnable = false;
 
         SWTBotTestUtil.createNewDiagram(bot);
         SWTBotTestUtil.changeDiagramName(bot, "testSave2");
 
         // test button
-        isSaveButtonEnable=  bot.toolbarButton(SAVE_BUTTON_TEXT).isEnabled();
+        isSaveButtonEnable = bot.toolbarButton(SAVE_BUTTON_TEXT).isEnabled();
         Assert.assertFalse("Error: Save button must not be enabled when changing diagram name.", isSaveButtonEnable);
 
         // test menu
-        Assert.assertFalse("Error: Save menu must not be enabled when changing diagram name.",  bot.menu("Diagram").menu("Save").isEnabled());
+        Assert.assertFalse("Error: Save menu must not be enabled when changing diagram name.", bot.menu("Diagram").menu("Save").isEnabled());
 
         SWTBotTestUtil.createNewDiagram(bot);
 
         // test button
-        isSaveButtonEnable=  bot.toolbarButton(SAVE_BUTTON_TEXT).isEnabled();
+        isSaveButtonEnable = bot.toolbarButton(SAVE_BUTTON_TEXT).isEnabled();
         Assert.assertTrue("Error: Save button must enabled for the new editor of a new Dragram created.", isSaveButtonEnable);
 
         // test menu
-        bot.waitUntil(saveMenuEnabled,5000,500);
+        bot.waitUntil(saveMenuEnabled, 5000, 500);
 
         bot.toolbarButton(SAVE_BUTTON_TEXT).click();
 
         // test button
-        isSaveButtonEnable=  bot.toolbarButton(SAVE_BUTTON_TEXT).isEnabled();
+        isSaveButtonEnable = bot.toolbarButton(SAVE_BUTTON_TEXT).isEnabled();
         Assert.assertFalse("Error: Save button must be disabled just after saving a new diagram..", isSaveButtonEnable);
 
         // test menu
-        final ICommandService service =  (ICommandService) PlatformUI.getWorkbench().getService(ICommandService.class);
+        final ICommandService service = (ICommandService) PlatformUI.getWorkbench().getService(ICommandService.class);
         final Command cmd = service.getCommand(SAVE_COMMAND_ID);
         assertFalse(cmd.isEnabled());
     }

@@ -19,37 +19,36 @@ import org.eclipse.ui.PlatformUI;
 
 /**
  * @author Mickael Istria
- *
  */
 final class BrowseForPageListener extends LookAndFeelPropertySectionListener implements Listener {
-	
-	private ResourceType type;
-	private Label isSetLabel;
-	private EStructuralFeature feature;
-	private IRepositoryStore resourceStore;
 
-	public BrowseForPageListener(ResourceType type, EStructuralFeature eStructuralFeature, Label isSetLabel) {
-		this.type = type;
-		this.isSetLabel = isSetLabel;
-		this.feature = eStructuralFeature;
-		this.resourceStore = RepositoryManager.getInstance().getRepositoryStore(ApplicationResourceRepositoryStore.class) ;
-	}
-	
-	public void handleEvent(Event event) {
-		FileDialog fd = new FileDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), SWT.OPEN);
-		fd.setFilterExtensions(new String[] { "*.html", "*.htm", "*.*" });
-		String res = fd.open();
-		if (res != null) {
-			String processUUID = ModelHelper.getEObjectID(getProcess()) ;
-			ApplicationResourceFileStore artifact =(ApplicationResourceFileStore) resourceStore.getChild(processUUID) ;
-			if (artifact == null) {
-				artifact = (ApplicationResourceFileStore) resourceStore.createRepositoryFileStore(processUUID);
-			}
-			res = artifact.setApplicationResource(type, res);
-			LookAndFeelPropertySection.setPathIsFilled(isSetLabel, true);
-			AssociatedFile af = ProcessFactory.eINSTANCE.createAssociatedFile();
-			af.setPath(res);
-			getEditDomain().getCommandStack().execute(new SetCommand(getEditDomain(), getProcess(), feature, af));
-		}
-	}
+    private ResourceType type;
+    private Label isSetLabel;
+    private EStructuralFeature feature;
+    private IRepositoryStore resourceStore;
+
+    public BrowseForPageListener(ResourceType type, EStructuralFeature eStructuralFeature, Label isSetLabel) {
+        this.type = type;
+        this.isSetLabel = isSetLabel;
+        this.feature = eStructuralFeature;
+        this.resourceStore = RepositoryManager.getInstance().getRepositoryStore(ApplicationResourceRepositoryStore.class);
+    }
+
+    public void handleEvent(Event event) {
+        FileDialog fd = new FileDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), SWT.OPEN);
+        fd.setFilterExtensions(new String[] { "*.html", "*.htm", "*.*" });
+        String res = fd.open();
+        if (res != null) {
+            String processUUID = ModelHelper.getEObjectID(getProcess());
+            ApplicationResourceFileStore artifact = (ApplicationResourceFileStore) resourceStore.getChild(processUUID);
+            if (artifact == null) {
+                artifact = (ApplicationResourceFileStore) resourceStore.createRepositoryFileStore(processUUID);
+            }
+            res = artifact.setApplicationResource(type, res);
+            LookAndFeelPropertySection.setPathIsFilled(isSetLabel, true);
+            AssociatedFile af = ProcessFactory.eINSTANCE.createAssociatedFile();
+            af.setPath(res);
+            getEditDomain().getCommandStack().execute(new SetCommand(getEditDomain(), getProcess(), feature, af));
+        }
+    }
 }

@@ -5,12 +5,10 @@
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2.0 of the License, or
  * (at your option) any later version.
- *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- *
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
@@ -38,10 +36,8 @@ import org.eclipse.emf.edit.domain.EditingDomain;
 
 /**
  * @author Romain Bioteau
- *
  */
 public class OperationReturnTypesValidator implements IExpressionValidator {
-
 
     private final ExpressionTypeLabelProvider typeLabelProvider = new ExpressionTypeLabelProvider();
 
@@ -83,7 +79,7 @@ public class OperationReturnTypesValidator implements IExpressionValidator {
                         if (status != null) {
                             return status;
                         }
-                    }  else if (ExpressionConstants.SET_LIST_DOCUMENT_OPERATOR.equals(operatorType)) {
+                    } else if (ExpressionConstants.SET_LIST_DOCUMENT_OPERATOR.equals(operatorType)) {
                         final IStatus status = validateSetListDocumentOperation(expression, operation);
                         if (status != null) {
                             return status;
@@ -203,8 +199,8 @@ public class OperationReturnTypesValidator implements IExpressionValidator {
                         if (PlatformUtil.isACommunityBonitaProduct()) {
                             return ValidationStatus.warning(Messages.incompatibleType + " " + Messages.messageOperationWithListDocumentInFormInCommunity);
                         } else {
-                        return ValidationStatus.warning(Messages.incompatibleType + " " + Messages.messageOperationWithListDocumentInForm);
-                    }
+                            return ValidationStatus.warning(Messages.incompatibleType + " " + Messages.messageOperationWithListDocumentInForm);
+                        }
                     }
                 } else {
                     return ValidationStatus.ok();
@@ -359,7 +355,6 @@ public class OperationReturnTypesValidator implements IExpressionValidator {
         }
         return ValidationStatus.ok();
     }
-
 
     @Override
     public void setInputExpression(final Expression inputExpression) {

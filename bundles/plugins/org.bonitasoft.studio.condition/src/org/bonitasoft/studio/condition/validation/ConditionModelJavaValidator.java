@@ -38,6 +38,7 @@ public class ConditionModelJavaValidator extends AbstractConditionModelJavaValid
     @Check
     public void checkCompatibleTypes(final Operation_Compare operation) {
         final String errorMessage = new ConditionModelSwitch<String>() {
+
             @Override
             public String caseUnary_Operation(final org.bonitasoft.studio.condition.conditionModel.Unary_Operation object) {
                 return validateUnaryOperation(object.getValue());
@@ -63,7 +64,8 @@ public class ConditionModelJavaValidator extends AbstractConditionModelJavaValid
                         if (iNode.getText().equals("=")) {
                             if (!(!iNode.getNextSibling().getText().equals("=") && iNode.getPreviousSibling().getText().equals("="))
                                     || iNode.getNextSibling().getText().equals("=") && !iNode.getPreviousSibling().getText().equals("=")) {
-                                error(Messages.equalityError,  operation, operation.eContainingFeature() ,ConditionModelJavaValidator.INVALID_EQUALITY_SIGN, r.getCompleteContent());
+                                error(Messages.equalityError, operation, operation.eContainingFeature(), ConditionModelJavaValidator.INVALID_EQUALITY_SIGN,
+                                        r.getCompleteContent());
                             }
                         }
                     }

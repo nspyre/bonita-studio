@@ -5,12 +5,10 @@
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2.0 of the License, or
  * (at your option) any later version.
- *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- *
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
@@ -35,10 +33,8 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.transaction.util.TransactionUtil;
 
-
 /**
  * @author Romain Bioteau
- *
  */
 public class ExpressionViewerValidator extends ValidationStatusProvider implements IValidator {
 
@@ -48,13 +44,14 @@ public class ExpressionViewerValidator extends ValidationStatusProvider implemen
     private Expression expression;
     private WritableValue validationStatus = new WritableValue(Status.OK_STATUS, IStatus.class);
 
-    public void addValidator(final IExpressionValidator expressionValidator){
-        if(!validators.contains(expressionValidator)){
+    public void addValidator(final IExpressionValidator expressionValidator) {
+        if (!validators.contains(expressionValidator)) {
             validators.add(expressionValidator);
         }
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see org.eclipse.core.databinding.validation.IValidator#validate(java.lang.Object)
      */
     @Override
@@ -101,7 +98,7 @@ public class ExpressionViewerValidator extends ValidationStatusProvider implemen
 
     }
 
-    public IStatus doValidate(final Object value,final Expression expression) {
+    public IStatus doValidate(final Object value, final Expression expression) {
         final IExpressionValidator delagateValidator = getExpressionValidator(expression);
         if (delagateValidator != null) {
             delagateValidator.setDomain(TransactionUtil.getEditingDomain(expression));
@@ -115,9 +112,6 @@ public class ExpressionViewerValidator extends ValidationStatusProvider implemen
         }
         return ValidationStatus.ok();
     }
-
-
-
 
     protected IExpressionValidator getExpressionValidator(final Expression selectedExpression) {
         if (selectedExpression != null) {

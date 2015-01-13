@@ -1,19 +1,16 @@
 /**
  * Copyright (C) 2009 BonitaSoft S.A.
  * BonitaSoft, 31 rue Gustave Eiffel - 38000 Grenoble
- * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2.0 of the License, or
  * (at your option) any later version.
- *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
 package org.bonitasoft.studio.diagram.custom.decorator;
@@ -34,15 +31,14 @@ import org.eclipse.gmf.runtime.diagram.ui.services.decorator.CreateDecoratorsOpe
 import org.eclipse.gmf.runtime.diagram.ui.services.decorator.IDecoratorProvider;
 import org.eclipse.gmf.runtime.diagram.ui.services.decorator.IDecoratorTarget;
 
-
 /**
  * @author Romain Bioteau
  * @author Aurelien Pupier: integrate decorator for SubProcess Evenemential
- * Decorator provider for the review decorator class
+ *         Decorator provider for the review decorator class
  */
 public class ActivityDecoratorProvider
-extends AbstractProvider
-implements IDecoratorProvider {
+        extends AbstractProvider
+        implements IDecoratorProvider {
 
     /** The key used for the timer decoration */
     public static final String TIMER = "Timer_Decorator"; //$NON-NLS-1$
@@ -82,33 +78,33 @@ implements IDecoratorProvider {
     /** The key used for the message decoration of SubProcess Evenemential */
     public static final String SUBPROCEVENT_ERROR_DECORATOR = "SubProc_Error_Decorator"; //$NON-NLS-1$
 
-
-
     public void createDecorators(IDecoratorTarget decoratorTarget) {
         GraphicalEditPart node = getDecoratorTargetNode(decoratorTarget);
         if (node != null) {
-            decoratorTarget.installDecorator(CONNECTOR,new ConnectorDecorator(decoratorTarget,this));
-            decoratorTarget.installDecorator(HUMAN_TASK, new HumanTaskDecorator(decoratorTarget,this));
-            decoratorTarget.installDecorator(SUBPROCESS_DECORATOR, new SubProcessDecorator(decoratorTarget,this));
+            decoratorTarget.installDecorator(CONNECTOR, new ConnectorDecorator(decoratorTarget, this));
+            decoratorTarget.installDecorator(HUMAN_TASK, new HumanTaskDecorator(decoratorTarget, this));
+            decoratorTarget.installDecorator(SUBPROCESS_DECORATOR, new SubProcessDecorator(decoratorTarget, this));
             decoratorTarget.installDecorator(MULTIINSTANCE_DECORATOR, new MultiInstanceParalellDecorator(decoratorTarget, this));
             decoratorTarget.installDecorator(MULTIINSTANCE_DECORATOR_SEQUENTIAL, new MultiInstanceSequentialDecorator(decoratorTarget, this));
-            decoratorTarget.installDecorator(MULTIINSTANCE_SEQUENTIAL_SUBPROCESS_DECORATOR, new MultiInstanceSequentialSubProcessDecorator(decoratorTarget, this));
+            decoratorTarget.installDecorator(MULTIINSTANCE_SEQUENTIAL_SUBPROCESS_DECORATOR, new MultiInstanceSequentialSubProcessDecorator(decoratorTarget,
+                    this));
             decoratorTarget.installDecorator(MULTIINSTANCE_SUBPROCESS_DECORATOR, new MultiInstanceParalellSubprocessDecorator(decoratorTarget, this));
             decoratorTarget.installDecorator(LOOP_DECORATOR, new LoopTaskDecorator(decoratorTarget, this));
             decoratorTarget.installDecorator(LOOP_SUBPROCESS_DECORATOR, new LoopSubprocessTaskDecorator(decoratorTarget, this));
-            decoratorTarget.installDecorator(RECEIVETASK_DECORATOR, new ReceiveTaskDecorator(decoratorTarget,this));
-            decoratorTarget.installDecorator(SENDTASK_DECORATOR, new SendTaskDecorator(decoratorTarget,this));
-            decoratorTarget.installDecorator(SERVICETASK_DECORATOR,  new ServiceTaskDecorator(decoratorTarget,this));
-            decoratorTarget.installDecorator(SCRIPTTASK_DECORATOR, new ScriptTaskDecorator(decoratorTarget,this));
+            decoratorTarget.installDecorator(RECEIVETASK_DECORATOR, new ReceiveTaskDecorator(decoratorTarget, this));
+            decoratorTarget.installDecorator(SENDTASK_DECORATOR, new SendTaskDecorator(decoratorTarget, this));
+            decoratorTarget.installDecorator(SERVICETASK_DECORATOR, new ServiceTaskDecorator(decoratorTarget, this));
+            decoratorTarget.installDecorator(SCRIPTTASK_DECORATOR, new ScriptTaskDecorator(decoratorTarget, this));
             decoratorTarget.installDecorator(SUBPROCEVENT_TIMER_DECORATOR, new TimerSubProcessEventDecorator(decoratorTarget));
-            decoratorTarget.installDecorator(SUBPROCEVENT_MESSAGE_DECORATOR,new MessageSubProcessEventDecorator(decoratorTarget));
+            decoratorTarget.installDecorator(SUBPROCEVENT_MESSAGE_DECORATOR, new MessageSubProcessEventDecorator(decoratorTarget));
             decoratorTarget.installDecorator(SUBPROCEVENT_SIGNAL_DECORATOR, new SignalSubProcessEventDecorator(decoratorTarget));
             decoratorTarget.installDecorator(SUBPROCEVENT_ERROR_DECORATOR, new ErrorSubProcessEventStartDecorator(decoratorTarget));
 
         }
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see org.eclipse.gmf.runtime.common.core.internal.service.IProvider#provides(org.eclipse.gmf.runtime.common.core.service.IOperation)
      */
     public boolean provides(IOperation operation) {
@@ -120,8 +116,9 @@ implements IDecoratorProvider {
 
         IDecoratorTarget decoratorTarget = ((CreateDecoratorsOperation) operation)
                 .getDecoratorTarget();
-        GraphicalEditPart ep = getDecoratorTargetNode(decoratorTarget) ;
-        return ep != null && (((IGraphicalEditPart) ep).resolveSemanticElement() instanceof Activity || ((IGraphicalEditPart) ep).resolveSemanticElement() instanceof SubProcessEvent ) ;
+        GraphicalEditPart ep = getDecoratorTargetNode(decoratorTarget);
+        return ep != null
+                && (((IGraphicalEditPart) ep).resolveSemanticElement() instanceof Activity || ((IGraphicalEditPart) ep).resolveSemanticElement() instanceof SubProcessEvent);
     }
 
     /**
@@ -130,17 +127,17 @@ implements IDecoratorProvider {
      * associated EditPart element.
      * 
      * @param decoratorTarget
-     *            IDecoratorTarget to check and return valid Classifier target.
+     *        IDecoratorTarget to check and return valid Classifier target.
      * @return node GraphicalEditPart if IDecoratorTarget can be supported, null
      *         otherwise.
      */
     public static GraphicalEditPart getDecoratorTargetNode(IDecoratorTarget decoratorTarget) {
-        if(decoratorTarget == null){
+        if (decoratorTarget == null) {
             return null;
         }
         ShapeNodeEditPart node = (ShapeNodeEditPart) decoratorTarget.getAdapter(ShapeNodeEditPart.class);
-        if(node != null ){
-            return node ;
+        if (node != null) {
+            return node;
         }
 
         return null;

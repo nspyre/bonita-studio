@@ -28,7 +28,6 @@ import org.eclipse.ui.IWorkbenchPreferencePage;
 
 /**
  * @author Romain Bioteau
- *
  */
 
 public class BonitaAdvancedPreferencePage extends AbstractBonitaPreferencePage implements IWorkbenchPreferencePage {
@@ -73,6 +72,5 @@ public class BonitaAdvancedPreferencePage extends AbstractBonitaPreferencePage i
 
         createPreferenceEditorContributions(ADVANCED_CONTRIBUTOR_ID);
     }
-
 
 }

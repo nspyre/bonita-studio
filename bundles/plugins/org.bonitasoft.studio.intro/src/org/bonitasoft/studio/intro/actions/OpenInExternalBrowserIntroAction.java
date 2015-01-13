@@ -1,19 +1,16 @@
 /**
  * Copyright (C) 2014 Bonitasoft S.A.
  * Bonitasoft, 32 rue Gustave Eiffel - 38000 Grenoble
- *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2.0 of the License, or
  * (at your option) any later version.
- *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package org.bonitasoft.studio.intro.actions;
 
@@ -31,38 +28,37 @@ import org.eclipse.ui.intro.config.IIntroAction;
 
 /**
  * @author Aurelien Pupier
- *
  */
 public class OpenInExternalBrowserIntroAction implements IIntroAction {
 
-	@Override
-	public void run(IIntroSite site, Properties params) {
-		String urlToOpen = retrieveURLToOpen(params);
-		openInExternalBrowser(urlToOpen);
-	}
+    @Override
+    public void run(IIntroSite site, Properties params) {
+        String urlToOpen = retrieveURLToOpen(params);
+        openInExternalBrowser(urlToOpen);
+    }
 
-	private void openInExternalBrowser(String urlToOpen) {
-		try {
-			if(urlToOpen != null){
-				final URL url = new URL(urlToOpen);
-				new OpenBrowserCommand(url, "", "").execute(null);
-			}
-		} catch (MalformedURLException e) {
-			BonitaStudioLog.error(e);
-		} catch (ExecutionException e) {
-			BonitaStudioLog.error(e);
-		}
-	}
+    private void openInExternalBrowser(String urlToOpen) {
+        try {
+            if (urlToOpen != null) {
+                final URL url = new URL(urlToOpen);
+                new OpenBrowserCommand(url, "", "").execute(null);
+            }
+        } catch (MalformedURLException e) {
+            BonitaStudioLog.error(e);
+        } catch (ExecutionException e) {
+            BonitaStudioLog.error(e);
+        }
+    }
 
-	private String retrieveURLToOpen(Properties params) {
-		String urlToOpen = null;
-		try {
-			final String urlEncoded = params.getProperty("url");
-			urlToOpen = URLDecoder.decode(urlEncoded, "UTF-8");
-		} catch (UnsupportedEncodingException e) {
-			BonitaStudioLog.error(e);
-		}
-		return urlToOpen;
-	}
+    private String retrieveURLToOpen(Properties params) {
+        String urlToOpen = null;
+        try {
+            final String urlEncoded = params.getProperty("url");
+            urlToOpen = URLDecoder.decode(urlEncoded, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            BonitaStudioLog.error(e);
+        }
+        return urlToOpen;
+    }
 
 }

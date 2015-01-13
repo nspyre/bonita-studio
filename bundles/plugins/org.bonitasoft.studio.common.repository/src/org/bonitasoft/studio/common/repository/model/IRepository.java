@@ -5,14 +5,12 @@
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2.0 of the License, or
  * (at your option) any later version.
- *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package org.bonitasoft.studio.common.repository.model;
 
@@ -31,33 +29,32 @@ import org.eclipse.swt.graphics.Image;
 
 /**
  * @author Romain Bioteau
- *
  */
 public interface IRepository extends IFileStoreChangeListener {
 
-    void createRepository(String repositoryName) ;
+    void createRepository(String repositoryName);
 
-    String getName() ;
+    String getName();
 
-    boolean isShared() ;
+    boolean isShared();
 
-    IProject getProject() ;
+    IProject getProject();
 
     void create(boolean migrateStoreIfNeeded);
 
-    void delete() ;
+    void delete();
 
-    void open() ;
+    void open();
 
-    void close() ;
+    void close();
 
     <T> T getRepositoryStore(final Class<T> repositoryStoreClass);
 
-    List<IRepositoryStore<? extends IRepositoryFileStore>> getAllStores() ;
+    List<IRepositoryStore<? extends IRepositoryFileStore>> getAllStores();
 
-    void refresh(IProgressMonitor monitor) ;
+    void refresh(IProgressMonitor monitor);
 
-    String getVersion() ;
+    String getVersion();
 
     List<IRepositoryStore<? extends IRepositoryFileStore>> getAllSharedStores();
 
@@ -65,7 +62,7 @@ public interface IRepository extends IFileStoreChangeListener {
 
     String getDisplayName();
 
-    Image getIcon() ;
+    Image getIcon();
 
     void importFromArchive(File archiveFile, boolean askOverwrite, boolean validateAfterImport);
 
@@ -75,20 +72,21 @@ public interface IRepository extends IFileStoreChangeListener {
 
     IRepositoryStore<? extends IRepositoryFileStore> getRepositoryStore(IResource resource);
 
-    boolean isBuildEnable() ;
+    boolean isBuildEnable();
 
     void disableBuild();
+
     void enableBuild();
 
     IJavaProject getJavaProject();
 
     List<IRepositoryStore<? extends IRepositoryFileStore>> getAllShareableStores();
 
-    URLClassLoader createProjectClassloader() ;
+    URLClassLoader createProjectClassloader();
 
     IRepositoryFileStore asRepositoryFileStore(IFile res);
 
-	void migrate() throws CoreException, MigrationException;
+    void migrate() throws CoreException, MigrationException;
 
     void create();
 

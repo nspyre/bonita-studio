@@ -5,14 +5,12 @@
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2.0 of the License, or
  * (at your option) any later version.
- *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package org.bonitasoft.studio.actors.ui.section;
 
@@ -73,10 +71,8 @@ import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetWidgetFactory;
 
 /**
  * @author Romain Bioteau
- *
  */
-public class ProcessActorsPropertySection extends AbstractBonitaDescriptionSection implements ISelectionChangedListener, IDoubleClickListener{
-
+public class ProcessActorsPropertySection extends AbstractBonitaDescriptionSection implements ISelectionChangedListener, IDoubleClickListener {
 
     private TableViewer actorsViewer;
     private Button removeButton;
@@ -85,61 +81,60 @@ public class ProcessActorsPropertySection extends AbstractBonitaDescriptionSecti
     private Button setAsInitiatorButton;
     private EMFDataBindingContext context;
 
-
     @Override
-    public void createControls(Composite parent,TabbedPropertySheetPage aTabbedPropertySheetPage) {
-        TabbedPropertySheetWidgetFactory widgetFactory = aTabbedPropertySheetPage.getWidgetFactory() ;
-        super.createControls(parent, aTabbedPropertySheetPage) ;
+    public void createControls(Composite parent, TabbedPropertySheetPage aTabbedPropertySheetPage) {
+        TabbedPropertySheetWidgetFactory widgetFactory = aTabbedPropertySheetPage.getWidgetFactory();
+        super.createControls(parent, aTabbedPropertySheetPage);
         //  parent.setLayoutData(GridDataFactory.fillDefaults().grab(true,true).hint(SWT.DEFAULT, 180).create()) ;
-        Composite mainComposite = widgetFactory.createComposite(parent, SWT.NONE) ;
-        mainComposite.setLayout(GridLayoutFactory.fillDefaults().numColumns(2).margins(10, 10).extendedMargins(0, 20, 5, 15).spacing(5, 2).create()) ;
-        mainComposite.setLayoutData(GridDataFactory.fillDefaults().grab(true,false).hint(SWT.DEFAULT, 180).create());
+        Composite mainComposite = widgetFactory.createComposite(parent, SWT.NONE);
+        mainComposite.setLayout(GridLayoutFactory.fillDefaults().numColumns(2).margins(10, 10).extendedMargins(0, 20, 5, 15).spacing(5, 2).create());
+        mainComposite.setLayoutData(GridDataFactory.fillDefaults().grab(true, false).hint(SWT.DEFAULT, 180).create());
 
         // Label actorsLabel = widgetFactory.createLabel(mainComposite, Messages.addRemoveActors,SWT.WRAP) ;
         // actorsLabel.setLayoutData(GridDataFactory.fillDefaults().grab(true,false).span(2, 1).create()) ;
-        widgetFactory.createCLabel(mainComposite,"", SWT.NONE);
-        final CLabel statusControl = widgetFactory.createCLabel(mainComposite,"", SWT.NONE);
-        statusControl.setLayoutData(GridDataFactory.fillDefaults().grab(true,false).create());
+        widgetFactory.createCLabel(mainComposite, "", SWT.NONE);
+        final CLabel statusControl = widgetFactory.createCLabel(mainComposite, "", SWT.NONE);
+        statusControl.setLayoutData(GridDataFactory.fillDefaults().grab(true, false).create());
 
-        Composite buttonsComposite = widgetFactory.createComposite(mainComposite, SWT.NONE) ;
-        buttonsComposite.setLayoutData(GridDataFactory.fillDefaults().grab(false, false).create()) ;
-        buttonsComposite.setLayout(GridLayoutFactory.fillDefaults().numColumns(1).equalWidth(false).margins(0, 0).spacing(0, 3).create()) ;
+        Composite buttonsComposite = widgetFactory.createComposite(mainComposite, SWT.NONE);
+        buttonsComposite.setLayoutData(GridDataFactory.fillDefaults().grab(false, false).create());
+        buttonsComposite.setLayout(GridLayoutFactory.fillDefaults().numColumns(1).equalWidth(false).margins(0, 0).spacing(0, 3).create());
 
-        createAddButton(buttonsComposite,widgetFactory) ;
-        setAsInitiatorButton =  createInitiatorButton(buttonsComposite,widgetFactory) ;
-        removeButton = createRemoveButton(buttonsComposite,widgetFactory) ;
+        createAddButton(buttonsComposite, widgetFactory);
+        setAsInitiatorButton = createInitiatorButton(buttonsComposite, widgetFactory);
+        removeButton = createRemoveButton(buttonsComposite, widgetFactory);
 
         createTable(widgetFactory, mainComposite, statusControl);
 
         widgetFactory.createLabel(mainComposite, "");
         widgetFactory.createLabel(mainComposite, Messages.initiatorExplanation);
 
-        updateButtons() ;
+        updateButtons();
     }
-
 
     protected void createTable(TabbedPropertySheetWidgetFactory widgetFactory,
             Composite mainComposite, final CLabel statusControl) {
-        actorsViewer = new TableViewer(mainComposite, SWT.FULL_SELECTION | SWT.BORDER | SWT.MULTI | SWT.V_SCROLL) ;
-        widgetFactory.adapt(actorsViewer.getTable(),false,false) ;
+        actorsViewer = new TableViewer(mainComposite, SWT.FULL_SELECTION | SWT.BORDER | SWT.MULTI | SWT.V_SCROLL);
+        widgetFactory.adapt(actorsViewer.getTable(), false, false);
         actorsViewer.getTable().setLayoutData(GridDataFactory.fillDefaults().grab(true, true).create());
         actorsViewer.setContentProvider(new ArrayContentProvider());
-        TableLayout tableLayout = new TableLayout() ;
-        tableLayout.addColumnData(new ColumnWeightData(3)) ;
-        tableLayout.addColumnData(new ColumnWeightData(30)) ;
-        tableLayout.addColumnData(new ColumnWeightData(67)) ;
-        actorsViewer.getTable().setLayout(tableLayout) ;
+        TableLayout tableLayout = new TableLayout();
+        tableLayout.addColumnData(new ColumnWeightData(3));
+        tableLayout.addColumnData(new ColumnWeightData(30));
+        tableLayout.addColumnData(new ColumnWeightData(67));
+        actorsViewer.getTable().setLayout(tableLayout);
 
         actorsViewer.addSelectionChangedListener(new ISelectionChangedListener() {
 
             @Override
             public void selectionChanged(SelectionChangedEvent event) {
-                updateButtons() ;
+                updateButtons();
             }
-        }) ;
+        });
 
-        TableViewerColumn initiatorIconViewer = new TableViewerColumn(actorsViewer,SWT.NONE) ;
-        initiatorIconViewer.setLabelProvider(new ColumnLabelProvider(){
+        TableViewerColumn initiatorIconViewer = new TableViewerColumn(actorsViewer, SWT.NONE);
+        initiatorIconViewer.setLabelProvider(new ColumnLabelProvider() {
+
             @Override
             public String getText(Object element) {
                 return null;
@@ -147,15 +142,15 @@ public class ProcessActorsPropertySection extends AbstractBonitaDescriptionSecti
 
             @Override
             public String getToolTipText(Object element) {
-                if(((Actor)element).isInitiator()){
-                    return Messages.processInitiator ;
+                if (((Actor) element).isInitiator()) {
+                    return Messages.processInitiator;
                 }
-                return null ;
+                return null;
             }
 
             @Override
             public int getToolTipTimeDisplayed(Object object) {
-                return 4000 ;
+                return 4000;
             }
 
             @Override
@@ -163,200 +158,194 @@ public class ProcessActorsPropertySection extends AbstractBonitaDescriptionSecti
                 return 300;
             }
 
-
-
             @Override
             public Point getToolTipShift(Object object) {
-                return new Point(5,5);
+                return new Point(5, 5);
             }
 
             @Override
             public Image getImage(Object element) {
-                if(((Actor)element).isInitiator()){
-                    return Pics.getImage("initiator.png", ActorsPlugin.getDefault()) ;
+                if (((Actor) element).isInitiator()) {
+                    return Pics.getImage("initiator.png", ActorsPlugin.getDefault());
                 }
                 return null;
             }
-        }) ;
+        });
 
-        TableViewerColumn columnNameViewer = new TableViewerColumn(actorsViewer,SWT.NONE) ;
-        columnNameViewer.setLabelProvider(new ColumnLabelProvider(){
+        TableViewerColumn columnNameViewer = new TableViewerColumn(actorsViewer, SWT.NONE);
+        columnNameViewer.setLabelProvider(new ColumnLabelProvider() {
+
             @Override
             public String getText(Object element) {
-                return ((Actor)element).getName() ;
+                return ((Actor) element).getName();
             }
-        }) ;
+        });
 
         final CellEditorValidationStatusListener listener = new CellEditorValidationStatusListener(statusControl);
-        nameEditingSupport = new ActorNameEditingSupport(columnNameViewer.getViewer(),getEditingDomain(),listener) ;
-        columnNameViewer.setEditingSupport(nameEditingSupport) ;
-        TableColumn column = columnNameViewer.getColumn()  ;
-        column.setText(Messages.name) ;
+        nameEditingSupport = new ActorNameEditingSupport(columnNameViewer.getViewer(), getEditingDomain(), listener);
+        columnNameViewer.setEditingSupport(nameEditingSupport);
+        TableColumn column = columnNameViewer.getColumn();
+        column.setText(Messages.name);
 
+        TableViewerColumn columnDescriptionViewer = new TableViewerColumn(actorsViewer, SWT.NONE);
+        columnDescriptionViewer.setLabelProvider(new ColumnLabelProvider() {
 
-        TableViewerColumn columnDescriptionViewer = new TableViewerColumn(actorsViewer,SWT.NONE) ;
-        columnDescriptionViewer.setLabelProvider(new ColumnLabelProvider(){
             @Override
             public String getText(Object element) {
-                return ((Actor)element).getDocumentation();
+                return ((Actor) element).getDocumentation();
             }
-        }) ;
+        });
 
-        descripitonEditingSupport = new ActorDescripitonEditingSupport(columnDescriptionViewer.getViewer(),getEditingDomain()) ;
-        columnDescriptionViewer.setEditingSupport(descripitonEditingSupport) ;
-        TableColumn column3 = columnDescriptionViewer.getColumn() ;
-        column3.setText(Messages.description) ;
-
+        descripitonEditingSupport = new ActorDescripitonEditingSupport(columnDescriptionViewer.getViewer(), getEditingDomain());
+        columnDescriptionViewer.setEditingSupport(descripitonEditingSupport);
+        TableColumn column3 = columnDescriptionViewer.getColumn();
+        column3.setText(Messages.description);
 
         actorsViewer.getTable().setHeaderVisible(true);
-        actorsViewer.getTable().setLinesVisible(true) ;
+        actorsViewer.getTable().setLinesVisible(true);
         ColumnViewerToolTipSupport.enableFor(actorsViewer);
 
-        TableColumnSorter sorter = new TableColumnSorter(actorsViewer) ;
-        sorter.setColumn(column) ;
+        TableColumnSorter sorter = new TableColumnSorter(actorsViewer);
+        sorter.setColumn(column);
     }
 
-
     private Button createRemoveButton(Composite buttonsComposite, TabbedPropertySheetWidgetFactory widgetFactory) {
-        Button removeButton = widgetFactory.createButton(buttonsComposite, Messages.remove, SWT.PUSH) ;
-        removeButton.setLayoutData(GridDataFactory.fillDefaults().grab(true, false).create()) ;
+        Button removeButton = widgetFactory.createButton(buttonsComposite, Messages.remove, SWT.PUSH);
+        removeButton.setLayoutData(GridDataFactory.fillDefaults().grab(true, false).create());
         removeButton.addSelectionListener(new SelectionAdapter() {
+
             @Override
             public void widgetSelected(SelectionEvent e) {
                 removeSelected();
             }
-        }) ;
+        });
         return removeButton;
     }
 
     protected void removeSelected() {
-        if(!actorsViewer.getSelection().isEmpty()){
-            if(MessageDialog.openConfirm(Display.getDefault().getActiveShell(), Messages.deleteActorsTitle,Messages.deleteActorsTitleMessage)){
-                List<?> actors = ((IStructuredSelection) actorsViewer.getSelection()).toList() ;
+        if (!actorsViewer.getSelection().isEmpty()) {
+            if (MessageDialog.openConfirm(Display.getDefault().getActiveShell(), Messages.deleteActorsTitle, Messages.deleteActorsTitleMessage)) {
+                List<?> actors = ((IStructuredSelection) actorsViewer.getSelection()).toList();
                 getEditingDomain().getCommandStack().execute(DeleteCommand.create(getEditingDomain(), actors));
-                refresh() ;
+                refresh();
             }
         }
     }
 
     protected Button createAddButton(Composite buttonsComposite, TabbedPropertySheetWidgetFactory widgetFactory) {
-        Button addButton = widgetFactory.createButton(buttonsComposite, Messages.add, SWT.PUSH) ;
-        addButton.setLayoutData(GridDataFactory.fillDefaults().grab(true, false).create()) ;
+        Button addButton = widgetFactory.createButton(buttonsComposite, Messages.add, SWT.PUSH);
+        addButton.setLayoutData(GridDataFactory.fillDefaults().grab(true, false).create());
         addButton.addSelectionListener(new SelectionAdapter() {
+
             @Override
             public void widgetSelected(SelectionEvent e) {
                 addSelected();
             }
-        }) ;
+        });
         return addButton;
     }
 
     protected Button createInitiatorButton(Composite buttonsComposite, TabbedPropertySheetWidgetFactory widgetFactory) {
-        Button addButton = widgetFactory.createButton(buttonsComposite, Messages.setAsProcessInitiator, SWT.PUSH) ;
-        addButton.setLayoutData(GridDataFactory.fillDefaults().grab(true, false).create()) ;
+        Button addButton = widgetFactory.createButton(buttonsComposite, Messages.setAsProcessInitiator, SWT.PUSH);
+        addButton.setLayoutData(GridDataFactory.fillDefaults().grab(true, false).create());
         addButton.addSelectionListener(new SelectionAdapter() {
+
             @Override
             public void widgetSelected(SelectionEvent e) {
-                Actor selectedActor = (Actor) ((IStructuredSelection) actorsViewer.getSelection()).getFirstElement() ;
-                CompoundCommand cc = new CompoundCommand() ;
-                AbstractProcess process = (AbstractProcess) getEObject() ;
-                for(Actor a : process.getActors()){
-                    cc.append(SetCommand.create(getEditingDomain(), a, ProcessPackage.Literals.ACTOR__INITIATOR, false)) ;
+                Actor selectedActor = (Actor) ((IStructuredSelection) actorsViewer.getSelection()).getFirstElement();
+                CompoundCommand cc = new CompoundCommand();
+                AbstractProcess process = (AbstractProcess) getEObject();
+                for (Actor a : process.getActors()) {
+                    cc.append(SetCommand.create(getEditingDomain(), a, ProcessPackage.Literals.ACTOR__INITIATOR, false));
                 }
-                cc.append(SetCommand.create(getEditingDomain(), selectedActor, ProcessPackage.Literals.ACTOR__INITIATOR, true)) ;
-                getEditingDomain().getCommandStack().execute(cc) ;
+                cc.append(SetCommand.create(getEditingDomain(), selectedActor, ProcessPackage.Literals.ACTOR__INITIATOR, true));
+                getEditingDomain().getCommandStack().execute(cc);
                 Display.getDefault().asyncExec(new Runnable() {
-                    
+
                     @Override
                     public void run() {
-                        if(actorsViewer != null && !actorsViewer.getControl().isDisposed()){
-                            actorsViewer.refresh() ;
+                        if (actorsViewer != null && !actorsViewer.getControl().isDisposed()) {
+                            actorsViewer.refresh();
                         }
                     }
                 });
-               
+
                 updateButtons();
             }
-        }) ;
+        });
         return addButton;
     }
 
     protected void addSelected() {
-        AbstractProcess process = (AbstractProcess) getEObject() ;
-        Actor actor = ProcessFactory.eINSTANCE.createActor() ;
-        actor.setName(generateActorName(process)) ;
-        getEditingDomain().getCommandStack().execute(AddCommand.create(getEditingDomain(), process, ProcessPackage.Literals.ABSTRACT_PROCESS__ACTORS,actor)) ;
-        refresh() ;
-        actorsViewer.editElement(actor, 0) ;
+        AbstractProcess process = (AbstractProcess) getEObject();
+        Actor actor = ProcessFactory.eINSTANCE.createActor();
+        actor.setName(generateActorName(process));
+        getEditingDomain().getCommandStack().execute(AddCommand.create(getEditingDomain(), process, ProcessPackage.Literals.ABSTRACT_PROCESS__ACTORS, actor));
+        refresh();
+        actorsViewer.editElement(actor, 0);
     }
 
     private String generateActorName(AbstractProcess process) {
-        Set<String> actorsName = new HashSet<String>() ;
-        for(Actor a : process.getActors()){
-            actorsName.add(a.getName()) ;
+        Set<String> actorsName = new HashSet<String>();
+        for (Actor a : process.getActors()) {
+            actorsName.add(a.getName());
         }
 
-        return NamingUtils.generateNewName(actorsName,Messages.defaultActorName) ;
+        return NamingUtils.generateNewName(actorsName, Messages.defaultActorName);
     }
 
-
-    private void bindActorList(){
-        if( context != null ){
+    private void bindActorList() {
+        if (context != null) {
             context.dispose();
         }
         context = new EMFDataBindingContext();
-        context.bindValue(ViewersObservables.observeInput(actorsViewer), EMFEditObservables.observeValue(getEditingDomain(), getEObject(), ProcessPackage.Literals.ABSTRACT_PROCESS__ACTORS));
+        context.bindValue(ViewersObservables.observeInput(actorsViewer),
+                EMFEditObservables.observeValue(getEditingDomain(), getEObject(), ProcessPackage.Literals.ABSTRACT_PROCESS__ACTORS));
     }
-
 
     @Override
     public void refresh() {
         super.refresh();
-        if(getEObject() != null){
-            updateButtons() ;
+        if (getEObject() != null) {
+            updateButtons();
         }
     }
-
 
     @Override
     public void selectionChanged(SelectionChangedEvent arg0) {
-        updateButtons() ;
+        updateButtons();
     }
 
-
     private void updateButtons() {
-        if(removeButton != null && !removeButton.isDisposed()){
-            removeButton.setEnabled(!actorsViewer.getSelection().isEmpty()) ;
+        if (removeButton != null && !removeButton.isDisposed()) {
+            removeButton.setEnabled(!actorsViewer.getSelection().isEmpty());
         }
 
-        if(setAsInitiatorButton != null && !setAsInitiatorButton.isDisposed()){
-            if(!actorsViewer.getSelection().isEmpty()){
-                Actor selectedActor = (Actor) ((IStructuredSelection) actorsViewer.getSelection()).getFirstElement() ;
-                setAsInitiatorButton.setEnabled(!selectedActor.isInitiator()) ;
-            }else{
-                setAsInitiatorButton.setEnabled(false) ;
+        if (setAsInitiatorButton != null && !setAsInitiatorButton.isDisposed()) {
+            if (!actorsViewer.getSelection().isEmpty()) {
+                Actor selectedActor = (Actor) ((IStructuredSelection) actorsViewer.getSelection()).getFirstElement();
+                setAsInitiatorButton.setEnabled(!selectedActor.isInitiator());
+            } else {
+                setAsInitiatorButton.setEnabled(false);
             }
         }
     }
 
-
     @Override
     protected void setEditingDomain(TransactionalEditingDomain editingDomain) {
         super.setEditingDomain(editingDomain);
-        if(nameEditingSupport != null){
-            nameEditingSupport.setTransactionalEditingDomain(editingDomain) ;
-            descripitonEditingSupport.setTransactionalEditingDomain(editingDomain) ;
+        if (nameEditingSupport != null) {
+            nameEditingSupport.setTransactionalEditingDomain(editingDomain);
+            descripitonEditingSupport.setTransactionalEditingDomain(editingDomain);
         }
     }
-
 
     @Override
     public void doubleClick(DoubleClickEvent arg0) {
 
-
     }
 
-    protected EStructuralFeature getActorFeature(){
+    protected EStructuralFeature getActorFeature() {
         return ProcessPackage.Literals.ABSTRACT_PROCESS__ACTORS;
     }
 

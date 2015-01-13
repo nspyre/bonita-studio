@@ -1,19 +1,16 @@
 /**
  * Copyright (C) 2012 BonitaSoft S.A.
  * BonitaSoft, 32 rue Gustave Eiffel - 38000 Grenoble
- *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2.0 of the License, or
  * (at your option) any later version.
- *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package org.bonitasoft.studio.properties.form.sections.actions.contributions;
 
@@ -60,7 +57,6 @@ import org.eclipse.ui.PlatformUI;
 
 /**
  * @author Aurelien Pupier
- *
  */
 public class SelectFileStoreWizardPage extends WizardPage {
 
@@ -99,38 +95,38 @@ public class SelectFileStoreWizardPage extends WizardPage {
             }
         });
         fileStoreViewer.setInput(resourceContainer);
-        Object[] initial  = provider.getElements(resourceContainer);
+        Object[] initial = provider.getElements(resourceContainer);
         Object[] currentChildren = provider.getChildren(initial[0]);
-        if(initialValue != null){
+        if (initialValue != null) {
             StringTokenizer tokenizer = new StringTokenizer(initialValue, "/");
             Object temp = null;
-            while(tokenizer.hasMoreElements()){
+            while (tokenizer.hasMoreElements()) {
                 String item = tokenizer.nextToken();
 
                 for (int i = 0; i < currentChildren.length; i++) {
                     temp = currentChildren[i];
-                    if(temp instanceof File){
-                        if(((File) temp).getName().equals(item)){
-                            if(((File) temp).isDirectory()){
+                    if (temp instanceof File) {
+                        if (((File) temp).getName().equals(item)) {
+                            if (((File) temp).isDirectory()) {
                                 currentChildren = provider.getChildren(temp);
                                 break;
                             } else {
                                 break;
                             }
                         }
-                    } else if(temp instanceof ResourceFile){
-                        if(((ResourceFile) temp).getPath().endsWith("/"+item)){
+                    } else if (temp instanceof ResourceFile) {
+                        if (((ResourceFile) temp).getPath().endsWith("/" + item)) {
                             break;
                         }
-                    } else if( temp instanceof ResourceFolder){
-                        if(((ResourceFolder) temp).getPath().endsWith("/"+item)){
+                    } else if (temp instanceof ResourceFolder) {
+                        if (((ResourceFolder) temp).getPath().endsWith("/" + item)) {
                             currentChildren = provider.getChildren(temp);
                             break;
                         }
                     }
                 }
             }
-            if(temp != null){
+            if (temp != null) {
                 fileStoreViewer.setSelection(new StructuredSelection(temp));
                 fileStoreViewer.reveal(temp);
             }
@@ -162,24 +158,25 @@ public class SelectFileStoreWizardPage extends WizardPage {
                 if (res != null && !containsPath(resourceContainer, res)) {
                     Object element = ((IStructuredSelection) fileStoreViewer.getSelection()).getFirstElement();
                     Object parentFolder = null;
-                    if(element instanceof ResourceFolder){
-                        if(WebTemplatesUtil.isInUserTemplate(element)){
+                    if (element instanceof ResourceFolder) {
+                        if (WebTemplatesUtil.isInUserTemplate(element)) {
                             parentFolder = element;
                         }
-                    }else if(element instanceof File){
-                        if(((File)element).isDirectory() && WebTemplatesUtil.isInUserTemplate(element)){
+                    } else if (element instanceof File) {
+                        if (((File) element).isDirectory() && WebTemplatesUtil.isInUserTemplate(element)) {
                             parentFolder = element;
                         }
                     }
                     Object af = WebTemplatesUtil.putResourcesInProcessTemplate(res, parentFolder, editingDomain, (AbstractProcess) resourceContainer);
-                    if(parentFolder == null){
-                        final ApplicationResourceRepositoryStore resourceStore = (ApplicationResourceRepositoryStore) RepositoryManager.getInstance().getRepositoryStore(ApplicationResourceRepositoryStore.class) ;
-                        String processUUID = ModelHelper.getEObjectID(resourceContainer) ;
-                        ApplicationResourceFileStore artifact = (ApplicationResourceFileStore) resourceStore.getChild(processUUID) ;
-                        if (artifact != null && af !=null) {
+                    if (parentFolder == null) {
+                        final ApplicationResourceRepositoryStore resourceStore = (ApplicationResourceRepositoryStore) RepositoryManager.getInstance()
+                                .getRepositoryStore(ApplicationResourceRepositoryStore.class);
+                        String processUUID = ModelHelper.getEObjectID(resourceContainer);
+                        ApplicationResourceFileStore artifact = (ApplicationResourceFileStore) resourceStore.getChild(processUUID);
+                        if (artifact != null && af != null) {
                             fileStoreViewer.add(ResourceTreeContentProvider.RESOURCES_CATEGORY, af);
                         }
-                    }else{
+                    } else {
                         fileStoreViewer.refresh();
                     }
                 }
@@ -201,12 +198,12 @@ public class SelectFileStoreWizardPage extends WizardPage {
                 if (res != null) {
                     Object element = ((IStructuredSelection) fileStoreViewer.getSelection()).getFirstElement();
                     Object parentFolder = null;
-                    if(element instanceof ResourceFolder){
-                        if(WebTemplatesUtil.isInUserTemplate(element)){
+                    if (element instanceof ResourceFolder) {
+                        if (WebTemplatesUtil.isInUserTemplate(element)) {
                             parentFolder = element;
                         }
-                    }else if(element instanceof File){
-                        if(((File)element).isDirectory() && WebTemplatesUtil.isInUserTemplate(element)){
+                    } else if (element instanceof File) {
+                        if (((File) element).isDirectory() && WebTemplatesUtil.isInUserTemplate(element)) {
                             parentFolder = element;
                         }
                     }
@@ -219,14 +216,15 @@ public class SelectFileStoreWizardPage extends WizardPage {
 
                             // copy it in the process template directory
                             Object af = WebTemplatesUtil.putResourcesInProcessTemplate(res, parentFolder, editingDomain, (AbstractProcess) resourceContainer);
-                            if(parentFolder == null){
-                                final ApplicationResourceRepositoryStore resourceStore = (ApplicationResourceRepositoryStore) RepositoryManager.getInstance().getRepositoryStore(ApplicationResourceRepositoryStore.class) ;
-                                String processUUID = ModelHelper.getEObjectID(resourceContainer) ;
-                                ApplicationResourceFileStore artifact = (ApplicationResourceFileStore) resourceStore.getChild(processUUID) ;
+                            if (parentFolder == null) {
+                                final ApplicationResourceRepositoryStore resourceStore = (ApplicationResourceRepositoryStore) RepositoryManager.getInstance()
+                                        .getRepositoryStore(ApplicationResourceRepositoryStore.class);
+                                String processUUID = ModelHelper.getEObjectID(resourceContainer);
+                                ApplicationResourceFileStore artifact = (ApplicationResourceFileStore) resourceStore.getChild(processUUID);
                                 if (artifact != null) {
                                     fileStoreViewer.add(ResourceTreeContentProvider.RESOURCES_CATEGORY, af);
                                 }
-                            }else{
+                            } else {
                                 fileStoreViewer.refresh();
                             }
                         }
@@ -238,33 +236,34 @@ public class SelectFileStoreWizardPage extends WizardPage {
 
     }
 
-    private void createRemoveButton(Composite buttonsComposite){
+    private void createRemoveButton(Composite buttonsComposite) {
         final Button removeFolder = new Button(buttonsComposite, SWT.FLAT);
         removeFolder.setText(Messages.Remove);
         removeFolder.addSelectionListener(new SelectionAdapter() {
 
             @Override
             public void widgetSelected(SelectionEvent e) {
-                if(!MessageDialog.openConfirm(removeFolder.getShell(), Messages.confirmDeleteFile_title, Messages.confirmDeleteFile_msg)){
+                if (!MessageDialog.openConfirm(removeFolder.getShell(), Messages.confirmDeleteFile_title, Messages.confirmDeleteFile_msg)) {
                     return;
                 }
                 Iterator<?> it = ((ITreeSelection) fileStoreViewer.getSelection()).iterator();
                 Object temp;
                 Object toRemove = null;
-                final ApplicationResourceRepositoryStore resourceStore = (ApplicationResourceRepositoryStore) RepositoryManager.getInstance().getRepositoryStore(ApplicationResourceRepositoryStore.class) ;
-                final String processUUID = ModelHelper.getEObjectID(resourceContainer) ;
+                final ApplicationResourceRepositoryStore resourceStore = (ApplicationResourceRepositoryStore) RepositoryManager.getInstance()
+                        .getRepositoryStore(ApplicationResourceRepositoryStore.class);
+                final String processUUID = ModelHelper.getEObjectID(resourceContainer);
                 while (it.hasNext()) {
                     temp = it.next();
                     if (temp instanceof String && !containsPath(resourceContainer, (String) temp)) {
                         toRemove = temp;
                         if (WebTemplatesUtil.isInUserTemplate(toRemove)) {
-                            ApplicationResourceFileStore file = (ApplicationResourceFileStore) resourceStore.getChild(processUUID) ;
+                            ApplicationResourceFileStore file = (ApplicationResourceFileStore) resourceStore.getChild(processUUID);
                             file.removeResource((String) toRemove);
                         }
                     } else if (temp instanceof ResourceFolder) {
                         toRemove = temp;
                         if (WebTemplatesUtil.isInUserTemplate(toRemove)) {
-                            ApplicationResourceFileStore file = (ApplicationResourceFileStore) resourceStore.getChild(processUUID) ;
+                            ApplicationResourceFileStore file = (ApplicationResourceFileStore) resourceStore.getChild(processUUID);
                             file.removeResource(((ResourceFolder) toRemove).getPath());
                         }
                         editingDomain.getCommandStack().execute(
@@ -273,18 +272,18 @@ public class SelectFileStoreWizardPage extends WizardPage {
                     } else if (temp instanceof ResourceFile) {
                         toRemove = temp;
                         if (WebTemplatesUtil.isInUserTemplate(toRemove)) {
-                            ApplicationResourceFileStore file = (ApplicationResourceFileStore) resourceStore.getChild(processUUID) ;
+                            ApplicationResourceFileStore file = (ApplicationResourceFileStore) resourceStore.getChild(processUUID);
                             file.removeResource(((ResourceFile) toRemove).getPath());
                         }
                         editingDomain.getCommandStack().execute(
                                 new RemoveCommand(editingDomain, resourceContainer, ProcessPackage.Literals.RESOURCE_CONTAINER__RESOURCE_FILES, toRemove));
 
                     } else if (temp instanceof IResource) {
-                        ApplicationResourceFileStore file = (ApplicationResourceFileStore) resourceStore.getChild(processUUID) ;
+                        ApplicationResourceFileStore file = (ApplicationResourceFileStore) resourceStore.getChild(processUUID);
                         file.removeResource((IResource) temp);
                         fileStoreViewer.remove(temp);
                     } else if (temp instanceof File) {
-                        if(WebTemplatesUtil.isInUserTemplate(temp)){
+                        if (WebTemplatesUtil.isInUserTemplate(temp)) {
                             FileUtil.deleteDir((File) temp);
                         }
                         fileStoreViewer.remove(temp);
@@ -311,7 +310,7 @@ public class SelectFileStoreWizardPage extends WizardPage {
 
     @Override
     public boolean canFlipToNextPage() {
-        return super.canFlipToNextPage() && selectedElement != null  && isFile(selectedElement);
+        return super.canFlipToNextPage() && selectedElement != null && isFile(selectedElement);
     }
 
     private boolean isFile(Object selectedElement2) {
@@ -338,25 +337,26 @@ public class SelectFileStoreWizardPage extends WizardPage {
     }
 
     public String getSelectedFilePath() {
-        final ApplicationResourceRepositoryStore resourceStore = (ApplicationResourceRepositoryStore) RepositoryManager.getInstance().getRepositoryStore(ApplicationResourceRepositoryStore.class) ;
-        if(selectedElement instanceof ResourceFile){
-            final String res = ((ResourceFile)selectedElement).getPath().replaceFirst(".*/", "");
+        final ApplicationResourceRepositoryStore resourceStore = (ApplicationResourceRepositoryStore) RepositoryManager.getInstance().getRepositoryStore(
+                ApplicationResourceRepositoryStore.class);
+        if (selectedElement instanceof ResourceFile) {
+            final String res = ((ResourceFile) selectedElement).getPath().replaceFirst(".*/", "");
             return res;
         } else {
-            String filePath = ((File)selectedElement).getPath();
+            String filePath = ((File) selectedElement).getPath();
             String rootFolderPath = resourceStore.getResource().getLocation().toOSString().replaceAll("\\\\", "/");
             String withoutStart = filePath.replaceAll("\\\\", "/").replaceFirst(rootFolderPath, "");
             //withoutStart.replaceFirst("/", "");
             return withoutStart.replaceFirst(
                     "/.*/" //UUID
-                    +"application/"
+                            + "application/"
                     , "");
         }
     }
 
     @Override
     public boolean isPageComplete() {
-        return super.isPageComplete() && selectedElement != null  && isFile(selectedElement);
+        return super.isPageComplete() && selectedElement != null && isFile(selectedElement);
     }
 
 }

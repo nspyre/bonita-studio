@@ -1,19 +1,16 @@
 /**
  * Copyright (C) 2009 BonitaSoft S.A.
  * BonitaSoft, 31 rue Gustave Eiffel - 38000 Grenoble
- *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2.0 of the License, or
  * (at your option) any later version.
- *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package org.bonitasoft.studio.diagram.custom.editPolicies;
 
@@ -52,10 +49,9 @@ import org.eclipse.jface.viewers.StructuredSelection;
 /**
  * @author Romain Bioteau
  */
-public class UpdateSizeLaneSelectionEditPolicy extends SelectionEditPolicy implements ZoomListener{
+public class UpdateSizeLaneSelectionEditPolicy extends SelectionEditPolicy implements ZoomListener {
 
-
-    /*The list of figure that catch mouse event to launch the command to change the span*/
+    /* The list of figure that catch mouse event to launch the command to change the span */
     protected List<IFigure> figures = new ArrayList<IFigure>();
 
     public static final String ADD_BOTTOM = "addBottom"; //$NON-NLS-1$
@@ -63,7 +59,7 @@ public class UpdateSizeLaneSelectionEditPolicy extends SelectionEditPolicy imple
 
     public static final Object UPDATE_LANE_SIZE_SELECTION_FEEDBACK_ROLE = "updateLaneSizeselectionFeedback"; //$NON-NLS-1$
 
-    /* The handler layer on which the figures are draw*/
+    /* The handler layer on which the figures are draw */
     protected IFigure layer = null;
 
     private final FigureListener figureListener;
@@ -80,7 +76,6 @@ public class UpdateSizeLaneSelectionEditPolicy extends SelectionEditPolicy imple
 
     private ZoomManager zoomManager;
 
-
     /**
      * 
      */
@@ -90,24 +85,22 @@ public class UpdateSizeLaneSelectionEditPolicy extends SelectionEditPolicy imple
             @Override
             public void figureMoved(final IFigure source) {
                 hideSelection();
-                if(hasFocus || state == EditPart.SELECTED || state == EditPart.SELECTED_PRIMARY){
+                if (hasFocus || state == EditPart.SELECTED || state == EditPart.SELECTED_PRIMARY) {
                     showSelection();
                 }
             }
         };
     }
 
-
     @Override
     public void activate() {
         super.activate();
         zoomManager = ((DiagramRootEditPart) getHost().getRoot()).getZoomManager();
-        zoomManager.addZoomListener(this) ;
+        zoomManager.addZoomListener(this);
     }
 
     /*
      * (non-Javadoc)
-     * 
      * @see org.eclipse.gef.editpolicies.SelectionEditPolicy#hideSelection()
      */
     @Override
@@ -126,22 +119,20 @@ public class UpdateSizeLaneSelectionEditPolicy extends SelectionEditPolicy imple
 
     /*
      * (non-Javadoc)
-     * 
      * @see org.eclipse.gef.editpolicies.SelectionEditPolicy#showSelection()
      */
     @Override
     protected void showSelection() {
-        if(!(((IGraphicalEditPart) getHost()).resolveSemanticElement() instanceof Lane)){
-            return ;
+        if (!(((IGraphicalEditPart) getHost()).resolveSemanticElement() instanceof Lane)) {
+            return;
         }
 
-        laneEditPart = (ShapeNodeEditPart) getHost() ;
+        laneEditPart = (ShapeNodeEditPart) getHost();
 
         if (sourceFigure == null) {
             sourceFigure = laneEditPart.getFigure();
             sourceFigure.addFigureListener(figureListener);
         }
-
 
         hideSelection();
         layer = getLayer(LayerConstants.HANDLE_LAYER);
@@ -157,7 +148,7 @@ public class UpdateSizeLaneSelectionEditPolicy extends SelectionEditPolicy imple
             return;
         }
 
-        if(zoomManager.getZoom() > GMFTools.MINIMAL_ZOOM_DISPLAY){
+        if (zoomManager.getZoom() > GMFTools.MINIMAL_ZOOM_DISPLAY) {
             showSelectionForAddBottom();
             showSelectionForRemoveBottom();
             showSelectionForAddRight(zoomManager.getZoom());
@@ -172,7 +163,7 @@ public class UpdateSizeLaneSelectionEditPolicy extends SelectionEditPolicy imple
         final IFigure f = new ImageFigure(Pics.getImage(PicsConstants.plusBlack));
         f.setSize(20, 20);
         f.setLocation(ref.getRight().translate(10, -20));
-        f.getBounds().performScale(zoom) ;
+        f.getBounds().performScale(zoom);
         f.addMouseListener(new MouseListenerForSpan(UpdateSizePoolSelectionEditPolicy.ADD_RIGHT));
         layer.add(f);
         figures.add(f);
@@ -181,18 +172,17 @@ public class UpdateSizeLaneSelectionEditPolicy extends SelectionEditPolicy imple
 
     private IGraphicalEditPart getPoolEditPart() {
         final EditPart ep = getHost();
-        if(ep instanceof IGraphicalEditPart){
+        if (ep instanceof IGraphicalEditPart) {
             IGraphicalEditPart pool = (IGraphicalEditPart) ep;
             while (pool != null && !(pool instanceof PoolEditPart)) {
                 pool = (IGraphicalEditPart) pool.getParent();
             }
-            if(pool != null){
+            if (pool != null) {
                 return pool;
             }
         }
         return null;
     }
-
 
     private void showSelectionForRemoveRight(final double zoom) {
         final IFigure poolFigure = getPoolEditPart().getFigure();
@@ -208,29 +198,29 @@ public class UpdateSizeLaneSelectionEditPolicy extends SelectionEditPolicy imple
     }
 
     private ShapeNodeEditPart findLaneEditPart(final EditPart host) {
-        EditPart result = host ;
+        EditPart result = host;
         final EditPart tempEditPart = result;
-        /*first search for a CustomLaneEditPart*/
-        while(!(result instanceof CustomLaneEditPart) && result != null){
-            result = result.getParent() ;
+        /* first search for a CustomLaneEditPart */
+        while (!(result instanceof CustomLaneEditPart) && result != null) {
+            result = result.getParent();
         }
 
-        if(result == null){
-            return null ;
+        if (result == null) {
+            return null;
         }
 
         return (ShapeNodeEditPart) result;
     }
 
     private void showSelectionForAddBottom() {
-        if(sourceFigure == null){
-            if(laneEditPart == null){
+        if (sourceFigure == null) {
+            if (laneEditPart == null) {
                 laneEditPart = findLaneEditPart(getHost());
-                if(laneEditPart == null) {
-                    return ;
+                if (laneEditPart == null) {
+                    return;
                 }
             }
-            sourceFigure = laneEditPart.getFigure() ;
+            sourceFigure = laneEditPart.getFigure();
         }
         final Rectangle ref = sourceFigure.getBounds().getCopy();
         FiguresHelper.translateToAbsolute(sourceFigure, ref);
@@ -244,14 +234,14 @@ public class UpdateSizeLaneSelectionEditPolicy extends SelectionEditPolicy imple
     }
 
     private void showSelectionForRemoveBottom() {
-        if(sourceFigure == null){
-            if(laneEditPart == null){
+        if (sourceFigure == null) {
+            if (laneEditPart == null) {
                 laneEditPart = findLaneEditPart(getHost());
-                if(laneEditPart == null) {
-                    return ;
+                if (laneEditPart == null) {
+                    return;
                 }
             }
-            sourceFigure = laneEditPart.getFigure() ;
+            sourceFigure = laneEditPart.getFigure();
         }
         final Rectangle ref = sourceFigure.getBounds().getCopy();
         FiguresHelper.translateToAbsolute(sourceFigure, ref);
@@ -264,20 +254,20 @@ public class UpdateSizeLaneSelectionEditPolicy extends SelectionEditPolicy imple
 
     }
 
-
     protected void refresh() {
         hideSelection();
         showSelection();
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see org.eclipse.gef.editpolicies.SelectionEditPolicy#deactivate()
      */
     @Override
     public void deactivate() {
         super.deactivate();
-        zoomManager.removeZoomListener(this) ;
-        if(sourceFigure != null){
+        zoomManager.removeZoomListener(this);
+        if (sourceFigure != null) {
             sourceFigure.removeFigureListener(figureListener);
             sourceFigure = null;
         }
@@ -285,7 +275,8 @@ public class UpdateSizeLaneSelectionEditPolicy extends SelectionEditPolicy imple
         figures.clear();
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see org.eclipse.gef.editpolicies.SelectionEditPolicy#setFocus(boolean)
      */
     @Override
@@ -294,7 +285,8 @@ public class UpdateSizeLaneSelectionEditPolicy extends SelectionEditPolicy imple
         super.setFocus(value);
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see org.eclipse.gef.editpolicies.SelectionEditPolicy#setSelectedState(int)
      */
     @Override
@@ -303,7 +295,7 @@ public class UpdateSizeLaneSelectionEditPolicy extends SelectionEditPolicy imple
         super.setSelectedState(type);
     }
 
-    private class MouseListenerForSpan extends MouseListener.Stub{
+    private class MouseListenerForSpan extends MouseListener.Stub {
 
         private final String type;
 
@@ -318,27 +310,26 @@ public class UpdateSizeLaneSelectionEditPolicy extends SelectionEditPolicy imple
         public void mousePressed(final MouseEvent me) {
             try {
 
-                final IFigure  f = ((CustomMainProcessEditPart) laneEditPart.getParent().getParent().getParent()).getFigure() ;
-                IFigure p = f ;
-                while(!(p instanceof Viewport)){
+                final IFigure f = ((CustomMainProcessEditPart) laneEditPart.getParent().getParent().getParent()).getFigure();
+                IFigure p = f;
+                while (!(p instanceof Viewport)) {
                     p = p.getParent();
                 }
 
-                final int y = ((Viewport)p).getVerticalRangeModel().getValue() ;
+                final int y = ((Viewport) p).getVerticalRangeModel().getValue();
 
                 IGraphicalEditPart targetEp = laneEditPart;
-                if(type.equals(UpdateSizePoolSelectionEditPolicy.ADD_RIGHT)||type.equals(UpdateSizePoolSelectionEditPolicy.REMOVE_RIGHT)){
+                if (type.equals(UpdateSizePoolSelectionEditPolicy.ADD_RIGHT) || type.equals(UpdateSizePoolSelectionEditPolicy.REMOVE_RIGHT)) {
                     targetEp = getPoolEditPart();
                 }
 
                 final IUndoableOperation c = new UpdatePoolSizeCommand(targetEp, type);
-                OperationHistoryFactory.getOperationHistory().execute(c,null,null);
+                OperationHistoryFactory.getOperationHistory().execute(c, null, null);
                 me.consume();
                 laneEditPart.getViewer().setSelection(new StructuredSelection(targetEp));
                 refresh();
                 laneEditPart.getViewer().setSelection(new StructuredSelection(getHost()));
-                ((Viewport)p).setVerticalLocation(y);
-
+                ((Viewport) p).setVerticalLocation(y);
 
             } catch (final ExecutionException e) {
                 e.printStackTrace();
@@ -352,6 +343,6 @@ public class UpdateSizeLaneSelectionEditPolicy extends SelectionEditPolicy imple
 
     @Override
     public void zoomChanged(final double zoom) {
-        hideSelection() ;
+        hideSelection();
     }
 }

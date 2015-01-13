@@ -1,19 +1,16 @@
 /**
  * Copyright (C) 2012 BonitaSoft S.A.
  * BonitaSoft, 32 rue Gustave Eiffel - 38000 Grenoble
- *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2.0 of the License, or
  * (at your option) any later version.
- *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
 package org.bonitasoft.studio.connectors.test.swtbot;
@@ -24,10 +21,8 @@ import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.swtbot.eclipse.gef.finder.SWTBotGefTestCase;
 import org.junit.Test;
 
-
 /**
  * @author Aur�lie Zara
- *
  */
 public class ConnectorPropertyTest extends SWTBotGefTestCase {
 
@@ -67,9 +62,9 @@ public class ConnectorPropertyTest extends SWTBotGefTestCase {
         editConnector(connectorDefinitionId, name, version, dataName);
         bot.activeEditor().saveAndClose();
     }
-    
-    public void testUpDownConnectorsList(){
-    	final String connectorDefinitionId = "connectorDefTestForUpDownButtonTest";
+
+    public void testUpDownConnectorsList() {
+        final String connectorDefinitionId = "connectorDefTestForUpDownButtonTest";
         final String version = "1.0.0";
         final String name = "test";
         final String dataName = "dataTest";
@@ -77,16 +72,15 @@ public class ConnectorPropertyTest extends SWTBotGefTestCase {
         createConnector(connectorDefinitionId);
         bot.viewById(SWTBotTestUtil.VIEWS_PROPERTIES_PROCESS_GENERAL).show();
         createData(dataName);
-        addConnector(connectorDefinitionId, name+"1", dataName, version);
-        addConnector(connectorDefinitionId, name+"2", dataName, version);
+        addConnector(connectorDefinitionId, name + "1", dataName, version);
+        addConnector(connectorDefinitionId, name + "2", dataName, version);
         bot.table().select(0);
         bot.button(Messages.down).click();
-        assertTrue("Down on connectors doesn't refresh the list correctly",bot.table().getTableItem(1).getText().contains(name+"1"));
+        assertTrue("Down on connectors doesn't refresh the list correctly", bot.table().getTableItem(1).getText().contains(name + "1"));
         bot.button(Messages.up).click();
-        assertTrue("up on connectors doesn't refresh the list correctly",bot.table().getTableItem(0).getText().contains(name+"1"));
+        assertTrue("up on connectors doesn't refresh the list correctly", bot.table().getTableItem(0).getText().contains(name + "1"));
         bot.activeEditor().saveAndClose();
     }
-    
 
     private void addConnector(String connectorDefinitionId, String name,
             String dataName, String version) {
@@ -97,7 +91,7 @@ public class ConnectorPropertyTest extends SWTBotGefTestCase {
         assertFalse(IDialogConstants.FINISH_LABEL + " should be disabled", bot
                 .button(IDialogConstants.FINISH_LABEL).isEnabled());
         bot.tree().expandNode("Uncategorized")
-        .select(connectorDefinitionId + " (" + version + ")");
+                .select(connectorDefinitionId + " (" + version + ")");
         assertTrue(IDialogConstants.NEXT_LABEL + " should be disabled", bot
                 .button(IDialogConstants.NEXT_LABEL).isEnabled());
         assertFalse(IDialogConstants.FINISH_LABEL + " should be disabled", bot
@@ -120,7 +114,7 @@ public class ConnectorPropertyTest extends SWTBotGefTestCase {
             String version, String dataName) {
         bot.table().select(
                 name + " -- " + connectorDefinitionId + " (" + version
-                + ") -- ON_FINISH");
+                        + ") -- ON_FINISH");
         bot.button("Edit...").click();
         assertEquals("the name text field is not well completed", bot
                 .textWithLabel("Name *").getText(), name);
@@ -148,8 +142,5 @@ public class ConnectorPropertyTest extends SWTBotGefTestCase {
                 .button(IDialogConstants.FINISH_LABEL).isEnabled());
         bot.button(IDialogConstants.FINISH_LABEL).click();
     }
-    
-    
-    
 
 }

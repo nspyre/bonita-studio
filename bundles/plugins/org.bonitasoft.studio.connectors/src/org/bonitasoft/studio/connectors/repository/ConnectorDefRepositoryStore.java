@@ -48,7 +48,6 @@ public class ConnectorDefRepositoryStore extends AbstractDefinitionRepositorySto
 
     private DefinitionResourceProvider resourceProvider;
 
-
     @Override
     public ConnectorDefFileStore createRepositoryFileStore(final String fileName) {
         if (fileName.endsWith(CONNECTOR_DEF_EXT)) {

@@ -1,19 +1,16 @@
 /**
  * Copyright (C) 2009-2012 BonitaSoft S.A.
  * BonitaSoft, 32 rue Gustave Eiffel - 38000 Grenoble
- *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2.0 of the License, or
  * (at your option) any later version.
- *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package org.bonitasoft.studio.importer.bpmn;
 
@@ -189,40 +186,41 @@ public class BPMNToProc extends ToProcProcessor {
     // participant defined and no laneset defined
 
     private final static String[] tagNameWithQNames = new String[] { "source", "target",
-        "sourceRef", "targetRef", "attachedToRef",
-        "supportedInterfaceRef", "calledElement",
-        "calledChoreographyRef", "calledCollaborationRef",
-        "eventDefinitionRef", "participantRef",
-        "initiatingParticipantRef",
-        "messageFlowRef",
-        "choreographyRef",
-        "activityRef",
-        "innerConversationNodeRef",
-        "outerConversationNodeRef",
-        "participantRef",
-        "messageFlowRef",
-        "correlationPropertyRef",
-        "type",
-        "messageRef",
-        "correlationKeyRef",
-        "itemSubjectRef",
-        "dataStoreRef",
-        "structureRef",
-        "errorRef",
-        "escalationRef",
-        "definition",// check that it collapsed not with other
-        "categoryValueRef", "incoming", "outgoing",
-        "evaluatesToTypeRef", "initiatingParticipantRef",
-        "implementationRef", "operationRef", "partitionElementRef",
-        "itemRef", "innerMessageFlowRef", "outerMessageFlowRef",
-        "loopDataInputRef", "loopDataOutputRef",
-        "oneBehaviorEventRef", "noneBehaviorEventRef",
-        "inMessageRef", "outMessageRef", "endPointRef",
-        "processRef", "innerParticipantRef", "outerParticipantRef",
-        "participantRef", "supports",
-        "definitionalCollaborationRef", "itemSubjectRef",
-        "parameterRef", "resourceRef", "signalRef",
-        "eventDefinitionRef", "attachedToRef" };
+            "sourceRef", "targetRef", "attachedToRef",
+            "supportedInterfaceRef", "calledElement",
+            "calledChoreographyRef", "calledCollaborationRef",
+            "eventDefinitionRef", "participantRef",
+            "initiatingParticipantRef",
+            "messageFlowRef",
+            "choreographyRef",
+            "activityRef",
+            "innerConversationNodeRef",
+            "outerConversationNodeRef",
+            "participantRef",
+            "messageFlowRef",
+            "correlationPropertyRef",
+            "type",
+            "messageRef",
+            "correlationKeyRef",
+            "itemSubjectRef",
+            "dataStoreRef",
+            "structureRef",
+            "errorRef",
+            "escalationRef",
+            "definition",// check that it collapsed not with other
+            "categoryValueRef", "incoming", "outgoing",
+            "evaluatesToTypeRef", "initiatingParticipantRef",
+            "implementationRef", "operationRef", "partitionElementRef",
+            "itemRef", "innerMessageFlowRef", "outerMessageFlowRef",
+            "loopDataInputRef", "loopDataOutputRef",
+            "oneBehaviorEventRef", "noneBehaviorEventRef",
+            "inMessageRef", "outMessageRef", "endPointRef",
+            "processRef", "innerParticipantRef", "outerParticipantRef",
+            "participantRef", "supports",
+            "definitionalCollaborationRef", "itemSubjectRef",
+            "parameterRef", "resourceRef", "signalRef",
+            "eventDefinitionRef", "attachedToRef" };
+
     /**
      * @param resourceName
      */
@@ -264,10 +262,10 @@ public class BPMNToProc extends ToProcProcessor {
                         ProjectUtil.getBonitaStudioWorkFolder());
                 file.deleteOnExit();
                 TransformerFactory
-                .newInstance()
-                .newTransformer()
-                .transform(new DOMSource(document),
-                        new StreamResult(file));
+                        .newInstance()
+                        .newTransformer()
+                        .transform(new DOMSource(document),
+                                new StreamResult(file));
                 sourceBPMNUrl = file.toURI().toURL();
             }
 
@@ -438,7 +436,7 @@ public class BPMNToProc extends ToProcProcessor {
             final TreeIterator<EObject> eAllContents = el.eAllContents();
             while (eAllContents.hasNext()) {
                 final EObject eObject = eAllContents.next();
-                if(eObject instanceof TEventDefinition){
+                if (eObject instanceof TEventDefinition) {
                     idOfEventDefinitions.put(((TEventDefinition) eObject).getId(), (TEventDefinition) eObject);
                 }
             }
@@ -464,11 +462,10 @@ public class BPMNToProc extends ToProcProcessor {
 
         final EList<TResourceRole> resourceRole = el.getResourceRole();
         for (final TResourceRole tResourceRole : resourceRole) {
-            if(tResourceRole instanceof TPerformer){
+            if (tResourceRole instanceof TPerformer) {
                 builder.addActor(tResourceRole.getName(), retrieveDocumentation(tResourceRole));
             }
         }
-
 
         processDataObjects(process);
 
@@ -477,7 +474,7 @@ public class BPMNToProc extends ToProcProcessor {
             createProcessWithoutLanes(process, flowElements);
         } else {
             final List<TLane> lanes = getAllTLanes(process.getLaneSet());
-            if(!lanes.isEmpty()){
+            if (!lanes.isEmpty()) {
                 createProcessWithLanes(flowElements, lanes);
             } else {
                 //Some tools are exporting empty laneset (IBM BlueWorks Live for instance)
@@ -541,21 +538,21 @@ public class BPMNToProc extends ToProcProcessor {
 
     protected void addFontStyle(final String bpmnId) throws ProcBuilderException {
         final BPMNShape bpmnShape = getBPMNShapeForBpmnID(bpmnId);
-        if(bpmnShape != null
+        if (bpmnShape != null
                 && bpmnShape.getBPMNLabel() != null
-                && bpmnShape.getBPMNLabel().getLabelStyle() != null){
+                && bpmnShape.getBPMNLabel().getLabelStyle() != null) {
             final BPMNLabelStyle style = getLabelStyle(bpmnShape.getBPMNLabel().getLabelStyle());
-            if(style != null && style.getFont() != null){
+            if (style != null && style.getFont() != null) {
                 final Font font = style.getFont();
-                builder.setFontStyle(font.getName(),(int)font.getSize(),font.isIsBold(),font.isIsItalic());
+                builder.setFontStyle(font.getName(), (int) font.getSize(), font.isIsBold(), font.isIsItalic());
             }
         }
     }
 
     private BPMNLabelStyle getLabelStyle(final QName labelStyle) {
-        for(final BPMNDiagram diagram : bpmnDiagrams){
-            for(final BPMNLabelStyle style : diagram.getBPMNLabelStyle()){
-                if(style.getId().equals(labelStyle.getLocalPart())){
+        for (final BPMNDiagram diagram : bpmnDiagrams) {
+            for (final BPMNLabelStyle style : diagram.getBPMNLabelStyle()) {
+                if (style.getId().equals(labelStyle.getLocalPart())) {
                     return style;
                 }
             }
@@ -658,10 +655,10 @@ public class BPMNToProc extends ToProcProcessor {
 
                 final Point location = getLocationFor(textAnnotation.getId());
                 final Dimension size = getSizeFor(textAnnotation.getId());
-                if(size != null){
+                if (size != null) {
                     size.expand(0, 10);
                 }
-                if(location != null){
+                if (location != null) {
                     location.translate(0, -10);
                 }
                 final QName source = retrieveQNameOfSource(artifacts, textAnnotation);
@@ -671,20 +668,19 @@ public class BPMNToProc extends ToProcProcessor {
 
             }
         }
-        for(final TArtifact tArtifact : artifacts){
-            if(!(tArtifact instanceof TTextAnnotation)){
-                if(!(tArtifact instanceof TAssociation && sourceRefs.contains(((TAssociation) tArtifact).getSourceRef().getLocalPart()))){
+        for (final TArtifact tArtifact : artifacts) {
+            if (!(tArtifact instanceof TTextAnnotation)) {
+                if (!(tArtifact instanceof TAssociation && sourceRefs.contains(((TAssociation) tArtifact).getSourceRef().getLocalPart()))) {
                     status.add(new Status(IStatus.ERROR, ImporterPlugin.PLUGIN_ID, tArtifact.eClass().getName() + ": "
                             + tArtifact.getId()));
                     BonitaStudioLog.log("can't create element for " + tArtifact);
                 }
-            }else if(!(tArtifact instanceof TTextAnnotation)){
+            } else if (!(tArtifact instanceof TTextAnnotation)) {
                 status.add(new Status(IStatus.ERROR, ImporterPlugin.PLUGIN_ID, tArtifact.eClass().getName() + ": "
                         + tArtifact.getId()));
                 BonitaStudioLog.log("can't create element for " + tArtifact);
             }
         }
-
 
     }
 
@@ -781,11 +777,11 @@ public class BPMNToProc extends ToProcProcessor {
         // ProcessPackage.Literals.CALL_ACTIVITY));
         // FIXME : we are loosing the name of the subprocess :'(
         if (subProc != null) {
-            createPool("subProc_"+NamingUtils.convertToId(subProcess.getId()),
-                    "subProc_"+NamingUtils.convertToId(subProcess.getId()), location, true);
+            createPool("subProc_" + NamingUtils.convertToId(subProcess.getId()),
+                    "subProc_" + NamingUtils.convertToId(subProcess.getId()), location, true);
         } else {
-            createPool("subProc_"+NamingUtils.convertToId(subProcess.getId()),
-                    "subProc_"+NamingUtils.convertToId(subProcess.getId()), location,
+            createPool("subProc_" + NamingUtils.convertToId(subProcess.getId()),
+                    "subProc_" + NamingUtils.convertToId(subProcess.getId()), location,
                     false);
         }
         location.x += 220; // next
@@ -893,7 +889,7 @@ public class BPMNToProc extends ToProcProcessor {
         if (poolSize == null) {
             //			location.translate(0, poolSize.height);
             //		} else {
-            poolSize =  new Dimension(1200,250);
+            poolSize = new Dimension(1200, 250);
             //		location.translate(0, 250);// default size
         }
 
@@ -905,10 +901,10 @@ public class BPMNToProc extends ToProcProcessor {
         final Iterator<TRootElement> rootElementsIterator = rootElements.iterator();
         while (rootElementsIterator.hasNext()) {
             final TRootElement tRootElement = rootElementsIterator.next();
-            if(tRootElement instanceof TCollaboration){
-                for(final TParticipant participant : ((TCollaboration) tRootElement).getParticipant()){
+            if (tRootElement instanceof TCollaboration) {
+                for (final TParticipant participant : ((TCollaboration) tRootElement).getParticipant()) {
                     final QName processRef = participant.getProcessRef();
-                    if(processRef != null  && processId.equals(processRef.getLocalPart())){
+                    if (processRef != null && processId.equals(processRef.getLocalPart())) {
                         return participant.getId();
                     }
                 }
@@ -916,7 +912,6 @@ public class BPMNToProc extends ToProcProcessor {
         }
         return null;
     }
-
 
     private Point findMax(final String subProcBpmnIdlocalPart,
             final EList<TFlowElement> flowElement) {
@@ -990,11 +985,11 @@ public class BPMNToProc extends ToProcProcessor {
                 // }
                 // }
             }/*
-             * else { //noob guys don't specify to which bpmn element the bpmn
-             * plane is related, // in this case put them all in the stack and
-             * we will hope that there was not several bpmnplanes
-             * bpmnProcessDiagrams.add(bpmnPlane); }
-             */
+              * else { //noob guys don't specify to which bpmn element the bpmn
+              * plane is related, // in this case put them all in the stack and
+              * we will hope that there was not several bpmnplanes
+              * bpmnProcessDiagrams.add(bpmnPlane); }
+              */
         }
 
         if (bpmnProcessDiagrams.isEmpty()) {// add all bpmn plane that have no
@@ -1038,7 +1033,7 @@ public class BPMNToProc extends ToProcProcessor {
                  * Search the incoming element and look if we are a defaultFlow
                  * for him
                  */
-                final boolean isDefault = isSequenceFlowDefault(sequenceFlow,	sequenceFlowID);
+                final boolean isDefault = isSequenceFlowDefault(sequenceFlow, sequenceFlowID);
 
                 final String sourceId = sequenceFlow.getSourceRef();
                 final String targetId = sequenceFlow.getTargetRef();
@@ -1067,25 +1062,25 @@ public class BPMNToProc extends ToProcProcessor {
                             if (tFlowElement instanceof TInclusiveGateway) {
                                 if (sequenceFlowID.equals(
                                         ((TInclusiveGateway) tFlowElement)
-                                        .getDefault())) {
+                                                .getDefault())) {
                                     isDefault = true;
                                 }
                             } else if (tFlowElement instanceof TExclusiveGateway) {
                                 if (sequenceFlowID.equals(
                                         ((TExclusiveGateway) tFlowElement)
-                                        .getDefault())) {
+                                                .getDefault())) {
                                     isDefault = true;
                                 }
                             } else if (tFlowElement instanceof TComplexGateway) {
                                 if (sequenceFlowID.equals(
                                         ((TComplexGateway) tFlowElement)
-                                        .getDefault())) {
+                                                .getDefault())) {
                                     isDefault = true;
                                 }
                             } else if (tFlowElement instanceof TActivity) {
                                 if (sequenceFlowID.equals(
                                         ((TActivity) tFlowElement)
-                                        .getDefault())) {
+                                                .getDefault())) {
                                     isDefault = true;
                                 }
                             }
@@ -1149,7 +1144,7 @@ public class BPMNToProc extends ToProcProcessor {
                     } else if (flowNode instanceof TActivity) {
                         if (flowNode instanceof TSubProcess
                                 && ((TSubProcess) flowNode)
-                                .isTriggeredByEvent()) {
+                                        .isTriggeredByEvent()) {
                             isSubprocessEvent = true;
                         } else {
                             taskType = getActivityType((TActivity) flowNode);
@@ -1184,7 +1179,7 @@ public class BPMNToProc extends ToProcProcessor {
                         } else if (isGateway) {
                             final String gatewayName = flowNode.getName();
                             builder.addGateway(flowNode.getId(), name,
-                                    location, null, gateType,gatewayName != null && !gatewayName.isEmpty());
+                                    location, null, gateType, gatewayName != null && !gatewayName.isEmpty());
                             builder.addDescription(documentation);
                         } else if (isSubprocessEvent) {
                             processSubProcessEvent(fromSubProcess, flowNode, location, name, documentation);
@@ -1213,7 +1208,7 @@ public class BPMNToProc extends ToProcProcessor {
                                 handleConnector(name, id, tServiceTask);
                             }
 
-                            if(flowNode instanceof TUserTask){
+                            if (flowNode instanceof TUserTask) {
                                 final EList<TResourceRole> resourceRoles = ((TUserTask) flowNode).getResourceRole();
                                 for (final TResourceRole tResourceRole : resourceRoles) {
                                     //TODO: add actor to tasks
@@ -1232,7 +1227,7 @@ public class BPMNToProc extends ToProcProcessor {
 
                         }
                     } else if (!(flowNode instanceof TBoundaryEvent)) {
-                        status.add(new Status(IStatus.ERROR, ImporterPlugin.PLUGIN_ID,flowNode.eClass().getName() + ": "
+                        status.add(new Status(IStatus.ERROR, ImporterPlugin.PLUGIN_ID, flowNode.eClass().getName() + ": "
                                 + flowNode.getName()));
                     }
                     addFontStyle(flowNode.getId());
@@ -1275,7 +1270,7 @@ public class BPMNToProc extends ToProcProcessor {
 
     private void processSubProcess(final TSubProcess bpmnSubProcess) throws ProcBuilderException {
         builder.addCallActivityTargetProcess(
-                "subProc_"+NamingUtils.convertToId(bpmnSubProcess
+                "subProc_" + NamingUtils.convertToId(bpmnSubProcess
                         .getId()), "1.0");
 
         for (final TDataInputAssociation input : bpmnSubProcess
@@ -1299,24 +1294,24 @@ public class BPMNToProc extends ToProcProcessor {
         subProcesses.add(bpmnSubProcess);
     }
 
-    private void fillCalledActivity(final TCallActivity callActivity)	throws ProcBuilderException {
+    private void fillCalledActivity(final TCallActivity callActivity) throws ProcBuilderException {
         final QName calledElement = callActivity.getCalledElement();
         if (calledElement != null) {
             final String calledElementID = calledElement.getLocalPart();
             String calledElementName = null;
             for (final TRootElement rootElement : rootElements) {
                 if (rootElement instanceof TProcess) {
-                    if(calledElementID.equals(rootElement.getId())){
+                    if (calledElementID.equals(rootElement.getId())) {
                         calledElementName = ((TProcess) rootElement).getName();
                         break;
                     }
                 }
             }
-            builder.addCallActivityTargetProcess(calledElementName != null?calledElementName : calledElementID,	""/*"1.0"*/);
+            builder.addCallActivityTargetProcess(calledElementName != null ? calledElementName : calledElementID, ""/* "1.0" */);
         }
     }
 
-    private void mapDataForCallActivity(final TCallActivity callActivity)	throws ProcBuilderException {
+    private void mapDataForCallActivity(final TCallActivity callActivity) throws ProcBuilderException {
         mapInputDataForCallActivity(callActivity);
         mapOutputDataForCallActivity(callActivity);
     }
@@ -1330,17 +1325,17 @@ public class BPMNToProc extends ToProcProcessor {
                 final String assignmentFromValue = getAssignmentFromValue(assignment);
                 final String fromDataName = dataNameByItemDefinition
                         .get(assignmentFromValue) != null ? dataNameByItemDefinition
-                                .get(assignmentFromValue)
-                                : assignmentFromValue;
+                        .get(assignmentFromValue)
+                        : assignmentFromValue;
 
-                                final String assignmentToValue = getAssignmentToValue(assignment);
-                                final String toDataName = dataNameByItemDefinition
-                                        .get(assignmentToValue) != null ? dataNameByItemDefinition
-                                                .get(assignmentToValue)
-                                                : assignmentToValue;
+                final String assignmentToValue = getAssignmentToValue(assignment);
+                final String toDataName = dataNameByItemDefinition
+                        .get(assignmentToValue) != null ? dataNameByItemDefinition
+                        .get(assignmentToValue)
+                        : assignmentToValue;
 
-                                                builder.addCallActivityOutParameter(
-                                                        fromDataName, toDataName);
+                builder.addCallActivityOutParameter(
+                        fromDataName, toDataName);
             }
         }
     }
@@ -1355,16 +1350,16 @@ public class BPMNToProc extends ToProcProcessor {
                 final String assignmentFromValue = getAssignmentFromValue(assignment);
                 final String fromDataName = dataNameByItemDefinition
                         .get(assignmentFromValue) != null ? dataNameByItemDefinition
-                                .get(assignmentFromValue)
-                                : assignmentFromValue;
+                        .get(assignmentFromValue)
+                        : assignmentFromValue;
 
-                                final String assignmentToValue = getAssignmentToValue(assignment);
-                                final String toDataName = dataNameByItemDefinition
-                                        .get(assignmentToValue) != null ? dataNameByItemDefinition
-                                                .get(assignmentToValue)
-                                                : assignmentToValue;
-                                                builder.addCallActivityInParameter(
-                                                        fromDataName, toDataName);
+                final String assignmentToValue = getAssignmentToValue(assignment);
+                final String toDataName = dataNameByItemDefinition
+                        .get(assignmentToValue) != null ? dataNameByItemDefinition
+                        .get(assignmentToValue)
+                        : assignmentToValue;
+                builder.addCallActivityInParameter(
+                        fromDataName, toDataName);
             }
         }
     }
@@ -1393,7 +1388,7 @@ public class BPMNToProc extends ToProcProcessor {
             // FIXME: how to know that it is a Bonita Connector
             if (operationRefName.startsWith("Exec")) {
                 processBonitaConnector(name, id, tServiceTask, operationRefName);
-            } else if("##WebService".equals(tServiceTask.getImplementation())){
+            } else if ("##WebService".equals(tServiceTask.getImplementation())) {
                 // TODO: handle default implem for web services as Service tasks
                 builder.addConnector(id, name, "webservice", "1.0.0", ConnectorEvent.ON_FINISH, true);
             }
@@ -1402,7 +1397,7 @@ public class BPMNToProc extends ToProcProcessor {
 
     protected void processBonitaConnector(final String name, final String id,
             final TServiceTask tServiceTask, final String operationRefName)
-                    throws ProcBuilderException {
+            throws ProcBuilderException {
         final String connectorId = operationRefName.replaceFirst("Exec", "");
         final String version = "1.0.0";// FIXME where is stored version now??
         // Need to parse the filename of xsd
@@ -1710,7 +1705,7 @@ public class BPMNToProc extends ToProcProcessor {
                     .getEventDefinition()) {
                 if (eventDef instanceof TLinkEventDefinition) {
                     final QName sourceQname = ((TLinkEventDefinition) eventDef).getTarget();
-                    if(sourceQname != null){
+                    if (sourceQname != null) {
                         builder.addThrowLinkEventTarget(sourceQname.getLocalPart());
                         break;
                         // it should have only one TLinkEventDefinition
@@ -1747,7 +1742,7 @@ public class BPMNToProc extends ToProcProcessor {
      * @param flowNode, flowNode can be a TCatchEvent or a TThrowEvent
      * @return
      */
-    private TSignalEventDefinition retrieveTSignalEventDefinition(final TFlowNode flowNode){
+    private TSignalEventDefinition retrieveTSignalEventDefinition(final TFlowNode flowNode) {
         if (flowNode instanceof TCatchEvent) {
             return (TSignalEventDefinition) ((TCatchEvent) flowNode).getEventDefinition().get(0);
         } else {
@@ -1813,13 +1808,13 @@ public class BPMNToProc extends ToProcProcessor {
     }
 
     private TBaseElement retrieveElementWithID(final String id) {
-        if(id != null && !id.isEmpty()){
-            for(final TRootElement rootElement : rootElements){
+        if (id != null && !id.isEmpty()) {
+            for (final TRootElement rootElement : rootElements) {
                 final TreeIterator<EObject> eAllContents = rootElement.eAllContents();
-                while(eAllContents.hasNext()){
+                while (eAllContents.hasNext()) {
                     final EObject element = eAllContents.next();
-                    if(element instanceof TBaseElement){
-                        if(id.equals(((TBaseElement) element).getId())){
+                    if (element instanceof TBaseElement) {
+                        if (id.equals(((TBaseElement) element).getId())) {
                             return (TBaseElement) element;
                         }
                     }
@@ -1854,7 +1849,7 @@ public class BPMNToProc extends ToProcProcessor {
 
     protected void createBonitaData(final TFlowElement flowElement,
             final boolean isMultiple, final QName itemDef, final boolean isTransient)
-                    throws ProcBuilderException {
+            throws ProcBuilderException {
         final TItemDefinition itemDefinition = getItemDefinition(itemDef);
         String id = null;
         DataType dataType = null;
@@ -1892,7 +1887,7 @@ public class BPMNToProc extends ToProcProcessor {
                                 // "");
                                 final TDataInput dataInput = getDataInputById((TActivity) flowElement, entryValue);
                                 if (dataInput != null) {
-                                    final TProperty property = getPropertyByItemSubjectRef((TActivity) flowElement,	dataInput.getItemSubjectRef());
+                                    final TProperty property = getPropertyByItemSubjectRef((TActivity) flowElement, dataInput.getItemSubjectRef());
                                     if (property != null) {
                                         final TExpression fromExpression = assignment.getFrom();
                                         defaultValueContent = retrieveDefaultValueContent(fromExpression);
@@ -2004,8 +1999,8 @@ public class BPMNToProc extends ToProcProcessor {
     private final static String[] toStringTable = { "string", "Name", "NCName", "QName", "normalizedString" };
     private final static Set<String> toString = new HashSet<String>(Arrays.asList(toStringTable));
     private final static String[] toIntegerTable = { "byte", "int", "integer",
-        "nonPositiveInteger", "nonNegativeInteger", "positiveInteger",
-        "short", "unsignedByte", "unsignedInt", "unsignedShort" };
+            "nonPositiveInteger", "nonNegativeInteger", "positiveInteger",
+            "short", "unsignedByte", "unsignedInt", "unsignedShort" };
     private final static Set<String> toInteger = new HashSet<String>(Arrays.asList(toIntegerTable));
     private final static String[] toDecimalTable = { "decimal", "double", "float", "unsignedLong" };
     private final static Set<String> toDecimal = new HashSet<String>(Arrays.asList(toDecimalTable));
@@ -2015,7 +2010,6 @@ public class BPMNToProc extends ToProcProcessor {
     private MultiStatus status;
 
     /**
-     *
      * @param itemDefinition
      * @return
      */
@@ -2243,17 +2237,17 @@ public class BPMNToProc extends ToProcProcessor {
                     for (final TEventDefinition e : ((TCatchEvent) flowNode)
                             .getEventDefinition()) {
                         final EventType res = getCorrespondingIntermediateEventType(e);
-                        if(res != null){
+                        if (res != null) {
                             return res;
                         }
                     }
                 } else {
                     final EList<QName> eventDefinitionRef = ((TCatchEvent) flowNode).getEventDefinitionRef();
-                    if(!eventDefinitionRef.isEmpty()){
+                    if (!eventDefinitionRef.isEmpty()) {
                         for (final QName qNameEventDefRef : eventDefinitionRef) {
                             final TEventDefinition eventDefinition = findCorrespondingEventDefinition(qNameEventDefRef);
                             final EventType res = getCorrespondingIntermediateEventType(eventDefinition);
-                            if(res != null){
+                            if (res != null) {
                                 return res;
                             }
                         }
@@ -2291,7 +2285,7 @@ public class BPMNToProc extends ToProcProcessor {
                     return EventType.MESSAGE_BOUNDARY;
                 } else if (e instanceof TTimerEventDefinition && ((TBoundaryEvent) flowNode).isCancelActivity()) {
                     return EventType.TIMER_BOUNDARY;
-                }else if (e instanceof TTimerEventDefinition && !((TBoundaryEvent) flowNode).isCancelActivity()) {
+                } else if (e instanceof TTimerEventDefinition && !((TBoundaryEvent) flowNode).isCancelActivity()) {
                     return EventType.NON_INTERRUPTING_TIMER_BOUNDARY;
                 } else if (e instanceof TSignalEventDefinition) {
                     return EventType.SIGNAL_BOUNDARY;
@@ -2326,7 +2320,7 @@ public class BPMNToProc extends ToProcProcessor {
             for (final TEventDefinition e : ((TStartEvent) flowNode)
                     .getEventDefinition()) {
                 final EventType res = getStartEventTypeFor(e);
-                if(res !=null){
+                if (res != null) {
                     return res;
                 }
             }
@@ -2392,9 +2386,9 @@ public class BPMNToProc extends ToProcProcessor {
                                  * the current element
                                  */
                                 final Bounds bounds = subProc.getBounds();
-                                final Point parentLoc = new Point((int)bounds.getX(),	(int)bounds.getY());
+                                final Point parentLoc = new Point((int) bounds.getX(), (int) bounds.getY());
                                 loc.translate(parentLoc.getNegated())
-                                .translate(30, 0);
+                                        .translate(30, 0);
                                 break;
                             }
                         }
@@ -2419,7 +2413,7 @@ public class BPMNToProc extends ToProcProcessor {
         } else {
             //perhaps, there is no Pool defined and elements are defined directly on the canvas
             final Point loc = getLocationFor(flowNode.getId());
-            if(loc == null){
+            if (loc == null) {
                 location.x = 100 + 150 * (activityNumber % 7);
                 location.y = 100 * (1 + activityNumber / 7);
             } else {
@@ -2433,25 +2427,25 @@ public class BPMNToProc extends ToProcProcessor {
 
     /**
      * @param id
-     *            : the id of the BPMN Element (not the graphical one)
+     *        : the id of the BPMN Element (not the graphical one)
      * @return
      */
     private Point getLocationFor(final String id) {
-        if(!bpmnProcessDiagrams.isEmpty()){
+        if (!bpmnProcessDiagrams.isEmpty()) {
             /* need to have location relatively to the container */
             for (final BPMNPlane processDiagram : bpmnProcessDiagrams) {
                 Point res = null;
                 res = getLocationForInPlane(id, processDiagram);
-                if(res != null){
+                if (res != null) {
                     return res;
                 }
             }
         } else {
             //in case we don't know in which diagram we are
-            for (final BPMNDiagram processDiagram : definitions.getBPMNDiagram()){
+            for (final BPMNDiagram processDiagram : definitions.getBPMNDiagram()) {
                 Point res = null;
                 res = getLocationForInPlane(id, processDiagram.getBPMNPlane());
-                if(res != null){
+                if (res != null) {
                     return res;
                 }
             }
@@ -2473,7 +2467,7 @@ public class BPMNToProc extends ToProcProcessor {
                             + 35;
                     final double y = bounds.getY() - containerLocation.y
                             + 35;
-                    return new Point((int)Math.max(x, 0), (int)Math.max(0, y));
+                    return new Point((int) Math.max(x, 0), (int) Math.max(0, y));
                 }
             }
         }
@@ -2521,15 +2515,15 @@ public class BPMNToProc extends ToProcProcessor {
         Point containerLocation = new Point();
         if (containerId != null) {
             final Point initialContainerLocation = getLocationFor(containerId);
-            if(initialContainerLocation != null){
+            if (initialContainerLocation != null) {
                 containerLocation = initialContainerLocation.getCopy()
                         .translate(-25, -25);
-            }else {
+            } else {
                 //Maybe, the BPMNShape is the one relative to the Participant
                 final String participantContainerID = getParticipantWithProcessRef(containerId);
-                if(participantContainerID != null){
+                if (participantContainerID != null) {
                     final Point initialParticipantContainerLocation = getLocationFor(participantContainerID);
-                    if(initialParticipantContainerLocation != null){
+                    if (initialParticipantContainerLocation != null) {
                         containerLocation = initialParticipantContainerLocation.getCopy()
                                 .translate(-25, -25);
                     }
@@ -2574,7 +2568,7 @@ public class BPMNToProc extends ToProcProcessor {
             if (rootElement instanceof TProcess) {
                 /* ... in all LaneSets... */
                 final EList<TLaneSet> laneSet = ((TProcess) rootElement).getLaneSet();
-                if(!laneSet.isEmpty()){
+                if (!laneSet.isEmpty()) {
                     for (final TLaneSet childLaneSet : laneSet) {
                         containerId = findContainerIdOf(id, childLaneSet);
                         if (containerId != null) {
@@ -2583,8 +2577,8 @@ public class BPMNToProc extends ToProcProcessor {
                     }
                 } else {
                     //Search directly in the process
-                    for(final TFlowElement flowElement : ((TProcess)rootElement).getFlowElement()){
-                        if(id.equals(flowElement.getId())){
+                    for (final TFlowElement flowElement : ((TProcess) rootElement).getFlowElement()) {
+                        if (id.equals(flowElement.getId())) {
                             containerId = rootElement.getId();
                             break;
                         }
@@ -2675,10 +2669,8 @@ public class BPMNToProc extends ToProcProcessor {
             }
         }
 
-
-
         bpmnShapeId = getParticipantWithProcessRef(id);
-        if(getLocationFor(bpmnShapeId)== null){
+        if (getLocationFor(bpmnShapeId) == null) {
             bpmnShapeId = null;
         }
         for (final BPMNPlane processDiagram : bpmnProcessDiagrams) {
@@ -2765,7 +2757,7 @@ public class BPMNToProc extends ToProcProcessor {
 
     /**
      * @param id
-     *            : the id of the BPMN element
+     *        : the id of the BPMN element
      * @return
      */
     private Dimension getSizeFor(final String id) {
@@ -2802,7 +2794,6 @@ public class BPMNToProc extends ToProcProcessor {
 
     /*
      * (non-Javadoc)
-     *
      * @see org.bonitasoft.studio.importer.ToProcProcessor#getExtension()
      */
     @Override

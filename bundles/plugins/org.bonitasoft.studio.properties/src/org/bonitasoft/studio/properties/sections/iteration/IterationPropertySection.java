@@ -5,12 +5,10 @@
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2.0 of the License, or
  * (at your option) any later version.
- *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- *
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
@@ -110,11 +108,8 @@ import org.eclipse.swt.widgets.ToolItem;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetWidgetFactory;
 
-
-
 /**
  * @author Romain Bioteau
- *
  */
 public class IterationPropertySection extends EObjectSelectionProviderSection implements ISelectionProvider {
 
@@ -152,7 +147,8 @@ public class IterationPropertySection extends EObjectSelectionProviderSection im
 
     private IObservableValue expressionReturnTypeDetailValue;
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see org.bonitasoft.studio.common.properties.AbstractBonitaDescriptionSection#getSectionDescription()
      */
     @Override
@@ -298,17 +294,16 @@ public class IterationPropertySection extends EObjectSelectionProviderSection im
             @Override
             public void handleValueChange(final ValueChangeEvent event) {
                 final Boolean useCardinality = (Boolean) event.diff.getNewValue();
-                if(useCardinality){
+                if (useCardinality) {
                     dataStackLayout.topControl = cardinalityContent;
 
-                }else{
+                } else {
                     dataStackLayout.topControl = dataContent;
                 }
                 dataContainerComposite.layout();
 
             }
         });
-
 
         return multiInstanceComposite;
 
@@ -351,7 +346,6 @@ public class IterationPropertySection extends EObjectSelectionProviderSection im
         widgetFactory.createLabel(imageComposite, "").setImage(Pics.getImage("icon-arrow-right.png"));
         widgetFactory.createLabel(imageComposite, "").setImage(Pics.getImage("task_group.png"));
         widgetFactory.createLabel(imageComposite, "").setImage(Pics.getImage("icon-arrow-right.png"));
-
 
         createOutputGroup(widgetFactory, dataContent);
 
@@ -454,10 +448,8 @@ public class IterationPropertySection extends EObjectSelectionProviderSection im
         final IObservableValue observeInputCollectionValue = CustomEMFEditObservables.observeDetailValue(Realm.getDefault(),
                 getEObjectObservable(), ProcessPackage.Literals.MULTI_INSTANTIABLE__COLLECTION_DATA_TO_MULTI_INSTANTIATE);
 
-
         getEObjectObservable()
-        .addValueChangeListener(createInputValueChanged(inputListComboViewer, observeSingleSelection, observeInputCollectionValue, false));
-
+                .addValueChangeListener(createInputValueChanged(inputListComboViewer, observeSingleSelection, observeInputCollectionValue, false));
 
         inputListComboViewer.addSelectionChangedListener(createComboSelectionListener(inputListComboViewer, false));
         inputListComboViewer.addSelectionChangedListener(new ISelectionChangedListener() {
@@ -525,7 +517,7 @@ public class IterationPropertySection extends EObjectSelectionProviderSection im
                             final IObservableList observeList = (IObservableList) inputListComboViewer.getInput();
                             inputListComboViewer.setSelection(new StructuredSelection(getDataFromName(newVariableName, observeList)));
                         }
-                    }else{
+                    } else {
                         inputListComboViewer.setSelection(new StructuredSelection());
                     }
 
@@ -627,25 +619,24 @@ public class IterationPropertySection extends EObjectSelectionProviderSection im
         expressionReturnTypeDetailValue = EMFEditWithRefactorObservables.observeDetailValueWithRefactor(Realm.getDefault(), iteratorObservable,
                 ExpressionPackage.Literals.EXPRESSION__RETURN_TYPE);
 
-
         final ISWTObservableValue observeinstanceDataNameText = SWTObservables.observeText(instanceDataNameText, SWT.Modify);
 
         ControlDecorationSupport.create(context.bindValue(SWTObservables.observeDelayedValue(200, observeinstanceDataNameText), expressionNameDetailValue,
                 refactorNameStrategy(expressionNameDetailValue, iteratorObservable), null), SWT.LEFT, iteratorComposite.getParent(),
                 new ControlDecorationUpdater() {
 
-            @Override
-            protected void update(final ControlDecoration decoration, final IStatus status) {
-                if (status.isOK()) {
-                    ieratorLabelDecoration.show();
-                } else {
-                    ieratorLabelDecoration.hide();
-                }
-                decoration.setMarginWidth(2);
-                super.update(decoration, status);
-            }
+                    @Override
+                    protected void update(final ControlDecoration decoration, final IStatus status) {
+                        if (status.isOK()) {
+                            ieratorLabelDecoration.show();
+                        } else {
+                            ieratorLabelDecoration.hide();
+                        }
+                        decoration.setMarginWidth(2);
+                        super.update(decoration, status);
+                    }
 
-        });
+                });
 
         final Label iteratorTypeLabel = widgetFactory.createLabel(iteratorComposite, Messages.type + " *");
         iteratorTypeLabel.setLayoutData(GridDataFactory.swtDefaults().align(SWT.RIGHT, SWT.CENTER).create());
@@ -778,7 +769,6 @@ public class IterationPropertySection extends EObjectSelectionProviderSection im
         return null;
     }
 
-
     protected ComboViewer createComboViewer(final TabbedPropertySheetWidgetFactory widgetFactory, final Composite composite,
             final ObservableListContentProviderWithProposalListeners contentProvider) {
         final ComboViewer comboViewer = new ComboViewer(composite, SWT.BORDER | SWT.READ_ONLY);
@@ -788,7 +778,6 @@ public class IterationPropertySection extends EObjectSelectionProviderSection im
         final IObservableMap[] labelMaps = EMFObservables.observeMaps(knownElements, new EStructuralFeature[] { ProcessPackage.Literals.ELEMENT__NAME,
                 ProcessPackage.Literals.DATA__DATA_TYPE, ProcessPackage.Literals.DATA__MULTIPLE });
         comboViewer.setLabelProvider(new DataLabelProvider(labelMaps));
-
 
         final ToolBar toolBar = new ToolBar(composite, SWT.FLAT);
         widgetFactory.adapt(toolBar);
@@ -832,7 +821,7 @@ public class IterationPropertySection extends EObjectSelectionProviderSection im
         final Button noneRadio = widgetFactory.createButton(recurrenceTypeComposite, Messages.noneLabel, SWT.RADIO);
         noneRadio.setLayoutData(GridDataFactory.fillDefaults().create());
 
-        final Button standardRadio = widgetFactory.createButton(recurrenceTypeComposite,Messages.standardLoop, SWT.RADIO);
+        final Button standardRadio = widgetFactory.createButton(recurrenceTypeComposite, Messages.standardLoop, SWT.RADIO);
         standardRadio.setLayoutData(GridDataFactory.fillDefaults().create());
         standardRadio.setImage(Pics.getImage("decoration/loop.png"));
 
@@ -840,7 +829,7 @@ public class IterationPropertySection extends EObjectSelectionProviderSection im
         parallelMultiRadio.setLayoutData(GridDataFactory.fillDefaults().create());
         parallelMultiRadio.setImage(Pics.getImage("decoration/parallel_multiInstance.png"));
 
-        final Button sequentialMultiRadio = widgetFactory.createButton(recurrenceTypeComposite,Messages.sequentialMultinstantition, SWT.RADIO);
+        final Button sequentialMultiRadio = widgetFactory.createButton(recurrenceTypeComposite, Messages.sequentialMultinstantition, SWT.RADIO);
         sequentialMultiRadio.setLayoutData(GridDataFactory.fillDefaults().create());
         sequentialMultiRadio.setImage(Pics.getImage("decoration/sequential_multiInstance.png"));
 
@@ -874,7 +863,5 @@ public class IterationPropertySection extends EObjectSelectionProviderSection im
         }
         return Object.class.getName();
     }
-
-
 
 }

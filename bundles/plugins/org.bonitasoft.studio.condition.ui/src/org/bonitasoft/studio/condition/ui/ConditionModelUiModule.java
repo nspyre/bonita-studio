@@ -11,11 +11,13 @@ import org.eclipse.ui.plugin.AbstractUIPlugin;
  * Use this class to register components to be used within the IDE.
  */
 public class ConditionModelUiModule extends org.bonitasoft.studio.condition.ui.AbstractConditionModelUiModule {
-	public ConditionModelUiModule(AbstractUIPlugin plugin) {
-		super(plugin);
-	}
-	public Class<? extends IReconciler> bindIReconciler() {
-		return NoSpellingReconciler.class;
-	}
-	
+
+    public ConditionModelUiModule(AbstractUIPlugin plugin) {
+        super(plugin);
+    }
+
+    public Class<? extends IReconciler> bindIReconciler() {
+        return NoSpellingReconciler.class;
+    }
+
 }

@@ -1,19 +1,16 @@
 /**
  * Copyright (C) 2009 BonitaSoft S.A.
  * BonitaSoft, 31 rue Gustave Eiffel - 38000 Grenoble
- *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2.0 of the License, or
  * (at your option) any later version.
- *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package org.bonitasoft.studio.properties.sections.general.task;
 
@@ -24,23 +21,27 @@ import org.eclipse.jface.viewers.LabelProvider;
 
 /**
  * @author Romain Bioteau
- *
  */
 public class PriorityLabelProvider extends LabelProvider implements IBaseLabelProvider {
 
     @Override
     public String getText(Object element) {
-        int priority =  (Integer) element;
+        int priority = (Integer) element;
         return getActivityPriority(TaskPriority.values()[priority]);
     }
 
     private String getActivityPriority(TaskPriority priority) {
         switch (priority) {
-            case HIGHEST: return Messages.highestPriority;
-            case ABOVE_NORMAL:return Messages.aboveNormalPriority;
-            case NORMAL: return Messages.normalPriority ;
-            case UNDER_NORMAL: return Messages.underNormalPriority ;
-            case LOWEST: return Messages.lowestPriority ;
+            case HIGHEST:
+                return Messages.highestPriority;
+            case ABOVE_NORMAL:
+                return Messages.aboveNormalPriority;
+            case NORMAL:
+                return Messages.normalPriority;
+            case UNDER_NORMAL:
+                return Messages.underNormalPriority;
+            case LOWEST:
+                return Messages.lowestPriority;
             default:
                 break;
         }

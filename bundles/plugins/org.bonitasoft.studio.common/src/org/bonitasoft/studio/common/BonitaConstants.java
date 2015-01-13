@@ -92,13 +92,13 @@ public class BonitaConstants {
     public static final String PARENT_PROCESS_INSTANCE_ID = ExpressionConstants.PROCESS_INSTANCE_ID.getEngineConstantName();
 
     public static final String ROOT_PROCESS_INSTANCE_ID = ExpressionConstants.ROOT_PROCESS_INSTANCE_ID.getEngineConstantName();
-    
-    //Organization
-    
-	public static final String STUDIO_TECHNICAL_USER_NAME = "studio";
-	
-	public static final String STUDIO_TECHNICAL_USER_FIRST_NAME = "Studio";
 
-	public static final String STUDIO_TECHNICAL_USER_JOB_TITLE="Studio technical user for preview";
+    //Organization
+
+    public static final String STUDIO_TECHNICAL_USER_NAME = "studio";
+
+    public static final String STUDIO_TECHNICAL_USER_FIRST_NAME = "Studio";
+
+    public static final String STUDIO_TECHNICAL_USER_JOB_TITLE = "Studio technical user for preview";
 
 }

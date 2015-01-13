@@ -34,45 +34,42 @@ import org.eclipse.emf.ecore.EObject;
  */
 public class CatchMessageEventNamesExpressionNatureProvider implements IExpressionNatureProvider {
 
-	private List<AbstractProcess> processes;
-	private ThrowMessageEvent throwMessage;
+    private List<AbstractProcess> processes;
+    private ThrowMessageEvent throwMessage;
 
-
-	@Override
+    @Override
     public Expression[] getExpressions(final EObject context) {
-		final List<Expression> result = new ArrayList<Expression>();
-		if(processes != null && !processes.isEmpty()){
-			final Set<String> names = new HashSet<String>();
-			for(final AbstractProcess process : processes){
-				for(final AbstractCatchMessageEvent catchMessage :  ModelHelper.getAllCatchEvent(process)){
+        final List<Expression> result = new ArrayList<Expression>();
+        if (processes != null && !processes.isEmpty()) {
+            final Set<String> names = new HashSet<String>();
+            for (final AbstractProcess process : processes) {
+                for (final AbstractCatchMessageEvent catchMessage : ModelHelper.getAllCatchEvent(process)) {
                     if (!names.contains(catchMessage.getName())
                             && (catchMessage.getIncomingMessag() == null || catchMessage.getIncomingMessag().getSource() == null || catchMessage
                                     .getIncomingMessag().getSource().equals(throwMessage))) {
-						names.add(catchMessage.getName());
-					}
-				}
-				for(final String pName : names){
-					final Expression exp = ExpressionFactory.eINSTANCE.createExpression();
-					exp.setName(pName);
-					exp.setContent(pName);
-					exp.setReturnType(String.class.getName());
-					exp.setReturnTypeFixed(true);
-					exp.setType(ExpressionConstants.CONSTANT_TYPE);
-					result.add(exp);
-				}
-			}
-		}
-		return result.toArray(new Expression[result.size()]);
-	}
+                        names.add(catchMessage.getName());
+                    }
+                }
+                for (final String pName : names) {
+                    final Expression exp = ExpressionFactory.eINSTANCE.createExpression();
+                    exp.setName(pName);
+                    exp.setContent(pName);
+                    exp.setReturnType(String.class.getName());
+                    exp.setReturnTypeFixed(true);
+                    exp.setType(ExpressionConstants.CONSTANT_TYPE);
+                    result.add(exp);
+                }
+            }
+        }
+        return result.toArray(new Expression[result.size()]);
+    }
 
-	public void setFoundProcesses(final List<AbstractProcess> processes){
-		this.processes = processes;
-	}
+    public void setFoundProcesses(final List<AbstractProcess> processes) {
+        this.processes = processes;
+    }
 
-
-	public void setThrowMessage(final ThrowMessageEvent throwMessage){
-		this.throwMessage = throwMessage;
-	}
-
+    public void setThrowMessage(final ThrowMessageEvent throwMessage) {
+        this.throwMessage = throwMessage;
+    }
 
 }

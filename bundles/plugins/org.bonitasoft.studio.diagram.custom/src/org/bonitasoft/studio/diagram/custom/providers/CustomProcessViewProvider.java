@@ -1,19 +1,16 @@
 /**
  * Copyright (C) 2010 BonitaSoft S.A.
  * BonitaSoft, 31 rue Gustave Eiffel - 38000 Grenoble
- *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2.0 of the License, or
  * (at your option) any later version.
- *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package org.bonitasoft.studio.diagram.custom.providers;
 
@@ -53,24 +50,23 @@ import org.eclipse.swt.graphics.RGB;
 
 /**
  * @author Romain Bioteau
- *
  */
 public class CustomProcessViewProvider extends ProcessViewProvider {
 
     @Override
     public Node createPool_2007(EObject domainElement, View containerView,
             int index, boolean persisted, PreferencesHint preferencesHint) {
-        Node node = super.createPool_2007(domainElement, containerView, index, persisted,preferencesHint);
-        node.getStyles().add(NotationFactory.eINSTANCE.createFillStyle()) ;
-        return node ;
+        Node node = super.createPool_2007(domainElement, containerView, index, persisted, preferencesHint);
+        node.getStyles().add(NotationFactory.eINSTANCE.createFillStyle());
+        return node;
     }
 
     @Override
     public Node createLane_3007(EObject domainElement, View containerView,
             int index, boolean persisted, PreferencesHint preferencesHint) {
-        Node node = super.createLane_3007(domainElement, containerView, index, persisted,preferencesHint);
-        node.getStyles().add(NotationFactory.eINSTANCE.createFillStyle()) ;
-        return node ;
+        Node node = super.createLane_3007(domainElement, containerView, index, persisted, preferencesHint);
+        node.getStyles().add(NotationFactory.eINSTANCE.createFillStyle());
+        return node;
     }
 
     @Override
@@ -126,7 +122,7 @@ public class CustomProcessViewProvider extends ProcessViewProvider {
         }
         Node label6003 = createLabel(edge,
                 ProcessVisualIDRegistry
-                .getType(MessageFlowLabelEditPart.VISUAL_ID));
+                        .getType(MessageFlowLabelEditPart.VISUAL_ID));
         label6003.setLayoutConstraint(NotationFactory.eINSTANCE
                 .createLocation());
         Location location6003 = (Location) label6003.getLayoutConstraint();
@@ -194,10 +190,10 @@ public class CustomProcessViewProvider extends ProcessViewProvider {
         }
         Node label6001 = createLabel(edge,
                 ProcessVisualIDRegistry
-                .getType(SequenceFlowNameEditPart.VISUAL_ID));
+                        .getType(SequenceFlowNameEditPart.VISUAL_ID));
         label6001.setLayoutConstraint(NotationFactory.eINSTANCE
                 .createLocation());
-        label6001.setVisible(true) ;
+        label6001.setVisible(true);
         Location location6001 = (Location) label6001.getLayoutConstraint();
         location6001.setX(0);
         location6001.setY(-10);
@@ -214,140 +210,137 @@ public class CustomProcessViewProvider extends ProcessViewProvider {
     @Override
     public Node createActivity_3006(EObject domainElement, View containerView,
             int index, boolean persisted, PreferencesHint preferencesHint) {
-        Node node =super.createActivity_3006(domainElement, containerView, index,
+        Node node = super.createActivity_3006(domainElement, containerView, index,
                 persisted, preferencesHint);
-        ((FillStyle)node.getStyle(NotationPackage.eINSTANCE.getFillStyle())).setFillColor(new RGB(184,185,218).hashCode()) ;
-        ((LineStyle)node.getStyle(NotationPackage.eINSTANCE.getLineStyle())).setLineColor(new RGB(44,109,163).hashCode()) ;
-        return node ;
+        ((FillStyle) node.getStyle(NotationPackage.eINSTANCE.getFillStyle())).setFillColor(new RGB(184, 185, 218).hashCode());
+        ((LineStyle) node.getStyle(NotationPackage.eINSTANCE.getLineStyle())).setLineColor(new RGB(44, 109, 163).hashCode());
+        return node;
     }
-
 
     @Override
     public Node createActivity_2006(EObject domainElement, View containerView,
             int index, boolean persisted, PreferencesHint preferencesHint) {
-        Node node =super.createActivity_2006(domainElement, containerView, index,
+        Node node = super.createActivity_2006(domainElement, containerView, index,
                 persisted, preferencesHint);
-        ((FillStyle)node.getStyle(NotationPackage.eINSTANCE.getFillStyle())).setFillColor(new RGB(184,185,218).hashCode()) ;
-        ((LineStyle)node.getStyle(NotationPackage.eINSTANCE.getLineStyle())).setLineColor(new RGB(44,109,163).hashCode()) ;
-        return node ;
+        ((FillStyle) node.getStyle(NotationPackage.eINSTANCE.getFillStyle())).setFillColor(new RGB(184, 185, 218).hashCode());
+        ((LineStyle) node.getStyle(NotationPackage.eINSTANCE.getLineStyle())).setLineColor(new RGB(44, 109, 163).hashCode());
+        return node;
     }
 
     @Override
     public Node createTask_2004(EObject domainElement, View containerView,
             int index, boolean persisted, PreferencesHint preferencesHint) {
-        Node node =super.createTask_2004(domainElement, containerView, index,
+        Node node = super.createTask_2004(domainElement, containerView, index,
                 persisted, preferencesHint);
-        ((FillStyle)node.getStyle(NotationPackage.eINSTANCE.getFillStyle())).setFillColor(new RGB(184,185,218).hashCode()) ;
-        ((LineStyle)node.getStyle(NotationPackage.eINSTANCE.getLineStyle())).setLineColor(new RGB(44,109,163).hashCode()) ;
-        return node ;
+        ((FillStyle) node.getStyle(NotationPackage.eINSTANCE.getFillStyle())).setFillColor(new RGB(184, 185, 218).hashCode());
+        ((LineStyle) node.getStyle(NotationPackage.eINSTANCE.getLineStyle())).setLineColor(new RGB(44, 109, 163).hashCode());
+        return node;
     }
 
     @Override
     public Node createTask_3005(EObject domainElement, View containerView,
             int index, boolean persisted, PreferencesHint preferencesHint) {
-        Node node =super.createTask_3005(domainElement, containerView, index,
+        Node node = super.createTask_3005(domainElement, containerView, index,
                 persisted, preferencesHint);
-        ((FillStyle)node.getStyle(NotationPackage.eINSTANCE.getFillStyle())).setFillColor(new RGB(184,185,218).hashCode()) ;
-        ((LineStyle)node.getStyle(NotationPackage.eINSTANCE.getLineStyle())).setLineColor(new RGB(44,109,163).hashCode()) ;
-        return node ;
+        ((FillStyle) node.getStyle(NotationPackage.eINSTANCE.getFillStyle())).setFillColor(new RGB(184, 185, 218).hashCode());
+        ((LineStyle) node.getStyle(NotationPackage.eINSTANCE.getLineStyle())).setLineColor(new RGB(44, 109, 163).hashCode());
+        return node;
     }
 
     @Override
     public Node createScriptTask_2028(EObject domainElement,
             View containerView, int index, boolean persisted,
             PreferencesHint preferencesHint) {
-        Node node =super.createScriptTask_2028(domainElement, containerView, index,
+        Node node = super.createScriptTask_2028(domainElement, containerView, index,
                 persisted, preferencesHint);
-        ((FillStyle)node.getStyle(NotationPackage.eINSTANCE.getFillStyle())).setFillColor(new RGB(184,185,218).hashCode()) ;
-        ((LineStyle)node.getStyle(NotationPackage.eINSTANCE.getLineStyle())).setLineColor(new RGB(44,109,163).hashCode()) ;
-        return node ;
+        ((FillStyle) node.getStyle(NotationPackage.eINSTANCE.getFillStyle())).setFillColor(new RGB(184, 185, 218).hashCode());
+        ((LineStyle) node.getStyle(NotationPackage.eINSTANCE.getLineStyle())).setLineColor(new RGB(44, 109, 163).hashCode());
+        return node;
     }
 
     @Override
     public Node createScriptTask_3028(EObject domainElement,
             View containerView, int index, boolean persisted,
             PreferencesHint preferencesHint) {
-        Node node =super.createScriptTask_3028(domainElement, containerView, index,
+        Node node = super.createScriptTask_3028(domainElement, containerView, index,
                 persisted, preferencesHint);
-        ((FillStyle)node.getStyle(NotationPackage.eINSTANCE.getFillStyle())).setFillColor(new RGB(184,185,218).hashCode()) ;
-        ((LineStyle)node.getStyle(NotationPackage.eINSTANCE.getLineStyle())).setLineColor(new RGB(44,109,163).hashCode()) ;
-        return node ;
+        ((FillStyle) node.getStyle(NotationPackage.eINSTANCE.getFillStyle())).setFillColor(new RGB(184, 185, 218).hashCode());
+        ((LineStyle) node.getStyle(NotationPackage.eINSTANCE.getLineStyle())).setLineColor(new RGB(44, 109, 163).hashCode());
+        return node;
     }
 
     @Override
     public Node createServiceTask_2027(EObject domainElement,
             View containerView, int index, boolean persisted,
             PreferencesHint preferencesHint) {
-        Node node =super.createServiceTask_2027(domainElement, containerView, index,
+        Node node = super.createServiceTask_2027(domainElement, containerView, index,
                 persisted, preferencesHint);
-        ((FillStyle)node.getStyle(NotationPackage.eINSTANCE.getFillStyle())).setFillColor(new RGB(184,185,218).hashCode()) ;
-        ((LineStyle)node.getStyle(NotationPackage.eINSTANCE.getLineStyle())).setLineColor(new RGB(44,109,163).hashCode()) ;
-        return node ;
+        ((FillStyle) node.getStyle(NotationPackage.eINSTANCE.getFillStyle())).setFillColor(new RGB(184, 185, 218).hashCode());
+        ((LineStyle) node.getStyle(NotationPackage.eINSTANCE.getLineStyle())).setLineColor(new RGB(44, 109, 163).hashCode());
+        return node;
     }
 
     @Override
     public Node createServiceTask_3027(EObject domainElement,
             View containerView, int index, boolean persisted,
             PreferencesHint preferencesHint) {
-        Node node =super.createServiceTask_3027(domainElement, containerView, index,
+        Node node = super.createServiceTask_3027(domainElement, containerView, index,
                 persisted, preferencesHint);
-        ((FillStyle)node.getStyle(NotationPackage.eINSTANCE.getFillStyle())).setFillColor(new RGB(184,185,218).hashCode()) ;
-        ((LineStyle)node.getStyle(NotationPackage.eINSTANCE.getLineStyle())).setLineColor(new RGB(44,109,163).hashCode()) ;
-        return node ;
+        ((FillStyle) node.getStyle(NotationPackage.eINSTANCE.getFillStyle())).setFillColor(new RGB(184, 185, 218).hashCode());
+        ((LineStyle) node.getStyle(NotationPackage.eINSTANCE.getLineStyle())).setLineColor(new RGB(44, 109, 163).hashCode());
+        return node;
     }
 
     @Override
     public Node createSendTask_2026(EObject domainElement, View containerView,
             int index, boolean persisted, PreferencesHint preferencesHint) {
-        Node node =super.createSendTask_2026(domainElement, containerView, index,
+        Node node = super.createSendTask_2026(domainElement, containerView, index,
                 persisted, preferencesHint);
-        ((FillStyle)node.getStyle(NotationPackage.eINSTANCE.getFillStyle())).setFillColor(new RGB(184,185,218).hashCode()) ;
-        ((LineStyle)node.getStyle(NotationPackage.eINSTANCE.getLineStyle())).setLineColor(new RGB(44,109,163).hashCode()) ;
-        return node ;
+        ((FillStyle) node.getStyle(NotationPackage.eINSTANCE.getFillStyle())).setFillColor(new RGB(184, 185, 218).hashCode());
+        ((LineStyle) node.getStyle(NotationPackage.eINSTANCE.getLineStyle())).setLineColor(new RGB(44, 109, 163).hashCode());
+        return node;
     }
 
     @Override
     public Node createSendTask_3025(EObject domainElement, View containerView,
             int index, boolean persisted, PreferencesHint preferencesHint) {
-        Node node =super.createSendTask_3025(domainElement, containerView, index,
+        Node node = super.createSendTask_3025(domainElement, containerView, index,
                 persisted, preferencesHint);
-        ((FillStyle)node.getStyle(NotationPackage.eINSTANCE.getFillStyle())).setFillColor(new RGB(184,185,218).hashCode()) ;
-        ((LineStyle)node.getStyle(NotationPackage.eINSTANCE.getLineStyle())).setLineColor(new RGB(44,109,163).hashCode()) ;
-        return node ;
+        ((FillStyle) node.getStyle(NotationPackage.eINSTANCE.getFillStyle())).setFillColor(new RGB(184, 185, 218).hashCode());
+        ((LineStyle) node.getStyle(NotationPackage.eINSTANCE.getLineStyle())).setLineColor(new RGB(44, 109, 163).hashCode());
+        return node;
     }
-
 
     @Override
     public Node createReceiveTask_2025(EObject domainElement,
             View containerView, int index, boolean persisted,
             PreferencesHint preferencesHint) {
-        Node node =super.createReceiveTask_2025(domainElement, containerView, index,
+        Node node = super.createReceiveTask_2025(domainElement, containerView, index,
                 persisted, preferencesHint);
-        ((FillStyle)node.getStyle(NotationPackage.eINSTANCE.getFillStyle())).setFillColor(new RGB(184,185,218).hashCode()) ;
-        ((LineStyle)node.getStyle(NotationPackage.eINSTANCE.getLineStyle())).setLineColor(new RGB(44,109,163).hashCode()) ;
-        return node ;
+        ((FillStyle) node.getStyle(NotationPackage.eINSTANCE.getFillStyle())).setFillColor(new RGB(184, 185, 218).hashCode());
+        ((LineStyle) node.getStyle(NotationPackage.eINSTANCE.getLineStyle())).setLineColor(new RGB(44, 109, 163).hashCode());
+        return node;
     }
 
     @Override
     public Node createReceiveTask_3026(EObject domainElement,
             View containerView, int index, boolean persisted,
             PreferencesHint preferencesHint) {
-        Node node =super.createReceiveTask_3026(domainElement, containerView, index,
+        Node node = super.createReceiveTask_3026(domainElement, containerView, index,
                 persisted, preferencesHint);
-        ((FillStyle)node.getStyle(NotationPackage.eINSTANCE.getFillStyle())).setFillColor(new RGB(184,185,218).hashCode()) ;
-        ((LineStyle)node.getStyle(NotationPackage.eINSTANCE.getLineStyle())).setLineColor(new RGB(44,109,163).hashCode()) ;
-        return node ;
+        ((FillStyle) node.getStyle(NotationPackage.eINSTANCE.getFillStyle())).setFillColor(new RGB(184, 185, 218).hashCode());
+        ((LineStyle) node.getStyle(NotationPackage.eINSTANCE.getLineStyle())).setLineColor(new RGB(44, 109, 163).hashCode());
+        return node;
     }
 
     @Override
     public Node createCallActivity_2036(EObject domainElement, View containerView, int index, boolean persisted, PreferencesHint preferencesHint) {
-        Node node =super.createCallActivity_2036(domainElement, containerView, index,
+        Node node = super.createCallActivity_2036(domainElement, containerView, index,
                 persisted, preferencesHint);
-        ((FillStyle)node.getStyle(NotationPackage.eINSTANCE.getFillStyle())).setFillColor(new RGB(184,185,218).hashCode()) ;
-        ((LineStyle)node.getStyle(NotationPackage.eINSTANCE.getLineStyle())).setLineColor(new RGB(44,109,163).hashCode()) ;
-        return node ;
+        ((FillStyle) node.getStyle(NotationPackage.eINSTANCE.getFillStyle())).setFillColor(new RGB(184, 185, 218).hashCode());
+        ((LineStyle) node.getStyle(NotationPackage.eINSTANCE.getLineStyle())).setLineColor(new RGB(44, 109, 163).hashCode());
+        return node;
     }
-
 
     @Override
     public Node createSubProcessEvent_2031(EObject domainElement,
@@ -356,14 +349,14 @@ public class CustomProcessViewProvider extends ProcessViewProvider {
 
         Node node = super.createSubProcessEvent_2031(domainElement, containerView, index,
                 persisted, preferencesHint);
-        ((FillStyle)node.getStyle(NotationPackage.eINSTANCE.getFillStyle())).setFillColor(new RGB(184,185,218).hashCode()) ;
-        ((LineStyle)node.getStyle(NotationPackage.eINSTANCE.getLineStyle())).setLineColor(new RGB(44,109,163).hashCode()) ;
-        for(Object child : node.getPersistedChildren()){
-            if(child instanceof DrawerStyle){
-                ((DrawerStyle) child).setCollapsed(true) ;
+        ((FillStyle) node.getStyle(NotationPackage.eINSTANCE.getFillStyle())).setFillColor(new RGB(184, 185, 218).hashCode());
+        ((LineStyle) node.getStyle(NotationPackage.eINSTANCE.getLineStyle())).setLineColor(new RGB(44, 109, 163).hashCode());
+        for (Object child : node.getPersistedChildren()) {
+            if (child instanceof DrawerStyle) {
+                ((DrawerStyle) child).setCollapsed(true);
             }
         }
-        return node ;
+        return node;
     }
 
     @Override
@@ -372,30 +365,28 @@ public class CustomProcessViewProvider extends ProcessViewProvider {
             PreferencesHint preferencesHint) {
         Node node = super.createSubProcessEvent_3058(domainElement, containerView, index,
                 persisted, preferencesHint);
-        ((FillStyle)node.getStyle(NotationPackage.eINSTANCE.getFillStyle())).setFillColor(new RGB(184,185,218).hashCode()) ;
-        ((LineStyle)node.getStyle(NotationPackage.eINSTANCE.getLineStyle())).setLineColor(new RGB(44,109,163).hashCode()) ;
-        for(Object child : node.getPersistedChildren()){
-            if(child instanceof DrawerStyle){
-                Object store =  preferencesHint.getPreferenceStore();
+        ((FillStyle) node.getStyle(NotationPackage.eINSTANCE.getFillStyle())).setFillColor(new RGB(184, 185, 218).hashCode());
+        ((LineStyle) node.getStyle(NotationPackage.eINSTANCE.getLineStyle())).setLineColor(new RGB(44, 109, 163).hashCode());
+        for (Object child : node.getPersistedChildren()) {
+            if (child instanceof DrawerStyle) {
+                Object store = preferencesHint.getPreferenceStore();
                 boolean isCollapsed = true;
-                if(store instanceof org.eclipse.jface.preference.PreferenceStore){
-                    isCollapsed = ((org.eclipse.jface.preference.PreferenceStore)preferencesHint.getPreferenceStore()).getBoolean("isCollapsed");
+                if (store instanceof org.eclipse.jface.preference.PreferenceStore) {
+                    isCollapsed = ((org.eclipse.jface.preference.PreferenceStore) preferencesHint.getPreferenceStore()).getBoolean("isCollapsed");
                 }
-                ((DrawerStyle) child).setCollapsed(isCollapsed) ;
+                ((DrawerStyle) child).setCollapsed(isCollapsed);
             }
         }
-        return node ;
+        return node;
     }
-
 
     @Override
     public Node createCallActivity_3063(EObject domainElement, View containerView, int index, boolean persisted, PreferencesHint preferencesHint) {
-        Node node =super.createCallActivity_3063(domainElement, containerView, index,
+        Node node = super.createCallActivity_3063(domainElement, containerView, index,
                 persisted, preferencesHint);
-        ((FillStyle)node.getStyle(NotationPackage.eINSTANCE.getFillStyle())).setFillColor(new RGB(184,185,218).hashCode()) ;
-        ((LineStyle)node.getStyle(NotationPackage.eINSTANCE.getLineStyle())).setLineColor(new RGB(44,109,163).hashCode()) ;
-        return node ;
+        ((FillStyle) node.getStyle(NotationPackage.eINSTANCE.getFillStyle())).setFillColor(new RGB(184, 185, 218).hashCode());
+        ((LineStyle) node.getStyle(NotationPackage.eINSTANCE.getLineStyle())).setLineColor(new RGB(44, 109, 163).hashCode());
+        return node;
     }
 
 }
-

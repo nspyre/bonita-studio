@@ -8,6 +8,7 @@ import org.eclipse.jface.wizard.IWizard;
 @Target(ElementType.TYPE)
 @Inherited
 public @interface WithWizard {
-	Class<? extends IWizard> value();
+
+    Class<? extends IWizard> value();
 
 }

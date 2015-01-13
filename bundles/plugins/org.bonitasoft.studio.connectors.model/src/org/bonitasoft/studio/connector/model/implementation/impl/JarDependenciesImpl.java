@@ -1,7 +1,6 @@
 /**
  * <copyright>
  * </copyright>
- *
  * $Id$
  */
 package org.bonitasoft.studio.connector.model.implementation.impl;
@@ -26,128 +25,139 @@ import org.eclipse.emf.ecore.util.EDataTypeEList;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link org.bonitasoft.studio.connector.model.implementation.impl.JarDependenciesImpl#getJarDependency <em>Jar Dependency</em>}</li>
+ * <li>{@link org.bonitasoft.studio.connector.model.implementation.impl.JarDependenciesImpl#getJarDependency <em>Jar Dependency</em>}</li>
  * </ul>
  * </p>
  *
  * @generated
  */
 public class JarDependenciesImpl extends EObjectImpl implements JarDependencies {
+
     /**
-	 * The cached value of the '{@link #getJarDependency() <em>Jar Dependency</em>}' attribute list.
-	 * <!-- begin-user-doc -->
+     * The cached value of the '{@link #getJarDependency() <em>Jar Dependency</em>}' attribute list.
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @see #getJarDependency()
-	 * @generated
-	 * @ordered
-	 */
+     * 
+     * @see #getJarDependency()
+     * @generated
+     * @ordered
+     */
     protected EList<String> jarDependency;
 
     /**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * 
+     * @generated
+     */
     protected JarDependenciesImpl() {
-		super();
-	}
+        super();
+    }
 
     /**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * 
+     * @generated
+     */
     @Override
     protected EClass eStaticClass() {
-		return ConnectorImplementationPackage.Literals.JAR_DEPENDENCIES;
-	}
+        return ConnectorImplementationPackage.Literals.JAR_DEPENDENCIES;
+    }
 
     /**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * 
+     * @generated
+     */
     public EList<String> getJarDependency() {
-		if (jarDependency == null) {
-			jarDependency = new EDataTypeEList<String>(String.class, this, ConnectorImplementationPackage.JAR_DEPENDENCIES__JAR_DEPENDENCY);
-		}
-		return jarDependency;
-	}
+        if (jarDependency == null) {
+            jarDependency = new EDataTypeEList<String>(String.class, this, ConnectorImplementationPackage.JAR_DEPENDENCIES__JAR_DEPENDENCY);
+        }
+        return jarDependency;
+    }
 
     /**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * 
+     * @generated
+     */
     @Override
     public Object eGet(int featureID, boolean resolve, boolean coreType) {
-		switch (featureID) {
-			case ConnectorImplementationPackage.JAR_DEPENDENCIES__JAR_DEPENDENCY:
-				return getJarDependency();
-		}
-		return super.eGet(featureID, resolve, coreType);
-	}
+        switch (featureID) {
+            case ConnectorImplementationPackage.JAR_DEPENDENCIES__JAR_DEPENDENCY:
+                return getJarDependency();
+        }
+        return super.eGet(featureID, resolve, coreType);
+    }
 
     /**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * 
+     * @generated
+     */
     @SuppressWarnings("unchecked")
     @Override
     public void eSet(int featureID, Object newValue) {
-		switch (featureID) {
-			case ConnectorImplementationPackage.JAR_DEPENDENCIES__JAR_DEPENDENCY:
-				getJarDependency().clear();
-				getJarDependency().addAll((Collection<? extends String>)newValue);
-				return;
-		}
-		super.eSet(featureID, newValue);
-	}
+        switch (featureID) {
+            case ConnectorImplementationPackage.JAR_DEPENDENCIES__JAR_DEPENDENCY:
+                getJarDependency().clear();
+                getJarDependency().addAll((Collection<? extends String>) newValue);
+                return;
+        }
+        super.eSet(featureID, newValue);
+    }
 
     /**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * 
+     * @generated
+     */
     @Override
     public void eUnset(int featureID) {
-		switch (featureID) {
-			case ConnectorImplementationPackage.JAR_DEPENDENCIES__JAR_DEPENDENCY:
-				getJarDependency().clear();
-				return;
-		}
-		super.eUnset(featureID);
-	}
+        switch (featureID) {
+            case ConnectorImplementationPackage.JAR_DEPENDENCIES__JAR_DEPENDENCY:
+                getJarDependency().clear();
+                return;
+        }
+        super.eUnset(featureID);
+    }
 
     /**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * 
+     * @generated
+     */
     @Override
     public boolean eIsSet(int featureID) {
-		switch (featureID) {
-			case ConnectorImplementationPackage.JAR_DEPENDENCIES__JAR_DEPENDENCY:
-				return jarDependency != null && !jarDependency.isEmpty();
-		}
-		return super.eIsSet(featureID);
-	}
+        switch (featureID) {
+            case ConnectorImplementationPackage.JAR_DEPENDENCIES__JAR_DEPENDENCY:
+                return jarDependency != null && !jarDependency.isEmpty();
+        }
+        return super.eIsSet(featureID);
+    }
 
     /**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * 
+     * @generated
+     */
     @Override
     public String toString() {
-		if (eIsProxy()) return super.toString();
+        if (eIsProxy())
+            return super.toString();
 
-		StringBuffer result = new StringBuffer(super.toString());
-		result.append(" (jarDependency: ");
-		result.append(jarDependency);
-		result.append(')');
-		return result.toString();
-	}
+        StringBuffer result = new StringBuffer(super.toString());
+        result.append(" (jarDependency: ");
+        result.append(jarDependency);
+        result.append(')');
+        return result.toString();
+    }
 
 } //JarDependenciesImpl

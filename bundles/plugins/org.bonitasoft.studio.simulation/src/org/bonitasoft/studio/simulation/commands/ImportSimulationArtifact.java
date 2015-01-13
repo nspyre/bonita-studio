@@ -28,24 +28,24 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.progress.IProgressService;
 
 /**
- * 
  * @author Baptiste Mesta
- * 
  *         Handler that launch a dialog to export artifacts to a zip file
- * 
  */
 public class ImportSimulationArtifact extends AbstractHandler {
 
     @Override
     public Object execute(ExecutionEvent event) throws ExecutionException {
-        List<IRepositoryStore> input = new ArrayList<IRepositoryStore>() ;
-        final SimulationResourceRepositoryStore resourcesRepo = (SimulationResourceRepositoryStore) RepositoryManager.getInstance().getRepositoryStore(SimulationResourceRepositoryStore.class) ;
-        final SimulationLoadProfileRepositoryStore loadProfilesRepo = (SimulationLoadProfileRepositoryStore) RepositoryManager.getInstance().getRepositoryStore(SimulationLoadProfileRepositoryStore.class) ;
-        input.add(resourcesRepo) ;
-        input.add(loadProfilesRepo) ;
+        List<IRepositoryStore> input = new ArrayList<IRepositoryStore>();
+        final SimulationResourceRepositoryStore resourcesRepo = (SimulationResourceRepositoryStore) RepositoryManager.getInstance().getRepositoryStore(
+                SimulationResourceRepositoryStore.class);
+        final SimulationLoadProfileRepositoryStore loadProfilesRepo = (SimulationLoadProfileRepositoryStore) RepositoryManager.getInstance()
+                .getRepositoryStore(SimulationLoadProfileRepositoryStore.class);
+        input.add(resourcesRepo);
+        input.add(loadProfilesRepo);
 
         // These filter extensions are used to filter which files are displayed.
-        String[] FILTER_EXTS = { "*." + resourcesRepo.getCompatibleExtensions().toArray()[0] + ";*." + loadProfilesRepo.getCompatibleExtensions().toArray()[0]  + "" };
+        String[] FILTER_EXTS = { "*." + resourcesRepo.getCompatibleExtensions().toArray()[0] + ";*." + loadProfilesRepo.getCompatibleExtensions().toArray()[0]
+                + "" };
 
         FileDialog dialog = new FileDialog(Display.getCurrent().getActiveShell(), SWT.OPEN | SWT.MULTI);
         dialog.setFilterExtensions(FILTER_EXTS);
@@ -54,9 +54,10 @@ public class ImportSimulationArtifact extends AbstractHandler {
             final String[] files = dialog.getFileNames();
             IProgressService progressManager = PlatformUI.getWorkbench().getProgressService();
             IRunnableWithProgress runnable = new IRunnableWithProgress() {
+
                 @Override
                 public void run(final org.eclipse.core.runtime.IProgressMonitor monitor) throws java.lang.reflect.InvocationTargetException,
-                InterruptedException {
+                        InterruptedException {
                     File parent = new File(filesNames).getParentFile();
 
                     for (int i = 0, n = files.length; i < n; i++) {
@@ -66,6 +67,7 @@ public class ImportSimulationArtifact extends AbstractHandler {
                             try {
                                 is = new FileInputStream(file);
                                 Display.getDefault().syncExec(new Runnable() {
+
                                     @Override
                                     public void run() {
                                         try {
@@ -88,11 +90,12 @@ public class ImportSimulationArtifact extends AbstractHandler {
                             try {
                                 is = new FileInputStream(file);
                                 Display.getDefault().syncExec(new Runnable() {
+
                                     @Override
                                     public void run() {
 
                                         try {
-                                            loadProfilesRepo.importInputStream(file.getName(), is                                                                                                                                                                                                                                                   );
+                                            loadProfilesRepo.importInputStream(file.getName(), is);
                                         } catch (Exception e) {
                                             BonitaStudioLog.error(e);
                                         }

@@ -1,4 +1,4 @@
-///**
+// /**
 // * Copyright (C) 2010 BonitaSoft S.A.
 // * BonitaSoft, 31 rue Gustave Eiffel - 38000 Grenoble
 // *
@@ -9,32 +9,32 @@
 // *
 // * This program is distributed in the hope that it will be useful,
 // * but WITHOUT ANY WARRANTY; without even the implied warranty of
-// * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // * GNU General Public License for more details.
 // *
 // * You should have received a copy of the GNU General Public License
-// * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+// * along with this program. If not, see <http://www.gnu.org/licenses/>.
 // */
 //
-//package org.bonitasoft.studio.connectors.extension;
+// package org.bonitasoft.studio.connectors.extension;
 //
-//import org.bonitasoft.studio.connectors.ui.wizard.DefaultSetConnectorFieldsWizard;
-//import org.bonitasoft.studio.model.process.Connector;
-//import org.bonitasoft.studio.model.process.Element;
-//import org.eclipse.jface.wizard.IWizardPage;
+// import org.bonitasoft.studio.connectors.ui.wizard.DefaultSetConnectorFieldsWizard;
+// import org.bonitasoft.studio.model.process.Connector;
+// import org.bonitasoft.studio.model.process.Element;
+// import org.eclipse.jface.wizard.IWizardPage;
 //
-///**
+// /**
 // * @author Romain Bioteau
 // *
 // */
-//public interface ICustomExtensionWizardPage extends IWizardPage {
+// public interface ICustomExtensionWizardPage extends IWizardPage {
 //
-//	public void setConnectorId(String connectorId);
+// public void setConnectorId(String connectorId);
 //
-//	public void setModelConnector(Connector modelConnector) ;
+// public void setModelConnector(Connector modelConnector) ;
 //
-//	public void setModelContainer(Element modelContainer);
+// public void setModelContainer(Element modelContainer);
 //
-//	public void setSetConnectorFieldsWizard(DefaultSetConnectorFieldsWizard wizard) ;
+// public void setSetConnectorFieldsWizard(DefaultSetConnectorFieldsWizard wizard) ;
 //
 //}

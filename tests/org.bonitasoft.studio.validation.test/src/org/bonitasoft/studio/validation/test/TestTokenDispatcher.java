@@ -68,13 +68,11 @@ public class TestTokenDispatcher {
         SequenceFlow taskOutgoingconnection = null;
         Task humanTask = null;
 
-
-
         for (final Connection transition : parentProcess.getConnections()) {
             if (transition.getSource() instanceof NonInterruptingBoundaryTimerEvent) {
                 boundaryEvent = (NonInterruptingBoundaryTimerEvent) transition.getSource();
                 nonInterruptedOutgoingconnection = (SequenceFlow) transition;
-            }else if (transition.getSource() instanceof Task) {
+            } else if (transition.getSource() instanceof Task) {
                 humanTask = (Task) transition.getSource();
                 taskOutgoingconnection = (SequenceFlow) transition;
             }
@@ -84,14 +82,12 @@ public class TestTokenDispatcher {
         assertNotNull(boundaryEvent);
         assertNotNull(humanTask);
 
-
         // Test the token returned is the one of the source transition
         tokenD.setSequenceFlow(nonInterruptedOutgoingconnection);
         final String nonInterruptedToken = tokenD.getToken();
         assertEquals("The token return should be the one of the NonInterruptingBoundaryTimerEvent",
                 ModelHelper.getEObjectID(nonInterruptedOutgoingconnection.getSource()),
                 nonInterruptedToken);
-
 
         // Test Non Interrupted token is different from the Task token
         tokenD.setSequenceFlow(taskOutgoingconnection);
@@ -115,6 +111,5 @@ public class TestTokenDispatcher {
         }
         return processEditor;
     }
-
 
 }

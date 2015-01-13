@@ -5,14 +5,12 @@
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2.0 of the License, or
  * (at your option) any later version.
- *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package org.bonitasoft.studio.connectors.ui.wizard;
 
@@ -39,13 +37,11 @@ import org.eclipse.swt.widgets.Display;
 
 /**
  * @author Romain Bioteau
- *
  */
 public class TestConnectorWizard extends ConnectorWizard {
 
-
-    public TestConnectorWizard(){
-        super((EObject)null, null, null);
+    public TestConnectorWizard() {
+        super((EObject) null, null, null);
         setForcePreviousAndNextButtons(true);
         setWindowTitle(Messages.testConnectorTitle);
     }
@@ -55,24 +51,22 @@ public class TestConnectorWizard extends ConnectorWizard {
         //KEEP IT EMPTY
     }
 
-
     @Override
     protected void addOuputPage(ConnectorDefinition definition) {
-        if(!definition.getOutput().isEmpty()){
+        if (!definition.getOutput().isEmpty()) {
             AbstractConnectorOutputWizardPage outputPage = null;
-            if(supportsDatabaseOutputMode(definition)){
+            if (supportsDatabaseOutputMode(definition)) {
                 outputPage = new TestDatabaseConnectorOutputWizardPage();
-            }else{
-                outputPage = new TestConnectorOutputWizardPage() ;
-                createDefaultOutputs(definition) ;
+            } else {
+                outputPage = new TestConnectorOutputWizardPage();
+                createDefaultOutputs(definition);
             }
-            outputPage.setElementContainer(container) ;
-            outputPage.setConnector(connectorWorkingCopy) ;
-            outputPage.setDefinition(definition) ;
-            addAdditionalPage(outputPage) ;	
+            outputPage.setElementContainer(container);
+            outputPage.setConnector(connectorWorkingCopy);
+            outputPage.setDefinition(definition);
+            addAdditionalPage(outputPage);
         }
     }
-
 
     @Override
     protected IWizardPage getNameAndDescriptionPage() {
@@ -86,28 +80,27 @@ public class TestConnectorWizard extends ConnectorWizard {
 
     @Override
     protected void clearConnectorConfiguration(ConnectorDefinition definition) {
-        ConnectorConfiguration configuration =  connectorWorkingCopy.getConfiguration() ;
-        configuration.getParameters().clear() ;
+        ConnectorConfiguration configuration = connectorWorkingCopy.getConfiguration();
+        configuration.getParameters().clear();
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see org.eclipse.jface.wizard.Wizard#performFinish()
      */
     @Override
     public boolean performFinish() {
         final ConnectorConfiguration configuration = connectorWorkingCopy.getConfiguration();
-        final String defId = connectorWorkingCopy.getDefinitionId() ;
-        final String defVersion = connectorWorkingCopy.getDefinitionVersion() ;
+        final String defId = connectorWorkingCopy.getDefinitionId();
+        final String defVersion = connectorWorkingCopy.getDefinitionVersion();
         return TestConnectorUtil.testConnectorWithConfiguration(configuration, defId, defVersion, connectorWorkingCopy, getShell(), getContainer());
     }
 
-
-
     protected ConnectorImplementation openImplementationSelection(String defId, String defVersion) {
-        SelectConnectorImplementationWizard wizard = new SelectConnectorImplementationWizard(defId,defVersion) ;
-        WizardDialog dialog = new WizardDialog(Display.getDefault().getActiveShell(),wizard ) ;
-        if(dialog.open() == Dialog.OK){
-            return  wizard.getConnectorImplementation() ;
+        SelectConnectorImplementationWizard wizard = new SelectConnectorImplementationWizard(defId, defVersion);
+        WizardDialog dialog = new WizardDialog(Display.getDefault().getActiveShell(), wizard);
+        if (dialog.open() == Dialog.OK) {
+            return wizard.getConnectorImplementation();
         }
         return null;
     }
@@ -123,27 +116,26 @@ public class TestConnectorWizard extends ConnectorWizard {
 
     @Override
     public ConnectorDefinition getDefinition() {
-        ConnectorDefRepositoryStore defStore = (ConnectorDefRepositoryStore) RepositoryManager.getInstance().getRepositoryStore(ConnectorDefRepositoryStore.class) ;
-        if(connectorWorkingCopy.getDefinitionId() != null && !connectorWorkingCopy.getDefinitionId().isEmpty()){
-            return defStore.getDefinition(connectorWorkingCopy.getDefinitionId(), connectorWorkingCopy.getDefinitionVersion()) ;
+        ConnectorDefRepositoryStore defStore = (ConnectorDefRepositoryStore) RepositoryManager.getInstance().getRepositoryStore(
+                ConnectorDefRepositoryStore.class);
+        if (connectorWorkingCopy.getDefinitionId() != null && !connectorWorkingCopy.getDefinitionId().isEmpty()) {
+            return defStore.getDefinition(connectorWorkingCopy.getDefinitionId(), connectorWorkingCopy.getDefinitionVersion());
         }
         return null;
     }
 
-
-
     @Override
     public IWizardPage getNextPage(IWizardPage page) {
-        if(page.equals(selectionPage)){
+        if (page.equals(selectionPage)) {
             ConnectorDefinition definition = selectionPage.getSelectedConnectorDefinition();
-            if(definition !=null){
-                checkDefinitionDependencies(definition) ;
-                extension = findCustomWizardExtension(definition) ;
-                recreateConnectorConfigurationPages(definition,false);
+            if (definition != null) {
+                checkDefinitionDependencies(definition);
+                extension = findCustomWizardExtension(definition);
+                recreateConnectorConfigurationPages(definition, false);
             }
         }
 
-        List<IWizardPage> pages = getAllPageList() ;
+        List<IWizardPage> pages = getAllPageList();
         int index = pages.indexOf(page);
         if (index == pages.size() - 1 || index == -1) {
             // last page or page not found

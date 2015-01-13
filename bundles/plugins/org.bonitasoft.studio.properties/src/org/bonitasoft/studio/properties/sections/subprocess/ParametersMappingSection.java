@@ -1,19 +1,16 @@
 /**
  * Copyright (C) 2010 BonitaSoft S.A.
  * BonitaSoft, 31 rue Gustave Eiffel - 38000 Grenoble
- *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2.0 of the License, or
  * (at your option) any later version.
- *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package org.bonitasoft.studio.properties.sections.subprocess;
 
@@ -82,23 +79,23 @@ public class ParametersMappingSection extends AbstractBonitaDescriptionSection {
     private TabbedPropertySheetPage tabbedPropertySheetPage;
     private final DiagramRepositoryStore diagramStore;
 
-    public ParametersMappingSection(){
-        diagramStore = (DiagramRepositoryStore) RepositoryManager.getInstance().getCurrentRepository().getRepositoryStore(DiagramRepositoryStore.class) ;
+    public ParametersMappingSection() {
+        diagramStore = (DiagramRepositoryStore) RepositoryManager.getInstance().getCurrentRepository().getRepositoryStore(DiagramRepositoryStore.class);
     }
 
     @Override
     public void refresh() {
         super.refresh();
 
-        /*Dispose and then redraw*/
-        for(Control c: parent.getChildren()){
+        /* Dispose and then redraw */
+        for (Control c : parent.getChildren()) {
             c.dispose();
         }
         doCreateControls(parent);
-        /*Fill with existing in/out mappings*/
+        /* Fill with existing in/out mappings */
         updateInputMappings();
         updateOutputMappings();
-        /*layout with potential add of in/out mappings*/
+        /* layout with potential add of in/out mappings */
         parent.layout();
         parent.getParent().layout();
 
@@ -133,12 +130,13 @@ public class ParametersMappingSection extends AbstractBonitaDescriptionSection {
         parent.setLayout(gridLayout);
         parent.setLayoutData(GridDataFactory.fillDefaults().grab(true, true).create());
         Composite buttonComposite = getWidgetFactory().createComposite(parent);
-        GridDataFactory.fillDefaults().span(3,1).applyTo(buttonComposite);
+        GridDataFactory.fillDefaults().span(3, 1).applyTo(buttonComposite);
         GridLayoutFactory.swtDefaults().numColumns(2).applyTo(buttonComposite);
         Button automapButton = getWidgetFactory().createButton(buttonComposite, Messages.autoMap, SWT.FLAT);
         Label label = getWidgetFactory().createLabel(buttonComposite, Messages.autoMap_description);
         label.setFont(BonitaStudioFontRegistry.getCommentsFont());
         automapButton.addSelectionListener(new SelectionAdapter() {
+
             @Override
             public void widgetSelected(SelectionEvent e) {
                 automapSubProcess(parent);
@@ -152,18 +150,17 @@ public class ParametersMappingSection extends AbstractBonitaDescriptionSection {
 
     /**
      * @param parent
-     * 
      */
     protected void automapSubProcess(Composite parent) {
         List<String> subprocessData = getSubprocessData();
         Map<String, DataType> subprocessTypes = getSubprocessDataTypes();
-        List<Data> accessibleData = ModelHelper.getAccessibleData(getSubProcess(),false);
+        List<Data> accessibleData = ModelHelper.getAccessibleData(getSubProcess(), false);
         List<Data> mappedOutputData = new ArrayList<Data>();
         List<Data> mappedInputData = new ArrayList<Data>();
-        for(OutputMapping existingMapping : getSubProcess().getOutputMappings()){
+        for (OutputMapping existingMapping : getSubProcess().getOutputMappings()) {
             mappedOutputData.add(existingMapping.getProcessTarget());
         }
-        for(InputMapping existingMapping : getSubProcess().getInputMappings()){
+        for (InputMapping existingMapping : getSubProcess().getInputMappings()) {
             mappedInputData.add(existingMapping.getProcessSource());
         }
         for (Data data : accessibleData) {
@@ -214,32 +211,36 @@ public class ParametersMappingSection extends AbstractBonitaDescriptionSection {
         Button addLineButton = new Button(outputComposite, SWT.FLAT);
         addLineButton.setText("+");
         addLineButton.addListener(SWT.Selection, new Listener() {
+
             @Override
             public void handleEvent(Event event) {
-                createOutputMapping(null,null);
+                createOutputMapping(null, null);
                 refreshScrolledComposite(parent);
             }
         });
 
     }
+
     /**
      * @param parent
      */
     private void refreshScrolledComposite(final Composite parent) {
-        parent.getParent().getParent().layout(true ,true);
+        parent.getParent().getParent().layout(true, true);
         tabbedPropertySheetPage.resizeScrolledComposite();
     }
+
     private void createOutputMapping(Data target, String source) {
         OutputMapping outputMapping = ProcessFactory.eINSTANCE.createOutputMapping();
-        if(target != null){
+        if (target != null) {
             outputMapping.setProcessTarget(target);
         }
-        if(source != null){
+        if (source != null) {
             outputMapping.setSubprocessSource(source);
         }
         getEditingDomain().getCommandStack().execute(new AddCommand(getEditingDomain(), getSubProcess().getOutputMappings(), outputMapping));
         addOutputMappingLine(outputMappingControl, outputMapping);
     }
+
     /**
      * @param outputMappingControl
      * @param object
@@ -253,6 +254,7 @@ public class ParametersMappingSection extends AbstractBonitaDescriptionSection {
         final Button deleteButton = new Button(outputMappingControl, SWT.FLAT);
         deleteButton.setImage(PlatformUI.getWorkbench().getSharedImages().getImage(ISharedImages.IMG_TOOL_DELETE));
         deleteButton.addListener(SWT.Selection, new Listener() {
+
             @Override
             public void handleEvent(Event event) {
                 RemoveCommand command = new RemoveCommand(getEditingDomain(), getSubProcess().getOutputMappings(), mapping);
@@ -272,31 +274,33 @@ public class ParametersMappingSection extends AbstractBonitaDescriptionSection {
         });
     }
 
-	private CCombo createSubprocessSourceCombo(final Composite outputMappingControl, final OutputMapping mapping) {
-		final CCombo subprocessSourceCombo = getWidgetFactory().createCCombo(outputMappingControl, SWT.BORDER);
+    private CCombo createSubprocessSourceCombo(final Composite outputMappingControl, final OutputMapping mapping) {
+        final CCombo subprocessSourceCombo = getWidgetFactory().createCCombo(outputMappingControl, SWT.BORDER);
         for (String subprocessData : getSubprocessData()) {
             subprocessSourceCombo.add(subprocessData);
         }
         GridData layoutData = new GridData(SWT.FILL, SWT.DEFAULT, true, false);
         subprocessSourceCombo.setLayoutData(layoutData);
         subprocessSourceCombo.addListener(SWT.Modify, new Listener() {
+
             @Override
             public void handleEvent(Event event) {
                 getEditingDomain().getCommandStack()
-                .execute(
-                        new SetCommand(getEditingDomain(), mapping, ProcessPackage.Literals.OUTPUT_MAPPING__SUBPROCESS_SOURCE, subprocessSourceCombo
-                                .getText()));
+                        .execute(
+                                new SetCommand(getEditingDomain(), mapping, ProcessPackage.Literals.OUTPUT_MAPPING__SUBPROCESS_SOURCE, subprocessSourceCombo
+                                        .getText()));
             }
         });
         if (mapping.getSubprocessSource() != null) {
             subprocessSourceCombo.setText(mapping.getSubprocessSource());
         }
-		return subprocessSourceCombo;
-	}
+        return subprocessSourceCombo;
+    }
 
-	private ComboViewer createProcessTargetCombo(final Composite outputMappingControl, final OutputMapping mapping) {
-		final ComboViewer processTargetCombo = new ComboViewer(getWidgetFactory().createCCombo(outputMappingControl, SWT.READ_ONLY | SWT.BORDER));
+    private ComboViewer createProcessTargetCombo(final Composite outputMappingControl, final OutputMapping mapping) {
+        final ComboViewer processTargetCombo = new ComboViewer(getWidgetFactory().createCCombo(outputMappingControl, SWT.READ_ONLY | SWT.BORDER));
         processTargetCombo.setContentProvider(new IStructuredContentProvider() {
+
             @Override
             public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
             }
@@ -312,6 +316,7 @@ public class ParametersMappingSection extends AbstractBonitaDescriptionSection {
         });
         processTargetCombo.setLabelProvider(new EMFFeatureLabelProvider(ProcessPackage.Literals.ELEMENT__NAME));
         processTargetCombo.addPostSelectionChangedListener(new ISelectionChangedListener() {
+
             @Override
             public void selectionChanged(SelectionChangedEvent event) {
                 getEditingDomain().getCommandStack().execute(
@@ -324,8 +329,8 @@ public class ParametersMappingSection extends AbstractBonitaDescriptionSection {
         if (mapping.getProcessTarget() != null) {
             processTargetCombo.setSelection(new StructuredSelection(mapping.getProcessTarget()));
         }
-		return processTargetCombo;
-	}
+        return processTargetCombo;
+    }
 
     /**
      * @param parent
@@ -349,21 +354,23 @@ public class ParametersMappingSection extends AbstractBonitaDescriptionSection {
         Button addLineButton = new Button(outputComposite, SWT.FLAT);
         addLineButton.setText("+");
         addLineButton.addListener(SWT.Selection, new Listener() {
+
             @Override
             public void handleEvent(Event event) {
-                createInputMapping(null,null);
+                createInputMapping(null, null);
                 refreshScrolledComposite(parent);
             }
 
         });
 
     }
+
     private void createInputMapping(Data source, String target) {
         InputMapping mapping = ProcessFactory.eINSTANCE.createInputMapping();
-        if(source != null){
+        if (source != null) {
             mapping.setProcessSource(source);
         }
-        if(target != null){
+        if (target != null) {
             mapping.setSubprocessTarget(target);
         }
         getEditingDomain().getCommandStack().execute(new AddCommand(getEditingDomain(), getSubProcess().getInputMappings(), mapping));
@@ -396,6 +403,7 @@ public class ParametersMappingSection extends AbstractBonitaDescriptionSection {
         GridData layoutData = new GridData(SWT.FILL, SWT.DEFAULT, true, false);
         targetCombo.setLayoutData(layoutData);
         targetCombo.addListener(SWT.Modify, new Listener() {
+
             @Override
             public void handleEvent(Event event) {
                 getEditingDomain().getCommandStack().execute(
@@ -410,6 +418,7 @@ public class ParametersMappingSection extends AbstractBonitaDescriptionSection {
         final Button deleteButton = new Button(outputMappingControl, SWT.FLAT);
         deleteButton.setImage(PlatformUI.getWorkbench().getSharedImages().getImage(ISharedImages.IMG_TOOL_DELETE));
         deleteButton.addListener(SWT.Selection, new Listener() {
+
             @Override
             public void handleEvent(Event event) {
                 RemoveCommand command = new RemoveCommand(getEditingDomain(), getSubProcess().getInputMappings(), mapping);
@@ -429,9 +438,10 @@ public class ParametersMappingSection extends AbstractBonitaDescriptionSection {
         });
     }
 
-	private ComboViewer createInputMappingSourceCombo(final Composite outputMappingControl, final InputMapping mapping) {
-		final ComboViewer srcCombo = new ComboViewer(getWidgetFactory().createCCombo(outputMappingControl, SWT.READ_ONLY | SWT.BORDER));
+    private ComboViewer createInputMappingSourceCombo(final Composite outputMappingControl, final InputMapping mapping) {
+        final ComboViewer srcCombo = new ComboViewer(getWidgetFactory().createCCombo(outputMappingControl, SWT.READ_ONLY | SWT.BORDER));
         srcCombo.setContentProvider(new IStructuredContentProvider() {
+
             @Override
             public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
             }
@@ -447,6 +457,7 @@ public class ParametersMappingSection extends AbstractBonitaDescriptionSection {
         });
         srcCombo.setLabelProvider(new EMFFeatureLabelProvider(ProcessPackage.Literals.ELEMENT__NAME));
         srcCombo.addPostSelectionChangedListener(new ISelectionChangedListener() {
+
             @Override
             public void selectionChanged(SelectionChangedEvent event) {
                 getEditingDomain().getCommandStack().execute(
@@ -459,8 +470,8 @@ public class ParametersMappingSection extends AbstractBonitaDescriptionSection {
         if (mapping.getProcessSource() != null) {
             srcCombo.setSelection(new StructuredSelection(mapping.getProcessSource()));
         }
-		return srcCombo;
-	}
+        return srcCombo;
+    }
 
     /**
      * @return
@@ -468,19 +479,19 @@ public class ParametersMappingSection extends AbstractBonitaDescriptionSection {
     private List<String> getSubprocessData() {
         List<String> res = new ArrayList<String>();
         String subprocessName = null;
-        CallActivity sub= getSubProcess();
-        if(sub.getCalledActivityName() != null
-                && sub.getCalledActivityName().getContent() != null){
+        CallActivity sub = getSubProcess();
+        if (sub.getCalledActivityName() != null
+                && sub.getCalledActivityName().getContent() != null) {
             subprocessName = sub.getCalledActivityName().getContent();
         }
         String subprocessVersion = null;
-        if(sub.getCalledActivityVersion() != null
-                && sub.getCalledActivityVersion().getContent() != null){
+        if (sub.getCalledActivityVersion() != null
+                && sub.getCalledActivityVersion().getContent() != null) {
             subprocessVersion = sub.getCalledActivityVersion().getContent();
         }
-        if(subprocessName != null){
-            AbstractProcess subProcess = ModelHelper.findProcess(subprocessName, subprocessVersion,diagramStore.getAllProcesses());
-     
+        if (subprocessName != null) {
+            AbstractProcess subProcess = ModelHelper.findProcess(subprocessName, subprocessVersion, diagramStore.getAllProcesses());
+
             if (subProcess != null) {
                 for (Data data : subProcess.getData()) {
                     res.add(data.getName());
@@ -489,34 +500,33 @@ public class ParametersMappingSection extends AbstractBonitaDescriptionSection {
         }
         return res;
     }
+
     /**
      * @return
      */
     private Map<String, DataType> getSubprocessDataTypes() {
         Map<String, DataType> res = new HashMap<String, DataType>();
         String subprocessName = null;
-        CallActivity sub= getSubProcess();
-        if(sub.getCalledActivityName() != null
-                && sub.getCalledActivityName().getContent() != null){
+        CallActivity sub = getSubProcess();
+        if (sub.getCalledActivityName() != null
+                && sub.getCalledActivityName().getContent() != null) {
             subprocessName = sub.getCalledActivityName().getContent();
         }
         String subprocessVersion = null;
-        if(sub.getCalledActivityVersion() != null
-                && sub.getCalledActivityVersion().getContent() != null){
+        if (sub.getCalledActivityVersion() != null
+                && sub.getCalledActivityVersion().getContent() != null) {
             subprocessVersion = sub.getCalledActivityVersion().getContent();
         }
-        if(subprocessName != null){
+        if (subprocessName != null) {
             AbstractProcess subProcess = ModelHelper.findProcess(subprocessName, subprocessVersion, diagramStore.getAllProcesses());
             if (subProcess != null) {
                 for (Data data : subProcess.getData()) {
-                    res.put(data.getName(),data.getDataType());
+                    res.put(data.getName(), data.getDataType());
                 }
             }
         }
         return res;
     }
-
-
 
     /**
      * 

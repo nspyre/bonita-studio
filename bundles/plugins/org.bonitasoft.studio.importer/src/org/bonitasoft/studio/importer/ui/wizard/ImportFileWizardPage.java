@@ -1,19 +1,16 @@
 /**
  * Copyright (C) 2010-2011 BonitaSoft S.A.
  * BonitaSoft, 31 rue Gustave Eiffel - 38000 Grenoble
- *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2.0 of the License, or
  * (at your option) any later version.
- *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package org.bonitasoft.studio.importer.ui.wizard;
 
@@ -52,9 +49,9 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 
 import static org.bonitasoft.studio.common.Messages.bonitaStudioModuleName;
+
 /**
  * @author Mickael Istria
- *
  */
 public class ImportFileWizardPage extends WizardPage {
 
@@ -72,11 +69,12 @@ public class ImportFileWizardPage extends WizardPage {
     protected ImportFileWizardPage() {
         super(ImportFileWizardPage.class.getName());
         setTitle(Messages.importFileTitle);
-        setDescription(Messages.bind(Messages.importFileDescription, new Object[]{bonitaStudioModuleName}));
+        setDescription(Messages.bind(Messages.importFileDescription, new Object[] { bonitaStudioModuleName }));
         setImageDescriptor(Pics.getWizban());
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see org.eclipse.jface.dialogs.IDialogPage#createControl(org.eclipse.swt.widgets.Composite)
      */
     @Override
@@ -88,7 +86,7 @@ public class ImportFileWizardPage extends WizardPage {
         final Group transfoGroup = new Group(mainComposite, SWT.BORDER);
         transfoGroup.setLayoutData(GridDataFactory.fillDefaults().grab(true, true).span(3, 1).create());
         transfoGroup.setLayout(new GridLayout(2, true));
-     
+
         Label selectImportLabel = new Label(transfoGroup, SWT.NONE);
         selectImportLabel.setText(Messages.selectImportLabel);
         Label importDescriptionLabel = new Label(transfoGroup, SWT.NONE);
@@ -98,33 +96,33 @@ public class ImportFileWizardPage extends WizardPage {
         importList.setContentProvider(new ArrayContentProvider());
         importList.setComparator(new ImporterPriorityDisplayComparator());
         importList.setLabelProvider(new LabelProvider() {
+
             @Override
             public String getText(Object item) {
-                return ((ImporterFactory)item).getName();
+                return ((ImporterFactory) item).getName();
             }
         });
 
-
         importList.setInput(ImporterRegistry.getInstance().getAllAvailableImports());
 
-        Composite descComposite = new Composite(transfoGroup, SWT.NONE) ;
-        descComposite.setLayout(GridLayoutFactory.fillDefaults().numColumns(1).spacing(5, 3).create()) ;
-        descComposite.setLayoutData(GridDataFactory.fillDefaults().grab(false, true).create()) ;
+        Composite descComposite = new Composite(transfoGroup, SWT.NONE);
+        descComposite.setLayout(GridLayoutFactory.fillDefaults().numColumns(1).spacing(5, 3).create());
+        descComposite.setLayoutData(GridDataFactory.fillDefaults().grab(false, true).create());
 
         final Label descriptionImage = new Label(descComposite, SWT.NONE);
-        descriptionImage.setLayoutData(GridDataFactory.fillDefaults().align(SWT.BEGINNING,SWT.FILL).create()) ;
+        descriptionImage.setLayoutData(GridDataFactory.fillDefaults().align(SWT.BEGINNING, SWT.FILL).create());
 
         final Label separator = new Label(descComposite, SWT.SEPARATOR | SWT.HORIZONTAL);
-        separator.setLayoutData(GridDataFactory.fillDefaults().grab(true, false).create()) ;
+        separator.setLayoutData(GridDataFactory.fillDefaults().grab(true, false).create());
 
         final Label descriptionLabel = new Label(descComposite, SWT.WRAP);
         descriptionLabel.setLayoutData(GridDataFactory.fillDefaults().hint(230, SWT.DEFAULT).grab(false, true).create());
 
-   
         Label fileLabel = new Label(mainComposite, SWT.NONE);
         fileLabel.setText(Messages.selectFileToImport);
         final Text text = new Text(mainComposite, SWT.BORDER);
         text.addModifyListener(new ModifyListener() {
+
             @Override
             public void modifyText(ModifyEvent e) {
                 filePath = text.getText();
@@ -135,32 +133,33 @@ public class ImportFileWizardPage extends WizardPage {
         final Button browseButton = new Button(mainComposite, SWT.PUSH);
         browseButton.setText(Messages.browseButton_label);
         browseButton.addSelectionListener(new SelectionListener() {
+
             @Override
             public void widgetSelected(SelectionEvent e) {
                 String file = openFileDialog();
                 if (file != null) {
                     text.setText(file);
-                    if(new File(file).exists()){
-                        savePath(new File(file).getParentFile().getAbsolutePath()) ;
+                    if (new File(file).exists()) {
+                        savePath(new File(file).getParentFile().getAbsolutePath());
                     }
                 }
             }
-
 
             @Override
             public void widgetDefaultSelected(SelectionEvent e) {
             }
         });
         importList.addSelectionChangedListener(new ISelectionChangedListener() {
+
             @Override
             public void selectionChanged(SelectionChangedEvent event) {
-                if(getSelectedTransfo() != null){
+                if (getSelectedTransfo() != null) {
                     descriptionLabel.setText(getSelectedTransfo().getDescription());
-                    descriptionImage.setImage(getSelectedTransfo().getImageDescription()) ;
-                    descriptionImage.getParent().getParent().layout(true,true) ;
+                    descriptionImage.setImage(getSelectedTransfo().getImageDescription());
+                    descriptionImage.getParent().getParent().layout(true, true);
                 } else {
                     descriptionLabel.setText("");
-                    descriptionImage.setImage(null) ;
+                    descriptionImage.setImage(null);
                 }
                 descriptionLabel.redraw();
                 setPageComplete(isPageComplete());
@@ -170,16 +169,16 @@ public class ImportFileWizardPage extends WizardPage {
 
             @Override
             public void doubleClick(DoubleClickEvent arg0) {
-                if(getSelectedTransfo() != null){
+                if (getSelectedTransfo() != null) {
                     descriptionLabel.setText(getSelectedTransfo().getDescription());
                 } else {
                     descriptionLabel.setText("");
                 }
                 descriptionLabel.redraw();
                 setPageComplete(isPageComplete());
-                browseButton.notifyListeners(SWT.Selection,null) ;
+                browseButton.notifyListeners(SWT.Selection, null);
             }
-        }) ;
+        });
 
         importList.setSelection(new StructuredSelection(importList.getElementAt(0)));
         setControl(mainComposite);
@@ -193,33 +192,32 @@ public class ImportFileWizardPage extends WizardPage {
         fd.setText(Messages.importProcessTitle);
 
         fd.setFilterPath(getLastPath());
-        
+
         final String filterExtensions = getSelectedTransfo().getFilterExtensions();
-        
-		String[] filterExt = filterExtensions.split(",");
+
+        String[] filterExt = filterExtensions.split(",");
         fd.setFilterExtensions(filterExt);
         return fd.open();
     }
 
     private String getLastPath() {
-        String path = ImporterPlugin.getDefault().getDialogSettings().get(LAST_IMPORT_PATH) ;
-        if(path == null || !new File(path).exists()){
-            path = System.getProperty("user.home") ;
+        String path = ImporterPlugin.getDefault().getDialogSettings().get(LAST_IMPORT_PATH);
+        if (path == null || !new File(path).exists()) {
+            path = System.getProperty("user.home");
         }
         return path;
     }
 
     private void savePath(String path) {
-    	ImporterPlugin.getDefault().getDialogSettings().put(LAST_IMPORT_PATH,path) ;
+        ImporterPlugin.getDefault().getDialogSettings().put(LAST_IMPORT_PATH, path);
     }
-
 
     /**
      * @return
      */
     protected ImporterFactory getSelectedTransfo() {
         lastSelection = null;
-        ImporterFactory currentTransfo = (ImporterFactory)((IStructuredSelection)importList.getSelection()).getFirstElement();
+        ImporterFactory currentTransfo = (ImporterFactory) ((IStructuredSelection) importList.getSelection()).getFirstElement();
         if (currentTransfo != null) {
             lastSelection = currentTransfo;
         }

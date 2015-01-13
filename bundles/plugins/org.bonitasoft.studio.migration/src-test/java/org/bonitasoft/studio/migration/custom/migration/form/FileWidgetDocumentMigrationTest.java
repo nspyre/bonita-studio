@@ -32,14 +32,11 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
-
 /**
  * @author Florine Boudin
- *
  */
 @RunWith(MockitoJUnitRunner.class)
 public class FileWidgetDocumentMigrationTest {
-
 
     private FileWidgetDocumentMigration migrationUnderTest;
 
@@ -68,7 +65,6 @@ public class FileWidgetDocumentMigrationTest {
     public void setUp() throws Exception {
         migrationUnderTest = new FileWidgetDocumentMigration();
 
-
         leftOperandInstance.set("name", "");
         leftOperandInstance.set("content", "");
 
@@ -82,7 +78,6 @@ public class FileWidgetDocumentMigrationTest {
 
         final EList<Instance> fileWidgetList = new BasicEList<Instance>();
         fileWidgetList.add(fileWidgetInstance);
-
 
         final EList<Instance> docList = new BasicEList<Instance>();
         docList.add(documentInstance);

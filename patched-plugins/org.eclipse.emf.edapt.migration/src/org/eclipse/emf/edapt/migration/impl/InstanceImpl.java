@@ -4,10 +4,9 @@
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- *
  * Contributors:
- *     BMW Car IT - Initial API and implementation
- *     Technische Universitaet Muenchen - Major refactoring and extension
+ * BMW Car IT - Initial API and implementation
+ * Technische Universitaet Muenchen - Major refactoring and extension
  *******************************************************************************/
 package org.eclipse.emf.edapt.migration.impl;
 
@@ -68,20 +67,22 @@ import org.eclipse.ocl.helper.OCLHelper;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link org.eclipse.emf.edapt.migration.impl.InstanceImpl#getSlots <em>Slots</em>}</li>
- *   <li>{@link org.eclipse.emf.edapt.migration.impl.InstanceImpl#getType <em>Type</em>}</li>
- *   <li>{@link org.eclipse.emf.edapt.migration.impl.InstanceImpl#getReferences <em>References</em>}</li>
- *   <li>{@link org.eclipse.emf.edapt.migration.impl.InstanceImpl#getUri <em>Uri</em>}</li>
- *   <li>{@link org.eclipse.emf.edapt.migration.impl.InstanceImpl#getUuid <em>Uuid</em>}</li>
+ * <li>{@link org.eclipse.emf.edapt.migration.impl.InstanceImpl#getSlots <em>Slots</em>}</li>
+ * <li>{@link org.eclipse.emf.edapt.migration.impl.InstanceImpl#getType <em>Type</em>}</li>
+ * <li>{@link org.eclipse.emf.edapt.migration.impl.InstanceImpl#getReferences <em>References</em>}</li>
+ * <li>{@link org.eclipse.emf.edapt.migration.impl.InstanceImpl#getUri <em>Uri</em>}</li>
+ * <li>{@link org.eclipse.emf.edapt.migration.impl.InstanceImpl#getUuid <em>Uuid</em>}</li>
  * </ul>
  * </p>
  *
  * @generated
  */
 public class InstanceImpl extends EObjectImpl implements Instance {
+
     /**
      * The cached value of the '{@link #getSlots() <em>Slots</em>}' containment reference list.
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @see #getSlots()
      * @generated
      * @ordered
@@ -91,6 +92,7 @@ public class InstanceImpl extends EObjectImpl implements Instance {
     /**
      * The cached value of the '{@link #getReferences() <em>References</em>}' reference list.
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @see #getReferences()
      * @generated
      * @ordered
@@ -120,6 +122,7 @@ public class InstanceImpl extends EObjectImpl implements Instance {
     /**
      * The default value of the '{@link #getUuid() <em>Uuid</em>}' attribute.
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @see #getUuid()
      * @generated
      * @ordered
@@ -129,6 +132,7 @@ public class InstanceImpl extends EObjectImpl implements Instance {
     /**
      * The cached value of the '{@link #getUuid() <em>Uuid</em>}' attribute.
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @see #getUuid()
      * @generated
      * @ordered
@@ -137,6 +141,7 @@ public class InstanceImpl extends EObjectImpl implements Instance {
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     protected InstanceImpl() {
@@ -145,6 +150,7 @@ public class InstanceImpl extends EObjectImpl implements Instance {
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     @Override
@@ -154,6 +160,7 @@ public class InstanceImpl extends EObjectImpl implements Instance {
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public EList<Slot> getSlots() {
@@ -165,31 +172,34 @@ public class InstanceImpl extends EObjectImpl implements Instance {
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public Type getType() {
         if (eContainerFeatureID() != MigrationPackage.INSTANCE__TYPE) {
             return null;
         }
-        return (Type)eContainer();
+        return (Type) eContainer();
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public NotificationChain basicSetType(final Type newType, NotificationChain msgs) {
-        msgs = eBasicSetContainer((InternalEObject)newType, MigrationPackage.INSTANCE__TYPE, msgs);
+        msgs = eBasicSetContainer((InternalEObject) newType, MigrationPackage.INSTANCE__TYPE, msgs);
         return msgs;
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public void setType(final Type newType) {
         if (newType != eInternalContainer() || eContainerFeatureID() != MigrationPackage.INSTANCE__TYPE && newType != null) {
-            if (EcoreUtil.isAncestor(this, (EObject)newType)) {
+            if (EcoreUtil.isAncestor(this, (EObject) newType)) {
                 throw new IllegalArgumentException("Recursive containment not allowed for " + toString());
             }
             NotificationChain msgs = null;
@@ -197,7 +207,7 @@ public class InstanceImpl extends EObjectImpl implements Instance {
                 msgs = eBasicRemoveFromContainer(msgs);
             }
             if (newType != null) {
-                msgs = ((InternalEObject)newType).eInverseAdd(this, MigrationPackage.TYPE__INSTANCES, Type.class, msgs);
+                msgs = ((InternalEObject) newType).eInverseAdd(this, MigrationPackage.TYPE__INSTANCES, Type.class, msgs);
             }
             msgs = basicSetType(newType, msgs);
             if (msgs != null) {
@@ -211,17 +221,20 @@ public class InstanceImpl extends EObjectImpl implements Instance {
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public EList<ReferenceSlot> getReferences() {
         if (references == null) {
-            references = new EObjectWithInverseResolvingEList.ManyInverse<ReferenceSlot>(ReferenceSlot.class, this, MigrationPackage.INSTANCE__REFERENCES, MigrationPackage.REFERENCE_SLOT__VALUES);
+            references = new EObjectWithInverseResolvingEList.ManyInverse<ReferenceSlot>(ReferenceSlot.class, this, MigrationPackage.INSTANCE__REFERENCES,
+                    MigrationPackage.REFERENCE_SLOT__VALUES);
         }
         return references;
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public URI getUri() {
@@ -230,6 +243,7 @@ public class InstanceImpl extends EObjectImpl implements Instance {
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public void setUri(final URI newUri) {
@@ -242,6 +256,7 @@ public class InstanceImpl extends EObjectImpl implements Instance {
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public String getUuid() {
@@ -250,6 +265,7 @@ public class InstanceImpl extends EObjectImpl implements Instance {
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public void setUuid(final String newUuid) {
@@ -289,11 +305,11 @@ public class InstanceImpl extends EObjectImpl implements Instance {
                 return (V) new UpdatingList(this, attribute);
             } else if (attribute.getEType().getInstanceClass() != null && Collection.class.isAssignableFrom(attribute.getEType().getInstanceClass())) {//Patch for Notation model
                 return (V) new UpdatingList(this, attribute);
-            }else if(attribute.getEType() instanceof EEnum){
+            } else if (attribute.getEType() instanceof EEnum) {
                 return (V) attribute.getDefaultValue();
-            }else if(attribute.getEType() instanceof EDataType && attribute.getEType().getInstanceClass() == null){
+            } else if (attribute.getEType() instanceof EDataType && attribute.getEType().getInstanceClass() == null) {
                 return (V) new UpdatingList(this, attribute);
-            }else if (attribute.getDefaultValue() != null) {
+            } else if (attribute.getDefaultValue() != null) {
                 return (V) attribute.getDefaultValue();
             }
             return null;
@@ -353,7 +369,8 @@ public class InstanceImpl extends EObjectImpl implements Instance {
             }
         } else {
             //Patch for Notation model
-            if(newValue instanceof List<?> && feature.getEType() != null && feature.getEType().getInstanceClass() != null && Collection.class.isAssignableFrom(feature.getEType().getInstanceClass())){
+            if (newValue instanceof List<?> && feature.getEType() != null && feature.getEType().getInstanceClass() != null
+                    && Collection.class.isAssignableFrom(feature.getEType().getInstanceClass())) {
                 final Object oldValue = this.get(feature);
                 if (oldValue != newValue) {
                     if (isSet(feature) && oldValue != null) {
@@ -363,7 +380,7 @@ public class InstanceImpl extends EObjectImpl implements Instance {
                         this.add(feature, newValue);
                     }
                 }
-            }else if(newValue instanceof List<?> && feature.getEType() != null && feature.getEType().isInstance(EcorePackage.Literals.EJAVA_OBJECT)){
+            } else if (newValue instanceof List<?> && feature.getEType() != null && feature.getEType().isInstance(EcorePackage.Literals.EJAVA_OBJECT)) {
                 final Object oldValue = this.get(feature);
                 if (oldValue != newValue) {
                     if (isSet(feature) && oldValue != null) {
@@ -373,7 +390,7 @@ public class InstanceImpl extends EObjectImpl implements Instance {
                         this.add(feature, newValue);
                     }
                 }
-            }else if(newValue instanceof List<?> && feature.getEType() != null && feature.getEType() instanceof EEnum){
+            } else if (newValue instanceof List<?> && feature.getEType() != null && feature.getEType() instanceof EEnum) {
                 final Object oldValue = this.get(feature);
                 if (oldValue != newValue) {
                     if (isSet(feature) && oldValue != null) {
@@ -383,7 +400,7 @@ public class InstanceImpl extends EObjectImpl implements Instance {
                         this.add(feature, newValue);
                     }
                 }
-            }else{
+            } else {
 
                 if (newValue instanceof List<?>) {
                     throw new IllegalArgumentException(
@@ -857,6 +874,7 @@ public class InstanceImpl extends EObjectImpl implements Instance {
         final ModelValidator validator = new ModelValidator(getType()
                 .getModel());
         final Diagnostician diagnostician = new Diagnostician() {
+
             @Override
             public String getObjectLabel(final EObject eObject) {
                 final EClass eClass = eObject.eClass();
@@ -1050,6 +1068,7 @@ public class InstanceImpl extends EObjectImpl implements Instance {
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     @SuppressWarnings("unchecked")
@@ -1058,20 +1077,21 @@ public class InstanceImpl extends EObjectImpl implements Instance {
             final int featureID, NotificationChain msgs) {
         switch (featureID) {
             case MigrationPackage.INSTANCE__SLOTS:
-                return ((InternalEList<InternalEObject>)(InternalEList<?>)getSlots()).basicAdd(otherEnd, msgs);
+                return ((InternalEList<InternalEObject>) (InternalEList<?>) getSlots()).basicAdd(otherEnd, msgs);
             case MigrationPackage.INSTANCE__TYPE:
                 if (eInternalContainer() != null) {
                     msgs = eBasicRemoveFromContainer(msgs);
                 }
-                return basicSetType((Type)otherEnd, msgs);
+                return basicSetType((Type) otherEnd, msgs);
             case MigrationPackage.INSTANCE__REFERENCES:
-                return ((InternalEList<InternalEObject>)(InternalEList<?>)getReferences()).basicAdd(otherEnd, msgs);
+                return ((InternalEList<InternalEObject>) (InternalEList<?>) getReferences()).basicAdd(otherEnd, msgs);
         }
         return super.eInverseAdd(otherEnd, featureID, msgs);
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     @Override
@@ -1079,17 +1099,18 @@ public class InstanceImpl extends EObjectImpl implements Instance {
             final int featureID, final NotificationChain msgs) {
         switch (featureID) {
             case MigrationPackage.INSTANCE__SLOTS:
-                return ((InternalEList<?>)getSlots()).basicRemove(otherEnd, msgs);
+                return ((InternalEList<?>) getSlots()).basicRemove(otherEnd, msgs);
             case MigrationPackage.INSTANCE__TYPE:
                 return basicSetType(null, msgs);
             case MigrationPackage.INSTANCE__REFERENCES:
-                return ((InternalEList<?>)getReferences()).basicRemove(otherEnd, msgs);
+                return ((InternalEList<?>) getReferences()).basicRemove(otherEnd, msgs);
         }
         return super.eInverseRemove(otherEnd, featureID, msgs);
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     @Override
@@ -1104,6 +1125,7 @@ public class InstanceImpl extends EObjectImpl implements Instance {
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     @Override
@@ -1125,6 +1147,7 @@ public class InstanceImpl extends EObjectImpl implements Instance {
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     @SuppressWarnings("unchecked")
@@ -1133,20 +1156,20 @@ public class InstanceImpl extends EObjectImpl implements Instance {
         switch (featureID) {
             case MigrationPackage.INSTANCE__SLOTS:
                 getSlots().clear();
-                getSlots().addAll((Collection<? extends Slot>)newValue);
+                getSlots().addAll((Collection<? extends Slot>) newValue);
                 return;
             case MigrationPackage.INSTANCE__TYPE:
-                setType((Type)newValue);
+                setType((Type) newValue);
                 return;
             case MigrationPackage.INSTANCE__REFERENCES:
                 getReferences().clear();
-                getReferences().addAll((Collection<? extends ReferenceSlot>)newValue);
+                getReferences().addAll((Collection<? extends ReferenceSlot>) newValue);
                 return;
             case MigrationPackage.INSTANCE__URI:
-                setUri((URI)newValue);
+                setUri((URI) newValue);
                 return;
             case MigrationPackage.INSTANCE__UUID:
-                setUuid((String)newValue);
+                setUuid((String) newValue);
                 return;
         }
         super.eSet(featureID, newValue);
@@ -1154,6 +1177,7 @@ public class InstanceImpl extends EObjectImpl implements Instance {
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     @Override
@@ -1163,7 +1187,7 @@ public class InstanceImpl extends EObjectImpl implements Instance {
                 getSlots().clear();
                 return;
             case MigrationPackage.INSTANCE__TYPE:
-                setType((Type)null);
+                setType((Type) null);
                 return;
             case MigrationPackage.INSTANCE__REFERENCES:
                 getReferences().clear();
@@ -1180,6 +1204,7 @@ public class InstanceImpl extends EObjectImpl implements Instance {
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     @Override
@@ -1201,6 +1226,7 @@ public class InstanceImpl extends EObjectImpl implements Instance {
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated NOT
      */
     @Override
@@ -1212,9 +1238,9 @@ public class InstanceImpl extends EObjectImpl implements Instance {
         final StringBuffer result = new StringBuffer();
         result.append("Instance of ");
         result.append(getType().getEClass().getName());
-        if(getUri() != null) {
+        if (getUri() != null) {
             result.append(" (proxy: " + getUri() + ")");
-        } else if(getUuid() != null) {
+        } else if (getUuid() != null) {
             result.append(" (uuid: " + getUuid() + ")");
         }
         return result.toString();

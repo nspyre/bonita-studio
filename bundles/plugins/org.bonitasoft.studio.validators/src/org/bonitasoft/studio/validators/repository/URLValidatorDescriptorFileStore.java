@@ -5,14 +5,12 @@
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2.0 of the License, or
  * (at your option) any later version.
- *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package org.bonitasoft.studio.validators.repository;
 
@@ -27,10 +25,8 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.ui.IWorkbenchPart;
 
-
 /**
  * @author Romain Bioteau
- *
  */
 public class URLValidatorDescriptorFileStore extends ValidatorDescriptorFileStore {
 
@@ -38,44 +34,44 @@ public class URLValidatorDescriptorFileStore extends ValidatorDescriptorFileStor
 
     public URLValidatorDescriptorFileStore(URL url, IRepositoryStore<? extends EMFFileStore> store) {
         super(url.toString(), store);
-        this.url = url ;
+        this.url = url;
     }
 
     @Override
     protected Resource doCreateEMFResource() {
-        if(url != null){
+        if (url != null) {
             try {
-                URI uri = URI.createFileURI(FileLocator.toFileURL(url).getFile()) ;
-                return getParentStore().getEditingDomain().getResourceSet().getResource(uri,true) ;
-            }  catch (IOException e) {
-                BonitaStudioLog.error(e) ;
+                URI uri = URI.createFileURI(FileLocator.toFileURL(url).getFile());
+                return getParentStore().getEditingDomain().getResourceSet().getResource(uri, true);
+            } catch (IOException e) {
+                BonitaStudioLog.error(e);
             }
         }
-        return null ;
+        return null;
     }
 
-
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see org.bonitasoft.studio.common.repository.IRepositoryFileStore#getName()
      */
     @Override
     public String getName() {
-        String file = url.getFile() ;
-        String[] segments = file.split("/") ;
-        return segments[segments.length -1] ;
+        String file = url.getFile();
+        String[] segments = file.split("/");
+        return segments[segments.length - 1];
     }
 
-
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see org.bonitasoft.studio.common.repository.filestore.AbstractFileStore#doSave(java.lang.Object)
      */
     @Override
     protected void doSave(Object content) {
 
-
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see org.bonitasoft.studio.common.repository.filestore.AbstractFileStore#doOpen()
      */
     @Override
@@ -90,7 +86,7 @@ public class URLValidatorDescriptorFileStore extends ValidatorDescriptorFileStor
 
     @Override
     public boolean canBeExported() {
-        return false ;
+        return false;
     }
 
     @Override

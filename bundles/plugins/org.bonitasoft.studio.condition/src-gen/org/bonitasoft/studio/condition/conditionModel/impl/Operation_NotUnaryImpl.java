@@ -18,25 +18,28 @@ import org.eclipse.emf.ecore.EClass;
  */
 public class Operation_NotUnaryImpl extends Unary_OperationImpl implements Operation_NotUnary
 {
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  protected Operation_NotUnaryImpl()
-  {
-    super();
-  }
 
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  @Override
-  protected EClass eStaticClass()
-  {
-    return ConditionModelPackage.Literals.OPERATION_NOT_UNARY;
-  }
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * 
+     * @generated
+     */
+    protected Operation_NotUnaryImpl()
+    {
+        super();
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * 
+     * @generated
+     */
+    @Override
+    protected EClass eStaticClass()
+    {
+        return ConditionModelPackage.Literals.OPERATION_NOT_UNARY;
+    }
 
 } //Operation_NotUnaryImpl

@@ -43,7 +43,6 @@ import org.junit.runner.RunWith;
 
 /**
  * @author Aur�lie Zara
- * 
  */
 
 @RunWith(SWTBotJunit4ClassRunner.class)

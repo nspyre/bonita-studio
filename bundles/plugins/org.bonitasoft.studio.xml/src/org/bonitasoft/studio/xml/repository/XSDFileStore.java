@@ -5,14 +5,12 @@
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2.0 of the License, or
  * (at your option) any later version.
- *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package org.bonitasoft.studio.xml.repository;
 
@@ -37,17 +35,17 @@ import org.eclipse.xsd.XSDSchema;
 
 /**
  * @author Romain Bioteau
- *
  */
 public class XSDFileStore extends EMFFileStore {
 
     private static final String ECORE_TYPE_NS = "http://www.eclipse.org/emf/2002/Ecore";
 
-	public XSDFileStore(String fileName, IRepositoryStore parentStore) {
+    public XSDFileStore(String fileName, IRepositoryStore parentStore) {
         super(fileName, parentStore);
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see org.bonitasoft.studio.common.repository.model.IRepositoryFileStore#getIcon()
      */
     @Override
@@ -55,35 +53,36 @@ public class XSDFileStore extends EMFFileStore {
         return Pics.getImage(PicsConstants.xml);
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see org.bonitasoft.studio.common.repository.filestore.AbstractFileStore#doSave(java.lang.Object)
      */
     @Override
     protected void doSave(Object content) {
-        if(content instanceof XSDSchema){
-            Resource emfResource = getEMFResource() ;
-            emfResource.getContents().clear() ;
-            emfResource.getContents().add((EObject) content) ;
-            Map<String, String> options = new HashMap<String, String>() ;
+        if (content instanceof XSDSchema) {
+            Resource emfResource = getEMFResource();
+            emfResource.getContents().clear();
+            emfResource.getContents().add((EObject) content);
+            Map<String, String> options = new HashMap<String, String>();
             options.put(XMLResource.OPTION_ENCODING, "UTF-8");
             options.put(XMLResource.OPTION_XML_VERSION, "1.0");
             try {
-                emfResource.save(options) ;
+                emfResource.save(options);
             } catch (IOException e) {
-                BonitaStudioLog.error(e) ;
+                BonitaStudioLog.error(e);
             }
         }
 
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see org.bonitasoft.studio.common.repository.filestore.AbstractFileStore#doOpen()
      */
     @Override
     protected IWorkbenchPart doOpen() {
         return null;
     }
-
 
     public XSDElementDeclaration findElementDeclaration(String namespace, String elementName) {
         XSDSchema schema = (XSDSchema) getContent();
@@ -109,13 +108,13 @@ public class XSDFileStore extends EMFFileStore {
 
     public List<String> getElements() {
         List<String> res = new ArrayList<String>();
-        XSDSchema schema =  (XSDSchema) getContent() ;
-        if(schema != null){
-            for (XSDElementDeclaration element :schema.getElementDeclarations()) {
-               if(!ECORE_TYPE_NS.equals(element.getTargetNamespace())){
-            	   res.add(element.getName());
-               }
-            	
+        XSDSchema schema = (XSDSchema) getContent();
+        if (schema != null) {
+            for (XSDElementDeclaration element : schema.getElementDeclarations()) {
+                if (!ECORE_TYPE_NS.equals(element.getTargetNamespace())) {
+                    res.add(element.getName());
+                }
+
             }
         }
         return res;

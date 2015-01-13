@@ -5,14 +5,12 @@
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2.0 of the License, or
  * (at your option) any later version.
- *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package org.bonitasoft.studio.properties.form.sections.actions.contributions;
 
@@ -41,10 +39,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-
 /**
  * @author Romain Bioteau
- *
  */
 public class WidgetModifierContributionTest {
 
@@ -74,7 +70,7 @@ public class WidgetModifierContributionTest {
 
     @Test
     public void shouldUpdateWidgetReferences_Update_Widget_References_WithNewModifierType_ForFormFieldExpressionType() throws Exception {
-        final Operation operation= ExpressionFactory.eINSTANCE.createOperation();
+        final Operation operation = ExpressionFactory.eINSTANCE.createOperation();
         final Expression actionExp = ExpressionFactory.eINSTANCE.createExpression();
         actionExp.setReturnType(String.class.getName());
         actionExp.setType(ExpressionConstants.FORM_FIELD_TYPE);
@@ -116,20 +112,20 @@ public class WidgetModifierContributionTest {
 
     @Test
     public void shouldUpdateWidgetReferences_Update_Widget_References_WithNewModifierType_ForGroovyExpressionDependencies() throws Exception {
-        final Operation operation= ExpressionFactory.eINSTANCE.createOperation();
+        final Operation operation = ExpressionFactory.eINSTANCE.createOperation();
         final Expression actionExp = ExpressionFactory.eINSTANCE.createExpression();
         actionExp.setReturnType(String.class.getName());
         actionExp.setType(ExpressionConstants.SCRIPT_TYPE);
         actionExp.setInterpreter(ExpressionConstants.GROOVY);
         actionExp.setContent("field_name");
         final EObject dependencyFromEObject = ExpressionHelper.createDependencyFromEObject(textFormField);
-        assertThat(((Widget)dependencyFromEObject).getReturnTypeModifier()).isEqualTo(String.class.getName());
+        assertThat(((Widget) dependencyFromEObject).getReturnTypeModifier()).isEqualTo(String.class.getName());
         actionExp.getReferencedElements().add(dependencyFromEObject);
         operation.setRightOperand(actionExp);
         textFormField.setAction(operation);
         widgetModifierContribution.updateWidgetReferences(textFormField, Integer.class.getName());
         assertThat(dependencyFromEObject).isInstanceOf(Widget.class);
-        assertThat(((Widget)dependencyFromEObject).getReturnTypeModifier()).isEqualTo(Integer.class.getName());
+        assertThat(((Widget) dependencyFromEObject).getReturnTypeModifier()).isEqualTo(Integer.class.getName());
     }
 
 }

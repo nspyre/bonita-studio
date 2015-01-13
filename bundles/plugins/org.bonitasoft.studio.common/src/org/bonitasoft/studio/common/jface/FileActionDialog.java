@@ -5,14 +5,12 @@
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2.0 of the License, or
  * (at your option) any later version.
- *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package org.bonitasoft.studio.common.jface;
 
@@ -33,16 +31,13 @@ public class FileActionDialog {
     private static int returnCode;
     private static boolean THROW_EXCEPTION_ON_CANCEL = false;
 
-
     public static void setDisablePopup(final boolean disablePopup) {
         DISABLE_POPUP = disablePopup;
     }
 
-
-    public static void setThrowExceptionOnCancel(final boolean throwExceptionOnCancel){
+    public static void setThrowExceptionOnCancel(final boolean throwExceptionOnCancel) {
         THROW_EXCEPTION_ON_CANCEL = throwExceptionOnCancel;
     }
-
 
     public static boolean overwriteQuestion(final String fileName) {
         if (DISABLE_POPUP && NO_TO_ALL) {
@@ -75,21 +70,20 @@ public class FileActionDialog {
             } else {
 
                 Display.getDefault().syncExec(new Runnable() {
+
                     @Override
                     public void run() {
-                        answer =  MessageDialog.openConfirm(Display.getDefault().getActiveShell(), Messages.overwriteTitle,
+                        answer = MessageDialog.openConfirm(Display.getDefault().getActiveShell(), Messages.overwriteTitle,
                                 Messages.bind(Messages.overwriteMessage, fileName));
                     }
-                }) ;
-                if(THROW_EXCEPTION_ON_CANCEL && !answer){
+                });
+                if (THROW_EXCEPTION_ON_CANCEL && !answer) {
                     throw new CancellationException();
                 }
-                return answer ;
+                return answer;
             }
         }
     }
-
-
 
     public static boolean getDisablePopup() {
         return DISABLE_POPUP;

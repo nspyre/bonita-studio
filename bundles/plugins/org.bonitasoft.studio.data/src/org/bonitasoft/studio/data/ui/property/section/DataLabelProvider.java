@@ -5,14 +5,12 @@
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2.0 of the License, or
  * (at your option) any later version.
- *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package org.bonitasoft.studio.data.ui.property.section;
 
@@ -24,9 +22,7 @@ import org.eclipse.jface.databinding.viewers.ObservableMapLabelProvider;
 import org.eclipse.swt.graphics.Image;
 
 /**
- *
  * @author mistria
- *
  */
 public class DataLabelProvider extends ObservableMapLabelProvider {
 
@@ -41,11 +37,11 @@ public class DataLabelProvider extends ObservableMapLabelProvider {
 
     @Override
     public String getText(final Object element) {
-        if(element instanceof Data){
-            if(((Data)element).getDataType() != null){
-                return ((Data)element).getName() + " -- " + getTypeLabel((Data)element); //$NON-NLS-1$
-            }else{
-                return ((Data)element).getName();
+        if (element instanceof Data) {
+            if (((Data) element).getDataType() != null) {
+                return ((Data) element).getName() + " -- " + getTypeLabel((Data) element); //$NON-NLS-1$
+            } else {
+                return ((Data) element).getName();
             }
         } else if (element != null) {
             return element.toString();
@@ -62,18 +58,15 @@ public class DataLabelProvider extends ObservableMapLabelProvider {
         if (element.isMultiple()) {
             builder.append("Multiple<"); //$NON-NLS-1$
         };
-        if(element instanceof JavaObjectData){
-            builder.append( ((JavaObjectData)element).getClassName() );
-        }else{
-            builder.append( ModelHelper.getDataTypeNLLabel(element.getDataType().getName()) );
+        if (element instanceof JavaObjectData) {
+            builder.append(((JavaObjectData) element).getClassName());
+        } else {
+            builder.append(ModelHelper.getDataTypeNLLabel(element.getDataType().getName()));
         }
         if (element.isMultiple()) {
             builder.append(">"); //$NON-NLS-1$
         };
         return builder.toString();
     }
-
-
-
 
 }

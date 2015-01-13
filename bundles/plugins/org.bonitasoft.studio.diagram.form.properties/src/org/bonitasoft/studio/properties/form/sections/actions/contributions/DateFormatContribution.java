@@ -39,7 +39,6 @@ public class DateFormatContribution implements IExtensibleGridPropertySectionCon
     public void createControl(Composite composite, TabbedPropertySheetWidgetFactory widgetFactory,
             ExtensibleGridPropertySection extensibleGridPropertySection) {
 
-
         GridLayout layout = new GridLayout(1, false);
 
         layout.marginHeight = InitialValueContribution.MARGIN_HEIGHT;
@@ -56,26 +55,26 @@ public class DateFormatContribution implements IExtensibleGridPropertySectionCon
         combo.add(Messages.Widget_Date_Format4);
         combo.add(Messages.Widget_Date_Format5);
 
-        final ControlDecoration hint = new ControlDecoration(combo, SWT.LEFT) ;
-        hint.setImage(Pics.getImage(PicsConstants.hint)) ;
-        hint.setMarginWidth(3) ;
-        hint.setDescriptionText(Messages.Widget_DisplayDateFormat_tooltip) ;
+        final ControlDecoration hint = new ControlDecoration(combo, SWT.LEFT);
+        hint.setImage(Pics.getImage(PicsConstants.hint));
+        hint.setMarginWidth(3);
+        hint.setDescriptionText(Messages.Widget_DisplayDateFormat_tooltip);
         bindWidgets();
 
     }
 
     private void bindWidgets() {
-        if(dataBindingContext != null){
+        if (dataBindingContext != null) {
             dataBindingContext.dispose();
         }
         dataBindingContext = new EMFDataBindingContext();
-        UpdateValueStrategy comboToFormat = new UpdateValueStrategy().setConverter(new Converter(String.class,String.class) {
+        UpdateValueStrategy comboToFormat = new UpdateValueStrategy().setConverter(new Converter(String.class, String.class) {
 
             public Object convert(Object fromObject) {
                 return getComboText((String) fromObject);
             }
         });
-        UpdateValueStrategy formatToCombo = new UpdateValueStrategy().setConverter(new Converter(String.class,String.class) {
+        UpdateValueStrategy formatToCombo = new UpdateValueStrategy().setConverter(new Converter(String.class, String.class) {
 
             public Object convert(Object fromObject) {
                 return setComboText((String) fromObject);
@@ -88,7 +87,7 @@ public class DateFormatContribution implements IExtensibleGridPropertySectionCon
     }
 
     public void dispose() {
-        if(dataBindingContext!=null) {
+        if (dataBindingContext != null) {
             dataBindingContext.dispose();
         }
     }
@@ -132,6 +131,7 @@ public class DateFormatContribution implements IExtensibleGridPropertySectionCon
             return format;
         }
     }
+
     private String setComboText(String displayFormat) {
         if (displayFormat.equals(format1)) {
             return Messages.Widget_Date_Format1;

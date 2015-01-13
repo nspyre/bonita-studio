@@ -5,14 +5,12 @@
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2.0 of the License, or
  * (at your option) any later version.
- *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package org.bonitasoft.studio.properties.sections.forms.commands;
 
@@ -50,7 +48,6 @@ import org.eclipse.ui.PlatformUI;
 /**
  * @author Baptiste Mesta : initial implementation
  * @author Aurelien Pupier : remove also the diagram from the file
- *
  */
 public class RemoveFormCommand extends AbstractTransactionalCommand {
 
@@ -82,14 +79,14 @@ public class RemoveFormCommand extends AbstractTransactionalCommand {
                 IEditorReference iEditorReference = editorReferences[i];
                 try {
                     IEditorInput editorInput = iEditorReference.getEditorInput();
-                    if(editorInput instanceof URIEditorInput){
+                    if (editorInput instanceof URIEditorInput) {
                         URI uri = ((URIEditorInput) editorInput).getURI();
-                        Diagram diagramFor = ModelHelper.getDiagramFor(form,getEditingDomain());
-                        if(diagramFor != null){
-                            if(ModelHelper.getEObjectID(diagramFor).equals(uri.fragment())){
+                        Diagram diagramFor = ModelHelper.getDiagramFor(form, getEditingDomain());
+                        if (diagramFor != null) {
+                            if (ModelHelper.getEObjectID(diagramFor).equals(uri.fragment())) {
                                 //close the editor
                                 IWorkbenchPart part = iEditorReference.getPart(false);
-                                if(part instanceof FormDiagramEditor){
+                                if (part instanceof FormDiagramEditor) {
                                     ((FormDiagramEditor) part).close(false);
                                 }
                                 break;
@@ -100,16 +97,16 @@ public class RemoveFormCommand extends AbstractTransactionalCommand {
                     BonitaStudioLog.error(e);
                 }
             }
-            /*Destroy the form in the model*/
+            /* Destroy the form in the model */
             DestroyElementRequest der = new DestroyElementRequest(getEditingDomain(), form, false);
             cc.add(new DestroyElementCommand(der));
-            /*Destroy the form diagram*/
-            for(EObject o : form.eResource().getContents()){
-                if(o instanceof Diagram){
-                    if(((Diagram) o).getElement() instanceof Form){
+            /* Destroy the form diagram */
+            for (EObject o : form.eResource().getContents()) {
+                if (o instanceof Diagram) {
+                    if (((Diagram) o).getElement() instanceof Form) {
                         Form f = (Form) ((View) o).getElement();
-                        if(f.getName().equals(form.getName())){
-                            if(((Diagram) o).getElement().equals(form)){
+                        if (f.getName().equals(form.getName())) {
+                            if (((Diagram) o).getElement().equals(form)) {
                                 cc.add(new DeleteCommand((View) o));
                             }
                         }
@@ -129,7 +126,7 @@ public class RemoveFormCommand extends AbstractTransactionalCommand {
     @Override
     protected void didRedo(Transaction tx) {
         super.didRedo(tx);
-        if(treeViewer!=null && !treeViewer.getTree().isDisposed()) {
+        if (treeViewer != null && !treeViewer.getTree().isDisposed()) {
             treeViewer.refresh();
         }
     }
@@ -137,7 +134,7 @@ public class RemoveFormCommand extends AbstractTransactionalCommand {
     @Override
     protected void didUndo(Transaction tx) {
         super.didUndo(tx);
-        if(treeViewer!=null && !treeViewer.getTree().isDisposed()) {
+        if (treeViewer != null && !treeViewer.getTree().isDisposed()) {
             treeViewer.refresh();
         }
     }

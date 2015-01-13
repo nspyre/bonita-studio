@@ -5,14 +5,12 @@
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2.0 of the License, or
  * (at your option) any later version.
- *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package org.bonitasoft.studio.common.diagram.palette;
 
@@ -37,147 +35,143 @@ import org.eclipse.jface.action.MenuManager;
 
 /**
  * @author Romain Bioteau
- *
  */
 public class CustomMainPaletteViewer extends PaletteViewerEx {
 
-	private Set<String> filters = new HashSet<String>();
-	private String onlyDisplayedEntry;
-	protected ToolEntry activeEntry = null;
-	private List paletteListeners = new ArrayList();
-	private CustomToolPaletteViewer toolPalette;
+    private Set<String> filters = new HashSet<String>();
+    private String onlyDisplayedEntry;
+    protected ToolEntry activeEntry = null;
+    private List paletteListeners = new ArrayList();
+    private CustomToolPaletteViewer toolPalette;
 
-	public CustomMainPaletteViewer(){
-		setEditPartFactory(new CustomPaletteEditPartFactory());
-	}
+    public CustomMainPaletteViewer() {
+        setEditPartFactory(new CustomPaletteEditPartFactory());
+    }
 
-	protected void createDefaultRoot() {
-		setRootEditPart(new SimpleRootEditPart(){
-			@Override
-			protected IFigure createFigure() {
-				Figure figure = new Figure();
-				figure.setLayoutManager(new StackLayout());
-				return figure;
-			}
-		});
-	}
+    protected void createDefaultRoot() {
+        setRootEditPart(new SimpleRootEditPart() {
 
+            @Override
+            protected IFigure createFigure() {
+                Figure figure = new Figure();
+                figure.setLayoutManager(new StackLayout());
+                return figure;
+            }
+        });
+    }
 
-	protected LightweightSystem createLightweightSystem() {
-		return new AsyncLightweightSystem();
-	}
+    protected LightweightSystem createLightweightSystem() {
+        return new AsyncLightweightSystem();
+    }
 
+    public void hidePaletteEntry(String id) {
+        filters.add(id);
+    }
 
-	public void hidePaletteEntry(String id){
-		filters.add(id);
-	}
+    @Override
+    public void addPaletteListener(PaletteListener paletteListener) {
+        if (paletteListeners != null)
+            paletteListeners.add(paletteListener);
+    }
 
-	@Override
-	public void addPaletteListener(PaletteListener paletteListener) {
-		if (paletteListeners != null)
-			paletteListeners.add(paletteListener);
-	}
+    public void removePaletteListener(PaletteListener paletteListener) {
+        paletteListeners.remove(paletteListener);
+    }
 
-	public void removePaletteListener(PaletteListener paletteListener) {
-		paletteListeners.remove(paletteListener);
-	}
+    @Override
+    public void setPaletteRoot(PaletteRoot root) {
+        if (root == getPaletteRoot())
+            return;
+        super.setPaletteRoot(root);
+        if (getPaletteRoot() != null) {
+            final PaletteRoot filteredPalette = filterPaletteRoot(getPaletteRoot());
+            for (Object c : filteredPalette.getChildren()) {
+                if (c instanceof PaletteDrawer) {
+                    ((PaletteDrawer) c).setShowDefaultIcon(false);
+                    ((PaletteDrawer) c).setUserModificationPermission(PaletteDrawer.PERMISSION_NO_MODIFICATION);
+                }
+            }
+            getRootEditPart().setContents(getEditPartFactory().createEditPart(
+                    getRootEditPart(), filteredPalette));
+        }
+    }
 
-	@Override
-	public void setPaletteRoot(PaletteRoot root) {
-		if (root == getPaletteRoot())
-			return;
-		super.setPaletteRoot(root);
-		if (getPaletteRoot() != null) {
-			final PaletteRoot filteredPalette = filterPaletteRoot(getPaletteRoot());
-			for(Object c : filteredPalette.getChildren()){
-				if(c instanceof PaletteDrawer){
-					((PaletteDrawer)c).setShowDefaultIcon(false);
-					((PaletteDrawer)c).setUserModificationPermission(PaletteDrawer.PERMISSION_NO_MODIFICATION);
-				}
-			}
-			getRootEditPart().setContents(getEditPartFactory().createEditPart(
-					getRootEditPart(),filteredPalette));
-		}
-	}
+    @Override
+    public void setContextMenu(MenuManager contextMenu) {
 
+    }
 
-	@Override
-	public void setContextMenu(MenuManager contextMenu) {
-	
-	}
+    public void setActiveTool(ToolEntry newMode) {
+        if (newMode == null)
+            newMode = getPaletteRoot().getDefaultEntry();
 
-	public void setActiveTool(ToolEntry newMode) {
-		if (newMode == null)
-			newMode = getPaletteRoot().getDefaultEntry();
+        if (newMode.equals(activeEntry)) {
+            fireModeChanged();
+            return;
+        }
+        if (activeEntry != null) {
+            final ToolEntryEditPart toolEntryEditPart = getToolEntryEditPart(activeEntry);
+            if (toolEntryEditPart != null) {
+                toolEntryEditPart.setToolSelected(false);
+            }
+        }
 
-		if(newMode.equals(activeEntry) ){
-			fireModeChanged();
-			return;
-		}
-		if (activeEntry != null){
-			final ToolEntryEditPart toolEntryEditPart = getToolEntryEditPart(activeEntry);
-			if(toolEntryEditPart != null){
-				toolEntryEditPart.setToolSelected(false);
-			}
-		}
+        activeEntry = newMode;
+        if (activeEntry != null) {
+            ToolEntryEditPart editpart = getToolEntryEditPart(activeEntry);
+            if (editpart != null) {
+                editpart.setToolSelected(true);
+            }
+        }
+        fireModeChanged();
 
-		activeEntry = newMode;
-		if (activeEntry != null) {
-			ToolEntryEditPart editpart = getToolEntryEditPart(activeEntry);
-			if (editpart != null) {
-				editpart.setToolSelected(true);
-			}
-		}
-		fireModeChanged();
+        if (toolPalette != null && getControl() != null && !getControl().isDisposed()) {
+            setEditDomain(toolPalette.getEditDomain());
+            toolPalette.setActiveTool(newMode);
+        }
+    }
 
-		if(toolPalette != null  && getControl() != null && !getControl().isDisposed()){
-			setEditDomain(toolPalette.getEditDomain());
-			toolPalette.setActiveTool(newMode);
-		}
-	}
+    /**
+     * @return the entry for the currently active tool
+     */
+    public ToolEntry getActiveTool() {
+        return activeEntry;
+    }
 
-	/**
-	 * @return the entry for the currently active tool
-	 */
-	public ToolEntry getActiveTool() {
-		return activeEntry;
-	}
+    protected void fireModeChanged() {
+        if (paletteListeners == null)
+            return;
+        for (int listener = 0; listener < paletteListeners.size(); listener++) {
+            ((PaletteListener) paletteListeners.get(listener)).activeToolChanged(this, activeEntry);
+        }
+    }
 
-	protected void fireModeChanged() {
-		if (paletteListeners == null)
-			return;
-		for (int listener = 0; listener < paletteListeners.size(); listener++){
-			((PaletteListener) paletteListeners.get(listener)).activeToolChanged(this, activeEntry);
-		}
-	}
+    protected ToolEntryEditPart getToolEntryEditPart(ToolEntry entry) {
+        return (ToolEntryEditPart) getEditPartRegistry().get(entry);
+    }
 
-	protected ToolEntryEditPart getToolEntryEditPart(ToolEntry entry) {
-		return (ToolEntryEditPart) getEditPartRegistry().get(entry);
-	}
+    private PaletteRoot filterPaletteRoot(PaletteRoot paletteRoot) {
+        PaletteRoot newRoot = new PaletteRoot();
+        for (Object child : paletteRoot.getChildren()) {
+            if (child instanceof PaletteEntry) {
+                final String id = ((PaletteEntry) child).getId();
+                if (onlyDisplayedEntry != null && onlyDisplayedEntry.equals(id)) {
+                    newRoot.add((PaletteEntry) child);
+                    break;
+                } else if (!filters.contains(id)) {
+                    newRoot.add((PaletteEntry) child);
+                }
+            }
+        }
 
-	private PaletteRoot filterPaletteRoot(PaletteRoot paletteRoot) {
-		PaletteRoot newRoot = new PaletteRoot();
-		for(Object child : paletteRoot.getChildren()){
-			if(child instanceof PaletteEntry){
-				final String id = ((PaletteEntry) child).getId();
-				if(onlyDisplayedEntry != null && onlyDisplayedEntry.equals(id)) {
-					newRoot.add((PaletteEntry) child);
-					break;
-				}else if(!filters.contains(id)){
-					newRoot.add((PaletteEntry) child);
-				}
-			}
-		}
+        return newRoot;
+    }
 
-		return newRoot;
-	}
+    public void showOnlyPaletteEntry(String onlyDisplayedEntry) {
+        this.onlyDisplayedEntry = onlyDisplayedEntry;
+    }
 
-
-	public void showOnlyPaletteEntry(String onlyDisplayedEntry) {
-		this.onlyDisplayedEntry = onlyDisplayedEntry;
-	}
-
-	public void setToolPaletteViewer(CustomToolPaletteViewer toolPalette) {
-		this.toolPalette = toolPalette;
-	}
+    public void setToolPaletteViewer(CustomToolPaletteViewer toolPalette) {
+        this.toolPalette = toolPalette;
+    }
 }

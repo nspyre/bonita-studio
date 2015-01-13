@@ -6,17 +6,17 @@ import org.eclipse.ui.internal.views.ViewsPlugin;
 import org.eclipse.ui.views.contentoutline.ContentOutline;
 import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
 
-public class BonitaContentOutlineView extends ContentOutline  {
+public class BonitaContentOutlineView extends ContentOutline {
 
-	public static final String VIEW_ID ="org.bonitasoft.studio.views.overview"; //$NON-NLS-1$
+    public static final String VIEW_ID = "org.bonitasoft.studio.views.overview"; //$NON-NLS-1$
 
-	@Override
-	protected PageRec doCreatePage(IWorkbenchPart part) {
-		Object obj = ViewsPlugin.getAdapter(part, IContentOutlinePage.class, false);
-		if (obj instanceof IContentOutlinePage && part instanceof DiagramEditor) {
-			return super.doCreatePage(part);
-		}
-		return null;
-	}
+    @Override
+    protected PageRec doCreatePage(IWorkbenchPart part) {
+        Object obj = ViewsPlugin.getAdapter(part, IContentOutlinePage.class, false);
+        if (obj instanceof IContentOutlinePage && part instanceof DiagramEditor) {
+            return super.doCreatePage(part);
+        }
+        return null;
+    }
 
 }

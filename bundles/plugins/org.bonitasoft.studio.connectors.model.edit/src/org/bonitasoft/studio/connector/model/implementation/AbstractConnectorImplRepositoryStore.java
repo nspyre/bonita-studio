@@ -5,12 +5,10 @@
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2.0 of the License, or
  * (at your option) any later version.
- *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- *
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
@@ -52,7 +50,6 @@ import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
 
 /**
  * @author Romain Bioteau
- *
  */
 public abstract class AbstractConnectorImplRepositoryStore<T extends EMFFileStore> extends AbstractEMFRepositoryStore<T> implements IRepositoryStore<T>,
         IImplementationRepositoryStore {
@@ -162,7 +159,8 @@ public abstract class AbstractConnectorImplRepositoryStore<T extends EMFFileStor
             final JarDependencies jarDependencies = content.getJarDependencies();
             if (jarDependencies != null) {
                 for (final String dep : jarDependencies.getJarDependency()) {
-                    final String depJarName = NamingUtils.toConnectorImplementationFilename(content.getImplementationId(), content.getImplementationVersion(), false)
+                    final String depJarName = NamingUtils.toConnectorImplementationFilename(content.getImplementationId(), content.getImplementationVersion(),
+                            false)
                             + ".jar";
                     if (dep.equals(depJarName)) {
                         final IRepositoryFileStore dependencyFileStore = dependencyRepositoryStore.getChild(depJarName);

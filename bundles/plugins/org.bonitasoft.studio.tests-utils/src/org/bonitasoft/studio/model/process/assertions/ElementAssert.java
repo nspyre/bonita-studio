@@ -14,6 +14,7 @@ public class ElementAssert extends AbstractAssert<ElementAssert, Element> {
 
     /**
      * Creates a new </code>{@link ElementAssert}</code> to make assertions on actual Element.
+     * 
      * @param actual the Element we want to make assertions on.
      */
     public ElementAssert(final Element actual) {
@@ -23,6 +24,7 @@ public class ElementAssert extends AbstractAssert<ElementAssert, Element> {
     /**
      * An entry point for ElementAssert to follow AssertJ standard <code>assertThat()</code> statements.<br>
      * With a static import, one's can write directly : <code>assertThat(myElement)</code> and get specific assertion with code completion.
+     * 
      * @param actual the Element we want to make assertions on.
      * @return a new </code>{@link ElementAssert}</code>
      */
@@ -32,6 +34,7 @@ public class ElementAssert extends AbstractAssert<ElementAssert, Element> {
 
     /**
      * Verifies that the actual Element's documentation is equal to the given one.
+     * 
      * @param documentation the given documentation to compare the actual Element's documentation to.
      * @return this assertion object.
      * @throws AssertionError - if the actual Element's documentation is not equal to the given one.
@@ -54,6 +57,7 @@ public class ElementAssert extends AbstractAssert<ElementAssert, Element> {
 
     /**
      * Verifies that the actual Element's name is equal to the given one.
+     * 
      * @param name the given name to compare the actual Element's name to.
      * @return this assertion object.
      * @throws AssertionError - if the actual Element's name is not equal to the given one.
@@ -76,6 +80,7 @@ public class ElementAssert extends AbstractAssert<ElementAssert, Element> {
 
     /**
      * Verifies that the actual Element's textAnnotationAttachment contains the given TextAnnotationAttachment elements.
+     * 
      * @param textAnnotationAttachment the given elements that should be contained in actual Element's textAnnotationAttachment.
      * @return this assertion object.
      * @throws AssertionError if the actual Element's textAnnotationAttachment does not contain all given TextAnnotationAttachment elements.
@@ -104,6 +109,7 @@ public class ElementAssert extends AbstractAssert<ElementAssert, Element> {
 
     /**
      * Verifies that the actual Element has no textAnnotationAttachment.
+     * 
      * @return this assertion object.
      * @throws AssertionError if the actual Element's textAnnotationAttachment is not empty.
      */

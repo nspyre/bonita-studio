@@ -196,7 +196,8 @@ public class ManageOrganizationWizard extends Wizard {
         } else {
             if (MessageDialogWithToggle.NEVER.equals(pref) && activeOrganizationHasBeenModified) {
                 final String[] buttons = { IDialogConstants.YES_LABEL, IDialogConstants.NO_LABEL };
-                final MessageDialogWithToggle mdwt = new MessageDialogWithToggle(Display.getDefault().getActiveShell(), Messages.organizationHasBeenModifiedTitle,
+                final MessageDialogWithToggle mdwt = new MessageDialogWithToggle(Display.getDefault().getActiveShell(),
+                        Messages.organizationHasBeenModifiedTitle,
                         null, Messages.bind(Messages.organizationHasBeenModifiedMessage, activeOrganization.getName()), MessageDialog.WARNING, buttons, 0,
                         Messages.doNotDisplayAgain, false);
                 mdwt.setPrefStore(preferenceStore);
@@ -296,6 +297,5 @@ public class ManageOrganizationWizard extends Wizard {
         }
         return null;
     }
-
 
 }

@@ -1,19 +1,16 @@
 /**
  * Copyright (C) 2010 BonitaSoft S.A.
  * BonitaSoft, 31 rue Gustave Eiffel - 38000 Grenoble
- * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2.0 of the License, or
  * (at your option) any later version.
- *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
 /*******************************************************************************
@@ -22,14 +19,14 @@
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- * 
  * Contributors:
- *     IBM Corporation - initial API and implementation
- *     Sybase, Inc. - extended for DTP
+ * IBM Corporation - initial API and implementation
+ * Sybase, Inc. - extended for DTP
  *******************************************************************************/
 package org.bonitasoft.studio.common.jface;
+
 /*
- *  CustomSashForm
+ * CustomSashForm
  */
 
 import java.util.ArrayList;
@@ -62,11 +59,9 @@ import org.eclipse.swt.widgets.Sash;
 
 /**
  * A SashForm that allows hide/restore controls on sash.
- * 
  * It only works with one sash (two children). It doesn't make sense
  * for the arrows when there is more than one sash. Things get confusing for
  * a restore position.
- * 
  */
 public class BonitaSashForm extends SashForm {
 
@@ -78,71 +73,74 @@ public class BonitaSashForm extends SashForm {
      * previous weight). There won't be a hide to the top arrow.
      */
     public static final int
-    NO_HIDE_LEFT = 0x1,			// Custom style bit for not allow hide left
-    NO_HIDE_UP = NO_HIDE_LEFT,	// Custom style bit for not allow hide up
-    NO_HIDE_RIGHT = 0x2,			// Custom style bit for not allow hide right
-    NO_HIDE_DOWN = NO_HIDE_RIGHT;	// Custom style bit for not allow hide down
-
+            NO_HIDE_LEFT = 0x1, // Custom style bit for not allow hide left
+            NO_HIDE_UP = NO_HIDE_LEFT, // Custom style bit for not allow hide up
+            NO_HIDE_RIGHT = 0x2, // Custom style bit for not allow hide right
+            NO_HIDE_DOWN = NO_HIDE_RIGHT; // Custom style bit for not allow hide down
 
     protected static final int NO_WEIGHT = -1;
     private static final int NO_ARROW = -1;
+
     public class SashInfo {
+
         public Sash sash;
-        public boolean enabled;	// Whether this sashinfo is enabled (i.e. if there is more than one, this will be disabled).
-        public int restoreWeight = NO_WEIGHT;	// If slammed to an edge this is the restore weight. -1 means not slammed. This is the restoreWeight in the 2nd section form, i.e. weights[1].
-        public int cursorOver = NO_ARROW;	// Which arrow is cursor over,
-        public boolean sashBorderLeft;	// Draw sash border left/top
-        public boolean sashBorderRight;	// Draw sash border right/bottom
-        public int[][] sashLocs;	// There is one entry for each arrow, It is arrowType/arrowDrawn/x/y/height/width of the arrow area.
+        public boolean enabled; // Whether this sashinfo is enabled (i.e. if there is more than one, this will be disabled).
+        public int restoreWeight = NO_WEIGHT; // If slammed to an edge this is the restore weight. -1 means not slammed. This is the restoreWeight in the 2nd section form, i.e. weights[1].
+        public int cursorOver = NO_ARROW; // Which arrow is cursor over,
+        public boolean sashBorderLeft; // Draw sash border left/top
+        public boolean sashBorderRight; // Draw sash border right/bottom
+        public int[][] sashLocs; // There is one entry for each arrow, It is arrowType/arrowDrawn/x/y/height/width of the arrow area.
         // There may not be a second entry, in which case we have only one arrow.
-        public Point[] savedSizes = new Point[2];  // Saved sizes of controls - saved whenever a control is hidden or restored
+        public Point[] savedSizes = new Point[2]; // Saved sizes of controls - saved whenever a control is hidden or restored
+
         public SashInfo(Sash sash) {
             this.sash = sash;
         }
     };
 
-    public interface ICustomSashFormListener{
+    public interface ICustomSashFormListener {
+
         public void dividerMoved(int firstControlWeight, int secondControlWeight);
     }
 
-    protected SashInfo currentSashInfo = null;	// When the sash goes away, its entry is made null.
-    protected boolean inMouseClick = false;	// Because we can't stop drag even when we are in the arrow area, we need
+    protected SashInfo currentSashInfo = null; // When the sash goes away, its entry is made null.
+    protected boolean inMouseClick = false; // Because we can't stop drag even when we are in the arrow area, we need
     // to know that mouse down is in process so that when drag is completed, we
     // know not to recompute our position because a mouse up is about to happen
     // and we want the correct arrow handled correctly.
 
-    protected boolean sashBorders[];	// Whether corresponding control needs a sash border
+    protected boolean sashBorders[]; // Whether corresponding control needs a sash border
 
     protected boolean noHideUp, noHideDown;
     protected List<ICustomSashFormListener> customSashFormListeners = null;
 
     protected static final int
-    UP_RESTORE_ARROW = 0,
-    UP_HIDE_ARROW = 1,
-    DOWN_RESTORE_ARROW = 2,
-    DOWN_HIDE_ARROW = 3,
+            UP_RESTORE_ARROW = 0,
+            UP_HIDE_ARROW = 1,
+            DOWN_RESTORE_ARROW = 2,
+            DOWN_HIDE_ARROW = 3,
 
-    HIDE_ARROWS = 4;
+            HIDE_ARROWS = 4;
 
     protected static final int
-    ARROW_TYPE_INDEX = 0,
-    ARROW_DRAWN_INDEX = 1,
-    X_INDEX = 2,
-    Y_INDEX = 3,
-    WIDTH_INDEX = 4,
-    HEIGHT_INDEX = 5;
+            ARROW_TYPE_INDEX = 0,
+            ARROW_DRAWN_INDEX = 1,
+            X_INDEX = 2,
+            Y_INDEX = 3,
+            WIDTH_INDEX = 4,
+            HEIGHT_INDEX = 5;
 
     // These are for the up/down arrow. Just swap them for left/right arrow.
     protected static final int
-    ARROW_WIDTH = 8,
-    ARROW_HEIGHT = 8,
-    ARROW_MARGIN = 3;	// Margin on each side of arrow
+            ARROW_WIDTH = 8,
+            ARROW_HEIGHT = 8,
+            ARROW_MARGIN = 3; // Margin on each side of arrow
 
     protected Color arrowColor, borderColor;
 
-
     /**
      * Constructor for CustomSashForm.
+     * 
      * @param parent
      * @param style
      */
@@ -159,6 +157,7 @@ public class BonitaSashForm extends SashForm {
 
         // Need listener to force a layout
         addListener(SWT.Resize, new Listener() {
+
             @Override
             public void handleEvent(Event e) {
                 layout(true);
@@ -170,7 +169,7 @@ public class BonitaSashForm extends SashForm {
 
         if (noHideUp & noHideDown)
         {
-            return;	// If you can't hide up or down, there there is no need for arrows.
+            return; // If you can't hide up or down, there there is no need for arrows.
         }
 
         SASH_WIDTH = 3 + getOrientation() == SWT.VERTICAL ? ARROW_HEIGHT : ARROW_WIDTH;
@@ -179,6 +178,7 @@ public class BonitaSashForm extends SashForm {
         borderColor = new Color(parent.getDisplay(), 132, 130, 132);
 
         addDisposeListener(new DisposeListener() {
+
             /**
              * @see org.eclipse.swt.events.DisposeListener#widgetDisposed(DisposeEvent)
              */
@@ -194,38 +194,43 @@ public class BonitaSashForm extends SashForm {
 
     /**
      * Returns the <code>noHideUp</code> setting for vertical CustomSashForm.
+     * 
      * @return
      */
-    public boolean isNoHideUp(){
+    public boolean isNoHideUp() {
         return noHideUp;
     }
 
     /**
      * Returns the <code>noHideDown</code> setting for vertical CustomSashForm.
+     * 
      * @return
      */
-    public boolean isNoHideDown(){
+    public boolean isNoHideDown() {
         return noHideDown;
     }
 
     /**
      * Returns the <code>noHideLeft</code> setting for horizontal CustomSashForm.
+     * 
      * @return
      */
-    public boolean isNoHideLeft(){
+    public boolean isNoHideLeft() {
         return noHideUp;
     }
 
     /**
      * Returns the <code>noHideRight</code> setting for horizontal CustomSashForm.
+     * 
      * @return
      */
-    public boolean isNoHideRight(){
+    public boolean isNoHideRight() {
         return noHideDown;
     }
 
     /**
      * Sets the <code>noHideUp</code> setting for vertical CustomSashForm.
+     * 
      * @param bHide
      */
     public void setNoHideUp(boolean bHide) {
@@ -234,6 +239,7 @@ public class BonitaSashForm extends SashForm {
 
     /**
      * Sets the <code>noHideDown</code> setting for vertical CustomSashForm.
+     * 
      * @param bHide
      */
     public void setNoHideDown(boolean bHide) {
@@ -242,6 +248,7 @@ public class BonitaSashForm extends SashForm {
 
     /**
      * Sets the <code>noHideLeft</code> setting for horizontal CustomSashForm.
+     * 
      * @param bHide
      */
     public void setNoHideLeft(boolean bHide) {
@@ -250,6 +257,7 @@ public class BonitaSashForm extends SashForm {
 
     /**
      * Sets the <code>noHideRight</code> setting for horizontal CustomSashForm.
+     * 
      * @param bHide
      */
     public void setNoHideRight(boolean bHide) {
@@ -277,7 +285,6 @@ public class BonitaSashForm extends SashForm {
         hideUp();
     }
 
-
     /**
      * Call to set to hide down
      */
@@ -304,7 +311,7 @@ public class BonitaSashForm extends SashForm {
      * Set the need sash borders for the controls.
      */
     public void setSashBorders(boolean[] sashBorders) {
-        int[] weights = getWeights();	// KLUDGE This is a kludge just to see how many controls we have.
+        int[] weights = getWeights(); // KLUDGE This is a kludge just to see how many controls we have.
         if (weights.length != 2 || (sashBorders != null && sashBorders.length != 2)) {
             SWT.error(SWT.ERROR_INVALID_ARGUMENT);
         }
@@ -320,12 +327,12 @@ public class BonitaSashForm extends SashForm {
 
         if (noHideUp && noHideDown)
         {
-            return;	// No arrows to handle in this case.
+            return; // No arrows to handle in this case.
         }
 
         if (getMaximizedControl() != null)
         {
-            return;	// We have a maximized control, so we don't need to worry about the sash.
+            return; // We have a maximized control, so we don't need to worry about the sash.
         }
 
         // Let's get the list of all sashes the sash form now has. If there is more than one then just disable the sashinfo.
@@ -341,14 +348,14 @@ public class BonitaSashForm extends SashForm {
                     if (currentSashInfo != null) {
                         currentSashInfo.enabled = false;
                     }
-                    return;	// Don't go on.
+                    return; // Don't go on.
                 }
             }
         }
 
         if (newSash == null)
         {
-            return;	// We have no sashes at all.
+            return; // We have no sashes at all.
         }
 
         // Now we need to see if this is a new sash.
@@ -359,6 +366,7 @@ public class BonitaSashForm extends SashForm {
                 currentSashInfo.sash = newSash;
             }
             newSash.addPaintListener(new PaintListener() {
+
                 /**
                  * @see org.eclipse.swt.events.PaintListener#paintControl(PaintEvent)
                  */
@@ -369,10 +377,10 @@ public class BonitaSashForm extends SashForm {
                     Color oldFg = gc.getForeground();
                     Color oldBg = gc.getBackground();
 
-                    drawArrow(gc, currentSashInfo.sashLocs[0], currentSashInfo.cursorOver == 0);	// Draw first arrow
+                    drawArrow(gc, currentSashInfo.sashLocs[0], currentSashInfo.cursorOver == 0); // Draw first arrow
                     if (currentSashInfo.sashLocs.length > 1)
                     {
-                        drawArrow(gc, currentSashInfo.sashLocs[1], currentSashInfo.cursorOver == 1);	// Draw second arrow
+                        drawArrow(gc, currentSashInfo.sashLocs[1], currentSashInfo.cursorOver == 1); // Draw second arrow
                     }
 
                     if (currentSashInfo.sashBorderLeft) {
@@ -389,6 +397,7 @@ public class BonitaSashForm extends SashForm {
             });
 
             newSash.addControlListener(new ControlListener() {
+
                 /**
                  * @see org.eclipse.swt.events.ControlAdapter#controlMoved(ControlEvent)
                  */
@@ -407,22 +416,23 @@ public class BonitaSashForm extends SashForm {
 
                 }
 
-
             });
 
             newSash.addDisposeListener(new DisposeListener() {
+
                 /**
                  * @see org.eclipse.swt.events.DisposeListener#widgetDisposed(DisposeEvent)
                  */
                 @Override
                 public void widgetDisposed(DisposeEvent e) {
                     // Need to clear out the widget from current.
-                    currentSashInfo= null;
+                    currentSashInfo = null;
                 }
             });
 
             // This is a kludge because we can't override the set cursor hit test.
             newSash.addMouseMoveListener(new MouseMoveListener() {
+
                 /**
                  * @see org.eclipse.swt.events.MouseMoveListener#mouseMove(MouseEvent)
                  */
@@ -431,21 +441,20 @@ public class BonitaSashForm extends SashForm {
                     // See if within one of the arrows.
                     int x = e.x;
                     int y = e.y;
-                    for (int i=0; i<currentSashInfo.sashLocs.length; i++) {
+                    for (int i = 0; i < currentSashInfo.sashLocs.length; i++) {
                         int[] locs = currentSashInfo.sashLocs[i];
                         boolean vertical = getOrientation() == SWT.VERTICAL;
                         int loc = vertical ? x : y;
                         int locIndex = vertical ? X_INDEX : Y_INDEX;
                         int sizeIndex = vertical ? WIDTH_INDEX : HEIGHT_INDEX;
                         // Does the mouse position lie within the bounds of the arrow?
-                        if (locs[locIndex] <= loc && loc <= locs[locIndex]+locs[sizeIndex]) {
+                        if (locs[locIndex] <= loc && loc <= locs[locIndex] + locs[sizeIndex]) {
                             if (currentSashInfo.cursorOver == NO_ARROW) {
                                 currentSashInfo.sash.setCursor(Cursors.ARROW);
                             }
                             if (currentSashInfo.cursorOver != i) {
                                 currentSashInfo.cursorOver = i;
                                 currentSashInfo.sash.redraw();
-
 
                             }
                             return;
@@ -464,6 +473,7 @@ public class BonitaSashForm extends SashForm {
 
             // Need to know when we leave so that we can clear the cursor feedback if set.
             newSash.addMouseTrackListener(new MouseTrackAdapter() {
+
                 /**
                  * @see org.eclipse.swt.events.MouseTrackAdapter#mouseExit(MouseEvent)
                  */
@@ -481,6 +491,7 @@ public class BonitaSashForm extends SashForm {
 
             // Want to handle mouse down as a selection.
             newSash.addMouseListener(new MouseAdapter() {
+
                 /**
                  * @see org.eclipse.swt.events.MouseAdapter#mouseDown(MouseEvent)
                  */
@@ -490,13 +501,13 @@ public class BonitaSashForm extends SashForm {
                     // If we're within a button, then redraw to wipe out stipple and get button push effect.
                     int x = e.x;
                     int y = e.y;
-                    for (int i=0; i<currentSashInfo.sashLocs.length; i++) {
+                    for (int i = 0; i < currentSashInfo.sashLocs.length; i++) {
                         int[] locs = currentSashInfo.sashLocs[i];
                         boolean vertical = getOrientation() == SWT.VERTICAL;
                         int loc = vertical ? x : y;
                         int locIndex = vertical ? X_INDEX : Y_INDEX;
                         int sizeIndex = vertical ? WIDTH_INDEX : HEIGHT_INDEX;
-                        if (locs[locIndex] <= loc && loc <= locs[locIndex]+locs[sizeIndex]) {
+                        if (locs[locIndex] <= loc && loc <= locs[locIndex] + locs[sizeIndex]) {
                             currentSashInfo.sash.redraw();
                             break;
                         }
@@ -509,18 +520,18 @@ public class BonitaSashForm extends SashForm {
                 @Override
                 public void mouseUp(MouseEvent e) {
                     // See if within one of the arrows.
-                    inMouseClick = false;	// No longer in down click
+                    inMouseClick = false; // No longer in down click
                     int x = e.x;
                     int y = e.y;
-                    boolean skipRefresh = false ;
-                    for (int i=0; i<currentSashInfo.sashLocs.length; i++) {
+                    boolean skipRefresh = false;
+                    for (int i = 0; i < currentSashInfo.sashLocs.length; i++) {
                         int[] locs = currentSashInfo.sashLocs[i];
                         boolean vertical = getOrientation() == SWT.VERTICAL;
                         int loc = vertical ? x : y;
                         int locIndex = vertical ? X_INDEX : Y_INDEX;
                         int sizeIndex = vertical ? WIDTH_INDEX : HEIGHT_INDEX;
                         // Does the mouse position lie within the bounds of the arrow?
-                        if (locs[locIndex] <= loc && loc <= locs[locIndex]+locs[sizeIndex]) {
+                        if (locs[locIndex] <= loc && loc <= locs[locIndex] + locs[sizeIndex]) {
                             // We found it.
                             switch (locs[ARROW_TYPE_INDEX]) {
                                 case UP_RESTORE_ARROW:
@@ -544,19 +555,18 @@ public class BonitaSashForm extends SashForm {
                         }
                     }
 
-                    currentSashInfo.sash.redraw();	// Make sure stipple goes away from the mouse up if not over an arrow button.
+                    currentSashInfo.sash.redraw(); // Make sure stipple goes away from the mouse up if not over an arrow button.
 
-                    if(!skipRefresh){
+                    if (!skipRefresh) {
                         fireDividerMoved();
                     }
                 }
 
             });
-            recomputeSashInfo();	// Get initial setting
+            recomputeSashInfo(); // Get initial setting
         }
 
     }
-
 
     /*
      * Constants for recording whether the sash is slammed to the top/bottom or not slammed
@@ -566,8 +576,8 @@ public class BonitaSashForm extends SashForm {
     private final static int SLAMMED_TO_TOP = 3;
 
     public void recomputeSashInfo() {
-        if ( currentSashInfo ==null || inMouseClick &&  currentSashInfo.cursorOver != NO_ARROW ){
-            return;	// Don't process because we are in the down mouse button on an arrow.
+        if (currentSashInfo == null || inMouseClick && currentSashInfo.cursorOver != NO_ARROW) {
+            return; // Don't process because we are in the down mouse button on an arrow.
         }
 
         // addArrows are the types of the arrows - hide/restore/up/down and
@@ -578,7 +588,7 @@ public class BonitaSashForm extends SashForm {
         int[] drawArrows = null;
 
         // We need to refigure size for the sash arrows.
-        int[] weights = getWeights();	// This should be two entries only. We shouldn't have got here if there were more than two.
+        int[] weights = getWeights(); // This should be two entries only. We shouldn't have got here if there were more than two.
 
         // TODO: Use of DRAG_MINIMUM is a kludge, required because SashForm only allows you to close each part so far
         final int DRAG_MINIMUM = 35; // TODO: kludge see SashForm.DRAG_MINIMUM
@@ -590,25 +600,25 @@ public class BonitaSashForm extends SashForm {
         // Work out whether the sash is slammed to the top / bottom or not slammed
         //
         int slammed = NOT_SLAMMED;
-        if (weights[1] == 0){
+        if (weights[1] == 0) {
             slammed = SLAMMED_TO_BOTTOM;
         }
-        else if (weights[0] == 0){
+        else if (weights[0] == 0) {
             slammed = SLAMMED_TO_TOP;
         }
-        else if (vertical){
-            if (currentSashInfo.restoreWeight != NO_WEIGHT && sashBounds.y <= DRAG_MINIMUM){
+        else if (vertical) {
+            if (currentSashInfo.restoreWeight != NO_WEIGHT && sashBounds.y <= DRAG_MINIMUM) {
                 slammed = SLAMMED_TO_TOP;
             }
-            else if (currentSashInfo.restoreWeight != NO_WEIGHT && sashBounds.y+sashBounds.height >= clientArea.height-DRAG_MINIMUM){
+            else if (currentSashInfo.restoreWeight != NO_WEIGHT && sashBounds.y + sashBounds.height >= clientArea.height - DRAG_MINIMUM) {
                 slammed = SLAMMED_TO_BOTTOM;
             }
         }
-        else if (!vertical){
-            if (currentSashInfo.restoreWeight != NO_WEIGHT && sashBounds.x <= DRAG_MINIMUM){
+        else if (!vertical) {
+            if (currentSashInfo.restoreWeight != NO_WEIGHT && sashBounds.x <= DRAG_MINIMUM) {
                 slammed = SLAMMED_TO_TOP;
             }
-            else if (currentSashInfo.restoreWeight != NO_WEIGHT && sashBounds.x+sashBounds.width >= clientArea.width-DRAG_MINIMUM){
+            else if (currentSashInfo.restoreWeight != NO_WEIGHT && sashBounds.x + sashBounds.width >= clientArea.width - DRAG_MINIMUM) {
                 slammed = SLAMMED_TO_BOTTOM;
             }
         }
@@ -632,7 +642,7 @@ public class BonitaSashForm extends SashForm {
 
                 addArrows[0] = DOWN_HIDE_ARROW;
                 drawArrows[0] = DOWN_RESTORE_ARROW;
-                currentSashInfo.restoreWeight = NO_WEIGHT;	// Since we are in the middle, there is no restoreWeight. We've could of been dragged here.
+                currentSashInfo.restoreWeight = NO_WEIGHT; // Since we are in the middle, there is no restoreWeight. We've could of been dragged here.
                 currentSashInfo.sashBorderLeft = sashBorders != null ? sashBorders[0] : false;
                 currentSashInfo.sashBorderRight = sashBorders != null ? sashBorders[1] : false;
             }
@@ -652,7 +662,7 @@ public class BonitaSashForm extends SashForm {
 
                 addArrows[0] = UP_HIDE_ARROW;
                 drawArrows[0] = UP_RESTORE_ARROW;
-                currentSashInfo.restoreWeight = NO_WEIGHT;	// Since we are in the middle, there is no restoreWeight. We've could of been dragged here.
+                currentSashInfo.restoreWeight = NO_WEIGHT; // Since we are in the middle, there is no restoreWeight. We've could of been dragged here.
                 currentSashInfo.sashBorderLeft = sashBorders != null ? sashBorders[0] : false;
                 currentSashInfo.sashBorderRight = sashBorders != null ? sashBorders[1] : false;
             }
@@ -682,21 +692,21 @@ public class BonitaSashForm extends SashForm {
                 drawArrows[0] = UP_RESTORE_ARROW;
                 addArrows[1] = DOWN_HIDE_ARROW;
                 drawArrows[1] = DOWN_RESTORE_ARROW;
-                currentSashInfo.restoreWeight = NO_WEIGHT;	// Since we are in the middle, there is no restoreWeight. We've could of been dragged here.
+                currentSashInfo.restoreWeight = NO_WEIGHT; // Since we are in the middle, there is no restoreWeight. We've could of been dragged here.
                 currentSashInfo.sashBorderLeft = sashBorders != null ? sashBorders[0] : false;
                 currentSashInfo.sashBorderRight = sashBorders != null ? sashBorders[1] : false;
             }
         }
         getNewSashArray(currentSashInfo, addArrows, drawArrows);
 
-        currentSashInfo.sash.redraw();	// Need to schedule a redraw because it has already drawn the old ones during the set bounds in super layout.
+        currentSashInfo.sash.redraw(); // Need to schedule a redraw because it has already drawn the old ones during the set bounds in super layout.
     }
 
     protected void upRestoreClicked(SashInfo sashinfo) {
         // This means restore just the sash below restoreWeight and reduce the above restoreWeight by the right amount.
         int[] weights = getWeights();
 
-        weights[0] = 1000-sashinfo.restoreWeight;	// Assume weights are always in units of 1000.
+        weights[0] = 1000 - sashinfo.restoreWeight; // Assume weights are always in units of 1000.
         weights[1] = sashinfo.restoreWeight;
         sashinfo.restoreWeight = NO_WEIGHT;
 
@@ -708,8 +718,8 @@ public class BonitaSashForm extends SashForm {
         int[] weights = getWeights();
 
         // Up hide, so save the current restoreWeight of 1 into the sash info, and move to the top.
-        if (currentSashInfo.restoreWeight == NO_WEIGHT){
-            currentSashInfo.restoreWeight = weights[1];	// Not currently maxed, save position.
+        if (currentSashInfo.restoreWeight == NO_WEIGHT) {
+            currentSashInfo.restoreWeight = weights[1]; // Not currently maxed, save position.
 
             saveChildControlSizes();
         }
@@ -730,7 +740,7 @@ public class BonitaSashForm extends SashForm {
         // This means restore just the sash below restoreWeight and increase the above restoreWeight by that amount.
         int[] weights = getWeights();
 
-        weights[0] = 1000-sashinfo.restoreWeight;	// Assume weights are always in units of 1000.
+        weights[0] = 1000 - sashinfo.restoreWeight; // Assume weights are always in units of 1000.
         weights[1] = sashinfo.restoreWeight;
         sashinfo.restoreWeight = NO_WEIGHT;
 
@@ -743,7 +753,7 @@ public class BonitaSashForm extends SashForm {
 
         // Down hide, so save the current restoreWeight of 1 into the sash info, and move to the bottom.
         if (currentSashInfo.restoreWeight == NO_WEIGHT) {
-            currentSashInfo.restoreWeight = weights[1];	// Not currently maxed, save current restoreWeight.
+            currentSashInfo.restoreWeight = weights[1]; // Not currently maxed, save current restoreWeight.
             saveChildControlSizes();
         }
         weights[0] = 1000;
@@ -764,11 +774,11 @@ public class BonitaSashForm extends SashForm {
      */
     protected void saveChildControlSizes() {
         // Save control sizes
-        Control [] children = getChildren();
+        Control[] children = getChildren();
         int iChildToSave = 0;
-        for (int i = 0; i < children.length && iChildToSave < 2; i++){
+        for (int i = 0; i < children.length && iChildToSave < 2; i++) {
             Control child = children[i];
-            if (! (child instanceof Sash)){
+            if (!(child instanceof Sash)) {
                 currentSashInfo.savedSizes[iChildToSave] = child.getSize();
                 iChildToSave++;
             }
@@ -779,11 +789,11 @@ public class BonitaSashForm extends SashForm {
      * This determines if the control or one of its children
      * has the focus. Control.isFocusAncestor is hidden by SWT, but it is really useful.
      */
-    protected boolean isFocusAncestorA (Control control) {
-        Display display = getDisplay ();
-        Control focusControl = display.getFocusControl ();
+    protected boolean isFocusAncestorA(Control control) {
+        Display display = getDisplay();
+        Control focusControl = display.getFocusControl();
         while (focusControl != null && focusControl != control) {
-            focusControl = focusControl. getParent();
+            focusControl = focusControl.getParent();
         }
         return control == focusControl;
     }
@@ -795,9 +805,9 @@ public class BonitaSashForm extends SashForm {
         sashInfo.sashLocs = new int[addArrowTypes.length][];
         int[][] thisSash = sashInfo.sashLocs;
 
-        int aSize = ARROW_WIDTH;	// Width of arrow
-        int tSize = aSize+2*ARROW_MARGIN;		// Total Width (arrow + margin)
-        int neededSize = tSize*addArrowTypes.length;
+        int aSize = ARROW_WIDTH; // Width of arrow
+        int tSize = aSize + 2 * ARROW_MARGIN; // Total Width (arrow + margin)
+        int neededSize = tSize * addArrowTypes.length;
 
         boolean vertical = getOrientation() == SWT.VERTICAL;
         Point s = sashInfo.sash.getSize();
@@ -809,19 +819,19 @@ public class BonitaSashForm extends SashForm {
         if (vertical) {
             start = (s.x - neededSize) / 2;
             x = start;
-            y = (s.y - ARROW_HEIGHT) / 2;	// Center vertically, no margin required.
+            y = (s.y - ARROW_HEIGHT) / 2; // Center vertically, no margin required.
             width = tSize;
             height = aSize;
         } else {
             start = (s.y - neededSize) / 2;
             y = start;
-            x = (s.x - ARROW_HEIGHT) / 2;	// Center horizontally, no margin required.
+            x = (s.x - ARROW_HEIGHT) / 2; // Center horizontally, no margin required.
             width = aSize;
             height = tSize;
         }
-        for (int j=0; j<addArrowTypes.length; j++) {
+        for (int j = 0; j < addArrowTypes.length; j++) {
             if (thisSash[j] == null) {
-                thisSash[j] = new int[] {addArrowTypes[j], drawArrowTypes[j], x, y, width, height};
+                thisSash[j] = new int[] { addArrowTypes[j], drawArrowTypes[j], x, y, width, height };
             } else {
                 // Reuse the array
                 thisSash[j][ARROW_TYPE_INDEX] = addArrowTypes[j];
@@ -832,9 +842,9 @@ public class BonitaSashForm extends SashForm {
                 thisSash[j][HEIGHT_INDEX] = height;
             }
             if (vertical) {
-                x+=tSize;
+                x += tSize;
             } else {
-                y+=tSize;
+                y += tSize;
             }
         }
     }
@@ -844,16 +854,16 @@ public class BonitaSashForm extends SashForm {
         if (getOrientation() == SWT.VERTICAL) {
             Point s = sash.getSize();
             if (leftBorder) {
-                gc.drawLine(0, 0, s.x-1, 0);
+                gc.drawLine(0, 0, s.x - 1, 0);
             } else {
-                gc.drawLine(0, s.y-1, s.x-1, s.y-1);
+                gc.drawLine(0, s.y - 1, s.x - 1, s.y - 1);
             }
         } else {
             Point s = sash.getSize();
             if (leftBorder) {
-                gc.drawLine(0, 0, 0, s.y-1);
+                gc.drawLine(0, 0, 0, s.y - 1);
             } else {
-                gc.drawLine(s.x-1, 0, s.x-1, s.y-1);
+                gc.drawLine(s.x - 1, 0, s.x - 1, s.y - 1);
             }
         }
     }
@@ -866,54 +876,58 @@ public class BonitaSashForm extends SashForm {
                 Color highlightShadow = getDisplay().getSystemColor(SWT.COLOR_WIDGET_HIGHLIGHT_SHADOW);
                 Color normalShadow = getDisplay().getSystemColor(SWT.COLOR_WIDGET_NORMAL_SHADOW);
                 gc.setForeground(highlightShadow);
-                gc.drawLine(sashLoc[X_INDEX], sashLoc[Y_INDEX]+sashLoc[HEIGHT_INDEX], sashLoc[X_INDEX], sashLoc[Y_INDEX]);
-                gc.drawLine(sashLoc[X_INDEX], sashLoc[Y_INDEX], sashLoc[X_INDEX]+sashLoc[WIDTH_INDEX], sashLoc[Y_INDEX]);
+                gc.drawLine(sashLoc[X_INDEX], sashLoc[Y_INDEX] + sashLoc[HEIGHT_INDEX], sashLoc[X_INDEX], sashLoc[Y_INDEX]);
+                gc.drawLine(sashLoc[X_INDEX], sashLoc[Y_INDEX], sashLoc[X_INDEX] + sashLoc[WIDTH_INDEX], sashLoc[Y_INDEX]);
 
                 gc.setForeground(normalShadow);
-                gc.drawLine(sashLoc[X_INDEX], sashLoc[Y_INDEX]+sashLoc[HEIGHT_INDEX], sashLoc[X_INDEX]+sashLoc[WIDTH_INDEX], sashLoc[Y_INDEX]+sashLoc[HEIGHT_INDEX]);
-                gc.drawLine(sashLoc[X_INDEX]+sashLoc[WIDTH_INDEX], sashLoc[Y_INDEX]+sashLoc[HEIGHT_INDEX], sashLoc[X_INDEX]+sashLoc[WIDTH_INDEX], sashLoc[Y_INDEX]);
+                gc.drawLine(sashLoc[X_INDEX], sashLoc[Y_INDEX] + sashLoc[HEIGHT_INDEX], sashLoc[X_INDEX] + sashLoc[WIDTH_INDEX], sashLoc[Y_INDEX]
+                        + sashLoc[HEIGHT_INDEX]);
+                gc.drawLine(sashLoc[X_INDEX] + sashLoc[WIDTH_INDEX], sashLoc[Y_INDEX] + sashLoc[HEIGHT_INDEX], sashLoc[X_INDEX] + sashLoc[WIDTH_INDEX],
+                        sashLoc[Y_INDEX]);
             } else {
                 // Draw pushed selection box.
                 indent = 1;
                 Color highlightShadow = getDisplay().getSystemColor(SWT.COLOR_WIDGET_HIGHLIGHT_SHADOW);
                 Color normalShadow = getDisplay().getSystemColor(SWT.COLOR_WIDGET_NORMAL_SHADOW);
                 gc.setForeground(normalShadow);
-                gc.drawLine(sashLoc[X_INDEX], sashLoc[Y_INDEX]+sashLoc[HEIGHT_INDEX], sashLoc[X_INDEX], sashLoc[Y_INDEX]);
-                gc.drawLine(sashLoc[X_INDEX], sashLoc[Y_INDEX], sashLoc[X_INDEX]+sashLoc[WIDTH_INDEX], sashLoc[Y_INDEX]);
+                gc.drawLine(sashLoc[X_INDEX], sashLoc[Y_INDEX] + sashLoc[HEIGHT_INDEX], sashLoc[X_INDEX], sashLoc[Y_INDEX]);
+                gc.drawLine(sashLoc[X_INDEX], sashLoc[Y_INDEX], sashLoc[X_INDEX] + sashLoc[WIDTH_INDEX], sashLoc[Y_INDEX]);
 
                 gc.setForeground(highlightShadow);
-                gc.drawLine(sashLoc[X_INDEX], sashLoc[Y_INDEX]+sashLoc[HEIGHT_INDEX], sashLoc[X_INDEX]+sashLoc[WIDTH_INDEX], sashLoc[Y_INDEX]+sashLoc[HEIGHT_INDEX]);
-                gc.drawLine(sashLoc[X_INDEX]+sashLoc[WIDTH_INDEX], sashLoc[Y_INDEX]+sashLoc[HEIGHT_INDEX], sashLoc[X_INDEX]+sashLoc[WIDTH_INDEX], sashLoc[Y_INDEX]);
+                gc.drawLine(sashLoc[X_INDEX], sashLoc[Y_INDEX] + sashLoc[HEIGHT_INDEX], sashLoc[X_INDEX] + sashLoc[WIDTH_INDEX], sashLoc[Y_INDEX]
+                        + sashLoc[HEIGHT_INDEX]);
+                gc.drawLine(sashLoc[X_INDEX] + sashLoc[WIDTH_INDEX], sashLoc[Y_INDEX] + sashLoc[HEIGHT_INDEX], sashLoc[X_INDEX] + sashLoc[WIDTH_INDEX],
+                        sashLoc[Y_INDEX]);
             }
         }
         if (getOrientation() == SWT.VERTICAL) {
             switch (sashLoc[ARROW_DRAWN_INDEX]) {
                 case UP_RESTORE_ARROW:
-                    drawUpRestoreArrow(gc, sashLoc[X_INDEX]+indent, sashLoc[Y_INDEX]+indent);
+                    drawUpRestoreArrow(gc, sashLoc[X_INDEX] + indent, sashLoc[Y_INDEX] + indent);
                     break;
                 case DOWN_RESTORE_ARROW:
-                    drawDownRestoreArrow(gc, sashLoc[X_INDEX]+indent, sashLoc[Y_INDEX]+indent);
+                    drawDownRestoreArrow(gc, sashLoc[X_INDEX] + indent, sashLoc[Y_INDEX] + indent);
                     break;
                 case UP_HIDE_ARROW:
-                    drawUpHideArrow(gc, sashLoc[X_INDEX]+indent, sashLoc[Y_INDEX]+indent);
+                    drawUpHideArrow(gc, sashLoc[X_INDEX] + indent, sashLoc[Y_INDEX] + indent);
                     break;
                 case DOWN_HIDE_ARROW:
-                    drawDownHideArrow(gc, sashLoc[X_INDEX]+indent, sashLoc[Y_INDEX]+indent);
+                    drawDownHideArrow(gc, sashLoc[X_INDEX] + indent, sashLoc[Y_INDEX] + indent);
                     break;
             }
         } else {
             switch (sashLoc[ARROW_DRAWN_INDEX]) {
                 case UP_RESTORE_ARROW:
-                    drawLeftRestoreArrow(gc, sashLoc[X_INDEX]+indent, sashLoc[Y_INDEX]+indent);
+                    drawLeftRestoreArrow(gc, sashLoc[X_INDEX] + indent, sashLoc[Y_INDEX] + indent);
                     break;
                 case DOWN_RESTORE_ARROW:
-                    drawRightRestoreArrow(gc, sashLoc[X_INDEX]+indent, sashLoc[Y_INDEX]+indent);
+                    drawRightRestoreArrow(gc, sashLoc[X_INDEX] + indent, sashLoc[Y_INDEX] + indent);
                     break;
                 case UP_HIDE_ARROW:
-                    drawLeftHideArrow(gc, sashLoc[X_INDEX]+indent, sashLoc[Y_INDEX]+indent);
+                    drawLeftHideArrow(gc, sashLoc[X_INDEX] + indent, sashLoc[Y_INDEX] + indent);
                     break;
                 case DOWN_HIDE_ARROW:
-                    drawRightHideArrow(gc, sashLoc[X_INDEX]+indent, sashLoc[Y_INDEX]+indent);
+                    drawRightHideArrow(gc, sashLoc[X_INDEX] + indent, sashLoc[Y_INDEX] + indent);
                     break;
             }
         }
@@ -923,147 +937,145 @@ public class BonitaSashForm extends SashForm {
     protected void drawUpRestoreArrow(GC gc, int x, int y) {
         gc.setForeground(arrowColor);
 
-        x+=ARROW_MARGIN;
-        gc.drawLine(x+4, y+2, x+7, y+5);
-        gc.drawLine(x+3, y+2, x+3, y+2);
+        x += ARROW_MARGIN;
+        gc.drawLine(x + 4, y + 2, x + 7, y + 5);
+        gc.drawLine(x + 3, y + 2, x + 3, y + 2);
 
-        gc.drawLine(x+2, y+3, x+4, y+3);
-        gc.drawLine(x+1, y+4, x+5, y+4);
-        gc.drawLine(x,   y+5, x+6, y+5);
+        gc.drawLine(x + 2, y + 3, x + 4, y + 3);
+        gc.drawLine(x + 1, y + 4, x + 5, y + 4);
+        gc.drawLine(x, y + 5, x + 6, y + 5);
     }
 
     // Draw at the given x/y (upper left corner of arrow area).
     protected void drawUpHideArrow(GC gc, int x, int y) {
         gc.setForeground(arrowColor);
 
-        x+=ARROW_MARGIN;
-        gc.drawLine(x,   y,   x+7, y);
-        gc.drawLine(x,   y+1, x+7, y+1);
+        x += ARROW_MARGIN;
+        gc.drawLine(x, y, x + 7, y);
+        gc.drawLine(x, y + 1, x + 7, y + 1);
 
-        gc.drawLine(x+4, y+2, x+7, y+5);
-        gc.drawLine(x+3, y+2, x+3, y+2);
+        gc.drawLine(x + 4, y + 2, x + 7, y + 5);
+        gc.drawLine(x + 3, y + 2, x + 3, y + 2);
 
-        gc.drawLine(x+2, y+3, x+4, y+3);
-        gc.drawLine(x+1, y+4, x+5, y+4);
-        gc.drawLine(x,   y+5, x+6, y+5);
+        gc.drawLine(x + 2, y + 3, x + 4, y + 3);
+        gc.drawLine(x + 1, y + 4, x + 5, y + 4);
+        gc.drawLine(x, y + 5, x + 6, y + 5);
     }
 
     // Draw at the given x/y (upper left corner of arrow area).
     protected void drawDownRestoreArrow(GC gc, int x, int y) {
         gc.setForeground(arrowColor);
 
-        x+=ARROW_MARGIN;
-        gc.drawLine(x,   y+2, x+3, y+5);
-        gc.drawLine(x+4, y+5, x+4, y+5);
+        x += ARROW_MARGIN;
+        gc.drawLine(x, y + 2, x + 3, y + 5);
+        gc.drawLine(x + 4, y + 5, x + 4, y + 5);
 
-        gc.drawLine(x+3, y+4, x+5, y+4);
-        gc.drawLine(x+1, y+3, x+6, y+3);
-        gc.drawLine(x+1, y+2, x+7, y+2);
+        gc.drawLine(x + 3, y + 4, x + 5, y + 4);
+        gc.drawLine(x + 1, y + 3, x + 6, y + 3);
+        gc.drawLine(x + 1, y + 2, x + 7, y + 2);
     }
 
     // Draw at the given x/y (upper left corner of arrow area).
     protected void drawDownHideArrow(GC gc, int x, int y) {
         gc.setForeground(arrowColor);
 
-        x+=ARROW_MARGIN;
-        gc.drawLine(x,   y+6, x+7, y+6);
-        gc.drawLine(x,   y+7, x+7, y+7);
+        x += ARROW_MARGIN;
+        gc.drawLine(x, y + 6, x + 7, y + 6);
+        gc.drawLine(x, y + 7, x + 7, y + 7);
 
-        gc.drawLine(x,   y+2, x+3, y+5);
-        gc.drawLine(x+4, y+5, x+4, y+5);
+        gc.drawLine(x, y + 2, x + 3, y + 5);
+        gc.drawLine(x + 4, y + 5, x + 4, y + 5);
 
-        gc.drawLine(x+3, y+4, x+5, y+4);
-        gc.drawLine(x+1, y+3, x+6, y+3);
-        gc.drawLine(x+1, y+2, x+7, y+2);
+        gc.drawLine(x + 3, y + 4, x + 5, y + 4);
+        gc.drawLine(x + 1, y + 3, x + 6, y + 3);
+        gc.drawLine(x + 1, y + 2, x + 7, y + 2);
     }
 
     // Draw at the given x/y (upper left corner of arrow area).
     protected void drawLeftRestoreArrow(GC gc, int x, int y) {
         gc.setForeground(arrowColor);
 
-        y+=ARROW_MARGIN;
-        gc.drawLine(x+2, y+4, x+5, y+7);
-        gc.drawLine(x+2, y+3, x+2, y+3);
+        y += ARROW_MARGIN;
+        gc.drawLine(x + 2, y + 4, x + 5, y + 7);
+        gc.drawLine(x + 2, y + 3, x + 2, y + 3);
 
-        gc.drawLine(x+3, y+2, x+3, y+4);
-        gc.drawLine(x+4, y+1, x+4, y+5);
-        gc.drawLine(x+5, y,   x+5, y+6);
+        gc.drawLine(x + 3, y + 2, x + 3, y + 4);
+        gc.drawLine(x + 4, y + 1, x + 4, y + 5);
+        gc.drawLine(x + 5, y, x + 5, y + 6);
     }
 
     // Draw at the given x/y (upper left corner of arrow area).
     protected void drawLeftHideArrow(GC gc, int x, int y) {
         gc.setForeground(arrowColor);
 
-        y+=ARROW_MARGIN;
-        gc.drawLine(x,   y, x,   y+7);
-        gc.drawLine(x+1, y, x+1, y+7);
+        y += ARROW_MARGIN;
+        gc.drawLine(x, y, x, y + 7);
+        gc.drawLine(x + 1, y, x + 1, y + 7);
 
-        gc.drawLine(x+2, y+4, x+5, y+7);
-        gc.drawLine(x+2, y+3, x+2, y+3);
+        gc.drawLine(x + 2, y + 4, x + 5, y + 7);
+        gc.drawLine(x + 2, y + 3, x + 2, y + 3);
 
-        gc.drawLine(x+3, y+2, x+3, y+4);
-        gc.drawLine(x+4, y+1, x+4, y+5);
-        gc.drawLine(x+5, y,   x+5, y+6);
+        gc.drawLine(x + 3, y + 2, x + 3, y + 4);
+        gc.drawLine(x + 4, y + 1, x + 4, y + 5);
+        gc.drawLine(x + 5, y, x + 5, y + 6);
     }
 
     // Draw at the given x/y (upper left corner of arrow area).
     protected void drawRightRestoreArrow(GC gc, int x, int y) {
         gc.setForeground(arrowColor);
 
-        y+=ARROW_MARGIN;
-        gc.drawLine(x+2, y,   x+5, y+3);
-        gc.drawLine(x+5, y+4, x+5, y+4);
+        y += ARROW_MARGIN;
+        gc.drawLine(x + 2, y, x + 5, y + 3);
+        gc.drawLine(x + 5, y + 4, x + 5, y + 4);
 
-        gc.drawLine(x+4, y+3, x+4, y+5);
-        gc.drawLine(x+3, y+1, x+3, y+6);
-        gc.drawLine(x+2, y+1, x+2, y+7);
+        gc.drawLine(x + 4, y + 3, x + 4, y + 5);
+        gc.drawLine(x + 3, y + 1, x + 3, y + 6);
+        gc.drawLine(x + 2, y + 1, x + 2, y + 7);
     }
 
     // Draw at the given x/y (upper left corner of arrow area).
     protected void drawRightHideArrow(GC gc, int x, int y) {
         gc.setForeground(arrowColor);
 
-        y+=ARROW_MARGIN;
-        gc.drawLine(x+6, y,   x+6, y+7);
-        gc.drawLine(x+7, y,   x+7, y+7);
+        y += ARROW_MARGIN;
+        gc.drawLine(x + 6, y, x + 6, y + 7);
+        gc.drawLine(x + 7, y, x + 7, y + 7);
 
-        gc.drawLine(x+2, y,   x+5, y+3);
-        gc.drawLine(x+5, y+4, x+5, y+4);
+        gc.drawLine(x + 2, y, x + 5, y + 3);
+        gc.drawLine(x + 5, y + 4, x + 5, y + 4);
 
-        gc.drawLine(x+4, y+3, x+4, y+5);
-        gc.drawLine(x+3, y+1, x+3, y+6);
-        gc.drawLine(x+2, y+1, x+2, y+7);
+        gc.drawLine(x + 4, y + 3, x + 4, y + 5);
+        gc.drawLine(x + 3, y + 1, x + 3, y + 6);
+        gc.drawLine(x + 2, y + 1, x + 2, y + 7);
     }
 
-
     public int getRestoreWeight() {
-        if (currentSashInfo!=null) {
+        if (currentSashInfo != null) {
             return currentSashInfo.restoreWeight;
         } else {
             return -1;
         }
     }
 
-
     protected Sash getSash() {
         Control[] kids = getChildren();
         for (int i = 0; i < kids.length; i++) {
             if (kids[i] instanceof Sash) {
-                return (Sash)kids[i];
+                return (Sash) kids[i];
             }
         }
         return null;
     }
 
     public void setRestoreWeight(int weight) {
-        if (weight>=0 && currentSashInfo!=null) {
+        if (weight >= 0 && currentSashInfo != null) {
             //recomputeSashInfo();
-            currentSashInfo.restoreWeight=weight;
+            currentSashInfo.restoreWeight = weight;
         }
     }
 
-    public Point[] getSavedSizes(){
-        if (currentSashInfo!=null){
+    public Point[] getSavedSizes() {
+        if (currentSashInfo != null) {
             return currentSashInfo.savedSizes;
         }
         else {
@@ -1076,11 +1088,10 @@ public class BonitaSashForm extends SashForm {
      * this control is disposed.
      * 
      * @param listener
-     * 
      * @since 1.2.0
      */
-    public void addCustomSashFormListener(ICustomSashFormListener listener){
-        if(customSashFormListeners==null) {
+    public void addCustomSashFormListener(ICustomSashFormListener listener) {
+        if (customSashFormListeners == null) {
             customSashFormListeners = new ArrayList<ICustomSashFormListener>();
         }
         customSashFormListeners.add(listener);
@@ -1090,19 +1101,18 @@ public class BonitaSashForm extends SashForm {
      * Removes the custom sashform listener.
      * 
      * @param listener
-     * 
      * @since 1.2.0
      */
-    public void removeCustomSashFormListener(ICustomSashFormListener listener){
-        if(customSashFormListeners!=null){
+    public void removeCustomSashFormListener(ICustomSashFormListener listener) {
+        if (customSashFormListeners != null) {
             customSashFormListeners.remove(listener);
         }
     }
 
-    protected void fireDividerMoved(){
-        if(customSashFormListeners!=null && customSashFormListeners.size()>0){
+    protected void fireDividerMoved() {
+        if (customSashFormListeners != null && customSashFormListeners.size() > 0) {
             int[] weights = getWeights();
-            if(weights!=null && weights.length==2){
+            if (weights != null && weights.length == 2) {
                 int firstControlWeight = weights[0];
                 int secondControlWeight = weights[1];
                 for (Iterator<ICustomSashFormListener> listenerItr = customSashFormListeners.iterator(); listenerItr.hasNext();) {
@@ -1113,8 +1123,8 @@ public class BonitaSashForm extends SashForm {
         }
     }
 
-    public void fireDividerMoved(int firstControlWeight,int secondControlWeight){
-        if(customSashFormListeners!=null && customSashFormListeners.size()>0){
+    public void fireDividerMoved(int firstControlWeight, int secondControlWeight) {
+        if (customSashFormListeners != null && customSashFormListeners.size() > 0) {
 
             for (Iterator<ICustomSashFormListener> listenerItr = customSashFormListeners.iterator(); listenerItr.hasNext();) {
                 ICustomSashFormListener listener = listenerItr.next();

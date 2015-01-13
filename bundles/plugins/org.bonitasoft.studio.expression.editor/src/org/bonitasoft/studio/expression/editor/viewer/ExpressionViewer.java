@@ -1121,7 +1121,7 @@ public class ExpressionViewer extends ContentViewer implements ExpressionConstan
                 messages.remove(IStatus.ERROR);
                 messages.remove(IStatus.WARNING);
             }
-            if(message != null && message.isEmpty()){
+            if (message != null && message.isEmpty()) {
                 message = null;
             }
             messages.put(messageKind, message);
@@ -1139,7 +1139,6 @@ public class ExpressionViewer extends ContentViewer implements ExpressionConstan
         }
         refresh();
     }
-
 
     @Override
     protected void handleDispose(final DisposeEvent event) {
@@ -1219,7 +1218,7 @@ public class ExpressionViewer extends ContentViewer implements ExpressionConstan
         expressionViewerValidator.setContext(context);
         expressionViewerValidator.setExpression(getSelectedExpression());
         expressionViewerValidator.addValidationsStatusChangedListener(this);
-        for(final IExpressionValidationListener l : validationListeners){
+        for (final IExpressionValidationListener l : validationListeners) {
             expressionViewerValidator.addValidationsStatusChangedListener(l);
         }
         final Expression selectedExpression = getSelectedExpression();
@@ -1228,7 +1227,6 @@ public class ExpressionViewer extends ContentViewer implements ExpressionConstan
         }
         validateExternalDatabindingContextTargets(externalDataBindingContext);
     }
-
 
     public void setExternalDataBindingContext(final DataBindingContext ctx) {
         externalDataBindingContext = ctx;

@@ -1,19 +1,16 @@
 /**
  * Copyright (C) 2012 BonitaSoft S.A.
  * BonitaSoft, 32 rue Gustave Eiffel - 38000 Grenoble
- *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2.0 of the License, or
  * (at your option) any later version.
- *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package org.bonitasoft.studio.properties.sections.catchmessage;
 
@@ -61,10 +58,9 @@ import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
 /**
  * @author Aurelien Pupier
  * @author Aurelie Zara (add validator on correlation keys)
- *
  */
 public class CatchMessageEventCorrelationSection extends
-AbstractBonitaDescriptionSection {
+        AbstractBonitaDescriptionSection {
 
     private TabbedPropertySheetPage aTabbedPropertySheetPage;
     private ExpressionCollectionViewer ecv;
@@ -122,6 +118,7 @@ AbstractBonitaDescriptionSection {
                 .createButton(parent, Messages.autoFillMessageContent, SWT.FLAT);
         autoFillButton.setLayoutData(GridDataFactory.swtDefaults().indent(65, 0).create());
         autoFillButton.addSelectionListener(new SelectionAdapter() {
+
             @Override
             public void widgetSelected(final SelectionEvent e) {
                 super.widgetSelected(e);
@@ -150,8 +147,9 @@ AbstractBonitaDescriptionSection {
                                 if (correlationAssociationTargetMessage != null) {
                                     boolean alreadyExists = false;
                                     final String correlationKeySourceMessageName = correlationKeySourceMessage.getName();
-                                    if(correlationKeySourceMessageName != null){
-                                        for (final ListExpression correlationAssociationLineTargetMessage : correlationAssociationTargetMessage.getExpressions()) {
+                                    if (correlationKeySourceMessageName != null) {
+                                        for (final ListExpression correlationAssociationLineTargetMessage : correlationAssociationTargetMessage
+                                                .getExpressions()) {
                                             final Expression correlationKeyTargetMessage = correlationAssociationLineTargetMessage.getExpressions().get(0);
                                             if (correlationKeySourceMessageName != null
                                                     && correlationKeyTargetMessage != null
@@ -196,10 +194,10 @@ AbstractBonitaDescriptionSection {
                                 .createExpression();
                         correlationValueToAdd.setContent(data.getName());
                         correlationValueToAdd.setName(data.getName());
-                        correlationValueToAdd .setReturnType(org.bonitasoft.studio.common.DataUtil.getTechnicalTypeFor(data));
-                        correlationValueToAdd .setType(ExpressionConstants.VARIABLE_TYPE);
+                        correlationValueToAdd.setReturnType(org.bonitasoft.studio.common.DataUtil.getTechnicalTypeFor(data));
+                        correlationValueToAdd.setType(ExpressionConstants.VARIABLE_TYPE);
                         correlationValueToAdd.getReferencedElements().add(ExpressionHelper.createDependencyFromEObject(data));
-                        keyValueCorrelationExpressionToAdd.getExpressions() .add(correlationValueToAdd);
+                        keyValueCorrelationExpressionToAdd.getExpressions().add(correlationValueToAdd);
                     }
                 }
                 final Command addCommand = AddCommand
@@ -227,13 +225,13 @@ AbstractBonitaDescriptionSection {
                 messageCorrelation = ExpressionFactory.eINSTANCE
                         .createTableExpression();
                 getEditingDomain()
-                .getCommandStack()
-                .execute(
-                        SetCommand
-                        .create(getEditingDomain(),
-                                getCatchMessageEvent(),
-                                ProcessPackage.Literals.ABSTRACT_CATCH_MESSAGE_EVENT__CORRELATION,
-                                messageCorrelation));
+                        .getCommandStack()
+                        .execute(
+                                SetCommand
+                                        .create(getEditingDomain(),
+                                                getCatchMessageEvent(),
+                                                ProcessPackage.Literals.ABSTRACT_CATCH_MESSAGE_EVENT__CORRELATION,
+                                                messageCorrelation));
             }
             ecv.setSelection(messageCorrelation);
 

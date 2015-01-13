@@ -1,19 +1,16 @@
 /**
  * Copyright (C) 2010-2013 BonitaSoft S.A.
  * BonitaSoft, 32 rue Gustave Eiffel - 38000 Grenoble
- *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2.0 of the License, or
  * (at your option) any later version.
- *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package org.bonitasoft.studio.commands.test;
 
@@ -44,12 +41,11 @@ import org.junit.Test;
 
 /**
  * @author Mickael Istria
- *
  */
 public class ExtractAsSubprocessTest extends SWTBotGefTestCase {
+
     /**
      * @author Mickael Istria
-     *
      */
     public class OneMoreEditor extends DefaultCondition {
 
@@ -65,7 +61,8 @@ public class ExtractAsSubprocessTest extends SWTBotGefTestCase {
             this.size = size;
         }
 
-        /* (non-Javadoc)
+        /*
+         * (non-Javadoc)
          * @see org.eclipse.swtbot.swt.finder.waits.ICondition#test()
          */
         public boolean test() throws Exception {
@@ -75,7 +72,8 @@ public class ExtractAsSubprocessTest extends SWTBotGefTestCase {
             return bot.editors().size() > size;
         }
 
-        /* (non-Javadoc)
+        /*
+         * (non-Javadoc)
          * @see org.eclipse.swtbot.swt.finder.waits.ICondition#getFailureMessage()
          */
         public String getFailureMessage() {
@@ -85,7 +83,6 @@ public class ExtractAsSubprocessTest extends SWTBotGefTestCase {
     }
 
     private final DiagramRepositoryStore store = RepositoryManager.getInstance().getRepositoryStore(DiagramRepositoryStore.class);
-
 
     @Override
     @Before
@@ -100,7 +97,6 @@ public class ExtractAsSubprocessTest extends SWTBotGefTestCase {
         bot.closeAllEditors();
     }
 
-
     @Test
     public void testExtractAsSubprocess() throws Exception {
         SWTBotTestUtil.createNewDiagram(bot);
@@ -108,17 +104,16 @@ public class ExtractAsSubprocessTest extends SWTBotGefTestCase {
         final SWTBotGefEditPart stepPart = editor1.getEditPart("Step1").parent();
         final SWTBotGefEditPart startPart = editor1.getEditPart("Start1").parent();
         editor1.select(stepPart, startPart);
-        final SWTBotGefEditPart poolPart = stepPart.parent(/*Compartment*/).parent().parent().parent();
+        final SWTBotGefEditPart poolPart = stepPart.parent(/* Compartment */).parent().parent().parent();
         editor1.clickContextMenu("Extract subprocess");
         editor1.select(poolPart);
-        final Pool pool = (Pool) ((IGraphicalEditPart)poolPart.part()).resolveSemanticElement();
+        final Pool pool = (Pool) ((IGraphicalEditPart) poolPart.part()).resolveSemanticElement();
         assertEquals("Not same number of nodes in main as expected", 1, pool.getElements().size());
         assertEquals("Not same number of transitions in main as expected", 0, pool.getConnections().size());
-        final Pool subprocessPool = (Pool) ((MainProcess)pool.eContainer()).getElements().get(1);
+        final Pool subprocessPool = (Pool) ((MainProcess) pool.eContainer()).getElements().get(1);
         assertEquals("Not same number of nodes as expected", 2, subprocessPool.getElements().size());
         assertEquals("Not same number of transitions as expected", 1, subprocessPool.getConnections().size());
     }
-
 
     @Test
     public void testExtractAsSubprocessFromLane() throws Exception {
@@ -130,14 +125,14 @@ public class ExtractAsSubprocessTest extends SWTBotGefTestCase {
         final SWTBotGefEditPart stepPart = editor1.getEditPart("Step1").parent();
         final SWTBotGefEditPart startPart = editor1.getEditPart("Start1").parent();
         editor1.select(stepPart, startPart);
-        final SWTBotGefEditPart lanePart = stepPart.parent(/*Compartment*/).parent();
+        final SWTBotGefEditPart lanePart = stepPart.parent(/* Compartment */).parent();
         editor1.clickContextMenu("Extract subprocess");
         editor1.select(lanePart);
-        final Lane lane = (Lane) ((IGraphicalEditPart)lanePart.part()).resolveSemanticElement();
+        final Lane lane = (Lane) ((IGraphicalEditPart) lanePart.part()).resolveSemanticElement();
         final Pool pool = (Pool) lane.eContainer();
         assertEquals("Not same number of nodes in main as expected", 1, lane.getElements().size());
         assertEquals("Not same number of transitions in main as expected", 0, pool.getConnections().size());
-        final Pool subprocessPool = (Pool) ((MainProcess)pool.eContainer()).getElements().get(1);
+        final Pool subprocessPool = (Pool) ((MainProcess) pool.eContainer()).getElements().get(1);
         assertEquals("Not same number of nodes as expected", 2, subprocessPool.getElements().size());
         assertEquals("Not same number of transitions as expected", 1, subprocessPool.getConnections().size());
     }
@@ -155,7 +150,6 @@ public class ExtractAsSubprocessTest extends SWTBotGefTestCase {
         assertEquals("Util method does not work", 5, GMFTools.addMissingConnectionsAndBoundaries(list).size());
     }
 
-
     @Test
     public void testExtractSubprocessWithBoundary() throws Exception {
         // Test bug 3102
@@ -172,19 +166,19 @@ public class ExtractAsSubprocessTest extends SWTBotGefTestCase {
         bot.sleep(100);
         editor1.clickContextMenu("Extract subprocess");
 
-        final Lane lane = (Lane) ((IGraphicalEditPart)poolPart.part()).resolveSemanticElement();
+        final Lane lane = (Lane) ((IGraphicalEditPart) poolPart.part()).resolveSemanticElement();
         //use a waitUntil in order to wait UI operation to finish
         bot.waitUntil(new DefaultCondition() {
 
-			public boolean test() throws Exception {
-				return 2 == lane.getElements().size();
-			}
+            public boolean test() throws Exception {
+                return 2 == lane.getElements().size();
+            }
 
-			public String getFailureMessage() {
-				return "Not same number of nodes in main as expected";
-			}
-		});
-        assertEquals("Not same number of transitions in main as expected", 1, ((Pool)lane.eContainer()).getConnections().size());
+            public String getFailureMessage() {
+                return "Not same number of nodes in main as expected";
+            }
+        });
+        assertEquals("Not same number of transitions in main as expected", 1, ((Pool) lane.eContainer()).getConnections().size());
         final Pool subprocessPool = (Pool) ModelHelper.getMainProcess(lane).getElements().get(1);
         assertEquals("Not same number of nodes as expected", 2, subprocessPool.getElements().size());
         assertEquals("Not same number of transitions as expected", 2, subprocessPool.getConnections().size());
@@ -203,20 +197,20 @@ public class ExtractAsSubprocessTest extends SWTBotGefTestCase {
         bot.sleep(100);
         editor1.clickContextMenu("Extract subprocess");
 
-        final Lane lane = (Lane) ((IGraphicalEditPart)poolPart.part()).resolveSemanticElement();
+        final Lane lane = (Lane) ((IGraphicalEditPart) poolPart.part()).resolveSemanticElement();
 
         //use a waitUntil in order to wait UI operation to finish
         bot.waitUntil(new DefaultCondition() {
 
-			public boolean test() throws Exception {
-				return 2 == lane.getElements().size();
-			}
+            public boolean test() throws Exception {
+                return 2 == lane.getElements().size();
+            }
 
-			public String getFailureMessage() {
-				return "Not same number of nodes in main as expected";
-			}
-		});
-        assertEquals("Not same number of transitions in main as expected", 1,((Pool)lane.eContainer()).getConnections().size());
+            public String getFailureMessage() {
+                return "Not same number of nodes in main as expected";
+            }
+        });
+        assertEquals("Not same number of transitions in main as expected", 1, ((Pool) lane.eContainer()).getConnections().size());
         final Pool subprocessPool = (Pool) ModelHelper.getMainProcess(lane).getElements().get(1);
         assertEquals("Not same number of nodes as expected", 2, subprocessPool.getElements().size());
         assertEquals("Not same number of transitions as expected", 2, subprocessPool.getConnections().size());

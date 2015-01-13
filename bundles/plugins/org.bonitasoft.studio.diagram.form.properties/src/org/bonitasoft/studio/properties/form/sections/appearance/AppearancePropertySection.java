@@ -1,17 +1,14 @@
 /**
  * Copyright (C) 2009 BonitaSoft S.A.
  * BonitaSoft, 31 rue Gustave Eiffel - 38000 Grenoble
- * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2.0 of the License, or
  * (at your option) any later version.
- * 
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- * 
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
@@ -66,14 +63,11 @@ import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
 
 /**
- * 
  * @author Aurelien Pupier
  * @author Baptiste Mesta
  * @author Mickael Istria (Refactoring tabs, added databinding)
- * 
  *         The class responsible for appearance property section of form
  *         diagram.
- * 
  */
 public class AppearancePropertySection extends AbstractModelerPropertySection {
 
@@ -252,9 +246,9 @@ public class AppearancePropertySection extends AbstractModelerPropertySection {
      * add properties on the size
      * 
      * @param mainComposite2
-     *            where to put the composite
+     *        where to put the composite
      * @param prefix
-     *            wich part of the widget it affect (prefix properties name)
+     *        wich part of the widget it affect (prefix properties name)
      * @param vs
      * @param hs
      */
@@ -288,13 +282,12 @@ public class AppearancePropertySection extends AbstractModelerPropertySection {
     }
 
     /**
-     * 
      * group that contains properties on text
      * 
      * @param mainComposite2
-     *            where to put the composite
+     *        where to put the composite
      * @param prefix
-     *            wich part of the widget it affect (prefix properties name)
+     *        wich part of the widget it affect (prefix properties name)
      * @param vs
      * @param hs
      */
@@ -459,7 +452,6 @@ public class AppearancePropertySection extends AbstractModelerPropertySection {
     }
 
     /**
-     * 
      * @return the widget of this section
      */
     protected Widget getWidget() {
@@ -467,7 +459,6 @@ public class AppearancePropertySection extends AbstractModelerPropertySection {
     }
 
     /**
-     * 
      * get text of the widget (if possible)
      * 
      * @param widget
@@ -487,13 +478,12 @@ public class AppearancePropertySection extends AbstractModelerPropertySection {
     }
 
     /**
-     * 
      * set the text of the widget with the string value
      * 
      * @param widget
-     *            SWT widget on which set the text
+     *        SWT widget on which set the text
      * @param string
-     *            the string to set the widget with
+     *        the string to set the widget with
      */
     private void setWidgetText(org.eclipse.swt.widgets.Widget widget, String string) {
         if (widget instanceof Text) {

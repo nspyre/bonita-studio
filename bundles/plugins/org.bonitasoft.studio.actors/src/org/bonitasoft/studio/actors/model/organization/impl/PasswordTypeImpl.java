@@ -1,19 +1,16 @@
 /**
  * Copyright (C) 2009-2012 BonitaSoft S.A.
  * BonitaSoft, 31 rue Gustave Eiffel - 38000 Grenoble
- * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2.0 of the License, or
  * (at your option) any later version.
- * 
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- * 
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package org.bonitasoft.studio.actors.model.organization.impl;
 
@@ -34,58 +31,64 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link org.bonitasoft.studio.actors.model.organization.impl.PasswordTypeImpl#getValue <em>Value</em>}</li>
- *   <li>{@link org.bonitasoft.studio.actors.model.organization.impl.PasswordTypeImpl#isEncrypted <em>Encrypted</em>}</li>
+ * <li>{@link org.bonitasoft.studio.actors.model.organization.impl.PasswordTypeImpl#getValue <em>Value</em>}</li>
+ * <li>{@link org.bonitasoft.studio.actors.model.organization.impl.PasswordTypeImpl#isEncrypted <em>Encrypted</em>}</li>
  * </ul>
  * </p>
  *
  * @generated
  */
 public class PasswordTypeImpl extends EObjectImpl implements PasswordType {
-	/**
+
+    /**
      * The default value of the '{@link #getValue() <em>Value</em>}' attribute.
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
+     * 
      * @see #getValue()
      * @generated
      * @ordered
      */
-	protected static final String VALUE_EDEFAULT = null;
+    protected static final String VALUE_EDEFAULT = null;
 
-	/**
+    /**
      * The cached value of the '{@link #getValue() <em>Value</em>}' attribute.
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
+     * 
      * @see #getValue()
      * @generated
      * @ordered
      */
-	protected String value = VALUE_EDEFAULT;
+    protected String value = VALUE_EDEFAULT;
 
-	/**
+    /**
      * The default value of the '{@link #isEncrypted() <em>Encrypted</em>}' attribute.
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
+     * 
      * @see #isEncrypted()
      * @generated
      * @ordered
      */
-	protected static final boolean ENCRYPTED_EDEFAULT = true;
+    protected static final boolean ENCRYPTED_EDEFAULT = true;
 
-	/**
+    /**
      * The cached value of the '{@link #isEncrypted() <em>Encrypted</em>}' attribute.
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
+     * 
      * @see #isEncrypted()
      * @generated
      * @ordered
      */
-	protected boolean encrypted = ENCRYPTED_EDEFAULT;
+    protected boolean encrypted = ENCRYPTED_EDEFAULT;
 
-	/**
+    /**
      * This is true if the Encrypted attribute has been set.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
+     * 
      * @generated
      * @ordered
      */
@@ -93,59 +96,65 @@ public class PasswordTypeImpl extends EObjectImpl implements PasswordType {
 
     /**
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
+     * 
      * @generated
      */
-	protected PasswordTypeImpl() {
+    protected PasswordTypeImpl() {
         super();
     }
 
-	/**
+    /**
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
+     * 
      * @generated
      */
-	@Override
-	protected EClass eStaticClass() {
+    @Override
+    protected EClass eStaticClass() {
         return OrganizationPackage.Literals.PASSWORD_TYPE;
     }
 
-	/**
+    /**
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
+     * 
      * @generated
      */
-	public String getValue() {
+    public String getValue() {
         return value;
     }
 
-	/**
+    /**
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
+     * 
      * @generated
      */
-	public void setValue(String newValue) {
+    public void setValue(String newValue) {
         String oldValue = value;
         value = newValue;
         if (eNotificationRequired())
             eNotify(new ENotificationImpl(this, Notification.SET, OrganizationPackage.PASSWORD_TYPE__VALUE, oldValue, value));
     }
 
-	/**
+    /**
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
+     * 
      * @generated
      */
-	public boolean isEncrypted() {
+    public boolean isEncrypted() {
         return encrypted;
     }
 
-	/**
+    /**
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
+     * 
      * @generated
      */
-	public void setEncrypted(boolean newEncrypted) {
+    public void setEncrypted(boolean newEncrypted) {
         boolean oldEncrypted = encrypted;
         encrypted = newEncrypted;
         boolean oldEncryptedESet = encryptedESet;
@@ -154,9 +163,10 @@ public class PasswordTypeImpl extends EObjectImpl implements PasswordType {
             eNotify(new ENotificationImpl(this, Notification.SET, OrganizationPackage.PASSWORD_TYPE__ENCRYPTED, oldEncrypted, encrypted, !oldEncryptedESet));
     }
 
-	/**
+    /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
+     * 
      * @generated
      */
     public void unsetEncrypted() {
@@ -165,12 +175,14 @@ public class PasswordTypeImpl extends EObjectImpl implements PasswordType {
         encrypted = ENCRYPTED_EDEFAULT;
         encryptedESet = false;
         if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.UNSET, OrganizationPackage.PASSWORD_TYPE__ENCRYPTED, oldEncrypted, ENCRYPTED_EDEFAULT, oldEncryptedESet));
+            eNotify(new ENotificationImpl(this, Notification.UNSET, OrganizationPackage.PASSWORD_TYPE__ENCRYPTED, oldEncrypted, ENCRYPTED_EDEFAULT,
+                    oldEncryptedESet));
     }
 
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
+     * 
      * @generated
      */
     public boolean isSetEncrypted() {
@@ -179,11 +191,12 @@ public class PasswordTypeImpl extends EObjectImpl implements PasswordType {
 
     /**
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
+     * 
      * @generated
      */
-	@Override
-	public Object eGet(int featureID, boolean resolve, boolean coreType) {
+    @Override
+    public Object eGet(int featureID, boolean resolve, boolean coreType) {
         switch (featureID) {
             case OrganizationPackage.PASSWORD_TYPE__VALUE:
                 return getValue();
@@ -193,31 +206,33 @@ public class PasswordTypeImpl extends EObjectImpl implements PasswordType {
         return super.eGet(featureID, resolve, coreType);
     }
 
-	/**
+    /**
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
+     * 
      * @generated
      */
-	@Override
-	public void eSet(int featureID, Object newValue) {
+    @Override
+    public void eSet(int featureID, Object newValue) {
         switch (featureID) {
             case OrganizationPackage.PASSWORD_TYPE__VALUE:
-                setValue((String)newValue);
+                setValue((String) newValue);
                 return;
             case OrganizationPackage.PASSWORD_TYPE__ENCRYPTED:
-                setEncrypted((Boolean)newValue);
+                setEncrypted((Boolean) newValue);
                 return;
         }
         super.eSet(featureID, newValue);
     }
 
-	/**
+    /**
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
+     * 
      * @generated
      */
-	@Override
-	public void eUnset(int featureID) {
+    @Override
+    public void eUnset(int featureID) {
         switch (featureID) {
             case OrganizationPackage.PASSWORD_TYPE__VALUE:
                 setValue(VALUE_EDEFAULT);
@@ -229,13 +244,14 @@ public class PasswordTypeImpl extends EObjectImpl implements PasswordType {
         super.eUnset(featureID);
     }
 
-	/**
+    /**
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
+     * 
      * @generated
      */
-	@Override
-	public boolean eIsSet(int featureID) {
+    @Override
+    public boolean eIsSet(int featureID) {
         switch (featureID) {
             case OrganizationPackage.PASSWORD_TYPE__VALUE:
                 return VALUE_EDEFAULT == null ? value != null : !VALUE_EDEFAULT.equals(value);
@@ -245,20 +261,25 @@ public class PasswordTypeImpl extends EObjectImpl implements PasswordType {
         return super.eIsSet(featureID);
     }
 
-	/**
+    /**
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
+     * 
      * @generated
      */
-	@Override
-	public String toString() {
-        if (eIsProxy()) return super.toString();
+    @Override
+    public String toString() {
+        if (eIsProxy())
+            return super.toString();
 
         StringBuffer result = new StringBuffer(super.toString());
         result.append(" (value: ");
         result.append(value);
         result.append(", encrypted: ");
-        if (encryptedESet) result.append(encrypted); else result.append("<unset>");
+        if (encryptedESet)
+            result.append(encrypted);
+        else
+            result.append("<unset>");
         result.append(')');
         return result.toString();
     }

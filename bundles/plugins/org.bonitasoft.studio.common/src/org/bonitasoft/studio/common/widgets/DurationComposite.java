@@ -1,19 +1,16 @@
 /**
  * Copyright (C) 2010 BonitaSoft S.A.
  * BonitaSoft, 31 rue Gustave Eiffel - 38000 Grenoble
- *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2.0 of the License, or
  * (at your option) any later version.
- *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package org.bonitasoft.studio.common.widgets;
 
@@ -32,10 +29,8 @@ import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetWidgetFactory;
 
 /**
  * @author Baptiste Mesta
- *
  */
 public class DurationComposite extends Composite {
-
 
     private Spinner yearsSpinner;
     private Spinner monthsSpinner;
@@ -54,9 +49,10 @@ public class DurationComposite extends Composite {
      * @param f
      * @param g
      */
-    public DurationComposite(Composite parent, boolean showYear, boolean showMonth, boolean showDay, boolean showHour, boolean showMinute, boolean showSecond, TabbedPropertySheetWidgetFactory widgetFactory) {
+    public DurationComposite(Composite parent, boolean showYear, boolean showMonth, boolean showDay, boolean showHour, boolean showMinute, boolean showSecond,
+            TabbedPropertySheetWidgetFactory widgetFactory) {
         super(parent, SWT.NONE);
-        if(widgetFactory != null){
+        if (widgetFactory != null) {
             setBackground(ColorConstants.white);
         }
         int nbWidgets = 0;
@@ -79,13 +75,13 @@ public class DurationComposite extends Composite {
             nbWidgets++;
         }
 
-        setLayout(GridLayoutFactory.fillDefaults().numColumns(nbWidgets*2).margins(0, 0).spacing(0, 0).create());
+        setLayout(GridLayoutFactory.fillDefaults().numColumns(nbWidgets * 2).margins(0, 0).spacing(0, 0).create());
 
-        if(showYear) {
+        if (showYear) {
 
             Label label;
-            if(widgetFactory != null) {
-                label = widgetFactory.createLabel(this,org.bonitasoft.studio.common.Messages.yearsLabel,SWT.TRANSPARENT);
+            if (widgetFactory != null) {
+                label = widgetFactory.createLabel(this, org.bonitasoft.studio.common.Messages.yearsLabel, SWT.TRANSPARENT);
             } else {
                 label = new Label(this, SWT.TRANSPARENT);
                 label.setText(Messages.yearsLabel);
@@ -95,10 +91,10 @@ public class DurationComposite extends Composite {
             yearsSpinner.setMaximum(999);
         }
 
-        if(showMonth) {
+        if (showMonth) {
             Label label;
-            if(widgetFactory != null) {
-                label = widgetFactory.createLabel(this,org.bonitasoft.studio.common.Messages.monthsLabel,SWT.TRANSPARENT);
+            if (widgetFactory != null) {
+                label = widgetFactory.createLabel(this, org.bonitasoft.studio.common.Messages.monthsLabel, SWT.TRANSPARENT);
             } else {
                 label = new Label(this, SWT.TRANSPARENT);
                 label.setText(Messages.monthsLabel);
@@ -107,10 +103,10 @@ public class DurationComposite extends Composite {
             monthsSpinner.setMaximum(999);
         }
 
-        if(showDay) {
+        if (showDay) {
             Label label;
-            if(widgetFactory != null) {
-                label = widgetFactory.createLabel(this,org.bonitasoft.studio.common.Messages.daysLabel,SWT.TRANSPARENT);
+            if (widgetFactory != null) {
+                label = widgetFactory.createLabel(this, org.bonitasoft.studio.common.Messages.daysLabel, SWT.TRANSPARENT);
             } else {
                 label = new Label(this, SWT.TRANSPARENT);
                 label.setText(Messages.daysLabel);
@@ -119,35 +115,34 @@ public class DurationComposite extends Composite {
             daySpinner.setMaximum(999);
         }
 
-        if(showHour) {
+        if (showHour) {
             Label label;
-            if(widgetFactory != null) {
-                label = widgetFactory.createLabel(this,org.bonitasoft.studio.common.Messages.hoursLabel,SWT.TRANSPARENT);
+            if (widgetFactory != null) {
+                label = widgetFactory.createLabel(this, org.bonitasoft.studio.common.Messages.hoursLabel, SWT.TRANSPARENT);
             } else {
                 label = new Label(this, SWT.TRANSPARENT);
                 label.setText(Messages.hoursLabel);
             }
-            hourSpinner = new Spinner(this, SWT.BORDER );
+            hourSpinner = new Spinner(this, SWT.BORDER);
             hourSpinner.setMaximum(999);
         }
 
-
-        if(showMinute) {
+        if (showMinute) {
             Label label;
-            if(widgetFactory != null) {
-                label = widgetFactory.createLabel(this,org.bonitasoft.studio.common.Messages.minutesLabel,SWT.TRANSPARENT);
+            if (widgetFactory != null) {
+                label = widgetFactory.createLabel(this, org.bonitasoft.studio.common.Messages.minutesLabel, SWT.TRANSPARENT);
             } else {
                 label = new Label(this, SWT.TRANSPARENT);
                 label.setText(Messages.minutesLabel);
             }
-            minutesSpinner = new Spinner(this, SWT.BORDER );
+            minutesSpinner = new Spinner(this, SWT.BORDER);
             minutesSpinner.setMaximum(999);
         }
 
-        if(showSecond) {
+        if (showSecond) {
             Label label;
-            if(widgetFactory != null) {
-                label = widgetFactory.createLabel(this,org.bonitasoft.studio.common.Messages.secondsLabel,SWT.TRANSPARENT);
+            if (widgetFactory != null) {
+                label = widgetFactory.createLabel(this, org.bonitasoft.studio.common.Messages.secondsLabel, SWT.TRANSPARENT);
             } else {
                 label = new Label(this, SWT.TRANSPARENT);
                 label.setText(Messages.secondsLabel);
@@ -156,52 +151,50 @@ public class DurationComposite extends Composite {
             secondSpinner.setMaximum(999);
         }
 
-
     }
 
-    public void addModifyListener(ModifyListener modifyListener){
-        if(yearsSpinner != null){
+    public void addModifyListener(ModifyListener modifyListener) {
+        if (yearsSpinner != null) {
             yearsSpinner.addModifyListener(modifyListener);
         }
-        if(monthsSpinner != null){
+        if (monthsSpinner != null) {
             monthsSpinner.addModifyListener(modifyListener);
         }
-        if(daySpinner != null){
+        if (daySpinner != null) {
             daySpinner.addModifyListener(modifyListener);
         }
-        if(hourSpinner != null){
+        if (hourSpinner != null) {
             hourSpinner.addModifyListener(modifyListener);
         }
-        if(minutesSpinner != null){
+        if (minutesSpinner != null) {
             minutesSpinner.addModifyListener(modifyListener);
         }
-        if(secondSpinner != null){
+        if (secondSpinner != null) {
             secondSpinner.addModifyListener(modifyListener);
         }
     }
 
-
-    public void setDuration(long value){
-        if(value > maximumDuration){
+    public void setDuration(long value) {
+        if (value > maximumDuration) {
             DateUtil.setWidgetDisplayDuration(yearsSpinner, monthsSpinner, daySpinner, hourSpinner, minutesSpinner, secondSpinner, maximumDuration);
-        }else{
+        } else {
             DateUtil.setWidgetDisplayDuration(yearsSpinner, monthsSpinner, daySpinner, hourSpinner, minutesSpinner, secondSpinner, value);
         }
 
     }
 
-    public long getDuration(){
+    public long getDuration() {
         return DateUtil.getWidgetMillisecondAsLong(yearsSpinner, monthsSpinner, daySpinner, hourSpinner, minutesSpinner, secondSpinner);
     }
 
     public void setMaxDuration(long executionTime) {
-        maximumDuration = executionTime ;
+        maximumDuration = executionTime;
         addModifyListener(new ModifyListener() {
 
             @Override
             public void modifyText(ModifyEvent e) {
-                if(getDuration() > maximumDuration){
-                    setDuration(maximumDuration) ;
+                if (getDuration() > maximumDuration) {
+                    setDuration(maximumDuration);
                 }
                 DurationComposite.this.notifyListeners(SWT.Modify, new Event());//need it to use databinding
 

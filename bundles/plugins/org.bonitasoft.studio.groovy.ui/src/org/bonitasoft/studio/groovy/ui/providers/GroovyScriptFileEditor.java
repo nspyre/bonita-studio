@@ -5,12 +5,10 @@
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2.0 of the License, or
  * (at your option) any later version.
- * 
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- * 
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
@@ -45,7 +43,6 @@ import org.eclipse.swt.widgets.Event;
 
 /**
  * @author Romain Bioteau
- * 
  */
 public class GroovyScriptFileEditor extends GroovyScriptExpressionEditor implements IExpressionEditor {
 
@@ -90,7 +87,7 @@ public class GroovyScriptFileEditor extends GroovyScriptExpressionEditor impleme
         this.context = context;
 
         IObservableValue contentModelObservable = EMFObservables.observeValue(inputExpression, ExpressionPackage.Literals.EXPRESSION__CONTENT);
-      
+
         groovyViewer.getDocument().set(inputExpression.getContent());
         IExpressionNatureProvider natureProvider = null;
         if (expressionViewer != null) {
@@ -100,15 +97,16 @@ public class GroovyScriptFileEditor extends GroovyScriptExpressionEditor impleme
         groovyViewer.getSourceViewer().getTextWidget().setData(BONITA_KEYWORDS_DATA_KEY, null);
         groovyViewer.getSourceViewer().getTextWidget().setData(PROCESS_VARIABLES_DATA_KEY, null);
         groovyViewer.getSourceViewer().getTextWidget().setData(CONTEXT_DATA_KEY, null);
-       /* dataBindingContext.bindValue(new DocumentObservable(sourceViewer), contentModelObservable,
-                new UpdateValueStrategy().setAfterGetValidator(new InputLengthValidator("", GroovyViewer.MAX_SCRIPT_LENGTH)), null);
-        sourceViewer.addTextListener(new ITextListener() {
-
-            @Override
-            public void textChanged(TextEvent event) {
-                sourceViewer.getTextWidget().notifyListeners(SWT.Modify, new Event());
-            }
-        });*/
+        /*
+         * dataBindingContext.bindValue(new DocumentObservable(sourceViewer), contentModelObservable,
+         * new UpdateValueStrategy().setAfterGetValidator(new InputLengthValidator("", GroovyViewer.MAX_SCRIPT_LENGTH)), null);
+         * sourceViewer.addTextListener(new ITextListener() {
+         * @Override
+         * public void textChanged(TextEvent event) {
+         * sourceViewer.getTextWidget().notifyListeners(SWT.Modify, new Event());
+         * }
+         * });
+         */
         final IValidator lenghtValidator = new InputLengthValidator("", GroovyViewer.MAX_SCRIPT_LENGTH);
         sourceViewer.getDocument().addDocumentListener(new IDocumentListener() {
 
@@ -116,7 +114,7 @@ public class GroovyScriptFileEditor extends GroovyScriptExpressionEditor impleme
             public void documentChanged(DocumentEvent event) {
                 final String text = event.getDocument().get();
                 if (lenghtValidator.validate(text).isOK()) {
-                	//groovyViewer.resetFoldingStructure();
+                    //groovyViewer.resetFoldingStructure();
                     GroovyScriptFileEditor.this.inputExpression.setContent(text);
                 }
 

@@ -1,19 +1,16 @@
 /**
  * Copyright (C) 2010 BonitaSoft S.A.
  * BonitaSoft, 31 rue Gustave Eiffel - 38000 Grenoble
- *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2.0 of the License, or
  * (at your option) any later version.
- *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package org.bonitasoft.studio.commands.test;
 
@@ -47,7 +44,6 @@ import org.junit.Test;
 
 /**
  * @author Mickael Istria
- *
  */
 public class CopyPasteTests extends SWTBotGefTestCase {
 
@@ -118,38 +114,38 @@ public class CopyPasteTests extends SWTBotGefTestCase {
         poolPart.click();
         editor.clickContextMenu("Paste");
         bot.waitUntil(new DefaultCondition() {
-			
-			public boolean test() throws Exception {
-				return findNewActivityPart(poolPart) != null;
-			}
-			
-			public String getFailureMessage() {
-				return "Can't find the new Activity EditPart that just have been pasted";
-			}
-		});
+
+            public boolean test() throws Exception {
+                return findNewActivityPart(poolPart) != null;
+            }
+
+            public String getFailureMessage() {
+                return "Can't find the new Activity EditPart that just have been pasted";
+            }
+        });
         SWTBotGefEditPart newPart = findNewActivityPart(poolPart);
-        
-        final IGraphicalEditPart activityEditPart = (IGraphicalEditPart)newPart.part();
-		Activity activity = (Activity) activityEditPart.resolveSemanticElement();
+
+        final IGraphicalEditPart activityEditPart = (IGraphicalEditPart) newPart.part();
+        Activity activity = (Activity) activityEditPart.resolveSemanticElement();
         final EList<Data> activityDatas = activity.getData();
-		final Data firstData = activityDatas.get(0);
-		Assert.assertNotNull("Data type not copied", firstData.getDataType());
+        final Data firstData = activityDatas.get(0);
+        Assert.assertNotNull("Data type not copied", firstData.getDataType());
         Assert.assertTrue("Bad Copied DataType", firstData.getDataType() instanceof StringType);
         final Data secondData = activityDatas.get(1);
-		Assert.assertNotNull("Data type not copied", secondData.getDataType());
+        Assert.assertNotNull("Data type not copied", secondData.getDataType());
         Assert.assertTrue("Bad Copied DataType", secondData.getDataType() instanceof EnumType);
     }
 
-	private SWTBotGefEditPart findNewActivityPart(
-			final SWTBotGefEditPart poolPart) {
-		SWTBotGefEditPart newPart = null;
+    private SWTBotGefEditPart findNewActivityPart(
+            final SWTBotGefEditPart poolPart) {
+        SWTBotGefEditPart newPart = null;
         for (SWTBotGefEditPart child : poolPart.children()) {
             if (child.sourceConnections().size() == 0 && child.targetConnections().size() == 0) {
                 newPart = child;
             }
         }
-		return newPart;
-	}
+        return newPart;
+    }
 
     @Test
     public void testMultipleCopyPaste() throws Exception {
@@ -159,10 +155,10 @@ public class CopyPasteTests extends SWTBotGefTestCase {
         SWTBotGefEditPart startPart = editor1.getEditPart("Start1").parent();
         editor1.select(stepPart, startPart);
         editor1.clickContextMenu("Copy");
-        final SWTBotGefEditPart lanePart = stepPart.parent(/*Compartment*/).parent();
+        final SWTBotGefEditPart lanePart = stepPart.parent(/* Compartment */).parent();
         editor1.select(lanePart);
         editor1.clickContextMenu("Paste");
-        Lane lane = (Lane) ((IGraphicalEditPart)lanePart.part()).resolveSemanticElement();
+        Lane lane = (Lane) ((IGraphicalEditPart) lanePart.part()).resolveSemanticElement();
         assertEquals("Not same number of nodes as expected", 4, lane.getElements().size());
         assertEquals("Not same number of transitions as expected", 2, ModelHelper.getParentProcess(lane).getConnections().size());
     }
@@ -193,7 +189,7 @@ public class CopyPasteTests extends SWTBotGefTestCase {
             final SWTBotGefEditPart lanePart = stepPart2.parent().parent();
             editor2.select(lanePart);
             editor2.clickContextMenu("Paste");
-            Lane lane = (Lane) ((IGraphicalEditPart)lanePart.part()).resolveSemanticElement();
+            Lane lane = (Lane) ((IGraphicalEditPart) lanePart.part()).resolveSemanticElement();
             assertEquals("Not same number of nodes as expected", 4, lane.getElements().size());
             assertEquals("Not same number of transitions as expected", 2, ModelHelper.getParentProcess(lane).getConnections().size());
         }
@@ -219,9 +215,9 @@ public class CopyPasteTests extends SWTBotGefTestCase {
             final SWTBotGefEditPart lanePart2 = stepPart2.parent().parent();
             lanePart2.select();
             editor2.clickContextMenu("Paste");
-            Lane lane = (Lane) ((IGraphicalEditPart)lanePart2.part()).resolveSemanticElement();
+            Lane lane = (Lane) ((IGraphicalEditPart) lanePart2.part()).resolveSemanticElement();
             assertEquals("Not same number of nodes as expected", 4, lane.getElements().size());
-            assertEquals("Not same number of transitions as expected", 2, ((Pool)lane.eContainer()).getConnections().size());
+            assertEquals("Not same number of transitions as expected", 2, ((Pool) lane.eContainer()).getConnections().size());
         }
     }
 
@@ -247,7 +243,6 @@ public class CopyPasteTests extends SWTBotGefTestCase {
 
         SWTBotGefEditPart copyStepPart = editor1.getEditPart("Copy of Step1").parent();
         editor1.select(copyStepPart);
-
 
         bot.viewById(SWTBotTestUtil.VIEWS_PROPERTIES_APPLICATION).show();
         bot.viewById(SWTBotTestUtil.VIEWS_PROPERTIES_APPLICATION).setFocus();

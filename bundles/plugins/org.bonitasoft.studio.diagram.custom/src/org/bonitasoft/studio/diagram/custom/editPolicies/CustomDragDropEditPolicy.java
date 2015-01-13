@@ -52,13 +52,12 @@ import org.eclipse.swt.graphics.Color;
 
 /**
  * @author Romain Bioteau
- *
  */
 public class CustomDragDropEditPolicy extends DragDropEditPolicy {
 
     @Override
     protected Command getDropCommand(final ChangeBoundsRequest request) {
-        if(dropNotAllowed(request)){
+        if (dropNotAllowed(request)) {
             return UnexecutableCommand.INSTANCE;
         }
         return super.getDropCommand(request);
@@ -88,13 +87,13 @@ public class CustomDragDropEditPolicy extends DragDropEditPolicy {
 
     private boolean isSourceAndTargetAreEventSubProc(final ChangeBoundsRequest request) {
         final EditPartViewer hostViewer = getHost().getViewer();
-        if(hostViewer.findObjectAt(request.getLocation()) instanceof IGraphicalEditPart){
+        if (hostViewer.findObjectAt(request.getLocation()) instanceof IGraphicalEditPart) {
             final IGraphicalEditPart target = (IGraphicalEditPart) hostViewer.findObjectAt(request.getLocation());
-            if(target.resolveSemanticElement() instanceof SubProcessEvent){
-                for(final Object ep : request.getEditParts()){
-                    if(ep instanceof IGraphicalEditPart){
-                        if(((IGraphicalEditPart) ep).resolveSemanticElement() instanceof SubProcessEvent){
-                            return true ;
+            if (target.resolveSemanticElement() instanceof SubProcessEvent) {
+                for (final Object ep : request.getEditParts()) {
+                    if (ep instanceof IGraphicalEditPart) {
+                        if (((IGraphicalEditPart) ep).resolveSemanticElement() instanceof SubProcessEvent) {
+                            return true;
                         }
                     }
                 }
@@ -105,36 +104,35 @@ public class CustomDragDropEditPolicy extends DragDropEditPolicy {
 
     private boolean isAnIllegalMove(final ChangeBoundsRequest request) {
         //STart event can't be moved to SubProcessEvent
-        if(getHost().getViewer().findObjectAt(request.getLocation()) instanceof IGraphicalEditPart){
+        if (getHost().getViewer().findObjectAt(request.getLocation()) instanceof IGraphicalEditPart) {
             final IGraphicalEditPart target = (IGraphicalEditPart) getHost().getViewer().findObjectAt(request.getLocation());
-            if(target.resolveSemanticElement() instanceof SubProcessEvent){
-                for(final Object ep : request.getEditParts()){
-                    if(ep instanceof IGraphicalEditPart){
-                        if(((IGraphicalEditPart) ep).resolveSemanticElement() instanceof StartEvent){
-                            return true ;
+            if (target.resolveSemanticElement() instanceof SubProcessEvent) {
+                for (final Object ep : request.getEditParts()) {
+                    if (ep instanceof IGraphicalEditPart) {
+                        if (((IGraphicalEditPart) ep).resolveSemanticElement() instanceof StartEvent) {
+                            return true;
                         }
                     }
                 }
             }
         }
         //Start error event can't be put in Pool or lane
-        for(final Object ep : request.getEditParts()){
-            if(ep instanceof IGraphicalEditPart){
-                if(((IGraphicalEditPart) ep).resolveSemanticElement() instanceof StartErrorEvent){
-                    return true ;
-                }else if(((IGraphicalEditPart) ep).resolveSemanticElement() instanceof Lane){
-                    return true ;
+        for (final Object ep : request.getEditParts()) {
+            if (ep instanceof IGraphicalEditPart) {
+                if (((IGraphicalEditPart) ep).resolveSemanticElement() instanceof StartErrorEvent) {
+                    return true;
+                } else if (((IGraphicalEditPart) ep).resolveSemanticElement() instanceof Lane) {
+                    return true;
                 }
             }
         }
 
-
         //Pool can't be moved
-        if(getHost() instanceof MainProcessEditPart){
-            for(final Object ep : request.getEditParts()){
-                if(ep instanceof IGraphicalEditPart){
-                    if(!(((IGraphicalEditPart) ep).resolveSemanticElement() instanceof Pool)){
-                        return true ;
+        if (getHost() instanceof MainProcessEditPart) {
+            for (final Object ep : request.getEditParts()) {
+                if (ep instanceof IGraphicalEditPart) {
+                    if (!(((IGraphicalEditPart) ep).resolveSemanticElement() instanceof Pool)) {
+                        return true;
                     }
                 }
             }
@@ -144,20 +142,20 @@ public class CustomDragDropEditPolicy extends DragDropEditPolicy {
     }
 
     private boolean isSourceFromExpandSubprocessAndSourceAlreadyConnected(final ChangeBoundsRequest request) {
-        for(final Object ep : request.getEditParts()){
-            if(ep instanceof IGraphicalEditPart){
-                if(((IGraphicalEditPart) ep).getParent() instanceof CustomSubprocessEventCompartmentEditPart){
-                    if(!((IGraphicalEditPart) ep).getTargetConnections().isEmpty()){
-                        for(final Object c : ((IGraphicalEditPart) ep).getTargetConnections()){
-                            if(!request.getEditParts().contains(((ConnectionEditPart)c).getSource())){
-                                return true ;
+        for (final Object ep : request.getEditParts()) {
+            if (ep instanceof IGraphicalEditPart) {
+                if (((IGraphicalEditPart) ep).getParent() instanceof CustomSubprocessEventCompartmentEditPart) {
+                    if (!((IGraphicalEditPart) ep).getTargetConnections().isEmpty()) {
+                        for (final Object c : ((IGraphicalEditPart) ep).getTargetConnections()) {
+                            if (!request.getEditParts().contains(((ConnectionEditPart) c).getSource())) {
+                                return true;
                             }
                         }
                     }
-                    if(!((IGraphicalEditPart) ep).getSourceConnections().isEmpty()){
-                        for(final Object c : ((IGraphicalEditPart) ep).getSourceConnections()){
-                            if(!request.getEditParts().contains(((ConnectionEditPart)c).getTarget())){
-                                return true ;
+                    if (!((IGraphicalEditPart) ep).getSourceConnections().isEmpty()) {
+                        for (final Object c : ((IGraphicalEditPart) ep).getSourceConnections()) {
+                            if (!request.getEditParts().contains(((ConnectionEditPart) c).getTarget())) {
+                                return true;
                             }
                         }
                     }
@@ -168,23 +166,23 @@ public class CustomDragDropEditPolicy extends DragDropEditPolicy {
     }
 
     private boolean isTargetaCollapseSubprocess(final ChangeBoundsRequest request) {
-        if(request.getLocation() == null){
-            return false ;
+        if (request.getLocation() == null) {
+            return false;
         }
-        final EditPart ep = getHost().getParent().getViewer().findObjectAt(request.getLocation()) ;
+        final EditPart ep = getHost().getParent().getViewer().findObjectAt(request.getLocation());
         return ep instanceof IGraphicalEditPart && ((IGraphicalEditPart) ep).resolveSemanticElement() instanceof SubProcessEvent && isCollapsed(ep);
     }
 
     private boolean isCollapsed(EditPart ep) {
-        if(ep instanceof ShapeCompartmentEditPart){
-            return !((ShapeCompartmentEditPart) ep).getCompartmentFigure().isExpanded() ;
-        }else{
-            if(ep instanceof ITextAwareEditPart){
-                ep=ep.getParent() ;
+        if (ep instanceof ShapeCompartmentEditPart) {
+            return !((ShapeCompartmentEditPart) ep).getCompartmentFigure().isExpanded();
+        } else {
+            if (ep instanceof ITextAwareEditPart) {
+                ep = ep.getParent();
             }
-            for(final Object child : ep.getChildren()){
-                if(child instanceof ShapeCompartmentEditPart){
-                    return !((ShapeCompartmentEditPart) child).getCompartmentFigure().isExpanded() ;
+            for (final Object child : ep.getChildren()) {
+                if (child instanceof ShapeCompartmentEditPart) {
+                    return !((ShapeCompartmentEditPart) child).getCompartmentFigure().isExpanded();
                 }
             }
         }
@@ -196,14 +194,14 @@ public class CustomDragDropEditPolicy extends DragDropEditPolicy {
      * @return
      */
     private boolean isInvalidBoundaryMove(final ChangeBoundsRequest request) {
-        for(final Object ep : request.getEditParts()){
-            if(((IGraphicalEditPart)ep).resolveSemanticElement() instanceof BoundaryEvent){
+        for (final Object ep : request.getEditParts()) {
+            if (((IGraphicalEditPart) ep).resolveSemanticElement() instanceof BoundaryEvent) {
                 final EditPart objectAt = getHost().getViewer().findObjectAt(request.getLocation());
-                if(objectAt instanceof IGraphicalEditPart){
+                if (objectAt instanceof IGraphicalEditPart) {
                     final IGraphicalEditPart target = (IGraphicalEditPart) objectAt;
                     final EObject targetEObject = target.resolveSemanticElement();
                     return !(targetEObject instanceof Activity);
-                }else{
+                } else {
                     return false;
                 }
             }
@@ -217,24 +215,27 @@ public class CustomDragDropEditPolicy extends DragDropEditPolicy {
 
     @Override
     public void showTargetFeedback(final Request request) {
-        if(((IGraphicalEditPart) getHost()).resolveSemanticElement() instanceof SubProcessEvent){
+        if (((IGraphicalEditPart) getHost()).resolveSemanticElement() instanceof SubProcessEvent) {
             final Command c = getCommand(request);
             final EditPart parent = getHost().getParent();
-            final View parentNotationView = ((IGraphicalEditPart)parent).getNotationView();
+            final View parentNotationView = ((IGraphicalEditPart) parent).getNotationView();
             final IFigure parentHostFigure = getHostFigure().getParent();
-            if (c != null && c.canExecute() && !isCollapsed(getHost())){
-                if(!dropNotAllowed((ChangeBoundsRequest) request)) {
-                    if(parent != null && parentNotationView != null &&  parentNotationView.getStyle(NotationPackage.eINSTANCE.getLineStyle()) != null){
-                        final Color foreground = ColorRegistry.getInstance().getColor(((LineStyle) parentNotationView.getStyle(NotationPackage.eINSTANCE.getLineStyle())).getLineColor()) ;
-                        final Color background = ColorRegistry.getInstance().getColor(((FillStyle) parentNotationView.getStyle(NotationPackage.eINSTANCE.getFillStyle())).getFillColor()) ;
-                        parentHostFigure.setForegroundColor(FigureUtilities.lighter(foreground)) ;
-                        parentHostFigure.setBackgroundColor(FigureUtilities.lighter(background)) ;
+            if (c != null && c.canExecute() && !isCollapsed(getHost())) {
+                if (!dropNotAllowed((ChangeBoundsRequest) request)) {
+                    if (parent != null && parentNotationView != null && parentNotationView.getStyle(NotationPackage.eINSTANCE.getLineStyle()) != null) {
+                        final Color foreground = ColorRegistry.getInstance().getColor(
+                                ((LineStyle) parentNotationView.getStyle(NotationPackage.eINSTANCE.getLineStyle())).getLineColor());
+                        final Color background = ColorRegistry.getInstance().getColor(
+                                ((FillStyle) parentNotationView.getStyle(NotationPackage.eINSTANCE.getFillStyle())).getFillColor());
+                        parentHostFigure.setForegroundColor(FigureUtilities.lighter(foreground));
+                        parentHostFigure.setBackgroundColor(FigureUtilities.lighter(background));
                     }
                 } else {
-                    if(parent != null && parentNotationView != null &&  parentNotationView.getStyle(NotationPackage.eINSTANCE.getLineStyle()) != null){
-                        final Color background = ColorRegistry.getInstance().getColor(((FillStyle) parentNotationView.getStyle(NotationPackage.eINSTANCE.getFillStyle())).getFillColor()) ;
-                        parentHostFigure.setForegroundColor(ColorConstants.red) ;
-                        parentHostFigure.setBackgroundColor(FigureUtilities.lighter(background)) ;
+                    if (parent != null && parentNotationView != null && parentNotationView.getStyle(NotationPackage.eINSTANCE.getLineStyle()) != null) {
+                        final Color background = ColorRegistry.getInstance().getColor(
+                                ((FillStyle) parentNotationView.getStyle(NotationPackage.eINSTANCE.getFillStyle())).getFillColor());
+                        parentHostFigure.setForegroundColor(ColorConstants.red);
+                        parentHostFigure.setBackgroundColor(FigureUtilities.lighter(background));
                     }
                 }
             }
@@ -244,16 +245,20 @@ public class CustomDragDropEditPolicy extends DragDropEditPolicy {
 
     @Override
     public void eraseTargetFeedback(final Request request) {
-        if(((IGraphicalEditPart) getHost()).resolveSemanticElement() instanceof SubProcessEvent){
-            if(getHost().getParent() != null && ((IGraphicalEditPart)getHost().getParent()).getNotationView() != null &&  ((IGraphicalEditPart)getHost().getParent()).getNotationView().getStyle(NotationPackage.eINSTANCE.getLineStyle()) != null){
-                final Color foreground = ColorRegistry.getInstance().getColor(((LineStyle) ((IGraphicalEditPart)getHost().getParent()).getNotationView().getStyle(NotationPackage.eINSTANCE.getLineStyle())).getLineColor()) ;
-                final Color background = ColorRegistry.getInstance().getColor(((FillStyle) ((IGraphicalEditPart)getHost().getParent()).getNotationView().getStyle(NotationPackage.eINSTANCE.getFillStyle())).getFillColor()) ;
-                getHostFigure().getParent().setForegroundColor(foreground) ;
-                getHostFigure().getParent().setBackgroundColor(background) ;
+        if (((IGraphicalEditPart) getHost()).resolveSemanticElement() instanceof SubProcessEvent) {
+            if (getHost().getParent() != null && ((IGraphicalEditPart) getHost().getParent()).getNotationView() != null
+                    && ((IGraphicalEditPart) getHost().getParent()).getNotationView().getStyle(NotationPackage.eINSTANCE.getLineStyle()) != null) {
+                final Color foreground = ColorRegistry.getInstance().getColor(
+                        ((LineStyle) ((IGraphicalEditPart) getHost().getParent()).getNotationView().getStyle(NotationPackage.eINSTANCE.getLineStyle()))
+                                .getLineColor());
+                final Color background = ColorRegistry.getInstance().getColor(
+                        ((FillStyle) ((IGraphicalEditPart) getHost().getParent()).getNotationView().getStyle(NotationPackage.eINSTANCE.getFillStyle()))
+                                .getFillColor());
+                getHostFigure().getParent().setForegroundColor(foreground);
+                getHostFigure().getParent().setBackgroundColor(background);
             }
         }
         return; // DO NOTHING
     }
 
 }
-

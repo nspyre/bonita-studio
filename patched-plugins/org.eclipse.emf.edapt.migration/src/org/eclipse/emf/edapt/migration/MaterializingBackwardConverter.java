@@ -20,36 +20,36 @@ import org.eclipse.emf.ecore.EStructuralFeature;
  */
 public class MaterializingBackwardConverter extends BackwardConverter {
 
-	/** {@inheritDoc} */
-	@Override
-	protected EClass resolveEClass(EClass eClass) {
-		return (EClass) resolveEClassifier(eClass);
-	}
+    /** {@inheritDoc} */
+    @Override
+    protected EClass resolveEClass(EClass eClass) {
+        return (EClass) resolveEClassifier(eClass);
+    }
 
-	/** Map the reflective classifier to a registered one. */
-	private EClassifier resolveEClassifier(EClassifier classifier) {
-		EPackage sourcePackage = classifier.getEPackage();
-		EPackage targetPackage = Registry.INSTANCE.getEPackage(sourcePackage
-				.getNsURI());
-		return targetPackage.getEClassifier(classifier.getName());
-	}
+    /** Map the reflective classifier to a registered one. */
+    private EClassifier resolveEClassifier(EClassifier classifier) {
+        EPackage sourcePackage = classifier.getEPackage();
+        EPackage targetPackage = Registry.INSTANCE.getEPackage(sourcePackage
+                .getNsURI());
+        return targetPackage.getEClassifier(classifier.getName());
+    }
 
-	/** {@inheritDoc} */
-	@Override
-	protected EStructuralFeature resolveFeature(EStructuralFeature feature) {
-		EClass sourceClass = feature.getEContainingClass();
-		EClass targetClass = resolveEClass(sourceClass);
-		return targetClass.getEStructuralFeature(feature.getName());
-	}
+    /** {@inheritDoc} */
+    @Override
+    protected EStructuralFeature resolveFeature(EStructuralFeature feature) {
+        EClass sourceClass = feature.getEContainingClass();
+        EClass targetClass = resolveEClass(sourceClass);
+        return targetClass.getEStructuralFeature(feature.getName());
+    }
 
-	/** {@inheritDoc} */
-	@Override
-	protected Enumerator resolveLiteral(EEnumLiteral literal) {
-		EEnum sourceEnum = literal.getEEnum();
-		String value = sourceEnum.getEPackage().getEFactoryInstance()
-				.convertToString(sourceEnum, literal);
-		EEnum targetEnum = (EEnum) resolveEClassifier(sourceEnum);
-		return (Enumerator) targetEnum.getEPackage().getEFactoryInstance()
-				.createFromString(targetEnum, value);
-	}
+    /** {@inheritDoc} */
+    @Override
+    protected Enumerator resolveLiteral(EEnumLiteral literal) {
+        EEnum sourceEnum = literal.getEEnum();
+        String value = sourceEnum.getEPackage().getEFactoryInstance()
+                .convertToString(sourceEnum, literal);
+        EEnum targetEnum = (EEnum) resolveEClassifier(sourceEnum);
+        return (Enumerator) targetEnum.getEPackage().getEFactoryInstance()
+                .createFromString(targetEnum, value);
+    }
 }

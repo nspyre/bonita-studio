@@ -15,19 +15,20 @@ import org.eclipse.swt.widgets.Text;
 
 /**
  * @author florine
- *
  */
 public class AddCustomUserInformationWizardPage extends WizardPage {
 
-	protected AddCustomUserInformationWizardPage(String pageName) {
-		super(pageName);
-		// TODO Auto-generated constructor stub
-	}
+    protected AddCustomUserInformationWizardPage(String pageName) {
+        super(pageName);
+        // TODO Auto-generated constructor stub
+    }
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.jface.dialogs.IDialogPage#createControl(org.eclipse.swt.widgets.Composite)
-	 */
-	@Override
-	public void createControl(Composite parent) {}
+    /*
+     * (non-Javadoc)
+     * @see org.eclipse.jface.dialogs.IDialogPage#createControl(org.eclipse.swt.widgets.Composite)
+     */
+    @Override
+    public void createControl(Composite parent) {
+    }
 
 }

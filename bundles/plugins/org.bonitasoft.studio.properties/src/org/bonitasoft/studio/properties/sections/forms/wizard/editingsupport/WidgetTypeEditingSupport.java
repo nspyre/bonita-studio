@@ -5,14 +5,12 @@
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2.0 of the License, or
  * (at your option) any later version.
- *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package org.bonitasoft.studio.properties.sections.forms.wizard.editingsupport;
 
@@ -41,7 +39,6 @@ import org.eclipse.swt.widgets.Display;
 
 /**
  * @author Romain Bioteau
- *
  */
 public class WidgetTypeEditingSupport extends EditingSupport {
 
@@ -53,11 +50,12 @@ public class WidgetTypeEditingSupport extends EditingSupport {
      */
     public WidgetTypeEditingSupport(final ColumnViewer viewer) {
         super(viewer);
-        widgetTypesByNames = new HashMap<String,EClass>();
+        widgetTypesByNames = new HashMap<String, EClass>();
         formPaletteLabelProvider = new FormPaletteLabelProvider();
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see org.eclipse.jface.viewers.EditingSupport#getCellEditor(java.lang.Object)
      */
     @Override
@@ -91,12 +89,12 @@ public class WidgetTypeEditingSupport extends EditingSupport {
     }
 
     protected String[] getItemsFor(final Object element) {
-        if(element instanceof WidgetMapping){
+        if (element instanceof WidgetMapping) {
             final WidgetMapping mapping = (WidgetMapping) element;
             final List<String> widgetNames = new ArrayList<String>();
-            for(final EClass widgetType : mapping.getCompatibleWidgetTypes()){
-                final String text = getText(widgetType,mapping);
-                widgetTypesByNames.put(text,widgetType);
+            for (final EClass widgetType : mapping.getCompatibleWidgetTypes()) {
+                final String text = getText(widgetType, mapping);
+                widgetTypesByNames.put(text, widgetType);
                 widgetNames.add(text);
             }
             return widgetNames.toArray(new String[widgetNames.size()]);
@@ -108,18 +106,20 @@ public class WidgetTypeEditingSupport extends EditingSupport {
         return formPaletteLabelProvider.getFormPaletteText(widgetType);
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see org.eclipse.jface.viewers.EditingSupport#canEdit(java.lang.Object)
      */
     @Override
     protected boolean canEdit(final Object element) {
-        if(element instanceof WidgetMapping){
+        if (element instanceof WidgetMapping) {
             return getItemsFor(element).length > 1;
         }
         return false;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see org.eclipse.jface.viewers.EditingSupport#getValue(java.lang.Object)
      */
     @Override
@@ -127,22 +127,22 @@ public class WidgetTypeEditingSupport extends EditingSupport {
         return Arrays.asList(getItemsFor(element)).indexOf(formPaletteLabelProvider.getFormPaletteText(((WidgetMapping) element).getWidgetType().eClass()));
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see org.eclipse.jface.viewers.EditingSupport#setValue(java.lang.Object, java.lang.Object)
      */
     @Override
     protected void setValue(final Object element, final Object value) {
         final EClass widgetEClass = getEClassByWidgetName(value.toString());
-        ((WidgetMapping)element).setWidgetType(createWidgetFor(widgetEClass));
+        ((WidgetMapping) element).setWidgetType(createWidgetFor(widgetEClass));
         Display.getDefault().asyncExec(new Runnable() {
 
             @Override
             public void run() {
                 getViewer().refresh();
             }
-        }) ;
+        });
     }
-
 
     protected EClass getEClassByWidgetName(final String widgetName) {
         return widgetTypesByNames.get(widgetName);

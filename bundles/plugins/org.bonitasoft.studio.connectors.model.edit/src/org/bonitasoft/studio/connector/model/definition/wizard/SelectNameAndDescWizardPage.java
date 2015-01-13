@@ -1,19 +1,16 @@
 /**
  * Copyright (C) 2009 BonitaSoft S.A.
  * BonitaSoft, 31 rue Gustave Eiffel - 38000 Grenoble
- *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2.0 of the License, or
  * (at your option) any later version.
- *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package org.bonitasoft.studio.connector.model.definition.wizard;
 
@@ -47,10 +44,8 @@ import org.eclipse.swt.widgets.Text;
 
 /**
  * @author Romain Bioteau
- *
  */
 public class SelectNameAndDescWizardPage extends WizardPage implements IWizardPage {
-
 
     protected final Connector connector;
     protected final Set<EStructuralFeature> featureToCheckForUniqueID;
@@ -58,32 +53,34 @@ public class SelectNameAndDescWizardPage extends WizardPage implements IWizardPa
     private EMFDataBindingContext context;
     private final Connector originalConnector;
 
-    public SelectNameAndDescWizardPage(EObject container , Connector connectorWorkingCopy,Connector originalConnector,Set<EStructuralFeature> featureToCheckForUniqueID) {
+    public SelectNameAndDescWizardPage(EObject container, Connector connectorWorkingCopy, Connector originalConnector,
+            Set<EStructuralFeature> featureToCheckForUniqueID) {
         super(SelectNameAndDescWizardPage.class.getName());
         setTitle(Messages.specifyName_wizardTitle);
         setDescription(Messages.specifyName_wizardDesc);
         connector = connectorWorkingCopy;
-        this.originalConnector  = originalConnector ;
-        this.featureToCheckForUniqueID = featureToCheckForUniqueID ;
-        this.container = container ;
+        this.originalConnector = originalConnector;
+        this.featureToCheckForUniqueID = featureToCheckForUniqueID;
+        this.container = container;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see org.eclipse.jface.dialogs.IDialogPage#createControl(org.eclipse.swt.widgets.Composite)
      */
     @Override
     public void createControl(Composite parent) {
-        context = new EMFDataBindingContext() ;
-        Composite composite = doCreateControl(parent,context);
-        WizardPageSupport.create(this, context) ;
+        context = new EMFDataBindingContext();
+        Composite composite = doCreateControl(parent, context);
+        WizardPageSupport.create(this, context);
         setControl(composite);
     }
 
     @Override
     public void dispose() {
         super.dispose();
-        if(context != null){
-            context.dispose() ;
+        if (context != null) {
+            context.dispose();
         }
     }
 
@@ -101,43 +98,43 @@ public class SelectNameAndDescWizardPage extends WizardPage implements IWizardPa
         nameLabel.setText(Messages.dataNameLabel);
 
         final Text nameText = new Text(composite, SWT.BORDER);
-        nameText.setLayoutData(GridDataFactory.fillDefaults().grab(true,false).create());
+        nameText.setLayoutData(GridDataFactory.fillDefaults().grab(true, false).create());
 
         Label descLabel = new Label(composite, SWT.NONE);
         descLabel.setLayoutData(GridDataFactory.fillDefaults().align(SWT.END, SWT.TOP).create());
         descLabel.setText(Messages.dataDescriptionLabel);
 
         final Text descText = new Text(composite, SWT.MULTI | SWT.BORDER | SWT.WRAP);
-        descText.setLayoutData(GridDataFactory.fillDefaults().grab(true,false).hint(SWT.DEFAULT, 50).create());
+        descText.setLayoutData(GridDataFactory.fillDefaults().grab(true, false).hint(SWT.DEFAULT, 50).create());
 
-        UpdateValueStrategy nameStrategy = new UpdateValueStrategy() ;
+        UpdateValueStrategy nameStrategy = new UpdateValueStrategy();
         nameStrategy.setBeforeSetValidator(new IValidator() {
 
             @Override
             public IStatus validate(Object value) {
-                if(value == null || value.toString().isEmpty()){
-                    return ValidationStatus.error(Messages.nameIsEmpty) ;
+                if (value == null || value.toString().isEmpty()) {
+                    return ValidationStatus.error(Messages.nameIsEmpty);
                 }
-                if(container != null){
-                    for(EStructuralFeature feature : featureToCheckForUniqueID){
-                        List<?> otherConnectors = (List<?>) container.eGet(feature) ;
-                        for(Object c : otherConnectors){
-                            if(!c.equals(originalConnector) && ((Connector) c).getName().equals(value)){
-                                return  ValidationStatus.error(Messages.nameAlreadyExists) ;
+                if (container != null) {
+                    for (EStructuralFeature feature : featureToCheckForUniqueID) {
+                        List<?> otherConnectors = (List<?>) container.eGet(feature);
+                        for (Object c : otherConnectors) {
+                            if (!c.equals(originalConnector) && ((Connector) c).getName().equals(value)) {
+                                return ValidationStatus.error(Messages.nameAlreadyExists);
                             }
                         }
                     }
                 }
                 return Status.OK_STATUS;
             }
-        }) ;
+        });
 
-
-        context.bindValue(SWTObservables.observeText(nameText, SWT.Modify), EMFObservables.observeValue(connector, ProcessPackage.Literals.ELEMENT__NAME),nameStrategy,null);
+        context.bindValue(SWTObservables.observeText(nameText, SWT.Modify), EMFObservables.observeValue(connector, ProcessPackage.Literals.ELEMENT__NAME),
+                nameStrategy, null);
         UpdateValueStrategy descStrategy = new UpdateValueStrategy();
         descStrategy.setBeforeSetValidator(new InputLengthValidator(Messages.dataDescriptionLabel, 255));
-        context.bindValue(SWTObservables.observeText(descText, SWT.Modify), EMFObservables.observeValue(connector, ProcessPackage.Literals.ELEMENT__DOCUMENTATION),descStrategy,null) ;
-
+        context.bindValue(SWTObservables.observeText(descText, SWT.Modify),
+                EMFObservables.observeValue(connector, ProcessPackage.Literals.ELEMENT__DOCUMENTATION), descStrategy, null);
 
         return composite;
     }
@@ -145,7 +142,7 @@ public class SelectNameAndDescWizardPage extends WizardPage implements IWizardPa
     @Override
     public IWizardPage getPreviousPage() {
         IWizard wizard = getWizard();
-        if(wizard != null){
+        if (wizard != null) {
             return wizard.getPreviousPage(this);
         }
         return super.getPreviousPage();

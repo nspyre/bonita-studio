@@ -1,19 +1,16 @@
 /**
  * Copyright (C) 2010 BonitaSoft S.A.
  * BonitaSoft, 31 rue Gustave Eiffel - 38000 Grenoble
- *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2.0 of the License, or
  * (at your option) any later version.
- *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package org.bonitasoft.studio.properties.sections.general.events;
 
@@ -65,7 +62,6 @@ import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetWidgetFactory;
 
 /**
  * @author Baptiste Mesta
- * 
  */
 public class ErrorEventSectionContribution extends AbstractPropertySectionContribution {
 
@@ -76,13 +72,12 @@ public class ErrorEventSectionContribution extends AbstractPropertySectionContri
     private ControlDecoration hint;
     private final DiagramRepositoryStore diagramStore;
 
-    public ErrorEventSectionContribution(){
-        diagramStore = (DiagramRepositoryStore) RepositoryManager.getInstance().getCurrentRepository().getRepositoryStore(DiagramRepositoryStore.class) ;
+    public ErrorEventSectionContribution() {
+        diagramStore = (DiagramRepositoryStore) RepositoryManager.getInstance().getCurrentRepository().getRepositoryStore(DiagramRepositoryStore.class);
     }
 
     /*
      * (non-Javadoc)
-     * 
      * @see org.bonitasoft.studio.common.properties.
      * IExtensibleGridPropertySectionContribution
      * #isRelevantFor(org.eclipse.emf.ecore.EObject)
@@ -93,7 +88,6 @@ public class ErrorEventSectionContribution extends AbstractPropertySectionContri
 
     /*
      * (non-Javadoc)
-     * 
      * @see org.bonitasoft.studio.common.properties.
      * IExtensibleGridPropertySectionContribution#refresh()
      */
@@ -102,12 +96,11 @@ public class ErrorEventSectionContribution extends AbstractPropertySectionContri
 
     /*
      * (non-Javadoc)
-     * 
      * @see org.bonitasoft.studio.common.properties.
      * IExtensibleGridPropertySectionContribution#getLabel()
      */
     public String getLabel() {
-        if(eObject instanceof EndErrorEvent){
+        if (eObject instanceof EndErrorEvent) {
             return Messages.endErrorEvent_error;
         } else {
             return Messages.errorEvent_error;
@@ -116,7 +109,6 @@ public class ErrorEventSectionContribution extends AbstractPropertySectionContri
 
     /*
      * (non-Javadoc)
-     * 
      * @see org.bonitasoft.studio.common.properties.
      * IExtensibleGridPropertySectionContribution
      * #createControl(org.eclipse.swt.widgets.Composite,
@@ -143,7 +135,6 @@ public class ErrorEventSectionContribution extends AbstractPropertySectionContri
 
     /*
      * (non-Javadoc)
-     * 
      * @see org.bonitasoft.studio.common.properties.
      * IExtensibleGridPropertySectionContribution#dispose()
      */
@@ -153,7 +144,6 @@ public class ErrorEventSectionContribution extends AbstractPropertySectionContri
 
     /*
      * (non-Javadoc)
-     * 
      * @see
      * org.bonitasoft.studio.common.properties.AbstractPropertySectionContribution
      * #setEObject(org.eclipse.emf.ecore.EObject)
@@ -165,7 +155,6 @@ public class ErrorEventSectionContribution extends AbstractPropertySectionContri
 
     /*
      * (non-Javadoc)
-     * 
      * @see
      * org.bonitasoft.studio.common.properties.AbstractPropertySectionContribution
      * #setSelection(org.eclipse.jface.viewers.ISelection)
@@ -193,16 +182,16 @@ public class ErrorEventSectionContribution extends AbstractPropertySectionContri
                 hint.setDescriptionText(Messages.errorEvent_errorCodeHint);
                 context.bindValue(SWTObservables.observeText(codeCombo), EMFEditObservables.observeValue(editingDomain, eObject,
                         ProcessPackage.Literals.ERROR_EVENT__ERROR_CODE), new UpdateValueStrategy().setAfterGetValidator(new WrappingValidator(
-                                controlDecoration, new IValidator() {
+                        controlDecoration, new IValidator() {
 
-                                    public IStatus validate(Object value) {
-                                        if (value instanceof String && ((String) value).length() > 0) {
-                                            return Status.OK_STATUS;
-                                        } else {
-                                            return Status.CANCEL_STATUS;
-                                        }
-                                    }
-                                },true)), null);
+                            public IStatus validate(Object value) {
+                                if (value instanceof String && ((String) value).length() > 0) {
+                                    return Status.OK_STATUS;
+                                } else {
+                                    return Status.CANCEL_STATUS;
+                                }
+                            }
+                        }, true)), null);
             } else {
 
                 hint.setDescriptionText(Messages.errorEvent_errorCodeCatchHint);
@@ -220,45 +209,45 @@ public class ErrorEventSectionContribution extends AbstractPropertySectionContri
     protected void populateCombo() {
         EObject parent = eObject.eContainer();
         Set<String> namedErrorsAvailable = new TreeSet<String>();
-        if(parent instanceof ConnectableElement){
-            /*Search in connectors*/
+        if (parent instanceof ConnectableElement) {
+            /* Search in connectors */
             ConnectableElement activity = (ConnectableElement) parent;
-            for(Connector connector : activity.getConnectors()){
+            for (Connector connector : activity.getConnectors()) {
                 String namedError = connector.getNamedError();
-                if(namedError != null && namedError.length() != 0){
+                if (namedError != null && namedError.length() != 0) {
                     namedErrorsAvailable.add(namedError);
                 }
             }
         }
-        /*on subprocess search also end error event in subprocess*/
-        if(parent instanceof CallActivity){
+        /* on subprocess search also end error event in subprocess */
+        if (parent instanceof CallActivity) {
 
             CallActivity subProcess = (CallActivity) parent;
             final Expression calledProcessName = subProcess.getCalledActivityName();
-            String subprocessName = null ;
-            if(calledProcessName != null
+            String subprocessName = null;
+            if (calledProcessName != null
                     && calledProcessName.getContent() != null
-                    && calledProcessName.getType().equals(ExpressionConstants.CONSTANT_TYPE)){
-                subprocessName = calledProcessName.getContent() ;
+                    && calledProcessName.getType().equals(ExpressionConstants.CONSTANT_TYPE)) {
+                subprocessName = calledProcessName.getContent();
             }
             final Expression calledProcessVersion = subProcess.getCalledActivityVersion();
-            String subprocessVersion = null ;
-            if(calledProcessVersion != null
+            String subprocessVersion = null;
+            if (calledProcessVersion != null
                     && calledProcessVersion.getContent() != null
-                    && calledProcessVersion.getType().equals(ExpressionConstants.CONSTANT_TYPE)){
-                subprocessVersion = calledProcessVersion.getContent() ;
+                    && calledProcessVersion.getType().equals(ExpressionConstants.CONSTANT_TYPE)) {
+                subprocessVersion = calledProcessVersion.getContent();
             }
-            if(subprocessName != null){
+            if (subprocessName != null) {
                 AbstractProcess relatedProcess = ModelHelper.findProcess(subprocessName, subprocessVersion, diagramStore.getAllProcesses());
-                if(relatedProcess != null){
+                if (relatedProcess != null) {
                     List<EClass> types = new ArrayList<EClass>();
                     types.add(ProcessPackage.Literals.END_ERROR_EVENT);
                     List<Element> elements = new ArrayList<Element>();
                     ModelHelper.findAllElements(relatedProcess, elements, types);
                     for (Element element : elements) {
-                        EndErrorEvent endErrorEvent = (EndErrorEvent)element;
+                        EndErrorEvent endErrorEvent = (EndErrorEvent) element;
                         String errorCode = endErrorEvent.getErrorCode();
-                        if(errorCode != null){
+                        if (errorCode != null) {
                             namedErrorsAvailable.add(errorCode);
                         }
                     }
@@ -266,37 +255,36 @@ public class ErrorEventSectionContribution extends AbstractPropertySectionContri
             }
         }
 
-        if(parent instanceof SubProcessEvent){
+        if (parent instanceof SubProcessEvent) {
             SubProcessEvent subProcess = (SubProcessEvent) parent;
-            AbstractProcess relatedProcess = ModelHelper.getParentProcess(subProcess) ;
-            if(relatedProcess != null){
+            AbstractProcess relatedProcess = ModelHelper.getParentProcess(subProcess);
+            if (relatedProcess != null) {
                 List<EClass> types = new ArrayList<EClass>();
                 types.add(ProcessPackage.Literals.END_ERROR_EVENT);
                 List<Element> elements = new ArrayList<Element>();
                 ModelHelper.findAllElements(relatedProcess, elements, types);
                 for (Element element : elements) {
-                    EndErrorEvent endErrorEvent = (EndErrorEvent)element;
+                    EndErrorEvent endErrorEvent = (EndErrorEvent) element;
                     String errorCode = endErrorEvent.getErrorCode();
-                    if(errorCode != null){
+                    if (errorCode != null) {
                         namedErrorsAvailable.add(errorCode);
                     }
                 }
 
-                /*Search in connectors*/
-                types.clear() ;
+                /* Search in connectors */
+                types.clear();
                 types.add(ProcessPackage.Literals.CONNECTABLE_ELEMENT);
-                elements.clear() ;
+                elements.clear();
                 ModelHelper.findAllElements(relatedProcess, elements, types);
                 for (Element element : elements) {
                     ConnectableElement activity = (ConnectableElement) element;
-                    for(Connector connector : activity.getConnectors()){
+                    for (Connector connector : activity.getConnectors()) {
                         String namedError = connector.getNamedError();
-                        if(namedError != null && namedError.length() != 0){
+                        if (namedError != null && namedError.length() != 0) {
                             namedErrorsAvailable.add(namedError);
                         }
                     }
                 }
-
 
             }
         }

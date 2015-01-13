@@ -5,12 +5,10 @@
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2.0 of the License, or
  * (at your option) any later version.
- *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- *
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
@@ -37,7 +35,6 @@ import org.junit.Test;
 
 /**
  * @author Romain Bioteau
- *
  */
 public class DataScriptExpressionRefactoringActionTest {
 
@@ -50,9 +47,9 @@ public class DataScriptExpressionRefactoringActionTest {
      */
     @Before
     public void setUp() throws Exception {
-    	final List<DataRefactorPair> pairsToRefactor = new ArrayList<DataRefactorPair>();
+        final List<DataRefactorPair> pairsToRefactor = new ArrayList<DataRefactorPair>();
         oldData = DataBuilder.createDataBuilder().withName("myData").build();
-		pairsToRefactor.add(new DataRefactorPair(oldData, oldData));
+        pairsToRefactor.add(new DataRefactorPair(oldData, oldData));
         refactoringAction = new DataScriptExpressionRefactoringAction(pairsToRefactor,
                 Collections.<Expression> emptyList(),
                 Collections.<Expression> emptyList(),
@@ -73,7 +70,7 @@ public class DataScriptExpressionRefactoringActionTest {
         final Expression expr = ExpressionBuilder.create().
                 havingReferencedElements(createData,
                         ParameterBuilder.create().withName("myData").build()).build();
-        final Map<EObject,EObject> eObject = refactoringAction.getReferencedObjectInScriptsOperation(expr);
+        final Map<EObject, EObject> eObject = refactoringAction.getReferencedObjectInScriptsOperation(expr);
         assertThat(eObject).isNotEmpty().containsEntry(createData, oldData);
     }
 }

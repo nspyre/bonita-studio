@@ -5,14 +5,12 @@
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2.0 of the License, or
  * (at your option) any later version.
- *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package org.bonitasoft.studio.connectors.ui.wizard;
 
@@ -47,96 +45,97 @@ import org.eclipse.swt.widgets.Shell;
 
 public class TestConnectorUtil {
 
-	public static boolean testConnectorWithConfiguration(
-			final ConnectorConfiguration configuration,
-			final String connectorDefId,
-			final String connectorDefVersion,
-			final Connector connector,
-			final Shell shell,
-			IWizardContainer wd ) {
-		IImplementationRepositoryStore implStore = getImplementationStore();
-		final List<ConnectorImplementation> implementations =  implStore.getImplementations(connectorDefId,connectorDefVersion);
+    public static boolean testConnectorWithConfiguration(
+            final ConnectorConfiguration configuration,
+            final String connectorDefId,
+            final String connectorDefVersion,
+            final Connector connector,
+            final Shell shell,
+            IWizardContainer wd) {
+        IImplementationRepositoryStore implStore = getImplementationStore();
+        final List<ConnectorImplementation> implementations = implStore.getImplementations(connectorDefId, connectorDefVersion);
 
-		ConnectorImplementation impl = null ;
-		if(implementations.isEmpty()){
-			Display.getDefault().syncExec(new Runnable() {
+        ConnectorImplementation impl = null;
+        if (implementations.isEmpty()) {
+            Display.getDefault().syncExec(new Runnable() {
 
-				@Override
-				public void run() {
-					MessageDialog.openError(Display.getDefault().getActiveShell(), Messages.noImplementationFoundTitle,Messages.bind(Messages.noImplementationFoundMsg,connectorDefId+"-"+connectorDefVersion)) ;
-				}
-			}) ;
-			return false;
-		}else if(implementations.size() == 1){
-			impl = implementations.get(0);
-		}else{
-			impl = openImplementationSelection(connectorDefId, connectorDefVersion) ;
-			if(impl == null){
-				return false;
-			}
-		}
-		
-		final Set<String> jars = TestConnectorOperation.checkImplementationDependencies(impl, Repository.NULL_PROGRESS_MONITOR);
-		final ManageConnectorJarDialog jd = new ManageConnectorJarDialog(shell,Messages.connectorAdditionalDependencyTitle,Messages.connectorAdditionalDependencyMessage) ;
-		jd.setFilter(new ViewerFilter() {
-			
-			@Override
-			public boolean select(Viewer viewer, Object parentElement, Object element) {
-				if(element instanceof IRepositoryFileStore){
-					if(jars.contains(((IRepositoryFileStore) element).getName())){
-						return false;
-					}
-				}
-				return true;
-			}
-		});
-		int retCode =jd.open();
-		if(retCode == Window.OK){
-			TestConnectorOperation operation = new TestConnectorOperation() ;
-			operation.setImplementation(impl) ;
-			operation.setConnectorConfiguration(configuration) ;
-			operation.setConnectorOutput(connector);
-			operation.setAdditionalJars(jd.getSelectedJars());
-			Object result = null ;
-			try {
-				wd.run(true, false, operation) ;
-				if(operation.getStatus().isOK()){
-					result = operation.getResult() ;
-				}else{
-					if(operation.getStatus().getSeverity() == IStatus.WARNING){
-						MessageDialog.openWarning(Display.getDefault().getActiveShell(), Messages.testConnectorTitle, operation.getStatus().getMessage());
-					}else{
-						MessageDialog.openError(Display.getDefault().getActiveShell(), Messages.testConnectorTitle, operation.getStatus().getMessage());
-					}
-					
-				}
-			} catch (InvocationTargetException e) {
-				result = e ;
-				BonitaStudioLog.error(e) ;
-			} catch (InterruptedException e) {
-				result = e ;
-				BonitaStudioLog.error(e) ;
-			}
-			if(result != null){
-				TestConnectorResultDialog dialog = new TestConnectorResultDialog(Display.getDefault().getActiveShell(), result) ;
-				dialog.open() ;
-			}
-		}
-		return false; //Keep wizard open on after test operation
-	}
+                @Override
+                public void run() {
+                    MessageDialog.openError(Display.getDefault().getActiveShell(), Messages.noImplementationFoundTitle,
+                            Messages.bind(Messages.noImplementationFoundMsg, connectorDefId + "-" + connectorDefVersion));
+                }
+            });
+            return false;
+        } else if (implementations.size() == 1) {
+            impl = implementations.get(0);
+        } else {
+            impl = openImplementationSelection(connectorDefId, connectorDefVersion);
+            if (impl == null) {
+                return false;
+            }
+        }
 
-	
-	protected static IImplementationRepositoryStore getImplementationStore() {
-		return (IImplementationRepositoryStore) RepositoryManager.getInstance().getRepositoryStore(ConnectorImplRepositoryStore.class);
-	}
-	
-	protected static ConnectorImplementation openImplementationSelection(String defId,String defVersion) {
-        SelectConnectorImplementationWizard wizard = new SelectConnectorImplementationWizard(defId,defVersion) ;
-        WizardDialog dialog = new WizardDialog(Display.getDefault().getActiveShell(),wizard ) ;
-        if(dialog.open() == Dialog.OK){
-            return  wizard.getConnectorImplementation() ;
+        final Set<String> jars = TestConnectorOperation.checkImplementationDependencies(impl, Repository.NULL_PROGRESS_MONITOR);
+        final ManageConnectorJarDialog jd = new ManageConnectorJarDialog(shell, Messages.connectorAdditionalDependencyTitle,
+                Messages.connectorAdditionalDependencyMessage);
+        jd.setFilter(new ViewerFilter() {
+
+            @Override
+            public boolean select(Viewer viewer, Object parentElement, Object element) {
+                if (element instanceof IRepositoryFileStore) {
+                    if (jars.contains(((IRepositoryFileStore) element).getName())) {
+                        return false;
+                    }
+                }
+                return true;
+            }
+        });
+        int retCode = jd.open();
+        if (retCode == Window.OK) {
+            TestConnectorOperation operation = new TestConnectorOperation();
+            operation.setImplementation(impl);
+            operation.setConnectorConfiguration(configuration);
+            operation.setConnectorOutput(connector);
+            operation.setAdditionalJars(jd.getSelectedJars());
+            Object result = null;
+            try {
+                wd.run(true, false, operation);
+                if (operation.getStatus().isOK()) {
+                    result = operation.getResult();
+                } else {
+                    if (operation.getStatus().getSeverity() == IStatus.WARNING) {
+                        MessageDialog.openWarning(Display.getDefault().getActiveShell(), Messages.testConnectorTitle, operation.getStatus().getMessage());
+                    } else {
+                        MessageDialog.openError(Display.getDefault().getActiveShell(), Messages.testConnectorTitle, operation.getStatus().getMessage());
+                    }
+
+                }
+            } catch (InvocationTargetException e) {
+                result = e;
+                BonitaStudioLog.error(e);
+            } catch (InterruptedException e) {
+                result = e;
+                BonitaStudioLog.error(e);
+            }
+            if (result != null) {
+                TestConnectorResultDialog dialog = new TestConnectorResultDialog(Display.getDefault().getActiveShell(), result);
+                dialog.open();
+            }
+        }
+        return false; //Keep wizard open on after test operation
+    }
+
+    protected static IImplementationRepositoryStore getImplementationStore() {
+        return (IImplementationRepositoryStore) RepositoryManager.getInstance().getRepositoryStore(ConnectorImplRepositoryStore.class);
+    }
+
+    protected static ConnectorImplementation openImplementationSelection(String defId, String defVersion) {
+        SelectConnectorImplementationWizard wizard = new SelectConnectorImplementationWizard(defId, defVersion);
+        WizardDialog dialog = new WizardDialog(Display.getDefault().getActiveShell(), wizard);
+        if (dialog.open() == Dialog.OK) {
+            return wizard.getConnectorImplementation();
         }
         return null;
     }
-	
+
 }

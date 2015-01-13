@@ -1,4 +1,4 @@
-///**
+// /**
 // * Copyright (C) 2009 BonitaSoft S.A.
 // * BonitaSoft, 31 rue Gustave Eiffel - 38000 Grenoble
 // *
@@ -9,23 +9,23 @@
 // *
 // * This program is distributed in the hope that it will be useful,
 // * but WITHOUT ANY WARRANTY; without even the implied warranty of
-// * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // * GNU General Public License for more details.
 // *
 // * You should have received a copy of the GNU General Public License
-// * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+// * along with this program. If not, see <http://www.gnu.org/licenses/>.
 // */
-//package org.bonitasoft.studio.exporter.form;
+// package org.bonitasoft.studio.exporter.form;
 //
-//import org.bonitasoft.forms.server.builder.IFormBuilder;
-//import org.eclipse.emf.ecore.EObject;
+// import org.bonitasoft.forms.server.builder.IFormBuilder;
+// import org.eclipse.emf.ecore.EObject;
 //
-///**
+// /**
 // * @author Baptiste Mesta
 // *
 // */
-//public abstract class IFormsExporterExtension {
+// public abstract class IFormsExporterExtension {
 //
-//	public abstract void executeFormsExporterExtension(EObject eObject,IFormBuilder builder);
-//	
+// public abstract void executeFormsExporterExtension(EObject eObject,IFormBuilder builder);
+//
 //}

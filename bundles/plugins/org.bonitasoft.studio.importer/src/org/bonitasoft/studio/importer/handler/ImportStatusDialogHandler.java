@@ -5,12 +5,10 @@
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2.0 of the License, or
  * (at your option) any later version.
- *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- *
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
@@ -30,10 +28,8 @@ import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Shell;
 
-
 /**
  * @author Romain Bioteau
- *
  */
 public class ImportStatusDialogHandler {
 
@@ -72,7 +68,7 @@ public class ImportStatusDialogHandler {
         ProcessesValidationAction.showValidationPart();
     }
 
-    protected String getDialogMessage(final IStatus status){
+    protected String getDialogMessage(final IStatus status) {
         if (status.isOK()) {
             return org.bonitasoft.studio.importer.i18n.Messages.importSucessfulMessage;
         }
@@ -81,8 +77,8 @@ public class ImportStatusDialogHandler {
             sb.append(SWT.CR);
             for (final IStatus childStatus : status.getChildren()) {
                 if (!childStatus.isOK()) {
-                sb.append(childStatus.getMessage());
-                sb.append(SWT.CR);
+                    sb.append(childStatus.getMessage());
+                    sb.append(SWT.CR);
                 }
             }
             sb.append(Messages.openDiagramWithErrors);

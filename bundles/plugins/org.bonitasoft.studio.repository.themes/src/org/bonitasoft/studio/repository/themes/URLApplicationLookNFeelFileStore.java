@@ -5,14 +5,12 @@
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2.0 of the License, or
  * (at your option) any later version.
- *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package org.bonitasoft.studio.repository.themes;
 
@@ -41,7 +39,6 @@ import org.eclipse.ui.internal.wizards.datatransfer.ArchiveFileExportOperation;
 
 /**
  * @author Romain Bioteau
- *
  */
 public class URLApplicationLookNFeelFileStore extends ApplicationLookNFeelFileStore {
 
@@ -49,7 +46,7 @@ public class URLApplicationLookNFeelFileStore extends ApplicationLookNFeelFileSt
 
     public URLApplicationLookNFeelFileStore(URL url, IRepositoryStore store) {
         super(url.toString(), store);
-        this.url = url ;
+        this.url = url;
     }
 
     /**
@@ -57,25 +54,27 @@ public class URLApplicationLookNFeelFileStore extends ApplicationLookNFeelFileSt
      */
     @Override
     public String getName() {
-        String file = url.getFile() ;
-        String[] segments = file.split("/") ;
-        return segments[segments.length -1] ;
+        String file = url.getFile();
+        String[] segments = file.split("/");
+        return segments[segments.length - 1];
     }
 
     @Override
     public boolean isReadOnly() {
-        return true ;
+        return true;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see org.bonitasoft.studio.common.repository.IRepositoryFileStore#getFile()
      */
     @Override
     public IFolder getResource() {
-        return null ;
+        return null;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see org.bonitasoft.studio.common.repository.IRepositoryFileStore#isShared()
      */
     @Override
@@ -83,25 +82,23 @@ public class URLApplicationLookNFeelFileStore extends ApplicationLookNFeelFileSt
         return false;
     }
 
-
     @Override
     protected void doDelete() {
 
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see org.bonitasoft.studio.common.repository.IRepositoryFileStore#rename(java.lang.String)
      */
     @Override
     public void rename(String newName) {
-
 
     }
 
     public URL getUrl() {
         return url;
     }
-
 
     @Override
     public void setReadOnly(boolean readOnly) {
@@ -114,18 +111,18 @@ public class URLApplicationLookNFeelFileStore extends ApplicationLookNFeelFileSt
     }
 
     @Override
-    protected ThemeDescriptor getThemeDescriptor()  {
+    protected ThemeDescriptor getThemeDescriptor() {
         try {
             return getThemeDescriptorManager().getThemeDescriptor(new File(getRootFile(), ThemeDescriptorManager.THEME_DESCRIPTOR_NAME));
         } catch (ThemeDescriptorNotFoundException e) {
-            BonitaStudioLog.error(e) ;
+            BonitaStudioLog.error(e);
         }
-        return null ;
+        return null;
     }
 
     @Override
     protected File getTemplateFolder() {
-        return new File(getRootFile(),HTML_FOLDER) ;
+        return new File(getRootFile(), HTML_FOLDER);
     }
 
     @Override
@@ -133,14 +130,14 @@ public class URLApplicationLookNFeelFileStore extends ApplicationLookNFeelFileSt
         try {
             return new File(FileLocator.toFileURL(url).getFile());
         } catch (IOException e) {
-            BonitaStudioLog.error(e) ;
+            BonitaStudioLog.error(e);
         }
         return null;
     }
 
     @Override
     public File getResourcesApplicationFolder() {
-        return new File(getRootFile(),APPLICATION_FOLDER) ;
+        return new File(getRootFile(), APPLICATION_FOLDER);
     }
 
     @Override
@@ -148,10 +145,9 @@ public class URLApplicationLookNFeelFileStore extends ApplicationLookNFeelFileSt
         return false;
     }
 
-
     @Override
     public boolean canBeExported() {
-        return false ;
+        return false;
     }
 
     @Override
@@ -159,9 +155,9 @@ public class URLApplicationLookNFeelFileStore extends ApplicationLookNFeelFileSt
         try {
             final File tempFile = File.createTempFile(getName(), ".zip", ProjectUtil.getBonitaStudioWorkFolder());
             final IFolder tempFolder = getParentStore().getResource().getProject().getFolder("tmp");
-            if(tempFolder.exists()){
+            if (tempFolder.exists()) {
                 tempFolder.delete(true, Repository.NULL_PROGRESS_MONITOR);
-                getParentStore().getResource().getProject().refreshLocal(IResource.DEPTH_INFINITE, Repository.NULL_PROGRESS_MONITOR) ;
+                getParentStore().getResource().getProject().refreshLocal(IResource.DEPTH_INFINITE, Repository.NULL_PROGRESS_MONITOR);
             }
 
             PlatformUtil.copyResource(tempFolder.getLocation().toFile(), new File(FileLocator.toFileURL(url).getFile()), Repository.NULL_PROGRESS_MONITOR);
@@ -174,25 +170,25 @@ public class URLApplicationLookNFeelFileStore extends ApplicationLookNFeelFileSt
             exportOperation.run(Repository.NULL_PROGRESS_MONITOR);
             //delete temp files
             tempFolder.delete(true, Repository.NULL_PROGRESS_MONITOR);
-            getParentStore().getResource().getProject().refreshLocal(IResource.DEPTH_INFINITE, Repository.NULL_PROGRESS_MONITOR) ;
+            getParentStore().getResource().getProject().refreshLocal(IResource.DEPTH_INFINITE, Repository.NULL_PROGRESS_MONITOR);
             final FileInputStream fis = new FileInputStream(tempFile);
             return fis;
 
-        } catch (final Exception e){
-            BonitaStudioLog.error(e) ;
+        } catch (final Exception e) {
+            BonitaStudioLog.error(e);
         }
         return null;
     }
 
     @Override
     public void export(String targetAbsoluteFilePath) {
-        targetAbsoluteFilePath = targetAbsoluteFilePath + File.separatorChar + getName() +"."+LookNFeelRepositoryStore.LF_EXTENSION;
+        targetAbsoluteFilePath = targetAbsoluteFilePath + File.separatorChar + getName() + "." + LookNFeelRepositoryStore.LF_EXTENSION;
         try {
             final File file = new File(targetAbsoluteFilePath);
-            if(file.exists()){
-                if(!FileActionDialog.overwriteQuestion(file.getName())){
+            if (file.exists()) {
+                if (!FileActionDialog.overwriteQuestion(file.getName())) {
                     return;
-                }else{
+                } else {
                     file.delete();
                 }
             }

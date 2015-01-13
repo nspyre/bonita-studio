@@ -68,7 +68,6 @@ import org.eclipse.gmf.runtime.notation.Node;
 import org.eclipse.gmf.runtime.notation.View;
 import org.eclipse.jface.preference.IPreferenceStore;
 
-
 public class NewDiagramFactory {
 
     private static final String BASE_VERSION = "1.0"; //$NON-NLS-1$
@@ -111,7 +110,6 @@ public class NewDiagramFactory {
                 ProcessDiagramEditorPlugin.DIAGRAM_PREFERENCES_HINT);
         monitor.worked(1);
 
-
         final View laneCompartmentView = (View) laneNode.getPersistedChildren().get(1);
         final Node stepShape = processViewProvider.createTask_3005(domainElements.get(Task.class), laneCompartmentView, -1, true,
                 ProcessDiagramEditorPlugin.DIAGRAM_PREFERENCES_HINT);
@@ -120,14 +118,12 @@ public class NewDiagramFactory {
         taskLayoutConstraint.setY(60);
         monitor.worked(1);
 
-
         final Node startEventShape = processViewProvider.createStartEvent_3002(domainElements.get(StartEvent.class), laneCompartmentView, -1, true,
                 ProcessDiagramEditorPlugin.DIAGRAM_PREFERENCES_HINT);
         final Bounds stepLayoutConstraint = (Bounds) startEventShape.getLayoutConstraint();
         stepLayoutConstraint.setX(60);
         stepLayoutConstraint.setY(68);
         monitor.worked(1);
-
 
         final Connector edge = (Connector) processViewProvider.createSequenceFlow_4001(domainElements.get(SequenceFlow.class), diagram, -1, true,
                 ProcessDiagramEditorPlugin.DIAGRAM_PREFERENCES_HINT);
@@ -257,7 +253,6 @@ public class NewDiagramFactory {
         return l;
     }
 
-
     protected void createAssignableActor(final DiagramEditPart diagramEp,
             final CompoundCommand cc, final List<Actor> actors, final Lane lane) {
         cc.append(SetCommand.create(
@@ -266,8 +261,6 @@ public class NewDiagramFactory {
                 ProcessPackage.Literals.ASSIGNABLE__ACTOR,
                 actors.get(0)));
     }
-
-
 
     protected List<Actor> createInitialActors(final ProcessFactory factory) {
         final List<Actor> actors = new ArrayList<Actor>();
@@ -278,7 +271,6 @@ public class NewDiagramFactory {
         actors.add(initiator);
         return actors;
     }
-
 
     protected Map<Class<?>, EObject> createlModel(final ProcessFactory processFactory, final String diagramIdentifier, final ElementInitializers initializers,
             final IProgressMonitor monitor) {
@@ -334,7 +326,6 @@ public class NewDiagramFactory {
 
         return domainElements;
     }
-
 
     protected Object getConfigurationId(final MainProcess proc) {
         return ConfigurationIdProvider.getConfigurationIdProvider().getConfigurationId(proc);

@@ -1,19 +1,16 @@
 /**
  * Copyright (C) 2011 BonitaSoft S.A.
  * BonitaSoft, 31 rue Gustave Eiffel - 38000 Grenoble
- *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2.0 of the License, or
  * (at your option) any later version.
- *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package org.bonitasoft.studio.properties.form.sections.actions.contributions;
 
@@ -47,86 +44,89 @@ import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetWidgetFactory;
 
 /**
  * @author Romain Bioteau
- *
  */
-public class AsynchronousSuggestBoxContribution implements IExtensibleGridPropertySectionContribution  {
+public class AsynchronousSuggestBoxContribution implements IExtensibleGridPropertySectionContribution {
 
-	private SuggestBox suggestBox;
-	private TransactionalEditingDomain editingDomain;
-	private Button isAsynchronousCheckbox;
-	private Text delayText;
-	private EMFDataBindingContext dataBindingContext;
-	private ExtensibleGridPropertySection section;
+    private SuggestBox suggestBox;
+    private TransactionalEditingDomain editingDomain;
+    private Button isAsynchronousCheckbox;
+    private Text delayText;
+    private EMFDataBindingContext dataBindingContext;
+    private ExtensibleGridPropertySection section;
 
-	public boolean isRelevantFor(EObject eObject) {
-		return eObject instanceof SuggestBox;
-	}
+    public boolean isRelevantFor(EObject eObject) {
+        return eObject instanceof SuggestBox;
+    }
 
-	public void refresh() {}
+    public void refresh() {
+    }
 
-	public String getLabel() {
-		return Messages.asynchronousLabel;
-	}
+    public String getLabel() {
+        return Messages.asynchronousLabel;
+    }
 
-	public void createControl(Composite composite,
-			TabbedPropertySheetWidgetFactory widgetFactory,
-			ExtensibleGridPropertySection extensibleGridPropertySection) {
-		this.section = extensibleGridPropertySection ;
-		composite.setLayout(new GridLayout(4, false)) ;
-		isAsynchronousCheckbox = widgetFactory.createButton(composite,"", SWT.CHECK) ;
-		widgetFactory.createLabel(composite, Messages.refreshDelay) ;
-		delayText = widgetFactory.createText(composite, String.valueOf(suggestBox.getDelay()), SWT.BORDER | SWT.RIGHT) ;
-		delayText.setLayoutData(GridDataFactory.fillDefaults().hint(50, SWT.DEFAULT).create()) ;
-		widgetFactory.createLabel(composite, Messages.ms) ;
+    public void createControl(Composite composite,
+            TabbedPropertySheetWidgetFactory widgetFactory,
+            ExtensibleGridPropertySection extensibleGridPropertySection) {
+        this.section = extensibleGridPropertySection;
+        composite.setLayout(new GridLayout(4, false));
+        isAsynchronousCheckbox = widgetFactory.createButton(composite, "", SWT.CHECK);
+        widgetFactory.createLabel(composite, Messages.refreshDelay);
+        delayText = widgetFactory.createText(composite, String.valueOf(suggestBox.getDelay()), SWT.BORDER | SWT.RIGHT);
+        delayText.setLayoutData(GridDataFactory.fillDefaults().hint(50, SWT.DEFAULT).create());
+        widgetFactory.createLabel(composite, Messages.ms);
 
-		ControlDecoration asyncHint = new ControlDecoration(isAsynchronousCheckbox, SWT.LEFT | SWT.TOP) ;
-		asyncHint.setImage(Pics.getImage(PicsConstants.hint)) ;
-		asyncHint.setDescriptionText(Messages.asynchronousHint) ;
-		
-		bindWidgets() ;
-		delayText.setEnabled(suggestBox.isAsynchronous()) ;
-	}
+        ControlDecoration asyncHint = new ControlDecoration(isAsynchronousCheckbox, SWT.LEFT | SWT.TOP);
+        asyncHint.setImage(Pics.getImage(PicsConstants.hint));
+        asyncHint.setDescriptionText(Messages.asynchronousHint);
 
-	protected void bindWidgets() {
-		if(dataBindingContext != null){
-			dataBindingContext.dispose();
-		}
-		dataBindingContext = new EMFDataBindingContext();
+        bindWidgets();
+        delayText.setEnabled(suggestBox.isAsynchronous());
+    }
 
-		IObservableValue value = EMFEditObservables.observeValue(editingDomain, suggestBox, FormPackage.Literals.SUGGEST_BOX__ASYNCHRONOUS) ;
-		value.addChangeListener(new IChangeListener() {
+    protected void bindWidgets() {
+        if (dataBindingContext != null) {
+            dataBindingContext.dispose();
+        }
+        dataBindingContext = new EMFDataBindingContext();
 
-			public void handleChange(ChangeEvent event) {
-				ISection extensibleGridPropertySection = section.getTabbedPropertySheetPage().getCurrentTab().getSections()[0];
-				if(extensibleGridPropertySection instanceof DataPropertySection){
-					for(IExtensibleGridPropertySectionContribution contib : ((DataPropertySection) extensibleGridPropertySection).getContributions()){
-						if(contib instanceof AvailableValueContribution){
-							//((MultipleValuatedFieldContribution)contib).resetCombo() ;
-						}
-					}
-				}
-			}
-		}) ;
-		;
-		dataBindingContext.bindValue(SWTObservables.observeSelection(isAsynchronousCheckbox),EMFEditObservables.observeValue(editingDomain, suggestBox, FormPackage.Literals.SUGGEST_BOX__ASYNCHRONOUS) );
-		dataBindingContext.bindValue(EMFEditObservables.observeValue(editingDomain, suggestBox, FormPackage.Literals.SUGGEST_BOX__ASYNCHRONOUS), SWTObservables.observeEnabled(delayText),null,new UpdateValueStrategy(UpdateValueStrategy.POLICY_NEVER));
-		dataBindingContext.bindValue(SWTObservables.observeText(delayText, SWT.Modify), EMFEditObservables.observeValue(editingDomain, suggestBox, FormPackage.Literals.SUGGEST_BOX__DELAY));
+        IObservableValue value = EMFEditObservables.observeValue(editingDomain, suggestBox, FormPackage.Literals.SUGGEST_BOX__ASYNCHRONOUS);
+        value.addChangeListener(new IChangeListener() {
 
-	}
+            public void handleChange(ChangeEvent event) {
+                ISection extensibleGridPropertySection = section.getTabbedPropertySheetPage().getCurrentTab().getSections()[0];
+                if (extensibleGridPropertySection instanceof DataPropertySection) {
+                    for (IExtensibleGridPropertySectionContribution contib : ((DataPropertySection) extensibleGridPropertySection).getContributions()) {
+                        if (contib instanceof AvailableValueContribution) {
+                            //((MultipleValuatedFieldContribution)contib).resetCombo() ;
+                        }
+                    }
+                }
+            }
+        });;
+        dataBindingContext.bindValue(SWTObservables.observeSelection(isAsynchronousCheckbox),
+                EMFEditObservables.observeValue(editingDomain, suggestBox, FormPackage.Literals.SUGGEST_BOX__ASYNCHRONOUS));
+        dataBindingContext.bindValue(EMFEditObservables.observeValue(editingDomain, suggestBox, FormPackage.Literals.SUGGEST_BOX__ASYNCHRONOUS),
+                SWTObservables.observeEnabled(delayText), null, new UpdateValueStrategy(UpdateValueStrategy.POLICY_NEVER));
+        dataBindingContext.bindValue(SWTObservables.observeText(delayText, SWT.Modify),
+                EMFEditObservables.observeValue(editingDomain, suggestBox, FormPackage.Literals.SUGGEST_BOX__DELAY));
 
-	public void setEObject(EObject object) {
-		this.suggestBox = (SuggestBox) object ;
-	}
+    }
 
-	public void setSelection(ISelection selection) {
+    public void setEObject(EObject object) {
+        this.suggestBox = (SuggestBox) object;
+    }
 
-	}
+    public void setSelection(ISelection selection) {
 
-	public void setEditingDomain(TransactionalEditingDomain editingDomain) {
-		this.editingDomain = editingDomain ;
+    }
 
-	}
+    public void setEditingDomain(TransactionalEditingDomain editingDomain) {
+        this.editingDomain = editingDomain;
 
-	public void dispose() {}
+    }
+
+    public void dispose() {
+    }
 
 }

@@ -26,61 +26,60 @@ import org.eclipse.ui.IWorkbenchPart;
 
 /**
  * @author Romain Bioteau
- *
  */
-public class CustomGlobalActionHandlerProvider extends AbstractGlobalActionHandlerProvider{
+public class CustomGlobalActionHandlerProvider extends AbstractGlobalActionHandlerProvider {
 
-	/**
-	 * List for handlers.
-	 */
+    /**
+     * List for handlers.
+     */
     private final Hashtable<IWorkbenchPart, IGlobalActionHandler> handlerList = new Hashtable<IWorkbenchPart, IGlobalActionHandler>();
 
-	/**
-	 * Creates a new instance.
-	 */
-	public CustomGlobalActionHandlerProvider() {
-		super();
-	}
+    /**
+     * Creates a new instance.
+     */
+    public CustomGlobalActionHandlerProvider() {
+        super();
+    }
 
-	/**
-	 * Returns a global action handler that supports global image operations
-	 * (cut, copy, and paste).
-	 */
-	@Override
+    /**
+     * Returns a global action handler that supports global image operations
+     * (cut, copy, and paste).
+     */
+    @Override
     public IGlobalActionHandler getGlobalActionHandler(final IGlobalActionHandlerContext context) {
-		/* Create the handler */
-		final IWorkbenchPart activePart = context.getActivePart();
+        /* Create the handler */
+        final IWorkbenchPart activePart = context.getActivePart();
         if (!getHandlerList().containsKey(activePart)) {
             getHandlerList().put(activePart, retrieveCorrectClipboardSupportDependingOnActivePart(activePart));
 
-			/*
-			 * Register as a part listener so that the cache can be cleared when
-			 * the part is disposed
-			 */
-			activePart.getSite().getPage().addPartListener(
+            /*
+             * Register as a part listener so that the cache can be cleared when
+             * the part is disposed
+             */
+            activePart.getSite().getPage().addPartListener(
                     new PartListenerAdapter() {
 
-					private IWorkbenchPart localPart = activePart;
+                        private IWorkbenchPart localPart = activePart;
 
-					/**
-					 * @see org.eclipse.ui.IPartListener#partClosed(IWorkbenchPart)
-					 */
-					@Override
-                    public void partClosed(final IWorkbenchPart part) {
-						/* Remove the cache associated with the part */
-						if (part != null && part == localPart
-							&& getHandlerList().containsKey(part)) {
-							getHandlerList().remove(part);
-							localPart.getSite().getPage().removePartListener(
-								this);
-							localPart = null;
-						}
-					}
-				});
-		}
+                        /**
+                         * @see org.eclipse.ui.IPartListener#partClosed(IWorkbenchPart)
+                         */
+                        @Override
+                        public void partClosed(final IWorkbenchPart part) {
+                            /* Remove the cache associated with the part */
+                            if (part != null && part == localPart
+                                    && getHandlerList().containsKey(part)) {
+                                getHandlerList().remove(part);
+                                localPart.getSite().getPage().removePartListener(
+                                        this);
+                                localPart = null;
+                            }
+                        }
+                    });
+        }
 
         return getHandlerList().get(activePart);
-	}
+    }
 
     protected IGlobalActionHandler retrieveCorrectClipboardSupportDependingOnActivePart(final IWorkbenchPart activePart) {
         if (activePart instanceof FormDiagramEditor) {
@@ -90,13 +89,13 @@ public class CustomGlobalActionHandlerProvider extends AbstractGlobalActionHandl
         }
     }
 
-	/**
-	 * Returns the handlerList.
-	 *
-	 * @return Hashtable
-	 */
+    /**
+     * Returns the handlerList.
+     *
+     * @return Hashtable
+     */
     private Hashtable<IWorkbenchPart, IGlobalActionHandler> getHandlerList() {
-		return handlerList;
-	}
+        return handlerList;
+    }
 
 }

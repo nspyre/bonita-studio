@@ -1,19 +1,16 @@
 /**
  * Copyright (C) 2009 BonitaSoft S.A.
  * BonitaSoft, 31 rue Gustave Eiffel - 38000 Grenoble
- *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2.0 of the License, or
  * (at your option) any later version.
- *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package org.bonitasoft.studio.common.properties;
 
@@ -45,110 +42,106 @@ import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetWidgetFactory;
 /**
  * @author Mickael Istria
  * @author Aurelien Pupier : refactored
- * 
  */
 public class DescriptionPropertySectionContribution implements IExtensibleGridPropertySectionContribution {
 
-	protected Element element;
-	protected TransactionalEditingDomain editingDomain;
-	private EMFDataBindingContext context;
-	
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @seeorg.bonitasoft.studio.properties.sections.general.
-	 * IExtenstibleGridPropertySectionContribution
-	 * #createControl(org.eclipse.swt.widgets.Composite,
-	 * org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetWidgetFactory)
-	 */
-	public void createControl(Composite composite, TabbedPropertySheetWidgetFactory widgetFactory,
-			ExtensibleGridPropertySection page) {
+    protected Element element;
+    protected TransactionalEditingDomain editingDomain;
+    private EMFDataBindingContext context;
 
-		composite.setLayout(new RowLayout());
-		Text text = widgetFactory.createText(composite, element.getDocumentation(), SWT.BORDER | SWT.MULTI | SWT.WRAP); 
-		RowData rd = new RowData();
-		rd.width = 300;
-		rd.height = 60;
-		text.setLayoutData(rd);
-		
-		context = new EMFDataBindingContext();
-		UpdateValueStrategy strategy = new UpdateValueStrategy();
-		strategy.setBeforeSetValidator(new InputLengthValidator(Messages.GeneralSection_Description, 254));
-	//	context.bindValue(SWTObservables.observeDelayedValue(400, SWTObservables.observeText(text, SWT.Modify)), EMFEditObservables.observeValue(editingDomain, element, ProcessPackage.Literals.ELEMENT__DOCUMENTATION),strategy,null);
-		ControlDecorationSupport.create(context.bindValue(SWTObservables.observeDelayedValue(400, SWTObservables.observeText(text, SWT.Modify)), EMFEditObservables.observeValue(editingDomain, element, ProcessPackage.Literals.ELEMENT__DOCUMENTATION),strategy,null), SWT.LEFT|SWT.TOP);
-		
-	}
+    /*
+     * (non-Javadoc)
+     * @seeorg.bonitasoft.studio.properties.sections.general.
+     * IExtenstibleGridPropertySectionContribution
+     * #createControl(org.eclipse.swt.widgets.Composite,
+     * org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetWidgetFactory)
+     */
+    public void createControl(Composite composite, TabbedPropertySheetWidgetFactory widgetFactory,
+            ExtensibleGridPropertySection page) {
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @seeorg.bonitasoft.studio.properties.sections.general.
-	 * IExtenstibleGridPropertySectionContribution#getLabel()
-	 */
-	public String getLabel() {
-		return Messages.GeneralSection_Description;
-	}
+        composite.setLayout(new RowLayout());
+        Text text = widgetFactory.createText(composite, element.getDocumentation(), SWT.BORDER | SWT.MULTI | SWT.WRAP);
+        RowData rd = new RowData();
+        rd.width = 300;
+        rd.height = 60;
+        text.setLayoutData(rd);
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @seeorg.bonitasoft.studio.properties.sections.general.
-	 * IExtenstibleGridPropertySectionContribution#refresh()
-	 */
-	public void refresh() {
+        context = new EMFDataBindingContext();
+        UpdateValueStrategy strategy = new UpdateValueStrategy();
+        strategy.setBeforeSetValidator(new InputLengthValidator(Messages.GeneralSection_Description, 254));
+        //	context.bindValue(SWTObservables.observeDelayedValue(400, SWTObservables.observeText(text, SWT.Modify)), EMFEditObservables.observeValue(editingDomain, element, ProcessPackage.Literals.ELEMENT__DOCUMENTATION),strategy,null);
+        ControlDecorationSupport.create(
+                context.bindValue(SWTObservables.observeDelayedValue(400, SWTObservables.observeText(text, SWT.Modify)),
+                        EMFEditObservables.observeValue(editingDomain, element, ProcessPackage.Literals.ELEMENT__DOCUMENTATION), strategy, null), SWT.LEFT
+                        | SWT.TOP);
 
-	}
+    }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @seeorg.bonitasoft.studio.properties.sections.general.
-	 * IExtenstibleGridPropertySectionContribution
-	 * #setEObject(org.eclipse.emf.ecore.EObject)
-	 */
-	public void setEObject(EObject object) {
-		this.element = (Element) object;
-	}
+    /*
+     * (non-Javadoc)
+     * @seeorg.bonitasoft.studio.properties.sections.general.
+     * IExtenstibleGridPropertySectionContribution#getLabel()
+     */
+    public String getLabel() {
+        return Messages.GeneralSection_Description;
+    }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @seeorg.bonitasoft.studio.properties.sections.general.
-	 * IExtenstibleGridPropertySectionContribution
-	 * #setEditingDomain(org.eclipse.emf.transaction.TransactionalEditingDomain)
-	 */
-	public void setEditingDomain(TransactionalEditingDomain editingDomain) {
-		this.editingDomain = editingDomain;
-	}
+    /*
+     * (non-Javadoc)
+     * @seeorg.bonitasoft.studio.properties.sections.general.
+     * IExtenstibleGridPropertySectionContribution#refresh()
+     */
+    public void refresh() {
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @seeorg.bonitasoft.studio.properties.sections.general.
-	 * IExtenstibleGridPropertySectionContribution
-	 * #isRelevantFor(org.eclipse.emf.ecore.EObject)
-	 */
-	public boolean isRelevantFor(EObject eObject) {
-		return eObject instanceof Element && !(eObject instanceof TextAnnotation);
-	}
+    }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @seeorg.bonitasoft.studio.properties.sections.general.
-	 * IExtenstibleGridPropertySectionContribution
-	 * #setSelection(org.eclipse.jface.viewers.ISelection)
-	 */
-	public void setSelection(ISelection selection) {
-		// NOTHING
-	}
+    /*
+     * (non-Javadoc)
+     * @seeorg.bonitasoft.studio.properties.sections.general.
+     * IExtenstibleGridPropertySectionContribution
+     * #setEObject(org.eclipse.emf.ecore.EObject)
+     */
+    public void setEObject(EObject object) {
+        this.element = (Element) object;
+    }
 
-	/* (non-Javadoc)
-	 * @see org.bonitasoft.studio.common.properties.IExtensibleGridPropertySectionContribution#dispose()
-	 */
-	public void dispose() {
-		if(context!= null)
-			context.dispose();
-	}
+    /*
+     * (non-Javadoc)
+     * @seeorg.bonitasoft.studio.properties.sections.general.
+     * IExtenstibleGridPropertySectionContribution
+     * #setEditingDomain(org.eclipse.emf.transaction.TransactionalEditingDomain)
+     */
+    public void setEditingDomain(TransactionalEditingDomain editingDomain) {
+        this.editingDomain = editingDomain;
+    }
+
+    /*
+     * (non-Javadoc)
+     * @seeorg.bonitasoft.studio.properties.sections.general.
+     * IExtenstibleGridPropertySectionContribution
+     * #isRelevantFor(org.eclipse.emf.ecore.EObject)
+     */
+    public boolean isRelevantFor(EObject eObject) {
+        return eObject instanceof Element && !(eObject instanceof TextAnnotation);
+    }
+
+    /*
+     * (non-Javadoc)
+     * @seeorg.bonitasoft.studio.properties.sections.general.
+     * IExtenstibleGridPropertySectionContribution
+     * #setSelection(org.eclipse.jface.viewers.ISelection)
+     */
+    public void setSelection(ISelection selection) {
+        // NOTHING
+    }
+
+    /*
+     * (non-Javadoc)
+     * @see org.bonitasoft.studio.common.properties.IExtensibleGridPropertySectionContribution#dispose()
+     */
+    public void dispose() {
+        if (context != null)
+            context.dispose();
+    }
 
 }

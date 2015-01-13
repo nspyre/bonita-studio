@@ -1,19 +1,16 @@
 /**
  * Copyright (C) 2013 BonitaSoft S.A.
  * BonitaSoft, 32 rue Gustave Eiffel - 38000 Grenoble
- *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2.0 of the License, or
  * (at your option) any later version.
- *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package org.bonitasoft.studio.dependencies.ui.dialog;
 
@@ -54,154 +51,148 @@ import org.eclipse.swt.widgets.Text;
 
 /**
  * @author Florine Boudin
- *
  */
 public class ManageConnectorJarDialog extends Dialog {
 
-	protected TreeViewer treeViewer;
-	private final IRepositoryStore libStore;
+    protected TreeViewer treeViewer;
+    private final IRepositoryStore libStore;
 
-	protected DataBindingContext context;
-	private ViewerFilter searchFilter;
-	protected CheckboxTableViewer languageViewer;
+    protected DataBindingContext context;
+    private ViewerFilter searchFilter;
+    protected CheckboxTableViewer languageViewer;
 
-	protected Set<IRepositoryFileStore> selectedJars ;
-	private ViewerFilter filter;
-	private String title;
-	private String infoLabel;
+    protected Set<IRepositoryFileStore> selectedJars;
+    private ViewerFilter filter;
+    private String title;
+    private String infoLabel;
 
+    public ManageConnectorJarDialog(Shell parentShell) {
+        super(parentShell);
+        libStore = RepositoryManager.getInstance().getRepositoryStore(DependencyRepositoryStore.class);
+    }
 
-	public ManageConnectorJarDialog(Shell parentShell) {
-		super(parentShell);
-		libStore = RepositoryManager.getInstance().getRepositoryStore(DependencyRepositoryStore.class) ;
-	}
+    public ManageConnectorJarDialog(Shell parentShell, String label, String infoLabel) {
+        this(parentShell);
+        this.title = label;
+        this.infoLabel = infoLabel;
+    }
 
-	public ManageConnectorJarDialog(Shell parentShell,String label,String infoLabel) {
-		this(parentShell);
-		this.title = label;
-		this.infoLabel = infoLabel;
-	}
+    @Override
+    protected void configureShell(Shell newShell) {
+        super.configureShell(newShell);
+        if (title == null) {
+            newShell.setText(Messages.selectMissingJarTitle);
+        } else {
+            newShell.setText(title);
+        }
+    }
 
-	@Override
-	protected void configureShell(Shell newShell) {
-		super.configureShell(newShell);
-		if(title == null){
-			newShell.setText(Messages.selectMissingJarTitle) ;
-		}else{
-			newShell.setText(title) ;
-		}
-	}
+    @Override
+    protected Control createDialogArea(Composite parent) {
+        context = new DataBindingContext();
+        Composite composite = (Composite) super.createDialogArea(parent);
+        composite.setLayout(GridLayoutFactory.fillDefaults().numColumns(1).margins(15, 15).create());
+        if (infoLabel != null) {
+            addLabel(composite);
+        }
 
-	@Override
-	protected Control createDialogArea(Composite parent) {
-		context = new DataBindingContext() ;
-		Composite composite = (Composite) super.createDialogArea(parent);
-		composite.setLayout(GridLayoutFactory.fillDefaults().numColumns(1).margins(15, 15).create());
-		if(infoLabel != null){
-			addLabel(composite);
-		}
-		
-		createTree(composite);
+        createTree(composite);
 
-		UpdateValueStrategy selectionStartegy = new UpdateValueStrategy() ;
-		selectionStartegy.setAfterGetValidator(new IValidator() {
+        UpdateValueStrategy selectionStartegy = new UpdateValueStrategy();
+        selectionStartegy.setAfterGetValidator(new IValidator() {
 
-			@Override
-			public IStatus validate(Object value) {
-				if( value == null){
-					return ValidationStatus.error("Selection is empty") ;
-				}
-				return Status.OK_STATUS;
-			}
-		}) ;
+            @Override
+            public IStatus validate(Object value) {
+                if (value == null) {
+                    return ValidationStatus.error("Selection is empty");
+                }
+                return Status.OK_STATUS;
+            }
+        });
 
-		context.bindSet(ViewersObservables.observeCheckedElements(languageViewer, IRepositoryFileStore.class.getName()), PojoProperties.set(ManageConnectorJarDialog.class,"selectedJars").observe(this)) ;
+        context.bindSet(ViewersObservables.observeCheckedElements(languageViewer, IRepositoryFileStore.class.getName()),
+                PojoProperties.set(ManageConnectorJarDialog.class, "selectedJars").observe(this));
 
+        return composite;
+    }
 
-		return composite;
-	}
+    protected void createTree(Composite composite) {
+        final Text searchText = new Text(composite, SWT.SEARCH | SWT.ICON_SEARCH | SWT.BORDER | SWT.CANCEL);
+        searchText.setMessage(Messages.search);
+        searchText.setLayoutData(GridDataFactory.fillDefaults().grab(true, false).create());
 
-	protected void createTree(Composite composite) {
-		final Text searchText = new Text(composite,SWT.SEARCH | SWT.ICON_SEARCH | SWT.BORDER | SWT.CANCEL) ;
-		searchText.setMessage(Messages.search) ;
-		searchText.setLayoutData(GridDataFactory.fillDefaults().grab(true, false).create()) ;
+        searchFilter = new ViewerFilter() {
 
-		searchFilter = new ViewerFilter() {
+            @Override
+            public boolean select(Viewer arg0, Object arg1, Object element) {
+                if (!searchText.getText().isEmpty()) {
+                    String searchQuery = searchText.getText().toLowerCase();
+                    IRepositoryFileStore file = (IRepositoryFileStore) element;
+                    return file.getName().toLowerCase().contains(searchQuery);
+                }
+                return true;
+            }
+        };
 
-			@Override
-			public boolean select(Viewer arg0, Object arg1, Object element) {
-				if(!searchText.getText().isEmpty()){
-					String searchQuery = searchText.getText().toLowerCase() ;
-					IRepositoryFileStore file = (IRepositoryFileStore) element ;
-					return file.getName().toLowerCase().contains(searchQuery) ;
-				}
-				return true;
-			}
-		};
+        //new Label(composite,SWT.NONE) ; //FILLER
 
-		//new Label(composite,SWT.NONE) ; //FILLER
+        languageViewer = CheckboxTableViewer.newCheckList(composite, SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI | SWT.V_SCROLL);
+        languageViewer.getTable().setLayoutData(GridDataFactory.fillDefaults().grab(true, true).hint(SWT.DEFAULT, 190).create());
+        languageViewer.getTable().setLinesVisible(true);
+        languageViewer.getTable().setHeaderVisible(false);
+        final TableLayout layout = new TableLayout();
+        layout.addColumnData(new ColumnWeightData(65));
+        languageViewer.getTable().setLayout(layout);
+        languageViewer.setContentProvider(new ArrayContentProvider());
+        languageViewer.setLabelProvider(new FileStoreLabelProvider());
+        languageViewer.addFilter(searchFilter);
+        if (filter != null) {
+            languageViewer.addFilter(filter);
+        }
+        languageViewer.setInput(libStore.getChildren());
+        languageViewer.getTable().setFocus();
 
-		languageViewer = CheckboxTableViewer.newCheckList(composite, SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI | SWT.V_SCROLL) ;
-		languageViewer.getTable().setLayoutData(GridDataFactory.fillDefaults().grab(true, true).hint(SWT.DEFAULT, 190).create()) ;
-		languageViewer.getTable().setLinesVisible(true) ;
-		languageViewer.getTable().setHeaderVisible(false) ;
-		final TableLayout layout = new TableLayout() ;
-		layout.addColumnData(new ColumnWeightData(65)) ;
-		languageViewer.getTable().setLayout(layout) ;
-		languageViewer.setContentProvider(new ArrayContentProvider()) ;
-		languageViewer.setLabelProvider(new FileStoreLabelProvider()) ;
-		languageViewer.addFilter(searchFilter) ;
-		if(filter != null){
-			languageViewer.addFilter(filter);
-		}
-		languageViewer.setInput(libStore.getChildren()) ;
-		languageViewer.getTable().setFocus() ;
+        searchText.addModifyListener(new ModifyListener() {
 
+            @Override
+            public void modifyText(ModifyEvent e) {
+                languageViewer.refresh();
+            }
+        });
 
-		searchText.addModifyListener(new ModifyListener() {
+    }
 
-			@Override
-			public void modifyText(ModifyEvent e) {
-				languageViewer.refresh() ;
-			}
-		}) ;
+    protected void addLabel(Composite composite) {
+        final Label label = new Label(composite, SWT.WRAP);
+        if (infoLabel == null) {
+            label.setText(Messages.popUpMessage);
+        } else {
+            label.setText(infoLabel);
+        }
 
-	}
+    }
 
-	protected void addLabel(Composite composite){
-		final Label label = new Label(composite, SWT.WRAP);
-		if(infoLabel == null){
-			label.setText(Messages.popUpMessage);
-		}else{
-			label.setText(infoLabel);
-		}
-		
-	}
+    @Override
+    protected void okPressed() {
+        super.okPressed();
+    }
 
+    /**
+     * @return the selectedJars
+     */
+    public Set<IRepositoryFileStore> getSelectedJars() {
+        return selectedJars;
+    }
 
-	@Override
-	protected void okPressed() {
-		super.okPressed();
-	}
+    /**
+     * @param selectedJars the selectedJars to set
+     */
+    public void setSelectedJars(Set<IRepositoryFileStore> selectedJars) {
+        this.selectedJars = selectedJars;
+    }
 
-	/**
-	 * @return the selectedJars
-	 */
-	public Set<IRepositoryFileStore> getSelectedJars() {
-		return selectedJars;
-	}
-
-	/**
-	 * @param selectedJars the selectedJars to set
-	 */
-	public void setSelectedJars(Set<IRepositoryFileStore> selectedJars) {
-		this.selectedJars = selectedJars;
-	}
-
-	public void setFilter(ViewerFilter viewerFilter) {
-		this.filter = viewerFilter;
-	}
-
-
+    public void setFilter(ViewerFilter viewerFilter) {
+        this.filter = viewerFilter;
+    }
 
 }

@@ -5,14 +5,12 @@
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2.0 of the License, or
  * (at your option) any later version.
- *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package org.bonitasoft.studio.common.dialog;
 
@@ -52,12 +50,10 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 
-
 /**
  * @author aurelie Zara
- *
  */
-public class OutlineDialog extends MessageDialog{
+public class OutlineDialog extends MessageDialog {
 
     private String message;
     private Label messageLabel;
@@ -67,61 +63,61 @@ public class OutlineDialog extends MessageDialog{
     private TreeViewer outline;
     private final Image warningImg;
 
-    public OutlineDialog(	final Shell parentShell, 		final String dialogTitle,
+    public OutlineDialog(final Shell parentShell, final String dialogTitle,
             final Image dialogTitleImage, final String dialogMessage,
-            final int dialogImageType,	final String[] dialogButtonLabels,
-            final int defaultIndex,		final List<Object> elementToDisplay) {
+            final int dialogImageType, final String[] dialogButtonLabels,
+            final int defaultIndex, final List<Object> elementToDisplay) {
 
         super(parentShell, dialogTitle, dialogTitleImage, dialogMessage,
                 dialogImageType, dialogButtonLabels, defaultIndex);
         message = dialogMessage;
         this.elementToDisplay = elementToDisplay;
         adapterFactory = new ComposedAdapterFactory(ComposedAdapterFactory.Descriptor.Registry.INSTANCE);
-        warningImg=dialogTitleImage;
+        warningImg = dialogTitleImage;
         updateListOfElementToDisplay();
 
     }
 
-    /** Remove objects that are not referenced in expressions in the parent process in the <i>elementToDisplay</i> list field.
-     *
+    /**
+     * Remove objects that are not referenced in expressions in the parent process in the <i>elementToDisplay</i> list field.
      */
     protected void updateListOfElementToDisplay() {
         final List<Object> filteredElements = new ArrayList<Object>();
         final Iterator<Object> elementIter = elementToDisplay.iterator();
-        while (elementIter.hasNext()){
+        while (elementIter.hasNext()) {
             final Object elem = elementIter.next();
-            final AbstractProcess process = ModelHelper.getParentProcess((EObject)elem);
+            final AbstractProcess process = ModelHelper.getParentProcess((EObject) elem);
             final List<Expression> listExpr = ModelHelper.getAllItemsOfType(process, ExpressionPackage.Literals.EXPRESSION);
-            for(final Expression expr : listExpr){
-                if(ModelHelper.isObjectIsReferencedInExpression(expr, elem) && !filteredElements.contains(elem)){
+            for (final Expression expr : listExpr) {
+                if (ModelHelper.isObjectIsReferencedInExpression(expr, elem) && !filteredElements.contains(elem)) {
                     filteredElements.add(elem);
                 }
             }
         }
-        elementToDisplay=filteredElements;
+        elementToDisplay = filteredElements;
     }
 
     @Override
     protected Control createMessageArea(final Composite parent) {
 
-        final Composite mainComposite = new Composite(parent,SWT.NONE);
-        mainComposite.setLayout(GridLayoutFactory.fillDefaults().numColumns(1).margins(10,20).create());
+        final Composite mainComposite = new Composite(parent, SWT.NONE);
+        mainComposite.setLayout(GridLayoutFactory.fillDefaults().numColumns(1).margins(10, 20).create());
         mainComposite.setLayoutData(GridDataFactory.fillDefaults().grab(true, true).create());
 
         createMessageComposite(mainComposite);
 
-        if(elementToDisplay!=null && !elementToDisplay.isEmpty()){
+        if (elementToDisplay != null && !elementToDisplay.isEmpty()) {
 
             createMessageInformation(mainComposite);
 
-            final Composite viewersComposite = new Composite(mainComposite,SWT.NONE);
-            viewersComposite.setLayout(GridLayoutFactory.fillDefaults().numColumns(2).spacing(5,5).create());
-            viewersComposite.setLayoutData(GridDataFactory.fillDefaults().hint(450,250).grab(true,true).create());
+            final Composite viewersComposite = new Composite(mainComposite, SWT.NONE);
+            viewersComposite.setLayout(GridLayoutFactory.fillDefaults().numColumns(2).spacing(5, 5).create());
+            viewersComposite.setLayoutData(GridDataFactory.fillDefaults().hint(450, 250).grab(true, true).create());
             createTableHeader(viewersComposite);
             createObjectListViewer(viewersComposite);
             createOutline(viewersComposite);
             createEndMessageInformation(mainComposite);
-            objectListViewer.setSelection(new StructuredSelection(elementToDisplay.get(0)),true);
+            objectListViewer.setSelection(new StructuredSelection(elementToDisplay.get(0)), true);
 
         }
 
@@ -166,27 +162,25 @@ public class OutlineDialog extends MessageDialog{
 
     }
 
-
     private void createTableHeader(final Composite viewersComposite) {
-        final Label headerObjectList= new Label(viewersComposite,  SWT.BOTTOM | SWT.LEFT );
+        final Label headerObjectList = new Label(viewersComposite, SWT.BOTTOM | SWT.LEFT);
         headerObjectList.setText(getElementNameListHeader());
-        final Label headerOutline= new Label(viewersComposite,  SWT.BOTTOM | SWT.LEFT);
+        final Label headerOutline = new Label(viewersComposite, SWT.BOTTOM | SWT.LEFT);
         headerOutline.setText(Messages.referenceTreeViewerTitle);
     }
 
-
     private String getElementNameListHeader() {
-        if(elementToDisplay!=null && !elementToDisplay.isEmpty()){
+        if (elementToDisplay != null && !elementToDisplay.isEmpty()) {
 
             final Object element = elementToDisplay.get(0);
-            if(element instanceof Parameter){
+            if (element instanceof Parameter) {
                 return Messages.parameterListTitle;
             }
-            if(element instanceof SearchIndex){
+            if (element instanceof SearchIndex) {
                 return Messages.searchIndexListViewerTitle;
             }
 
-            if(element instanceof Widget){
+            if (element instanceof Widget) {
                 return Messages.widgetListViewerTitle;
             }
 
@@ -194,20 +188,19 @@ public class OutlineDialog extends MessageDialog{
                 return Messages.documentListViewerTitle;
             }
 
-            if(element instanceof Element){
+            if (element instanceof Element) {
                 return Messages.dataListViewerTitle;
             }
-
 
         }
         return "";
     }
 
     private void createMessageComposite(final Composite mainComposite) {
-        final Composite messageComposite = new Composite(mainComposite,SWT.NONE);
+        final Composite messageComposite = new Composite(mainComposite, SWT.NONE);
         messageComposite.setLayout(GridLayoutFactory.fillDefaults().numColumns(2).create());
         messageComposite.setLayoutData(GridDataFactory.fillDefaults().grab(true, true).create());
-        final Label imageLabel = new Label(messageComposite,SWT.NULL);
+        final Label imageLabel = new Label(messageComposite, SWT.NULL);
         warningImg.setBackground(imageLabel.getBackground());
         imageLabel.setImage(warningImg);
         GridDataFactory.fillDefaults().align(SWT.CENTER, SWT.BEGINNING).applyTo(imageLabel);
@@ -215,35 +208,35 @@ public class OutlineDialog extends MessageDialog{
     }
 
     private void createMessageLabel(final Composite messageComposite) {
-        messageLabel = new Label(messageComposite,SWT.WRAP);
-        if (message!=null){
+        messageLabel = new Label(messageComposite, SWT.WRAP);
+        if (message != null) {
             messageLabel.setText(message);
             GridDataFactory
-            .fillDefaults()
-            .align(SWT.FILL, SWT.BEGINNING)
-            .grab(true, true)
-            .hint(400,
-                    SWT.DEFAULT).applyTo(messageLabel);
+                    .fillDefaults()
+                    .align(SWT.FILL, SWT.BEGINNING)
+                    .grab(true, true)
+                    .hint(400,
+                            SWT.DEFAULT).applyTo(messageLabel);
         }
     }
 
     private void createOutline(final Composite viewersComposite) {
         outline = new TreeViewer(viewersComposite);
-        outline.getTree().setLayoutData(GridDataFactory.fillDefaults().hint(300,200).create());
+        outline.getTree().setLayoutData(GridDataFactory.fillDefaults().hint(300, 200).create());
         outline.setLabelProvider(new AdapterFactoryLabelProvider(adapterFactory));
         outline.setContentProvider(new AdapterFactoryContentProvider(adapterFactory));
-        final ViewerFilter[] filters = {new OutlineFilter()};
+        final ViewerFilter[] filters = { new OutlineFilter() };
         outline.setFilters(filters);
-        if (!(elementToDisplay.get(0) instanceof Widget)){
-            outline.setInput(ModelHelper.getParentProcess((EObject)elementToDisplay.get(0)));
+        if (!(elementToDisplay.get(0) instanceof Widget)) {
+            outline.setInput(ModelHelper.getParentProcess((EObject) elementToDisplay.get(0)));
         } else {
-            outline.setInput(ModelHelper.getPageFlow((Widget)elementToDisplay.get(0)));
+            outline.setInput(ModelHelper.getPageFlow((Widget) elementToDisplay.get(0)));
         }
     }
 
     private void createObjectListViewer(final Composite viewersComposite) {
         objectListViewer = new ListViewer(viewersComposite);
-        objectListViewer.getList().setLayoutData(GridDataFactory.fillDefaults().hint(100,200).create());
+        objectListViewer.getList().setLayoutData(GridDataFactory.fillDefaults().hint(100, 200).create());
         objectListViewer.setLabelProvider(new AdapterFactoryLabelProvider(adapterFactory));
         objectListViewer.setContentProvider(new ArrayContentProvider());
         objectListViewer.addSelectionChangedListener(new ISelectionChangedListener() {
@@ -251,10 +244,10 @@ public class OutlineDialog extends MessageDialog{
             @Override
             public void selectionChanged(final SelectionChangedEvent event) {
                 final IStructuredSelection selection = (IStructuredSelection) event.getSelection();
-                final EObject selectedObject = (EObject)selection.getFirstElement();
-                final OutlineFilter filter =(OutlineFilter) outline.getFilters()[0];
+                final EObject selectedObject = (EObject) selection.getFirstElement();
+                final OutlineFilter filter = (OutlineFilter) outline.getFilters()[0];
                 filter.setElementToDisplay(selectedObject);
-                if (outline!=null){
+                if (outline != null) {
                     outline.refresh(true);
                 }
             }
@@ -262,15 +255,13 @@ public class OutlineDialog extends MessageDialog{
         objectListViewer.setInput(elementToDisplay);
     }
 
-
     public String getMessage() {
         return message;
     }
 
-
     public void setMessage(final String message) {
         this.message = message;
-        if (messageLabel!=null && !messageLabel.isDisposed()) {
+        if (messageLabel != null && !messageLabel.isDisposed()) {
             messageLabel.setText(message);
         }
     }

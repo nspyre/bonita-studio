@@ -80,7 +80,6 @@ public class DocumentWizardPage extends WizardPage {
     private EMFDataBindingContext emfDataBindingContext;
     private WizardPageSupport pageSupport;
 
-
     private StackLayout stack;
 
     protected static final String LINK = "link";
@@ -112,7 +111,7 @@ public class DocumentWizardPage extends WizardPage {
     private AvailableExpressionTypeFilter availableExpressionTypeFilter;
     private Binding internalFileIdbinding;
 
-    public DocumentWizardPage(final EObject context,final Document document){
+    public DocumentWizardPage(final EObject context, final Document document) {
         super(DocumentWizardPage.class.getName());
         this.context = context;
         this.document = document;
@@ -129,24 +128,24 @@ public class DocumentWizardPage extends WizardPage {
         mainComposite.setLayout(GridLayoutFactory.fillDefaults().numColumns(2).margins(7, 7).create());
         createDetailsPanel(mainComposite);
 
-        pageSupport =  WizardPageSupport.create(this, emfDataBindingContext) ;
+        pageSupport = WizardPageSupport.create(this, emfDataBindingContext);
         setControl(mainComposite);
     }
 
     private String getCurrentContextName() {
         String name = "---";
         EObject container = context;
-        while (!(container instanceof Pool) && container.eContainer()!=null) {
+        while (!(container instanceof Pool) && container.eContainer() != null) {
             container = container.eContainer();
         }
-        if(container!=null && container instanceof Pool){
+        if (container != null && container instanceof Pool) {
             name = ((Pool) container).getName();
         }
         return name;
     }
 
     private void createDetailsPanel(final Composite mainComposite) {
-        detailsComposite = new Composite(mainComposite,SWT.NONE);
+        detailsComposite = new Composite(mainComposite, SWT.NONE);
         detailsComposite.setLayout(GridLayoutFactory.fillDefaults().numColumns(2).spacing(10, 5).create());
         detailsComposite.setLayoutData(GridDataFactory.fillDefaults().grab(true, true).create());
         createDocumentNameField(detailsComposite);
@@ -294,7 +293,6 @@ public class DocumentWizardPage extends WizardPage {
         documentTextId.setLayoutData(GridDataFactory.swtDefaults().align(SWT.FILL, SWT.CENTER)
                 .grab(true, false).indent(10, 0).create());
 
-
         final UpdateValueStrategy uvsInternal = new UpdateValueStrategy();
         uvsInternal.setAfterGetValidator(new IValidator() {
 
@@ -312,10 +310,10 @@ public class DocumentWizardPage extends WizardPage {
                 uvsInternal, null);
         ControlDecorationSupport.create(internalFileIdbinding, SWT.LEFT);
 
-
         final Button browseButton = new Button(browseWithTextComposite, SWT.FLAT);
         browseButton.setText(Messages.Browse);
         browseButton.addSelectionListener(new SelectionAdapter() {
+
             @Override
             public void widgetSelected(final SelectionEvent e) {
                 final SelectDocumentInBonitaStudioRepository selectDocumentInBonitaStudioRepository = new SelectDocumentInBonitaStudioRepository(
@@ -600,7 +598,7 @@ public class DocumentWizardPage extends WizardPage {
             @Override
             public void widgetSelected(final SelectionEvent e) {
                 super.widgetSelected(e);
-                if(radioButtonNone.getSelection()){
+                if (radioButtonNone.getSelection()) {
                     updateStack(DocumentType.NONE);
                     updateMimeTypeEnabled(false);
                 }
@@ -610,18 +608,17 @@ public class DocumentWizardPage extends WizardPage {
         return radioButtonNone;
     }
 
-
-    public  EObject getContext(){
+    public EObject getContext() {
         return context;
     }
 
-    public Document getDocument(){
+    public Document getDocument() {
         return document;
     }
 
     @Override
     public void dispose() {
-        if(pageSupport != null){
+        if (pageSupport != null) {
             pageSupport.dispose();
         }
         if (emfDataBindingContext != null) {
@@ -655,7 +652,6 @@ public class DocumentWizardPage extends WizardPage {
         mimeCompo.layout();
     }
 
-
     protected void updateSingleMultipleStack(final boolean isMultiple) {
         if (isMultiple) {
             singleMultiplestack.topControl = multipleComposite;
@@ -678,7 +674,6 @@ public class DocumentWizardPage extends WizardPage {
     private EMFDataBindingContext createDatabindingContext() {
         return new EMFDataBindingContext();
     }
-
 
     protected AvailableExpressionTypeFilter getConstantTypeOnlyExpressionViewerFilter() {
         if (availableExpressionTypeFilter == null) {

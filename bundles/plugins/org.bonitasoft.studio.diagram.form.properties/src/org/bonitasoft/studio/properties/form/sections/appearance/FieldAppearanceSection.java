@@ -1,19 +1,16 @@
 /**
  * Copyright (C) 2010 BonitaSoft S.A.
  * BonitaSoft, 31 rue Gustave Eiffel - 38000 Grenoble
- *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2.0 of the License, or
  * (at your option) any later version.
- *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package org.bonitasoft.studio.properties.form.sections.appearance;
 
@@ -36,7 +33,6 @@ import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
 
 /**
  * @author Baptiste Mesta
- * 
  */
 public class FieldAppearanceSection extends AppearancePropertySection {
 
@@ -47,7 +43,6 @@ public class FieldAppearanceSection extends AppearancePropertySection {
 
     /*
      * (non-Javadoc)
-     * 
      * @see org.bonitasoft.studio.properties.form.sections.appearance.
      * AppearancePropertySection
      * #createControls(org.eclipse.swt.widgets.Composite,
@@ -97,9 +92,8 @@ public class FieldAppearanceSection extends AppearancePropertySection {
         heightComposite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
         heightComposite.setLayout(new GridLayout(2, false));
 
-
-        String textLabel = Messages.AppearancePropertySection_maxLength ;
-        if(getEObject() instanceof TextAreaFormField){
+        String textLabel = Messages.AppearancePropertySection_maxLength;
+        if (getEObject() instanceof TextAreaFormField) {
             textLabel = Messages.AppearancePropertySection_maxLengthForTextArea;
         }
         label = getWidgetFactory().createLabel(lengthComposite, textLabel);
@@ -123,33 +117,34 @@ public class FieldAppearanceSection extends AppearancePropertySection {
 
     }
 
-    /* (non-Javadoc)
-     * @see org.bonitasoft.studio.properties.form.sections.appearance.AppearancePropertySection#setInput(org.eclipse.ui.IWorkbenchPart, org.eclipse.jface.viewers.ISelection)
+    /*
+     * (non-Javadoc)
+     * @see org.bonitasoft.studio.properties.form.sections.appearance.AppearancePropertySection#setInput(org.eclipse.ui.IWorkbenchPart,
+     * org.eclipse.jface.viewers.ISelection)
      */
     @Override
     public void setInput(IWorkbenchPart part, ISelection selection) {
         super.setInput(part, selection);
 
-        if(label != null){
+        if (label != null) {
             boolean length = haveLengthAttr();
             boolean height = haveHeightAttr();
 
-
-            String textLabel = Messages.AppearancePropertySection_maxLength ;
-            if(getEObject() instanceof TextAreaFormField){
+            String textLabel = Messages.AppearancePropertySection_maxLength;
+            if (getEObject() instanceof TextAreaFormField) {
                 textLabel = Messages.AppearancePropertySection_maxLengthForTextArea;
             }
             label.setText(textLabel);
 
-            if(lengthComposite != null) {
+            if (lengthComposite != null) {
                 lengthComposite.setVisible(length);
                 lengthComposite.layout();
             }
-            if(heightComposite != null) {
+            if (heightComposite != null) {
                 heightComposite.setVisible(height);
                 heightComposite.layout();
             }
-            if(attGroup != null) {
+            if (attGroup != null) {
                 attGroup.setVisible(length || height);
                 attGroup.layout();
             }
@@ -163,8 +158,5 @@ public class FieldAppearanceSection extends AppearancePropertySection {
     protected boolean haveLengthAttr() {
         return (getWidget() instanceof PasswordFormField || getWidget() instanceof TextAreaFormField || getWidget() instanceof TextFormField);
     }
-
-
-
 
 }

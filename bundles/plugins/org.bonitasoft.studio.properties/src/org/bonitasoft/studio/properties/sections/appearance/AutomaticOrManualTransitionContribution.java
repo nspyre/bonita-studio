@@ -1,19 +1,16 @@
 /**
  * Copyright (C) 2009 BonitaSoft S.A.
  * BonitaSoft, 31 rue Gustave Eiffel - 38000 Grenoble
- *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2.0 of the License, or
  * (at your option) any later version.
- *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package org.bonitasoft.studio.properties.sections.appearance;
 
@@ -59,7 +56,6 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetWidgetFactory;
 
-
 /**
  * @author Mickael Istria
  * @author Aurelien Pupier
@@ -67,25 +63,21 @@ import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetWidgetFactory;
  */
 public class AutomaticOrManualTransitionContribution implements IExtensibleGridPropertySectionContribution {
 
-
     private TransactionalEditingDomain editingDomain;
 
     //private  Button conditionVisibility;
-    private  boolean automatic = true;
+    private boolean automatic = true;
     private Button automaticOrManulRoutingButton;
     private GraphicalEditPart editPart;
 
     private final ExtensibleGridPropertySection section;
-
-
-
 
     /**
      * @param generalExtensibleGridPropertySection
      * @param iWorkbenchPart
      */
     public AutomaticOrManualTransitionContribution(ExtensibleGridPropertySection generalExtensibleGridPropertySection) {
-        section = generalExtensibleGridPropertySection ;
+        section = generalExtensibleGridPropertySection;
     }
 
     @Override
@@ -104,9 +96,9 @@ public class AutomaticOrManualTransitionContribution implements IExtensibleGridP
 
             @Override
             public void widgetSelected(SelectionEvent e) {
-                automatic = automaticOrManulRoutingButton.getSelection() ;
-                for(Object editPart : section.getInput()){
-                    if(editPart instanceof EditPart){
+                automatic = automaticOrManulRoutingButton.getSelection();
+                for (Object editPart : section.getInput()) {
+                    if (editPart instanceof EditPart) {
                         toggleTransitionRoutingMode((EditPart) editPart);
                     }
                 }
@@ -114,47 +106,47 @@ public class AutomaticOrManualTransitionContribution implements IExtensibleGridP
 
             /**
              * @param cc
-             *            The composite command use to hide/show the edtiparts
+             *        The composite command use to hide/show the edtiparts
              * @param editPart
-             *            The EditPart to which it is applied.
+             *        The EditPart to which it is applied.
              */
             private void toggleTransitionRoutingMode(final EditPart editPart) {
                 if (editPart instanceof SequenceFlowEditPart
                         || editPart instanceof MessageFlowEditPart
                         || editPart instanceof TextAnnotationAttachmentEditPart) {
 
-                    try{
+                    try {
                         OperationHistoryFactory.getOperationHistory().execute(new AbstractEMFOperation(editingDomain, "Set Closest Distance") { //$NON-NLS-1$
 
-                            @Override
-                            protected IStatus doExecute(IProgressMonitor arg0, IAdaptable arg1)
-                                    throws ExecutionException {
-                                final RoutingStyle style = (RoutingStyle) ((View) editPart.getModel()).getStyle(NotationPackage.Literals.ROUTING_STYLE);
+                                    @Override
+                                    protected IStatus doExecute(IProgressMonitor arg0, IAdaptable arg1)
+                                            throws ExecutionException {
+                                        final RoutingStyle style = (RoutingStyle) ((View) editPart.getModel()).getStyle(NotationPackage.Literals.ROUTING_STYLE);
 
-                                if(((ConnectionEditPart) editPart).getSource()!= null && (IGraphicalEditPart) ((ConnectionEditPart) editPart).getTarget() != null){
-                                    EObject targetElem = ((IGraphicalEditPart) ((ConnectionEditPart) editPart).getTarget()).resolveSemanticElement() ;
-                                    EObject sourceElem = ((IGraphicalEditPart)((ConnectionEditPart) editPart).getSource()).resolveSemanticElement() ;
-                                    if(targetElem.eContainer() != null
-                                            && targetElem.eContainer() instanceof Lane
-                                            && sourceElem.eContainer() != null
-                                            && sourceElem.eContainer() instanceof Lane
-                                            && !sourceElem.eContainer().equals(targetElem.eContainer())){
+                                        if (((ConnectionEditPart) editPart).getSource() != null
+                                                && (IGraphicalEditPart) ((ConnectionEditPart) editPart).getTarget() != null) {
+                                            EObject targetElem = ((IGraphicalEditPart) ((ConnectionEditPart) editPart).getTarget()).resolveSemanticElement();
+                                            EObject sourceElem = ((IGraphicalEditPart) ((ConnectionEditPart) editPart).getSource()).resolveSemanticElement();
+                                            if (targetElem.eContainer() != null
+                                                    && targetElem.eContainer() instanceof Lane
+                                                    && sourceElem.eContainer() != null
+                                                    && sourceElem.eContainer() instanceof Lane
+                                                    && !sourceElem.eContainer().equals(targetElem.eContainer())) {
 
-                                        style.setClosestDistance(automatic);
-                                        style.setAvoidObstructions(false);
-                                    }else{
-                                        style.setClosestDistance(automatic);
-                                        style.setAvoidObstructions(automatic);
+                                                style.setClosestDistance(automatic);
+                                                style.setAvoidObstructions(false);
+                                            } else {
+                                                style.setClosestDistance(automatic);
+                                                style.setAvoidObstructions(automatic);
+                                            }
+                                        }
+                                        return Status.OK_STATUS;
                                     }
-                                }
-                                return Status.OK_STATUS;
-                            }
 
-                        }, null, null);
+                                }, null, null);
                     } catch (ExecutionException e) {
                         BonitaStudioLog.error(e);
                     }
-
 
                 } else {
                     // If the selection is on the label, get the parent
@@ -165,16 +157,12 @@ public class AutomaticOrManualTransitionContribution implements IExtensibleGridP
                 }
             }
 
-
         });
-
 
     }
 
-
     /*
      * (non-Javadoc)
-     * 
      * @seeorg.bonitasoft.studio.properties.sections.general.
      * IExtenstibleGridPropertySectionContribution#getLabel()
      */
@@ -185,7 +173,6 @@ public class AutomaticOrManualTransitionContribution implements IExtensibleGridP
 
     /*
      * (non-Javadoc)
-     * 
      * @seeorg.bonitasoft.studio.properties.sections.general.
      * IExtenstibleGridPropertySectionContribution
      * #isRelevantFor(org.eclipse.emf.ecore.EObject)
@@ -197,7 +184,6 @@ public class AutomaticOrManualTransitionContribution implements IExtensibleGridP
 
     /*
      * (non-Javadoc)
-     * 
      * @seeorg.bonitasoft.studio.properties.sections.general.
      * IExtenstibleGridPropertySectionContribution#refresh()
      */
@@ -208,7 +194,6 @@ public class AutomaticOrManualTransitionContribution implements IExtensibleGridP
 
     /*
      * (non-Javadoc)
-     * 
      * @seeorg.bonitasoft.studio.properties.sections.general.
      * IExtenstibleGridPropertySectionContribution
      * #setEObject(org.eclipse.emf.ecore.EObject)
@@ -219,7 +204,7 @@ public class AutomaticOrManualTransitionContribution implements IExtensibleGridP
     }
 
     private void refreshConditionCheckBox() {
-        if(automaticOrManulRoutingButton != null && !automaticOrManulRoutingButton.isDisposed()){
+        if (automaticOrManulRoutingButton != null && !automaticOrManulRoutingButton.isDisposed()) {
             automaticOrManulRoutingButton.setSelection((getClosestDistance()));
         }
     }
@@ -228,15 +213,14 @@ public class AutomaticOrManualTransitionContribution implements IExtensibleGridP
         final RoutingStyle style = (RoutingStyle) ((View) editPart.getModel())
                 .getStyle(NotationPackage.Literals.ROUTING_STYLE);
 
-        if(style != null){
-            return style.isClosestDistance() ;
+        if (style != null) {
+            return style.isClosestDistance();
         }
         return true;
     }
 
     /*
      * (non-Javadoc)
-     * 
      * @seeorg.bonitasoft.studio.properties.sections.general.
      * IExtenstibleGridPropertySectionContribution
      * #setEditingDomain(org.eclipse.emf.transaction.TransactionalEditingDomain)
@@ -248,26 +232,25 @@ public class AutomaticOrManualTransitionContribution implements IExtensibleGridP
 
     /*
      * (non-Javadoc)
-     * 
      * @seeorg.bonitasoft.studio.properties.sections.general.
      * IExtenstibleGridPropertySectionContribution
      * #setSelection(org.eclipse.jface.viewers.ISelection)
      */
     @Override
     public void setSelection(ISelection selection) {
-        if(((IStructuredSelection)selection).getFirstElement() instanceof GraphicalEditPart){
-            editPart = (GraphicalEditPart) ((IStructuredSelection)selection).getFirstElement() ;
+        if (((IStructuredSelection) selection).getFirstElement() instanceof GraphicalEditPart) {
+            editPart = (GraphicalEditPart) ((IStructuredSelection) selection).getFirstElement();
         }
 
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see org.bonitasoft.studio.common.properties.IExtensibleGridPropertySectionContribution#dispose()
      */
     @Override
     public void dispose() {
 
     }
-
 
 }

@@ -42,13 +42,11 @@ class StorageViewerChangedListener implements ISelectionChangedListener {
         }
     }
 
-
     private void refreshOperatorLink() {
         final Link operatorLink = operationViewer.getOperatorLink();
         if (operatorLink != null) {
             operatorLink.getParent().layout(true, true);
         }
     }
-
 
 }

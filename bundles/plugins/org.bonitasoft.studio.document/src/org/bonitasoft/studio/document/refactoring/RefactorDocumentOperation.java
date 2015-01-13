@@ -128,10 +128,10 @@ public class RefactorDocumentOperation extends AbstractRefactorOperation<Documen
                 || ExpressionConstants.DOCUMENT_REF_TYPE.equals(exp.getType()))
                 && exp.getName() != null
                 && exp.getName()
-                .equals(
-                        pairToRefactor
-                        .getOldValue()
-                        .getName());
+                        .equals(
+                                pairToRefactor
+                                        .getOldValue()
+                                        .getName());
     }
 
     private void removeAllDocumentReferences(final CompoundCommand cc, final DocumentRefactorPair pairToRefactor) {

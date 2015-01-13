@@ -4,9 +4,8 @@
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- * 
  * Contributors:
- *     IBM Corporation - initial API and implementation
+ * IBM Corporation - initial API and implementation
  *******************************************************************************/
 package org.eclipse.ui.views.properties.tabbed;
 
@@ -29,7 +28,7 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
  * @author Anthony Hunter
  */
 public class TabbedPropertySheetWidgetFactory
-    extends FormToolkit {
+        extends FormToolkit {
 
     /**
      * private constructor.
@@ -42,9 +41,9 @@ public class TabbedPropertySheetWidgetFactory
      * Creates the tab folder as a part of the form.
      * 
      * @param parent
-     *            the composite parent.
+     *        the composite parent.
      * @param style
-     *            the tab folder style.
+     *        the tab folder style.
      * @return the tab folder
      */
     public CTabFolder createTabFolder(Composite parent, int style) {
@@ -56,9 +55,9 @@ public class TabbedPropertySheetWidgetFactory
      * Creates the tab item as a part of the tab folder.
      * 
      * @param tabFolder
-     *            the parent.
+     *        the parent.
      * @param style
-     *            the tab folder style.
+     *        the tab folder style.
      * @return the tab item.
      */
     public CTabItem createTabItem(CTabFolder tabFolder, int style) {
@@ -70,9 +69,9 @@ public class TabbedPropertySheetWidgetFactory
      * Creates the list as a part of the form.
      * 
      * @param parent
-     *            the composite parent.
+     *        the composite parent.
      * @param style
-     *            the list style.
+     *        the list style.
      * @return the list.
      */
     public List createList(Composite parent, int style) {
@@ -95,9 +94,9 @@ public class TabbedPropertySheetWidgetFactory
      * Creates a plain composite as a part of the form.
      * 
      * @param parent
-     *            the composite parent.
+     *        the composite parent.
      * @param style
-     *            the composite style.
+     *        the composite style.
      * @return the composite.
      */
     public Composite createPlainComposite(Composite parent, int style) {
@@ -111,14 +110,14 @@ public class TabbedPropertySheetWidgetFactory
      * Creates a scrolled composite as a part of the form.
      * 
      * @param parent
-     *            the composite parent.
+     *        the composite parent.
      * @param style
-     *            the composite style.
+     *        the composite style.
      * @return the composite.
      */
     public ScrolledComposite createScrolledComposite(Composite parent, int style) {
         ScrolledComposite scrolledComposite = new ScrolledComposite(parent,
-            style);
+                style);
         return scrolledComposite;
     }
 
@@ -126,18 +125,18 @@ public class TabbedPropertySheetWidgetFactory
      * Creates a combo box as a part of the form.
      * 
      * @param parent
-     *            the combo box parent.
+     *        the combo box parent.
      * @param comboStyle
-     *            the combo box style.
+     *        the combo box style.
      * @return the combo box.
      */
     public CCombo createCCombo(Composite parent, int comboStyle) {
         CCombo combo = new CCombo(parent, comboStyle);
         adapt(combo, true, false);
         // Bugzilla 145837 - workaround for no borders on Windows XP
-		if (getBorderStyle() == SWT.BORDER) {
-			combo.setData(FormToolkit.KEY_DRAW_BORDER, FormToolkit.TEXT_BORDER);
-		}
+        if (getBorderStyle() == SWT.BORDER) {
+            combo.setData(FormToolkit.KEY_DRAW_BORDER, FormToolkit.TEXT_BORDER);
+        }
         return combo;
     }
 
@@ -145,7 +144,7 @@ public class TabbedPropertySheetWidgetFactory
      * Creates a combo box as a part of the form.
      * 
      * @param parent
-     *            the combo box parent.
+     *        the combo box parent.
      * @return the combo box.
      */
     public CCombo createCCombo(Composite parent) {
@@ -156,9 +155,9 @@ public class TabbedPropertySheetWidgetFactory
      * Creates a group as a part of the form.
      * 
      * @param parent
-     *            the group parent.
+     *        the group parent.
      * @param text
-     *            the group title.
+     *        the group title.
      * @return the composite.
      */
     public Group createGroup(Composite parent, String text) {
@@ -173,7 +172,7 @@ public class TabbedPropertySheetWidgetFactory
      * Creates a flat form composite as a part of the form.
      * 
      * @param parent
-     *            the composite parent.
+     *        the composite parent.
      * @return the composite.
      */
     public Composite createFlatFormComposite(Composite parent) {
@@ -190,9 +189,9 @@ public class TabbedPropertySheetWidgetFactory
      * Creates a label as a part of the form.
      * 
      * @param parent
-     *            the label parent.
+     *        the label parent.
      * @param text
-     *            the label text.
+     *        the label text.
      * @return the label.
      */
     public CLabel createCLabel(Composite parent, String text) {
@@ -203,11 +202,11 @@ public class TabbedPropertySheetWidgetFactory
      * Creates a label as a part of the form.
      * 
      * @param parent
-     *            the label parent.
+     *        the label parent.
      * @param text
-     *            the label text.
+     *        the label text.
      * @param style
-     *            the label style.
+     *        the label style.
      * @return the label.
      */
     public CLabel createCLabel(Composite parent, String text, int style) {

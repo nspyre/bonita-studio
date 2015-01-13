@@ -1,19 +1,16 @@
 /**
  * Copyright (C) 2009 BonitaSoft S.A.
  * BonitaSoft, 31 rue Gustave Eiffel - 38000 Grenoble
- *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2.0 of the License, or
  * (at your option) any later version.
- *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package org.bonitasoft.studio.connectors.ui.wizard.page;
 
@@ -33,7 +30,6 @@ import org.eclipse.swt.widgets.Control;
 
 /**
  * @author Romain Bioteau
- *
  */
 public abstract class AbstractConnectorOutputWizardPage extends WizardPage implements IBonitaVariableContext {
 
@@ -42,37 +38,35 @@ public abstract class AbstractConnectorOutputWizardPage extends WizardPage imple
     protected final EMFDataBindingContext context;
     private Connector connector;
     private WizardPageSupport pageSupport;
-	private IWizardPage previousPageBackup;
-	private boolean isPageFlowContext = false;
-	private IExpressionNatureProvider storageExpressionProvider;
+    private IWizardPage previousPageBackup;
+    private boolean isPageFlowContext = false;
+    private IExpressionNatureProvider storageExpressionProvider;
 
-
-	public AbstractConnectorOutputWizardPage(){
+    public AbstractConnectorOutputWizardPage() {
         super(AbstractConnectorOutputWizardPage.class.getName());
-        setTitle(Messages.outputMapping) ;
+        setTitle(Messages.outputMapping);
         setDescription(Messages.outputMappingDesc);
-        context = new EMFDataBindingContext() ;
+        context = new EMFDataBindingContext();
     }
 
-
-    protected abstract Control doCreateControl(Composite parent,EMFDataBindingContext context) ;
+    protected abstract Control doCreateControl(Composite parent, EMFDataBindingContext context);
 
     @Override
     public final void createControl(Composite parent) {
-        setControl(doCreateControl(parent,context)) ;
-        pageSupport = WizardPageSupport.create(this, context) ;
+        setControl(doCreateControl(parent, context));
+        pageSupport = WizardPageSupport.create(this, context);
     }
 
     @Override
     public void dispose() {
         super.dispose();
-        if(pageSupport != null){
-            pageSupport.dispose() ;
+        if (pageSupport != null) {
+            pageSupport.dispose();
         }
-        if(context != null){
-            context.dispose() ;
+        if (context != null) {
+            context.dispose();
         }
-    
+
     }
 
     public ConnectorDefinition getDefinition() {
@@ -101,41 +95,40 @@ public abstract class AbstractConnectorOutputWizardPage extends WizardPage imple
 
     @Override
     public IWizardPage getPreviousPage() {
-        if(previousPageBackup != null){
-        	return previousPageBackup;
+        if (previousPageBackup != null) {
+            return previousPageBackup;
         }
-    	
-    	IWizard wizard = getWizard();
-        if(wizard != null){
+
+        IWizard wizard = getWizard();
+        if (wizard != null) {
             return wizard.getPreviousPage(this);
         }
         return super.getPreviousPage();
     }
-    
+
     @Override
     public void setPreviousPage(IWizardPage page) {
-    	this.previousPageBackup = page;
-    	super.setPreviousPage(page);
-    }
-    
-    @Override
-    public boolean isPageFlowContext() {
-    	return isPageFlowContext;
+        this.previousPageBackup = page;
+        super.setPreviousPage(page);
     }
 
-    
+    @Override
+    public boolean isPageFlowContext() {
+        return isPageFlowContext;
+    }
+
     @Override
     public void setIsPageFlowContext(boolean isPageFlowContext) {
-    	this.isPageFlowContext=isPageFlowContext;
-    	
+        this.isPageFlowContext = isPageFlowContext;
+
     }
 
     public IExpressionNatureProvider getStorageExpressionProvider() {
-  		return storageExpressionProvider;
-  	}
+        return storageExpressionProvider;
+    }
 
-	public void setStorageExpressionProvider(
-			IExpressionNatureProvider storageExpressionProvider) {
-		this.storageExpressionProvider = storageExpressionProvider;
-	}
+    public void setStorageExpressionProvider(
+            IExpressionNatureProvider storageExpressionProvider) {
+        this.storageExpressionProvider = storageExpressionProvider;
+    }
 }

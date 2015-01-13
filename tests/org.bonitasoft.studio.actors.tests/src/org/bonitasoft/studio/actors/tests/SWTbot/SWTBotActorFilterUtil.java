@@ -26,7 +26,6 @@ import org.junit.Assert;
 
 /**
  * @author Aur�lie Zara
- * 
  */
 
 public class SWTBotActorFilterUtil {
@@ -38,10 +37,10 @@ public class SWTBotActorFilterUtil {
      * @param bot
      */
     public static void activateActorFilterDefinitionShell(final SWTBot bot) {
-        bot.waitUntil(Conditions.widgetIsEnabled(bot.menu("Development")),10000);
+        bot.waitUntil(Conditions.widgetIsEnabled(bot.menu("Development")), 10000);
         bot.menu("Development").menu("Actor filters").menu("New definition...")
-        .click();
-        bot.waitUntil(Conditions.shellIsActive(Messages.newFilterDefinition),10000);
+                .click();
+        bot.waitUntil(Conditions.shellIsActive(Messages.newFilterDefinition), 10000);
     }
 
     /**
@@ -52,11 +51,11 @@ public class SWTBotActorFilterUtil {
      * @param bot
      */
     public static void activateActorFilterImplementationShell(final SWTBot bot) {
-        bot.waitUntil(Conditions.widgetIsEnabled(bot.menu("Development")),10000);
+        bot.waitUntil(Conditions.widgetIsEnabled(bot.menu("Development")), 10000);
         bot.menu("Development").menu("Actor filters")
-        .menu("New implementation...").click();
+                .menu("New implementation...").click();
         bot.waitUntil(Conditions
-                .shellIsActive(Messages.newFilterImplementation),10000);
+                .shellIsActive(Messages.newFilterImplementation), 10000);
     }
 
     /**
@@ -66,9 +65,9 @@ public class SWTBotActorFilterUtil {
      * @param bot
      */
     public static void activateNewOrganizationWizard(final SWTBot bot) {
-        bot.waitUntil(Conditions.widgetIsEnabled(bot.menu("Organization")),10000);
+        bot.waitUntil(Conditions.widgetIsEnabled(bot.menu("Organization")), 10000);
         bot.menu("Organization").menu("Manage...").click();
-        bot.waitUntil(Conditions.shellIsActive(Messages.manageOrganizationTitle),10000);
+        bot.waitUntil(Conditions.shellIsActive(Messages.manageOrganizationTitle), 10000);
     }
 
     /**
@@ -78,9 +77,9 @@ public class SWTBotActorFilterUtil {
      * @param bot
      */
     public static void activateExportOrganizationWizard(final SWTBot bot) {
-        bot.waitUntil(Conditions.widgetIsEnabled(bot.menu("Organization")),10000);
+        bot.waitUntil(Conditions.widgetIsEnabled(bot.menu("Organization")), 10000);
         bot.menu("Organization").menu("Export...").click();
-        bot.waitUntil(Conditions.shellIsActive(Messages.exportOrganizationTitle),10000);
+        bot.waitUntil(Conditions.shellIsActive(Messages.exportOrganizationTitle), 10000);
     }
 
     /**
@@ -90,9 +89,9 @@ public class SWTBotActorFilterUtil {
      * @param bot
      */
     public static void activateSynchronizeOrganizationWizard(final SWTBot bot) {
-        bot.waitUntil(Conditions.widgetIsEnabled(bot.menu("Organization")),10000);
+        bot.waitUntil(Conditions.widgetIsEnabled(bot.menu("Organization")), 10000);
         bot.menu("Organization").menu("Publish...").click();
-        bot.waitUntil(Conditions.shellIsActive(Messages.synchronizeOrganizationTitle),10000);
+        bot.waitUntil(Conditions.shellIsActive(Messages.synchronizeOrganizationTitle), 10000);
     }
 
     /**
@@ -102,11 +101,11 @@ public class SWTBotActorFilterUtil {
      * @param bot
      */
     public static void activateActorFilterDefEditionShell(final SWTBot bot) {
-        bot.waitUntil(Conditions.widgetIsEnabled(bot.menu("Development")),10000);
+        bot.waitUntil(Conditions.widgetIsEnabled(bot.menu("Development")), 10000);
         bot.menu("Development").menu("Actor filters")
-        .menu("Edit definition...").click();
+                .menu("Edit definition...").click();
         bot.waitUntil(Conditions
-                .shellIsActive("Select an actor filter definition"),10000);
+                .shellIsActive("Select an actor filter definition"), 10000);
     }
 
     /**
@@ -116,11 +115,11 @@ public class SWTBotActorFilterUtil {
      * @param bot
      */
     public static void activateActorFilterImplEditionShell(final SWTBot bot) {
-        bot.waitUntil(Conditions.widgetIsEnabled(bot.menu("Development")),10000);
+        bot.waitUntil(Conditions.widgetIsEnabled(bot.menu("Development")), 10000);
         bot.menu("Development").menu("Actor filters")
-        .menu("Edit implementation...").click();
+                .menu("Edit implementation...").click();
         bot.waitUntil(Conditions
-                .shellIsActive("Select an actor filter implementation"),10000);
+                .shellIsActive("Select an actor filter implementation"), 10000);
     }
 
     /**
@@ -153,7 +152,7 @@ public class SWTBotActorFilterUtil {
                 // TODO Auto-generated method stub
                 return null;
             }
-        },10000);
+        }, 10000);
         bot.textWithLabel("Version *").setText(version);
         bot.waitUntil(new ICondition() {
 
@@ -174,7 +173,7 @@ public class SWTBotActorFilterUtil {
                 // TODO Auto-generated method stub
                 return null;
             }
-        },10000);
+        }, 10000);
     }
 
     /**
@@ -187,7 +186,7 @@ public class SWTBotActorFilterUtil {
      */
     public static void createNewCategory(final SWTBot bot, final String categoryId)
             throws Exception {
-        bot.waitUntil(Conditions.widgetIsEnabled(bot.button("New...")),10000);
+        bot.waitUntil(Conditions.widgetIsEnabled(bot.button("New...")), 10000);
         bot.button("New...").click();
         Assert.assertFalse("ok button should be desabled",
                 bot.button(IDialogConstants.OK_LABEL).isEnabled());
@@ -241,7 +240,7 @@ public class SWTBotActorFilterUtil {
         activateActorFilterImplementationShell(bot);
         bot.table().select(id);
         final SWTBotCombo comboBoxToSelectVersion = bot.comboBoxWithLabel("Definition version");
-        if(comboBoxToSelectVersion.isEnabled()){
+        if (comboBoxToSelectVersion.isEnabled()) {
             comboBoxToSelectVersion.setSelection(version);
         }
         bot.button(IDialogConstants.NEXT_LABEL).click();

@@ -5,14 +5,12 @@
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2.0 of the License, or
  * (at your option) any later version.
- *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package org.bonitasoft.studio.importer.bar.tests;
 
@@ -34,10 +32,8 @@ import org.bonitasoft.studio.model.process.StringType;
 import org.bonitasoft.studio.model.process.XMLType;
 import org.bonitasoft.studio.model.process.util.ProcessSwitch;
 
-
 /**
  * @author Romain Bioteau
- *
  */
 public class DataTypeSwitch extends ProcessSwitch<DataType> {
 
@@ -53,8 +49,7 @@ public class DataTypeSwitch extends ProcessSwitch<DataType> {
     private boolean foundJava = false;
     private boolean foundFloat = false;
 
-
-    public DataTypeSwitch(List<DataType> datatypes){
+    public DataTypeSwitch(List<DataType> datatypes) {
         this.datatypes = datatypes;
     }
 
@@ -106,7 +101,6 @@ public class DataTypeSwitch extends ProcessSwitch<DataType> {
         return super.caseStringType(object);
     }
 
-
     @Override
     public DataType caseFloatType(FloatType object) {
         foundFloat = true;
@@ -119,9 +113,8 @@ public class DataTypeSwitch extends ProcessSwitch<DataType> {
         return super.caseEnumType(object);
     }
 
-
-    public void testDatatypesConsistency(){
-        for(DataType type : datatypes){
+    public void testDatatypesConsistency() {
+        for (DataType type : datatypes) {
             doSwitch(type);
         }
         assertTrue(foundBoulean);

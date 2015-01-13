@@ -5,14 +5,12 @@
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2.0 of the License, or
  * (at your option) any later version.
- *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package org.bonitasoft.studio.expression.editor.message;
 
@@ -39,28 +37,26 @@ import org.eclipse.swt.graphics.Image;
 
 /**
  * @author Romain Bioteau
- *
  */
 public class MessageIdExpressionProvider implements IExpressionProvider {
 
-
-
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see org.bonitasoft.studio.expression.editor.provider.IExpressionProvider#getExpressions(org.eclipse.emf.ecore.EObject)
      */
     @Override
     public Set<Expression> getExpressions(EObject context) {
-        if(context instanceof AbstractCatchMessageEvent){
+        if (context instanceof AbstractCatchMessageEvent) {
             String event = ((AbstractCatchMessageEvent) context).getEvent();
-            if(event != null){
+            if (event != null) {
                 final Message message = ModelHelper.findEvent((Element) context, event);
-                if(message != null){
+                if (message != null) {
                     TableExpression throwMessageContent = message.getMessageContent();
                     HashSet<Expression> messageContentIds = new HashSet<Expression>();
-                    for (int i=0;i<throwMessageContent.getExpressions().size();i++){
+                    for (int i = 0; i < throwMessageContent.getExpressions().size(); i++) {
                         ListExpression row = throwMessageContent.getExpressions().get(i);
                         Expression id = row.getExpressions().get(0);
-                        if (id!=null && id.getName() !=null){
+                        if (id != null && id.getName() != null) {
                             messageContentIds.add(createExpression(id.getName()));
                         }
                     }
@@ -72,15 +68,16 @@ public class MessageIdExpressionProvider implements IExpressionProvider {
     }
 
     private Expression createExpression(String id) {
-        Expression exp = ExpressionFactory.eINSTANCE.createExpression() ;
-        exp.setType(getExpressionType()) ;
-        exp.setContent(id) ;
-        exp.setName(id) ;
-        exp.setReturnType(String.class.getName()) ;
+        Expression exp = ExpressionFactory.eINSTANCE.createExpression();
+        exp.setType(getExpressionType());
+        exp.setContent(id);
+        exp.setName(id);
+        exp.setReturnType(String.class.getName());
         return exp;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see org.bonitasoft.studio.expression.editor.provider.IExpressionProvider#getExpressionType()
      */
     @Override
@@ -88,7 +85,8 @@ public class MessageIdExpressionProvider implements IExpressionProvider {
         return ExpressionConstants.MESSAGE_ID_TYPE;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see org.bonitasoft.studio.expression.editor.provider.IExpressionProvider#getIcon(org.bonitasoft.studio.model.expression.Expression)
      */
     @Override
@@ -96,7 +94,8 @@ public class MessageIdExpressionProvider implements IExpressionProvider {
         return Pics.getImage(PicsConstants.enveloppe);
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see org.bonitasoft.studio.expression.editor.provider.IExpressionProvider#getTypeIcon()
      */
     @Override
@@ -104,7 +103,8 @@ public class MessageIdExpressionProvider implements IExpressionProvider {
         return Pics.getImage(PicsConstants.enveloppe);
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see org.bonitasoft.studio.expression.editor.provider.IExpressionProvider#getProposalLabel(org.bonitasoft.studio.model.expression.Expression)
      */
     @Override
@@ -112,7 +112,8 @@ public class MessageIdExpressionProvider implements IExpressionProvider {
         return expression.getContent();
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see org.bonitasoft.studio.expression.editor.provider.IExpressionProvider#isRelevantFor(org.eclipse.emf.ecore.EObject)
      */
     @Override
@@ -126,9 +127,8 @@ public class MessageIdExpressionProvider implements IExpressionProvider {
     }
 
     @Override
-    public IExpressionEditor getExpressionEditor(Expression expression,EObject context) {
+    public IExpressionEditor getExpressionEditor(Expression expression, EObject context) {
         return new MessageIdExpressionEditor();
     }
-
 
 }

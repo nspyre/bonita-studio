@@ -1,19 +1,16 @@
 /**
  * Copyright (C) 2012 BonitaSoft S.A.
  * BonitaSoft, 32 rue Gustave Eiffel - 38000 Grenoble
- *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2.0 of the License, or
  * (at your option) any later version.
- *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package org.bonitasoft.studio.expression.editor.operation;
 
@@ -82,13 +79,12 @@ public abstract class OperationsComposite extends Composite implements IBonitaVa
     private EObject eObjectContext;
     private boolean isPageFlowContext = false;
 
-
     public OperationsComposite(final TabbedPropertySheetPage tabbedPropertySheetPage,
             final Composite mainComposite, final ViewerFilter actionExpressionFilter,
-            final ViewerFilter storageExpressionFilter,final boolean isPageFlowContext){
+            final ViewerFilter storageExpressionFilter, final boolean isPageFlowContext) {
         super(mainComposite, SWT.NONE);
         this.mainComposite = mainComposite;
-        this.isPageFlowContext=isPageFlowContext;
+        this.isPageFlowContext = isPageFlowContext;
         if (tabbedPropertySheetPage != null) {
             widgetFactory = tabbedPropertySheetPage.getWidgetFactory();
             if (widgetFactory != null) {
@@ -105,10 +101,10 @@ public abstract class OperationsComposite extends Composite implements IBonitaVa
     public OperationsComposite(final TabbedPropertySheetPage tabbedPropertySheetPage,
             final Composite mainComposite, final ViewerFilter actionExpressionFilter,
             final ViewerFilter storageExpressionFilter) {
-        this(tabbedPropertySheetPage,mainComposite,actionExpressionFilter,storageExpressionFilter,false);
+        this(tabbedPropertySheetPage, mainComposite, actionExpressionFilter, storageExpressionFilter, false);
 
     }
-    
+
     private void createAddButton(final Composite mainComposite) {
         Button addButton = null;
         if (widgetFactory != null) {
@@ -150,12 +146,12 @@ public abstract class OperationsComposite extends Composite implements IBonitaVa
         return TransactionUtil.getEditingDomain(getEObject());
     }
 
-    public int getNbLines(){
+    public int getNbLines() {
         return operationViewers.size();
     }
 
     public void removeLinesUI() {
-        if(!operationViewers.isEmpty()){
+        if (!operationViewers.isEmpty()) {
             for (int i = operationViewers.size() - 1; i >= 0; i--) {
                 removeLineUI(i);
             }
@@ -198,18 +194,19 @@ public abstract class OperationsComposite extends Composite implements IBonitaVa
     }
 
     protected OperationViewer createOperationViewer(final Operation action) {
-        final OperationViewer viewer = new OperationViewer(this, widgetFactory, getEditingDomain(), actionExpressionFilter, storageExpressionFilter,isPageFlowContext) ;
+        final OperationViewer viewer = new OperationViewer(this, widgetFactory, getEditingDomain(), actionExpressionFilter, storageExpressionFilter,
+                isPageFlowContext);
         viewer.setLayoutData(GridDataFactory.fillDefaults().grab(true, false).create());
-        if(context != null){
+        if (context != null) {
             viewer.setContext(context);
         }
-        if(eObjectContext != null){
+        if (eObjectContext != null) {
             viewer.setContext(eObjectContext);
         }
-        if(storageExpressionNatureProvider != null){
+        if (storageExpressionNatureProvider != null) {
             viewer.setStorageExpressionNatureProvider(storageExpressionNatureProvider);
         }
-        if(actionExpressionNatureProvider != null){
+        if (actionExpressionNatureProvider != null) {
             viewer.setActionExpressionNatureProvider(actionExpressionNatureProvider);
         }
         for (final IExpressionValidator validator : validators) {
@@ -222,7 +219,7 @@ public abstract class OperationsComposite extends Composite implements IBonitaVa
         return viewer;
     }
 
-    public void setContext(final EObject context){
+    public void setContext(final EObject context) {
         eObjectContext = context;
     }
 
@@ -239,6 +236,7 @@ public abstract class OperationsComposite extends Composite implements IBonitaVa
         remove.setLayoutData(GridDataFactory.swtDefaults().create());
         remove.setImage(Pics.getImage("delete.png"));
         remove.addSelectionListener(new SelectionAdapter() {
+
             @Override
             public void widgetSelected(final SelectionEvent e) {
                 removeLine(removes.indexOf(e.getSource()));
@@ -263,7 +261,6 @@ public abstract class OperationsComposite extends Composite implements IBonitaVa
 
     /*
      * (non-Javadoc)
-     *
      * @seeorg.eclipse.gmf.runtime.diagram.ui.properties.sections.
      * AbstractModelerPropertySection#dispose()
      */
@@ -309,9 +306,7 @@ public abstract class OperationsComposite extends Composite implements IBonitaVa
         return eObject;
     }
 
-
-    public abstract void refresh() ;
-
+    public abstract void refresh();
 
     protected EReference getActionTargetFeature() {
         return operationContainmentFeature;
@@ -345,7 +340,6 @@ public abstract class OperationsComposite extends Composite implements IBonitaVa
     public boolean isPageFlowContext() {
         return isPageFlowContext;
     }
-
 
     @Override
     public void setIsPageFlowContext(final boolean isPageFlowContext) {

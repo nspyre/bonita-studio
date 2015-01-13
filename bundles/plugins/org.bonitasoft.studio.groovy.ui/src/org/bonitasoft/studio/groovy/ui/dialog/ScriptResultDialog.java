@@ -5,14 +5,12 @@
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2.0 of the License, or
  * (at your option) any later version.
- *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package org.bonitasoft.studio.groovy.ui.dialog;
 
@@ -38,16 +36,15 @@ import org.w3c.dom.Document;
 
 /**
  * @author Romain Bioteau
- *
  */
 public class ScriptResultDialog extends Dialog {
 
     private Composite mainComposite;
     private final Object result;
 
-    public ScriptResultDialog(Shell parentShell,Object result) {
+    public ScriptResultDialog(Shell parentShell, Object result) {
         super(parentShell);
-        this.result = result ;
+        this.result = result;
     }
 
     @Override
@@ -56,25 +53,24 @@ public class ScriptResultDialog extends Dialog {
         newShell.setText(Messages.evaluationResults);
     }
 
-
     @Override
     protected Control createDialogArea(Composite parent) {
-        mainComposite = new Composite(parent,SWT.NONE);
+        mainComposite = new Composite(parent, SWT.NONE);
         mainComposite.setLayoutData(GridDataFactory.fillDefaults().hint(400, 200).grab(true, true).create());
         mainComposite.setLayout(new GridLayout(2, false));
         new Label(mainComposite, SWT.NONE).setText("Result");
         Object value = result;
-        if(value == null || value instanceof String || value instanceof Long || value instanceof Integer){//TODO check other types
-            Text text = new Text(mainComposite, SWT.BORDER | SWT.MULTI | SWT.V_SCROLL | SWT.H_SCROLL) ;
+        if (value == null || value instanceof String || value instanceof Long || value instanceof Integer) {//TODO check other types
+            Text text = new Text(mainComposite, SWT.BORDER | SWT.MULTI | SWT.V_SCROLL | SWT.H_SCROLL);
             text.setLayoutData(GridDataFactory.fillDefaults().grab(true, true).create());
-            if(value != null){
+            if (value != null) {
                 text.setText(value.toString());
-            }else{
+            } else {
                 text.setText("NULL"); //$NON-NLS-1$
             }
             text.setEditable(false);
             text.setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
-        } else if(value instanceof Document){
+        } else if (value instanceof Document) {
             TreeViewer viewer = new TreeViewer(mainComposite, SWT.BORDER);
             viewer.getTree().setLayoutData(GridDataFactory.fillDefaults().grab(true, true).create());
 
@@ -84,7 +80,7 @@ public class ScriptResultDialog extends Dialog {
             viewer.setInput(value);
             viewer.getTree().setFont(BonitaStudioFontRegistry.getCommentsFont());
             viewer.expandAll();
-        } else{
+        } else {
             TreeViewer viewer = new TreeViewer(mainComposite, SWT.BORDER);
             viewer.getTree().setLayoutData(GridDataFactory.fillDefaults().grab(true, true).create());
 
@@ -94,30 +90,32 @@ public class ScriptResultDialog extends Dialog {
 
                 @Override
                 public Image getImage(Object element) {
-                    if( element instanceof Pair<?,?>) {
-                        return getImage(((Pair<?,?>) element).getFirst());
-                    }else if(element == null){
+                    if (element instanceof Pair<?, ?>) {
+                        return getImage(((Pair<?, ?>) element).getFirst());
+                    } else if (element == null) {
                         return null;
                     }
                     return super.getImage(element);
                 }
+
                 @Override
                 public String getText(Object item) {
                     if (item instanceof String) {
-                        return (String)item;
-                    } if( item instanceof Pair<?,?>) {
+                        return (String) item;
+                    }
+                    if (item instanceof Pair<?, ?>) {
 
-                        Object first = ((Pair<?,?>) item).getFirst();
-                        if(first instanceof IType){
-                            return getText(first) + " : " + ((Pair<?,?>) item).getSecond().toString();
-                        }else{
+                        Object first = ((Pair<?, ?>) item).getFirst();
+                        if (first instanceof IType) {
+                            return getText(first) + " : " + ((Pair<?, ?>) item).getSecond().toString();
+                        } else {
                             return getText(first);
                         }
-                    }else if (item instanceof IMember) {
+                    } else if (item instanceof IMember) {
                         return super.getText(item);
-                    } else if(item != null){
+                    } else if (item != null) {
                         return item.toString();
-                    } else{
+                    } else {
                         return null;
                     }
                 }

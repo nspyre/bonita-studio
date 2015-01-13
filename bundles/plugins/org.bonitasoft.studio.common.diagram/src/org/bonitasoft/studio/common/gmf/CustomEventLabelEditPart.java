@@ -13,6 +13,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package org.bonitasoft.studio.common.gmf;
+
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Point;
@@ -23,10 +24,8 @@ import org.eclipse.gmf.runtime.diagram.ui.figures.LabelLocator;
 import org.eclipse.gmf.runtime.notation.NotationPackage;
 import org.eclipse.gmf.runtime.notation.View;
 
-
 /**
  * @author Baptiste Mesta
- *
  */
 public class CustomEventLabelEditPart extends LabelEditPart {
 
@@ -56,26 +55,26 @@ public class CustomEventLabelEditPart extends LabelEditPart {
         final int dy = ((Integer) getStructuralFeatureValue(NotationPackage.eINSTANCE
                 .getLocation_Y())).intValue();
         final Point offset = new Point(dx, dy);
-        if(getFigure().getParent() != null){
+        if (getFigure().getParent() != null) {
             getFigure().getParent().setConstraint(getFigure(),
                     new LabelLocator(refFigure, offset, getKeyPoint()) {
 
-                @Override
-                public void relocate(final IFigure target) {
-                    final Point location = getReferencePoint().getTranslated(
-                            getOffset());
-                    location.translate(-target.getBounds().width / 2, 0);
-                    target.setLocation(location);
-                    target.setSize(new Dimension(
-                            target.getPreferredSize().width, target
-                            .getPreferredSize().height));
-                }
+                        @Override
+                        public void relocate(final IFigure target) {
+                            final Point location = getReferencePoint().getTranslated(
+                                    getOffset());
+                            location.translate(-target.getBounds().width / 2, 0);
+                            target.setLocation(location);
+                            target.setSize(new Dimension(
+                                    target.getPreferredSize().width, target
+                                            .getPreferredSize().height));
+                        }
 
-                @Override
-                protected Point getReferencePoint() {
-                    return getLabelLocation(parent);
-                }
-            });
+                        @Override
+                        protected Point getReferencePoint() {
+                            return getLabelLocation(parent);
+                        }
+                    });
         }
     }
 
@@ -84,10 +83,8 @@ public class CustomEventLabelEditPart extends LabelEditPart {
         return getLabelLocation(((GraphicalEditPart) getParent()).getFigure());
     }
 
-
     protected Point getLabelLocation(final IFigure parent) {
         return parent.getBounds().getBottom();
     }
-
 
 }

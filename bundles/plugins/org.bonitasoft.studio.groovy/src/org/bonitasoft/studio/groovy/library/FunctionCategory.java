@@ -1,19 +1,16 @@
 /**
  * Copyright (C) 2009 BonitaSoft S.A.
  * BonitaSoft, 31 rue Gustave Eiffel - 38000 Grenoble
- *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2.0 of the License, or
  * (at your option) any later version.
- *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
 package org.bonitasoft.studio.groovy.library;
@@ -21,33 +18,30 @@ package org.bonitasoft.studio.groovy.library;
 import java.util.ArrayList;
 import java.util.List;
 
-
 /**
  * @author Romain Bioteau
- *
  */
-public class FunctionCategory implements IFunctionCategory{
+public class FunctionCategory implements IFunctionCategory {
 
-    private String name ;
-    private final List<IFunction> functionList ;
+    private String name;
+    private final List<IFunction> functionList;
     private String documentation;
 
-
-    public FunctionCategory(final String catName){
-        name = catName ;
+    public FunctionCategory(final String catName) {
+        name = catName;
         functionList = new ArrayList<IFunction>();
     }
 
-    public FunctionCategory(final String catName,final String doc){
+    public FunctionCategory(final String catName, final String doc) {
         this(catName);
-        documentation = doc ;
+        documentation = doc;
     }
 
     @Override
     public void addFunction(final IFunction f) {
-        if(!functionList.contains(f)){
+        if (!functionList.contains(f)) {
             functionList.add(f);
-        }else{
+        } else {
             functionList.remove(f);
             functionList.add(f);
         }
@@ -70,14 +64,14 @@ public class FunctionCategory implements IFunctionCategory{
 
     @Override
     public void removeFunction(final IFunction f) {
-        if(functionList.contains(f)){
+        if (functionList.contains(f)) {
             functionList.remove(f);
         }
     }
 
     @Override
     public void setName(final String newName) {
-        name = newName ;
+        name = newName;
     }
 
     @Override
@@ -104,14 +98,10 @@ public class FunctionCategory implements IFunctionCategory{
         return functionList;
     }
 
-
-
     @Override
     public void removeAllFunctions() {
         functionList.clear();
 
     }
-
-
 
 }

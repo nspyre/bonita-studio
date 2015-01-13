@@ -15,6 +15,7 @@ public class ExpressionAssert extends AbstractAssert<ExpressionAssert, Expressio
 
     /**
      * Creates a new </code>{@link ExpressionAssert}</code> to make assertions on actual Expression.
+     * 
      * @param actual the Expression we want to make assertions on.
      */
     public ExpressionAssert(Expression actual) {
@@ -24,6 +25,7 @@ public class ExpressionAssert extends AbstractAssert<ExpressionAssert, Expressio
     /**
      * An entry point for ExpressionAssert to follow AssertJ standard <code>assertThat()</code> statements.<br>
      * With a static import, one's can write directly : <code>assertThat(myExpression)</code> and get specific assertion with code completion.
+     * 
      * @param actual the Expression we want to make assertions on.
      * @return a new </code>{@link ExpressionAssert}</code>
      */
@@ -33,6 +35,7 @@ public class ExpressionAssert extends AbstractAssert<ExpressionAssert, Expressio
 
     /**
      * Verifies that the actual Expression is automaticDependencies.
+     * 
      * @return this assertion object.
      * @throws AssertionError - if the actual Expression is not automaticDependencies.
      */
@@ -53,6 +56,7 @@ public class ExpressionAssert extends AbstractAssert<ExpressionAssert, Expressio
 
     /**
      * Verifies that the actual Expression is not automaticDependencies.
+     * 
      * @return this assertion object.
      * @throws AssertionError - if the actual Expression is automaticDependencies.
      */
@@ -73,6 +77,7 @@ public class ExpressionAssert extends AbstractAssert<ExpressionAssert, Expressio
 
     /**
      * Verifies that the actual Expression's connectors contains the given Connector elements.
+     * 
      * @param connectors the given elements that should be contained in actual Expression's connectors.
      * @return this assertion object.
      * @throws AssertionError if the actual Expression's connectors does not contain all given Connector elements.
@@ -100,6 +105,7 @@ public class ExpressionAssert extends AbstractAssert<ExpressionAssert, Expressio
 
     /**
      * Verifies that the actual Expression has no connectors.
+     * 
      * @return this assertion object.
      * @throws AssertionError if the actual Expression's connectors is not empty.
      */
@@ -120,6 +126,7 @@ public class ExpressionAssert extends AbstractAssert<ExpressionAssert, Expressio
 
     /**
      * Verifies that the actual Expression's content is equal to the given one.
+     * 
      * @param content the given content to compare the actual Expression's content to.
      * @return this assertion object.
      * @throws AssertionError - if the actual Expression's content is not equal to the given one.
@@ -142,6 +149,7 @@ public class ExpressionAssert extends AbstractAssert<ExpressionAssert, Expressio
 
     /**
      * Verifies that the actual Expression is htmlAllowed.
+     * 
      * @return this assertion object.
      * @throws AssertionError - if the actual Expression is not htmlAllowed.
      */
@@ -162,6 +170,7 @@ public class ExpressionAssert extends AbstractAssert<ExpressionAssert, Expressio
 
     /**
      * Verifies that the actual Expression is not htmlAllowed.
+     * 
      * @return this assertion object.
      * @throws AssertionError - if the actual Expression is htmlAllowed.
      */
@@ -182,6 +191,7 @@ public class ExpressionAssert extends AbstractAssert<ExpressionAssert, Expressio
 
     /**
      * Verifies that the actual Expression's interpreter is equal to the given one.
+     * 
      * @param interpreter the given interpreter to compare the actual Expression's interpreter to.
      * @return this assertion object.
      * @throws AssertionError - if the actual Expression's interpreter is not equal to the given one.
@@ -204,6 +214,7 @@ public class ExpressionAssert extends AbstractAssert<ExpressionAssert, Expressio
 
     /**
      * Verifies that the actual Expression's name is equal to the given one.
+     * 
      * @param name the given name to compare the actual Expression's name to.
      * @return this assertion object.
      * @throws AssertionError - if the actual Expression's name is not equal to the given one.
@@ -226,6 +237,7 @@ public class ExpressionAssert extends AbstractAssert<ExpressionAssert, Expressio
 
     /**
      * Verifies that the actual Expression's propagateVariableChange is equal to the given one.
+     * 
      * @param propagateVariableChange the given propagateVariableChange to compare the actual Expression's propagateVariableChange to.
      * @return this assertion object.
      * @throws AssertionError - if the actual Expression's propagateVariableChange is not equal to the given one.
@@ -249,6 +261,7 @@ public class ExpressionAssert extends AbstractAssert<ExpressionAssert, Expressio
 
     /**
      * Verifies that the actual Expression's referencedElements contains the given EObject elements.
+     * 
      * @param referencedElements the given elements that should be contained in actual Expression's referencedElements.
      * @return this assertion object.
      * @throws AssertionError if the actual Expression's referencedElements does not contain all given EObject elements.
@@ -276,6 +289,7 @@ public class ExpressionAssert extends AbstractAssert<ExpressionAssert, Expressio
 
     /**
      * Verifies that the actual Expression has no referencedElements.
+     * 
      * @return this assertion object.
      * @throws AssertionError if the actual Expression's referencedElements is not empty.
      */
@@ -296,6 +310,7 @@ public class ExpressionAssert extends AbstractAssert<ExpressionAssert, Expressio
 
     /**
      * Verifies that the actual Expression's returnType is equal to the given one.
+     * 
      * @param returnType the given returnType to compare the actual Expression's returnType to.
      * @return this assertion object.
      * @throws AssertionError - if the actual Expression's returnType is not equal to the given one.
@@ -318,6 +333,7 @@ public class ExpressionAssert extends AbstractAssert<ExpressionAssert, Expressio
 
     /**
      * Verifies that the actual Expression is returnTypeFixed.
+     * 
      * @return this assertion object.
      * @throws AssertionError - if the actual Expression is not returnTypeFixed.
      */
@@ -338,6 +354,7 @@ public class ExpressionAssert extends AbstractAssert<ExpressionAssert, Expressio
 
     /**
      * Verifies that the actual Expression is not returnTypeFixed.
+     * 
      * @return this assertion object.
      * @throws AssertionError - if the actual Expression is returnTypeFixed.
      */
@@ -358,6 +375,7 @@ public class ExpressionAssert extends AbstractAssert<ExpressionAssert, Expressio
 
     /**
      * Verifies that the actual Expression's type is equal to the given one.
+     * 
      * @param type the given type to compare the actual Expression's type to.
      * @return this assertion object.
      * @throws AssertionError - if the actual Expression's type is not equal to the given one.

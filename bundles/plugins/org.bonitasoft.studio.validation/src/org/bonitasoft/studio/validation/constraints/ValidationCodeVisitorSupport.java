@@ -5,12 +5,10 @@
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2.0 of the License, or
  * (at your option) any later version.
- * 
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- * 
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
@@ -38,10 +36,8 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.MultiStatus;
 import org.eclipse.emf.validation.IValidationContext;
 
-
 /**
  * @author Romain Bioteau
- *
  */
 public class ValidationCodeVisitorSupport extends CodeVisitorSupport {
 
@@ -52,8 +48,7 @@ public class ValidationCodeVisitorSupport extends CodeVisitorSupport {
     private final Set<MethodSignature> declaredMethodsSignature = new HashSet<MethodSignature>();
     private static Set<MethodSignature> defaultGroovyMethodsSignature;
 
-
-    static{
+    static {
         defaultGroovyMethodsSignature = new HashSet<MethodSignature>();
         for (final Method m : DefaultGroovyMethods.class.getMethods()) {
             if (m.getModifiers() == (Modifier.PUBLIC | Modifier.STATIC)) {
@@ -61,7 +56,6 @@ public class ValidationCodeVisitorSupport extends CodeVisitorSupport {
             }
         }
     }
-
 
     public ValidationCodeVisitorSupport(final IValidationContext context, final Expression expression, final ModuleNode node) {
         dependenciesName = retrieveDependenciesList(expression);
@@ -73,7 +67,6 @@ public class ValidationCodeVisitorSupport extends CodeVisitorSupport {
         }
     }
 
-
     @Override
     public void visitMethodCallExpression(final MethodCallExpression call) {
         final String methodName = call.getMethodAsString();
@@ -84,9 +77,9 @@ public class ValidationCodeVisitorSupport extends CodeVisitorSupport {
             if (objectExpression instanceof VariableExpression && ((VariableExpression) objectExpression).isThisExpression()) {
                 if (!declaredMethodsSignature.contains(methodSignature)) {
                     errorStatus
-                    .add(context
-                            .createFailureStatus(Messages.bind(
-                                    Messages.defaultGroovyMethodImportMissing, methodName)));
+                            .add(context
+                                    .createFailureStatus(Messages.bind(
+                                            Messages.defaultGroovyMethodImportMissing, methodName)));
                 }
             }
         }

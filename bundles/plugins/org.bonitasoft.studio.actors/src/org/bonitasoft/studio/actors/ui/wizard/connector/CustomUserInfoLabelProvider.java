@@ -20,14 +20,13 @@ import org.eclipse.swt.graphics.Image;
 
 /**
  * @author Elias Ricken de Medeiros
- *
  */
 public class CustomUserInfoLabelProvider extends ExpressionLabelProvider {
 
     @Override
     public Image getImage(final Object expression) {
         Image image = super.getImage(expression);
-        if(image == null) {
+        if (image == null) {
             image = Pics.getImage(PicsConstants.customUserInfo);
         }
         return image;

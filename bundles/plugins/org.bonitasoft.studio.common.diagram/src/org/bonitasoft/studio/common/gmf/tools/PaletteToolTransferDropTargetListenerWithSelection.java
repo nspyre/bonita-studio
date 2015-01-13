@@ -1,19 +1,16 @@
 /**
  * Copyright (C) 2012 BonitaSoft S.A.
  * BonitaSoft, 32 rue Gustave Eiffel - 38000 Grenoble
- *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2.0 of the License, or
  * (at your option) any later version.
- *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package org.bonitasoft.studio.common.gmf.tools;
 
@@ -66,117 +63,115 @@ import org.eclipse.swt.widgets.Display;
 
 /**
  * @author Aurelien Pupier
- * Enable Selection of newly created elements on DnD
+ *         Enable Selection of newly created elements on DnD
  */
-public class PaletteToolTransferDropTargetListenerWithSelection extends	PaletteToolTransferDropTargetListener {
+public class PaletteToolTransferDropTargetListenerWithSelection extends PaletteToolTransferDropTargetListener {
 
-	public PaletteToolTransferDropTargetListenerWithSelection(EditPartViewer viewer) {
-		super(viewer);
-	}
+    public PaletteToolTransferDropTargetListenerWithSelection(EditPartViewer viewer) {
+        super(viewer);
+    }
 
-	/**
-	 * Overridden to select the created object.
-	 * 
-	 * @see org.eclipse.gef.dnd.AbstractTransferDropTargetListener#handleDrop()
-	 * 
-	 * /!\ don't call super, this method is copied from AbstractTransferDropTargetListener,
-	 * and added a method to select added object (method copied from CreationTool)
-	 * Please note that intermediate class are also trying to 
-	 */
-	protected void handleDrop() {
-		CreateRequest request = getCreateRequest();
-		Point loc = super.getDropLocation().getCopy();
-		request.setLocation(loc);
-		updateTargetEditPart();
+    /**
+     * Overridden to select the created object.
+     * 
+     * @see org.eclipse.gef.dnd.AbstractTransferDropTargetListener#handleDrop()
+     *      /!\ don't call super, this method is copied from AbstractTransferDropTargetListener,
+     *      and added a method to select added object (method copied from CreationTool)
+     *      Please note that intermediate class are also trying to
+     */
+    protected void handleDrop() {
+        CreateRequest request = getCreateRequest();
+        Point loc = super.getDropLocation().getCopy();
+        request.setLocation(loc);
+        updateTargetEditPart();
 
-		if (getTargetEditPart() != null) {
-			Command command = getCommand();
-			if (command != null && command.canExecute()){
-				getViewer().getEditDomain().getCommandStack().execute(command);
-				insertOnSequenceFlow(command,getTargetEditPart(),getViewer(),true);
-				selectAddedObject(getViewer(),DiagramCommandStack.getReturnValues(command));
-				getViewer().getEditDomain().loadDefaultTool();
-			} else {
-				getCurrentEvent().detail = DND.DROP_NONE;
-			}
-		} else {
-			getCurrentEvent().detail = DND.DROP_NONE;
-		}
+        if (getTargetEditPart() != null) {
+            Command command = getCommand();
+            if (command != null && command.canExecute()) {
+                getViewer().getEditDomain().getCommandStack().execute(command);
+                insertOnSequenceFlow(command, getTargetEditPart(), getViewer(), true);
+                selectAddedObject(getViewer(), DiagramCommandStack.getReturnValues(command));
+                getViewer().getEditDomain().loadDefaultTool();
+            } else {
+                getCurrentEvent().detail = DND.DROP_NONE;
+            }
+        } else {
+            getCurrentEvent().detail = DND.DROP_NONE;
+        }
 
-	}
-	
-	
-	protected void handleDragOver() {
-		updateTargetEditPart();
-		updateTargetRequest();
-		if(getCommand() != null && getCommand().canExecute()){
-			getCurrentEvent().detail = DND.DROP_COPY;
-		}else{
-			getCurrentEvent().detail = DND.DROP_NONE;
-		}
-		
-		getCurrentEvent().feedback = DND.FEEDBACK_SCROLL | DND.FEEDBACK_EXPAND;
-		showTargetFeedback();
-	}
+    }
 
-	@Override
-	protected Point getDropLocation() {
-		Point loc = super.getDropLocation().getCopy();
-		return loc;
-	}
+    protected void handleDragOver() {
+        updateTargetEditPart();
+        updateTargetRequest();
+        if (getCommand() != null && getCommand().canExecute()) {
+            getCurrentEvent().detail = DND.DROP_COPY;
+        } else {
+            getCurrentEvent().detail = DND.DROP_NONE;
+        }
 
+        getCurrentEvent().feedback = DND.FEEDBACK_SCROLL | DND.FEEDBACK_EXPAND;
+        showTargetFeedback();
+    }
 
-	public static void insertOnSequenceFlow(Command command,final EditPart targetEditPart,EditPartViewer viewer, boolean correctOffset) {
-		InsertElementOnSequenceFlowCommand cmd = new InsertElementOnSequenceFlowCommand(command, (IGraphicalEditPart) targetEditPart, viewer, correctOffset);
-		viewer.getEditDomain().getCommandStack().execute(new ICommandProxy(cmd));
-	}
+    @Override
+    protected Point getDropLocation() {
+        Point loc = super.getDropLocation().getCopy();
+        return loc;
+    }
 
-	/**
-	 * Select the newly added shape view by default
-	 * @param viewer
-	 * @param objects
-	 * 
-	 * Copied from CreationTool
-	 */
-	protected void selectAddedObject(final EditPartViewer viewer, Collection objects) {
-		final List editparts = new ArrayList();
-		for (Iterator i = objects.iterator(); i.hasNext();) {
-			Object object = i.next();
-			if (object instanceof IAdaptable) {
-				Object editPart =
-					viewer.getEditPartRegistry().get(
-						((IAdaptable)object).getAdapter(View.class));
-				if (editPart != null)
-					editparts.add(editPart);
-			}
-		}
+    public static void insertOnSequenceFlow(Command command, final EditPart targetEditPart, EditPartViewer viewer, boolean correctOffset) {
+        InsertElementOnSequenceFlowCommand cmd = new InsertElementOnSequenceFlowCommand(command, (IGraphicalEditPart) targetEditPart, viewer, correctOffset);
+        viewer.getEditDomain().getCommandStack().execute(new ICommandProxy(cmd));
+    }
 
-		if (!editparts.isEmpty()) {
-			// automatically put the first shape into edit-mode
-			Display.getCurrent().asyncExec(new Runnable() {
-				public void run(){
-					EditPart editPart = (EditPart) editparts.get(0);
-					viewer.setSelection(new StructuredSelection(editPart));
-					if ( editPart.isActive() ) {
-						revealEditPart(editPart);
-						editPart.performRequest(new Request(RequestConstants.REQ_DIRECT_EDIT));
-						revealEditPart(editPart);
-					}
-				}
-			});
-		}
-	}
+    /**
+     * Select the newly added shape view by default
+     * 
+     * @param viewer
+     * @param objects
+     *        Copied from CreationTool
+     */
+    protected void selectAddedObject(final EditPartViewer viewer, Collection objects) {
+        final List editparts = new ArrayList();
+        for (Iterator i = objects.iterator(); i.hasNext();) {
+            Object object = i.next();
+            if (object instanceof IAdaptable) {
+                Object editPart =
+                        viewer.getEditPartRegistry().get(
+                                ((IAdaptable) object).getAdapter(View.class));
+                if (editPart != null)
+                    editparts.add(editPart);
+            }
+        }
 
-	
-	/**
-	 * Reveals the newly created editpart
-	 * @param editPart
-	 * Copied from CreationTool
-	 */
-	protected void revealEditPart(EditPart editPart){
-		if ((editPart != null)&&
-				(editPart.getViewer() != null))
-			editPart.getViewer().reveal(editPart);
-	}
+        if (!editparts.isEmpty()) {
+            // automatically put the first shape into edit-mode
+            Display.getCurrent().asyncExec(new Runnable() {
+
+                public void run() {
+                    EditPart editPart = (EditPart) editparts.get(0);
+                    viewer.setSelection(new StructuredSelection(editPart));
+                    if (editPart.isActive()) {
+                        revealEditPart(editPart);
+                        editPart.performRequest(new Request(RequestConstants.REQ_DIRECT_EDIT));
+                        revealEditPart(editPart);
+                    }
+                }
+            });
+        }
+    }
+
+    /**
+     * Reveals the newly created editpart
+     * 
+     * @param editPart
+     *        Copied from CreationTool
+     */
+    protected void revealEditPart(EditPart editPart) {
+        if ((editPart != null) &&
+                (editPart.getViewer() != null))
+            editPart.getViewer().reveal(editPart);
+    }
 
 }

@@ -4,10 +4,9 @@
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- *
  * Contributors:
- *     BMW Car IT - Initial API and implementation
- *     Technische Universitaet Muenchen - Major refactoring and extension
+ * BMW Car IT - Initial API and implementation
+ * Technische Universitaet Muenchen - Major refactoring and extension
  *******************************************************************************/
 package org.eclipse.emf.edapt.migration;
 
@@ -23,18 +22,18 @@ import java.util.List;
  */
 public interface IOracle {
 
-	/**
-	 * Choose a value.
-	 * 
-	 * @param <V>
-	 *            Type of the value
-	 * @param context
-	 *            The context instance
-	 * @param values
-	 *            The values to choose from
-	 * @param message
-	 *            A message
-	 * @return Choice The chosen value
-	 */
-	<V> V choose(Instance context, List<V> values, String message);
+    /**
+     * Choose a value.
+     * 
+     * @param <V>
+     *        Type of the value
+     * @param context
+     *        The context instance
+     * @param values
+     *        The values to choose from
+     * @param message
+     *        A message
+     * @return Choice The chosen value
+     */
+    <V> V choose(Instance context, List<V> values, String message);
 }

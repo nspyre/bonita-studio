@@ -18,25 +18,28 @@ import org.eclipse.emf.ecore.EClass;
  */
 public class Operation_EqualsImpl extends OperationImpl implements Operation_Equals
 {
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  protected Operation_EqualsImpl()
-  {
-    super();
-  }
 
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  @Override
-  protected EClass eStaticClass()
-  {
-    return ConditionModelPackage.Literals.OPERATION_EQUALS;
-  }
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * 
+     * @generated
+     */
+    protected Operation_EqualsImpl()
+    {
+        super();
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * 
+     * @generated
+     */
+    @Override
+    protected EClass eStaticClass()
+    {
+        return ConditionModelPackage.Literals.OPERATION_EQUALS;
+    }
 
 } //Operation_EqualsImpl

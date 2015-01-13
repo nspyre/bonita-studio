@@ -1,19 +1,16 @@
 /**
  * Copyright (C) 2009 BonitaSoft S.A.
  * BonitaSoft, 31 rue Gustave Eiffel - 38000 Grenoble
- *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2.0 of the License, or
  * (at your option) any later version.
- *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package org.bonitasoft.studio.connector.model.i18n;
 
@@ -21,17 +18,10 @@ import org.eclipse.osgi.util.NLS;
 
 /**
  * @author Mickael Istria
- *
  */
 public class Messages extends NLS {
 
-
-   
-
-
-
-
-	static {
+    static {
         NLS.initializeMessages("messages", Messages.class);
     }
 
@@ -197,18 +187,18 @@ public class Messages extends NLS {
     public static String selectDeadlinePageName;
     public static String specifyDeadlineName_wizardDesc;
 
-    public static String automaticOnEnter ;
-    public static String automaticOnExit ;
-    public static String taskOnCancel ;
-    public static String instanceOnCancel ;
-    public static String taskOnFinish ;
-    public static String instanceOnFinish ;
-    public static String taskOnReady ;
-    public static String taskOnResume ;
-    public static String taskOnStart ;
-    public static String instanceOnStart ;
-    public static String taskOnSuspend ;
-    public static String instanceOnAbort ;
+    public static String automaticOnEnter;
+    public static String automaticOnExit;
+    public static String taskOnCancel;
+    public static String instanceOnCancel;
+    public static String taskOnFinish;
+    public static String instanceOnFinish;
+    public static String taskOnReady;
+    public static String taskOnResume;
+    public static String taskOnStart;
+    public static String instanceOnStart;
+    public static String taskOnSuspend;
+    public static String instanceOnAbort;
     public static String CreateData;
     public static String createOrEditConnectorWizardWindowTitle;
     public static String invalidDatatypeBetween;
@@ -319,7 +309,7 @@ public class Messages extends NLS {
     public static String selectAConnectorImplWarning;
     public static String implementationId;
     public static String selectConnectorImplementationTitle;
-    public static String selectConnectorImplementationDesc ;
+    public static String selectConnectorImplementationDesc;
     public static String missingDefinition;
     public static String filterDefinition;
     public static String versionLabel;
@@ -341,22 +331,22 @@ public class Messages extends NLS {
     public static String textAreaEditor;
     public static String addWidget;
     public static String Edit;
-	public static String emptyTable;
-	public static String emptyList;
-	public static String dependenciesInfo;
-	public static String showDocuments;
-	public static String idIsInvalid;
-	public static String noWhiteSpaceInPageID;
-	public static String parentCategoryLabel;
-	public static String definitionVersion;
-	public static String onlyCustomConnector;
-	public static String all;
-	public static String inputMandatoryError;
-	public static String inputMandatoryErrorTitle;
-	public static String inputAlreadyUseInAnotherWidget;
-	public static String confirmConnectorDefEditionTitle;
-	public static String confirmConnectorDefEditionMsg;
-	public static String doNotDisplayAgain;
+    public static String emptyTable;
+    public static String emptyList;
+    public static String dependenciesInfo;
+    public static String showDocuments;
+    public static String idIsInvalid;
+    public static String noWhiteSpaceInPageID;
+    public static String parentCategoryLabel;
+    public static String definitionVersion;
+    public static String onlyCustomConnector;
+    public static String all;
+    public static String inputMandatoryError;
+    public static String inputMandatoryErrorTitle;
+    public static String inputAlreadyUseInAnotherWidget;
+    public static String confirmConnectorDefEditionTitle;
+    public static String confirmConnectorDefEditionMsg;
+    public static String doNotDisplayAgain;
 
     /**
      * @param event

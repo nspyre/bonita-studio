@@ -29,11 +29,11 @@ import org.bonitasoft.studio.dependencies.repository.DependencyRepositoryStore;
 
 /**
  * @author Romain Bioteau
- *
  */
 public class DriversFileStoreContribution implements IFileStoreContribution {
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see org.bonitasoft.studio.common.repository.model.IFileStoreContribution#appliesTo(org.bonitasoft.studio.common.repository.model.IRepositoryStore)
      */
     @Override
@@ -41,25 +41,26 @@ public class DriversFileStoreContribution implements IFileStoreContribution {
         return repository instanceof DependencyRepositoryStore;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see org.bonitasoft.studio.common.repository.model.IFileStoreContribution#execute(org.bonitasoft.studio.common.repository.model.IRepositoryStore)
      */
     @Override
     public void execute(final IRepositoryStore<? extends IRepositoryFileStore> repository) {
         BonitaStudioLog.info("Initializing repository with Database driver.", "org.bonitasoft.studio.connectors.database.drivers");
-        final Enumeration<URL> drivers = ConnectorPlugin.getDefault().getBundle().findEntries("drivers", "*.jar", false) ;
+        final Enumeration<URL> drivers = ConnectorPlugin.getDefault().getBundle().findEntries("drivers", "*.jar", false);
         final List<String> jarList = new ArrayList<String>();
-        while(drivers.hasMoreElements()){
-            final URL url = drivers.nextElement() ;
-            final String file = url.getFile() ;
-            final String[] segments = file.split("/") ;
-            final String name =  segments[segments.length -1] ;
+        while (drivers.hasMoreElements()) {
+            final URL url = drivers.nextElement();
+            final String file = url.getFile();
+            final String[] segments = file.split("/");
+            final String name = segments[segments.length - 1];
             BonitaStudioLog.info("Initializing repository with " + name + " Database driver", "org.bonitasoft.studio.connectors.database.drivers");
             try {
                 repository.importInputStream(name, url.openStream());
                 jarList.add(name);
             } catch (final IOException e) {
-                BonitaStudioLog.error(e) ;
+                BonitaStudioLog.error(e);
             }
         }
     }

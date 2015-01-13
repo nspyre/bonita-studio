@@ -4,9 +4,8 @@
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- * 
  * Contributors:
- *     IBM Corporation - initial API and implementation
+ * IBM Corporation - initial API and implementation
  *******************************************************************************/
 package org.eclipse.ui.views.properties.tabbed;
 
@@ -21,15 +20,15 @@ import org.eclipse.ui.IWorkbenchPart;
  */
 public interface ITabDescriptorProvider {
 
-	/**
-	 * Returns all tab descriptors.
-	 * 
-	 * @param part
-	 *            the workbench part containing the selection
-	 * @param selection
-	 *            the current selection.
-	 * @return all section descriptors.
-	 */
-	public ITabDescriptor[] getTabDescriptors(IWorkbenchPart part,
-			ISelection selection);
+    /**
+     * Returns all tab descriptors.
+     * 
+     * @param part
+     *        the workbench part containing the selection
+     * @param selection
+     *        the current selection.
+     * @return all section descriptors.
+     */
+    public ITabDescriptor[] getTabDescriptors(IWorkbenchPart part,
+            ISelection selection);
 }

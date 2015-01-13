@@ -77,10 +77,8 @@ import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.forms.widgets.Section;
 
-
 /**
  * @author Elias Ricken de Medeiros
- *
  */
 public class PageComponentSwitchBuilder {
 
@@ -203,7 +201,7 @@ public class PageComponentSwitchBuilder {
         final Label fieldLabel = new Label(labelContainer, SWT.WRAP);
         setText(id, isMandatory, fieldLabel);
         final GridDataFactory factory = GridDataFactory.fillDefaults().align(SWT.END, verticalAlignment);
-        if(hasFixedSize()) {
+        if (hasFixedSize()) {
             factory.grab(true, false);
         }
         fieldLabel.setLayoutData(factory.create());

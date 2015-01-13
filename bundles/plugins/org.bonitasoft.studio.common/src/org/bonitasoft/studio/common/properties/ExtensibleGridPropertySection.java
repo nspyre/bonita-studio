@@ -1,19 +1,16 @@
 /**
  * Copyright (C) 2009 BonitaSoft S.A.
  * BonitaSoft, 31 rue Gustave Eiffel - 38000 Grenoble
- *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2.0 of the License, or
  * (at your option) any later version.
- *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package org.bonitasoft.studio.common.properties;
 
@@ -51,9 +48,9 @@ import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetWidgetFactory;
  * @author Aurelien Pupier
  * @author Mickael Istria
  * @author Baptiste Mesta
- *	@author Romain Bioteau
+ * @author Romain Bioteau
  */
-public abstract class ExtensibleGridPropertySection extends AbstractBonitaDescriptionSection implements ISelectionListener{
+public abstract class ExtensibleGridPropertySection extends AbstractBonitaDescriptionSection implements ISelectionListener {
 
     private final List<IExtensibleGridPropertySectionContribution> contributions;
     Composite mainComposite;
@@ -67,36 +64,35 @@ public abstract class ExtensibleGridPropertySection extends AbstractBonitaDescri
      * This is needed when renaming the diagram.
      */
     private final ISelectionChangedListener selectionListener = new ISelectionChangedListener() {
+
         //TODO : find a better way to handle case of diagram rename
         @Override
         public void selectionChanged(SelectionChangedEvent event) {
-            if(part != null){
-                if(part instanceof DiagramEditor){
-                    /*in order to avoid to polute log on each diagram switch between process/form
+            if (part != null) {
+                if (part instanceof DiagramEditor) {
+                    /*
+                     * in order to avoid to polute log on each diagram switch between process/form
                      * we need to not called setInput if getEditingDomain throws a NPE
-                     * */
+                     */
                     //TODO : find a more elegant way to handle this (override ghetEditingDomain in ProcessDiagramEditor/FormDiagramEditor?) or far better solve the above todo
-                    try{
+                    try {
                         ((DiagramEditor) part).getEditingDomain();
-                    } catch (NullPointerException e){
+                    } catch (NullPointerException e) {
                         return;
                     }
                     setInput(part, event.getSelection());
                 }
             }
 
-
         }
     };
-
 
     public ExtensibleGridPropertySection() {
         contributions = new ArrayList<IExtensibleGridPropertySectionContribution>();
     }
 
- 
     public void refresh() {
-    	super.refresh();
+        super.refresh();
         BusyIndicator.showWhile(Display.getDefault(), new Runnable() {
 
             @Override
@@ -115,60 +111,59 @@ public abstract class ExtensibleGridPropertySection extends AbstractBonitaDescri
         });
     }
 
-
-
     /**
      * Dispose all the Controls inside the mainComposite and then redraw the needed ones.
      */
     public void refreshUI() {
-    	
+
         for (IExtensibleGridPropertySectionContribution contrib : contributions) {
             contrib.dispose();
         }
-        for(Control c : mainComposite.getChildren()){
+        for (Control c : mainComposite.getChildren()) {
             c.dispose();
         }
-       
+
         contentsComposite = widgetFactory.createPlainComposite(mainComposite, SWT.NONE);
-        contentsComposite.setLayoutData(GridDataFactory.fillDefaults().grab(true,true).create()) ;
+        contentsComposite.setLayoutData(GridDataFactory.fillDefaults().grab(true, true).create());
         contentsComposite.setLayout(getLayout());
         for (IExtensibleGridPropertySectionContribution contrib : contributions) {
             if (contrib.isRelevantFor(getEObject())) {
-                if(contrib.getLabel().length() != 0){
+                if (contrib.getLabel().length() != 0) {
                     CLabel label = widgetFactory.createCLabel(contentsComposite, contrib.getLabel());
-                    label.setLayoutData(GridDataFactory.fillDefaults().align(SWT.END, SWT.CENTER).create()) ;
+                    label.setLayoutData(GridDataFactory.fillDefaults().align(SWT.END, SWT.CENTER).create());
                 }
                 Composite composite = widgetFactory.createComposite(contentsComposite);
                 contrib.createControl(composite, widgetFactory, this);
             }
         }
-        /*Force to layout even if there is the same Control than previously*/
+        /* Force to layout even if there is the same Control than previously */
         mainComposite.getParent().getParent().layout(true, true);
     }
 
-
     /**
+     * this layout is for contributions to place contribution label and contribution widgets
      * 
-     * 	this layout is for contributions to place contribution label and contribution widgets
      * @return
-     * 		the layout used for children
+     *         the layout used for children
      */
     protected Layout getLayout() {
-        GridLayout layout = new GridLayout(2,false);
-        layout.verticalSpacing = 10 ;
-        layout.horizontalSpacing = 10 ;
+        GridLayout layout = new GridLayout(2, false);
+        layout.verticalSpacing = 10;
+        layout.horizontalSpacing = 10;
         return layout;
     }
 
-    /* (non-Javadoc)
-     * @see org.eclipse.gmf.runtime.diagram.ui.properties.sections.AbstractModelerPropertySection#createControls(org.eclipse.swt.widgets.Composite, org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage)
+    /*
+     * (non-Javadoc)
+     * @see org.eclipse.gmf.runtime.diagram.ui.properties.sections.AbstractModelerPropertySection#createControls(org.eclipse.swt.widgets.Composite,
+     * org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage)
      */
     @Override
     public void createControls(Composite parent, final TabbedPropertySheetPage aTabbedPropertySheetPage) {
-    	super.createControls(parent, aTabbedPropertySheetPage);
+        super.createControls(parent, aTabbedPropertySheetPage);
         tabbedPropertySheetPage = aTabbedPropertySheetPage;
         mainComposite = aTabbedPropertySheetPage.getWidgetFactory().createPlainComposite(parent, SWT.NONE);
-        mainComposite.setLayout(GridLayoutFactory.fillDefaults().numColumns(1).margins(5,5).extendedMargins(0, 20, 0, 0).create());
+        mainComposite.setLayout(GridLayoutFactory.fillDefaults().numColumns(1).margins(5, 5).extendedMargins(0, 20, 0, 0).create());
         mainComposite.setLayoutData(GridDataFactory.fillDefaults().grab(true, true).create());
         widgetFactory = aTabbedPropertySheetPage.getWidgetFactory();
         addContributions();
@@ -178,8 +173,8 @@ public abstract class ExtensibleGridPropertySection extends AbstractBonitaDescri
      * Add your contributions here
      * Example :
      * protected void addContributions() {
-     * 		addContribution(new MyContribution1());
-     * 		addContribution(new MyContribution2());
+     * addContribution(new MyContribution1());
+     * addContribution(new MyContribution2());
      * }
      */
     protected abstract void addContributions();
@@ -214,14 +209,14 @@ public abstract class ExtensibleGridPropertySection extends AbstractBonitaDescri
                 contrib.setSelection(selection);
             }
         }
-        if(part instanceof DiagramEditor){
-            this.part = part ;
-            ((DiagramEditor)part).getDiagramGraphicalViewer().removeSelectionChangedListener(selectionListener);
-            ((DiagramEditor)part).getDiagramGraphicalViewer().addSelectionChangedListener(selectionListener);
+        if (part instanceof DiagramEditor) {
+            this.part = part;
+            ((DiagramEditor) part).getDiagramGraphicalViewer().removeSelectionChangedListener(selectionListener);
+            ((DiagramEditor) part).getDiagramGraphicalViewer().addSelectionChangedListener(selectionListener);
         }
     }
 
-    protected void updatePropertyTabTitle(ISelection selection,Element elem) {
+    protected void updatePropertyTabTitle(ISelection selection, Element elem) {
         TabbedPropertyComposite tabbedPropertyComposite = (TabbedPropertyComposite) tabbedPropertySheetPage.getControl();
         TabbedPropertyTitle title = tabbedPropertyComposite.getTitle();
         Image image = tabbedPropertySheetPage.getTitleImage(selection);
@@ -230,6 +225,7 @@ public abstract class ExtensibleGridPropertySection extends AbstractBonitaDescri
 
     /**
      * Calls {@link TabbedPropertySheetPage#selectionChanged(IWorkbenchPart, ISelection)}
+     * 
      * @param part
      * @param selection
      */
@@ -248,24 +244,25 @@ public abstract class ExtensibleGridPropertySection extends AbstractBonitaDescri
         return tabbedPropertySheetPage;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see org.eclipse.gmf.runtime.diagram.ui.properties.sections.AbstractModelerPropertySection#dispose()
      */
     @Override
     public void dispose() {
         super.dispose();
-        for(IExtensibleGridPropertySectionContribution toDispose : contributions){
+        for (IExtensibleGridPropertySectionContribution toDispose : contributions) {
             toDispose.dispose();
         }
     }
 
-    public static Control getLabelCompositeOf(Composite composite){
+    public static Control getLabelCompositeOf(Composite composite) {
         Control[] children = null;
-        if(composite.getParent()!=null){
+        if (composite.getParent() != null) {
             children = composite.getParent().getChildren();
-            for (int i=1; i< children.length; i++) {
-                if(children[i].equals(composite)){
-                    return children[i-1];
+            for (int i = 1; i < children.length; i++) {
+                if (children[i].equals(composite)) {
+                    return children[i - 1];
                 }
             }
         }

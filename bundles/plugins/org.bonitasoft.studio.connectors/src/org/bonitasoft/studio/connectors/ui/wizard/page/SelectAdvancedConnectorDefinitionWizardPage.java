@@ -5,14 +5,12 @@
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2.0 of the License, or
  * (at your option) any later version.
- *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package org.bonitasoft.studio.connectors.ui.wizard.page;
 
@@ -43,114 +41,118 @@ import org.eclipse.jface.viewers.ITreeContentProvider;
 
 /**
  * @author Romain Bioteau
- *
  */
 public class SelectAdvancedConnectorDefinitionWizardPage extends
-AbstractDefinitionSelectionImpementationWizardPage {
+        AbstractDefinitionSelectionImpementationWizardPage {
 
-	private Connector workingCopy;
+    private Connector workingCopy;
 
-	public SelectAdvancedConnectorDefinitionWizardPage(Connector workingCopy,
-			List<ConnectorImplementation> existingImpl,
-			List<ConnectorDefinition> definitions, String pageTitle,
-			String pageDescription, DefinitionResourceProvider messageProvider) {
-		super(existingImpl, definitions, pageTitle, pageDescription, messageProvider);
-		this.workingCopy = workingCopy;
-	}
+    public SelectAdvancedConnectorDefinitionWizardPage(Connector workingCopy,
+            List<ConnectorImplementation> existingImpl,
+            List<ConnectorDefinition> definitions, String pageTitle,
+            String pageDescription, DefinitionResourceProvider messageProvider) {
+        super(existingImpl, definitions, pageTitle, pageDescription, messageProvider);
+        this.workingCopy = workingCopy;
+    }
 
-	@Override
-	protected ITreeContentProvider getContentProvider() {
-		return new UniqueConnectorDefinitionContentProvider();
-	}
+    @Override
+    protected ITreeContentProvider getContentProvider() {
+        return new UniqueConnectorDefinitionContentProvider();
+    }
 
-	@Override
-	protected ITreeContentProvider getCustomContentProvider() {
-		return new UniqueConnectorDefinitionContentProvider(true);
-	}
+    @Override
+    protected ITreeContentProvider getCustomContentProvider() {
+        return new UniqueConnectorDefinitionContentProvider(true);
+    }
 
-	@Override
-	protected void bindValue() {
-		final IViewerObservableValue observeSingleSelection = ViewersObservables.observeSingleSelection(explorer.getRightTableViewer());
-		final IViewerObservableValue versionObservable = ViewersObservables.observeSingleSelection(versionCombo);
-		final AbstractDefinitionSelectionImpementationWizardPage thisPage = this;
-		observeSingleSelection.addValueChangeListener(new IValueChangeListener() {
-			@Override
-			public void handleValueChange(ValueChangeEvent event) {
-				updateSelectedConnectorDefinition(observeSingleSelection,versionObservable,	thisPage);
-			}
-		});
-		
-		
-		versionObservable.addValueChangeListener(new IValueChangeListener() {
-			@Override
-			public void handleValueChange(ValueChangeEvent event) {
-				updateSelectedConnectorDefinition(observeSingleSelection,versionObservable,thisPage);
-			}
-		});
-		
+    @Override
+    protected void bindValue() {
+        final IViewerObservableValue observeSingleSelection = ViewersObservables.observeSingleSelection(explorer.getRightTableViewer());
+        final IViewerObservableValue versionObservable = ViewersObservables.observeSingleSelection(versionCombo);
+        final AbstractDefinitionSelectionImpementationWizardPage thisPage = this;
+        observeSingleSelection.addValueChangeListener(new IValueChangeListener() {
 
-		IValidator selectionValidator = new IValidator() {
-			@Override
-			public IStatus validate(Object value) {
-				return validateSelection(value);
-			}
-		} ;
+            @Override
+            public void handleValueChange(ValueChangeEvent event) {
+                updateSelectedConnectorDefinition(observeSingleSelection, versionObservable, thisPage);
+            }
+        });
 
-		UpdateValueStrategy idStrategy = new UpdateValueStrategy() ;
-		idStrategy.setBeforeSetValidator(selectionValidator) ;
-		idStrategy.setConverter(new Converter(ConnectorDefinition.class,String.class) {
+        versionObservable.addValueChangeListener(new IValueChangeListener() {
 
-			@Override
-			public Object convert(Object from) {
-				if(from instanceof ConnectorDefinition){
-					return ((ConnectorDefinition) from).getId() ;
-				}
-				return null;
-			}
-		}) ;
+            @Override
+            public void handleValueChange(ValueChangeEvent event) {
+                updateSelectedConnectorDefinition(observeSingleSelection, versionObservable, thisPage);
+            }
+        });
 
-		UpdateValueStrategy versionStrategy = new UpdateValueStrategy() ;
-		versionStrategy.setBeforeSetValidator(selectionValidator) ;
-		versionStrategy.setConverter(new Converter(ConnectorDefinition.class,String.class) {
+        IValidator selectionValidator = new IValidator() {
 
-			@Override
-			public Object convert(Object from) {
-				if(from instanceof ConnectorDefinition){
-					return ((ConnectorDefinition) from).getVersion() ;
-				}
-				return null;
-			}
-		}) ;
-		context.bindValue(observeSingleSelection, EMFObservables.observeValue(workingCopy, ProcessPackage.Literals.CONNECTOR__DEFINITION_ID),idStrategy,null)  ;
-		context.bindValue(ViewersObservables.observeSingleSelection(versionCombo), EMFObservables.observeValue(workingCopy, ProcessPackage.Literals.CONNECTOR__DEFINITION_VERSION))  ;
-		context.bindValue(observeSingleSelection, EMFObservables.observeValue(workingCopy.getConfiguration(), ConnectorConfigurationPackage.Literals.CONNECTOR_CONFIGURATION__DEFINITION_ID),idStrategy,null)  ;
-		context.bindValue(ViewersObservables.observeSingleSelection(versionCombo), EMFObservables.observeValue(workingCopy.getConfiguration(), ConnectorConfigurationPackage.Literals.CONNECTOR_CONFIGURATION__VERSION))  ;
-	}
-	
-	protected void updateSelectedConnectorDefinition(
-			final IViewerObservableValue observeSingleSelection,
-			IViewerObservableValue versionObservable, final AbstractDefinitionSelectionImpementationWizardPage thisPage) {
-		final Object o = observeSingleSelection.getValue();
-		if(o instanceof ConnectorDefinition){
-			ConnectorDefinition selectedDef = null;
-			String version = (String) versionObservable.getValue();
-			for(ConnectorDefinition def : definitions){
-				if(((ConnectorDefinition) o).getId().equals(def.getId()) && version.equals(def.getVersion())){
-					selectedDef = def;
-					break;
-				}
-			}
-			
-			thisPage.setSelectedConnectorDefinition(selectedDef);
-			setPageComplete(true);
-		}
-	}
+            @Override
+            public IStatus validate(Object value) {
+                return validateSelection(value);
+            }
+        };
 
-	protected IStatus validateSelection(Object value) {
-		if(value == null || value instanceof Category){
-			return new Status(IStatus.ERROR,ConnectorPlugin.PLUGIN_ID, Messages.selectAConnectorDefWarning);
-		}
-		return Status.OK_STATUS;
-	}
+        UpdateValueStrategy idStrategy = new UpdateValueStrategy();
+        idStrategy.setBeforeSetValidator(selectionValidator);
+        idStrategy.setConverter(new Converter(ConnectorDefinition.class, String.class) {
+
+            @Override
+            public Object convert(Object from) {
+                if (from instanceof ConnectorDefinition) {
+                    return ((ConnectorDefinition) from).getId();
+                }
+                return null;
+            }
+        });
+
+        UpdateValueStrategy versionStrategy = new UpdateValueStrategy();
+        versionStrategy.setBeforeSetValidator(selectionValidator);
+        versionStrategy.setConverter(new Converter(ConnectorDefinition.class, String.class) {
+
+            @Override
+            public Object convert(Object from) {
+                if (from instanceof ConnectorDefinition) {
+                    return ((ConnectorDefinition) from).getVersion();
+                }
+                return null;
+            }
+        });
+        context.bindValue(observeSingleSelection, EMFObservables.observeValue(workingCopy, ProcessPackage.Literals.CONNECTOR__DEFINITION_ID), idStrategy, null);
+        context.bindValue(ViewersObservables.observeSingleSelection(versionCombo),
+                EMFObservables.observeValue(workingCopy, ProcessPackage.Literals.CONNECTOR__DEFINITION_VERSION));
+        context.bindValue(observeSingleSelection,
+                EMFObservables.observeValue(workingCopy.getConfiguration(), ConnectorConfigurationPackage.Literals.CONNECTOR_CONFIGURATION__DEFINITION_ID),
+                idStrategy, null);
+        context.bindValue(ViewersObservables.observeSingleSelection(versionCombo),
+                EMFObservables.observeValue(workingCopy.getConfiguration(), ConnectorConfigurationPackage.Literals.CONNECTOR_CONFIGURATION__VERSION));
+    }
+
+    protected void updateSelectedConnectorDefinition(
+            final IViewerObservableValue observeSingleSelection,
+            IViewerObservableValue versionObservable, final AbstractDefinitionSelectionImpementationWizardPage thisPage) {
+        final Object o = observeSingleSelection.getValue();
+        if (o instanceof ConnectorDefinition) {
+            ConnectorDefinition selectedDef = null;
+            String version = (String) versionObservable.getValue();
+            for (ConnectorDefinition def : definitions) {
+                if (((ConnectorDefinition) o).getId().equals(def.getId()) && version.equals(def.getVersion())) {
+                    selectedDef = def;
+                    break;
+                }
+            }
+
+            thisPage.setSelectedConnectorDefinition(selectedDef);
+            setPageComplete(true);
+        }
+    }
+
+    protected IStatus validateSelection(Object value) {
+        if (value == null || value instanceof Category) {
+            return new Status(IStatus.ERROR, ConnectorPlugin.PLUGIN_ID, Messages.selectAConnectorDefWarning);
+        }
+        return Status.OK_STATUS;
+    }
 
 }

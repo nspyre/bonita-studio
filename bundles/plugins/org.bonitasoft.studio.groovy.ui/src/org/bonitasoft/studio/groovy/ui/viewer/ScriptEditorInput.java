@@ -5,14 +5,12 @@
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2.0 of the License, or
  * (at your option) any later version.
- *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package org.bonitasoft.studio.groovy.ui.viewer;
 
@@ -26,16 +24,13 @@ import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.IPersistableElement;
 import org.eclipse.ui.IStorageEditorInput;
 
-
 /**
  * @author Romain Bioteau
- *
  */
 public class ScriptEditorInput implements IStorageEditorInput {
 
-
-
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see org.eclipse.ui.IEditorInput#exists()
      */
     @Override
@@ -43,7 +38,8 @@ public class ScriptEditorInput implements IStorageEditorInput {
         return true;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see org.eclipse.ui.IEditorInput#getImageDescriptor()
      */
     @Override
@@ -51,7 +47,8 @@ public class ScriptEditorInput implements IStorageEditorInput {
         return null;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see org.eclipse.ui.IEditorInput#getName()
      */
     @Override
@@ -59,7 +56,8 @@ public class ScriptEditorInput implements IStorageEditorInput {
         return "Script editor input";
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see org.eclipse.ui.IEditorInput#getPersistable()
      */
     @Override
@@ -67,7 +65,8 @@ public class ScriptEditorInput implements IStorageEditorInput {
         return null;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see org.eclipse.ui.IEditorInput#getToolTipText()
      */
     @Override
@@ -108,7 +107,7 @@ public class ScriptEditorInput implements IStorageEditorInput {
 
             @Override
             public InputStream getContents() throws CoreException {
-                return new ByteArrayInputStream(new byte[]{});
+                return new ByteArrayInputStream(new byte[] {});
             }
         };
     }

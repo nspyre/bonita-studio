@@ -4,7 +4,6 @@
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- * 
  * Contributors:
  * Intalio Inc. - initial API and implementation
  *******************************************************************************/
@@ -188,27 +187,24 @@ public class VerticalLabel extends WrappingLabel {
     /**
      * Fix the issues in the ImageUtilities where the size of the image is the
      * ascent of the font instead of being its height.
-     * 
      * Also uses the GC for the rotation.
-     * 
      * The biggest issue is the very idea of using an image. The size of the
      * font should be given by the mapmode, not in absolute device pixel as it
      * does look ugly when zooming in.
      * 
-     * 
      * @param string
-     *            the String to be rendered
+     *        the String to be rendered
      * @param font
-     *            the font
+     *        the font
      * @param foreground
-     *            the text's color
+     *        the text's color
      * @param background
-     *            the background color
+     *        the background color
      * @param useGCTransform
-     *            true to use the Transform on the GC object.
-     *            false to rely on the homemade algorithm. Transform seems to
-     *            not be supported in eclipse-3.2 except on windows.
-     *            It is working on macos-3.3M3.
+     *        true to use the Transform on the GC object.
+     *        false to rely on the homemade algorithm. Transform seems to
+     *        not be supported in eclipse-3.2 except on windows.
+     *        It is working on macos-3.3M3.
      * @return an Image which must be disposed
      */
     public Image createRotatedImageOfString(Graphics g, String string,
@@ -291,8 +287,8 @@ public class VerticalLabel extends WrappingLabel {
 
     /**
      * @param isVertical
-     *            true when the label should in fact be vertical
-     *            false to keep the standard horizontal painting of the label.
+     *        true when the label should in fact be vertical
+     *        false to keep the standard horizontal painting of the label.
      */
     public void setVertical(boolean isVertical) {
         if (this.isVertical != isVertical) {

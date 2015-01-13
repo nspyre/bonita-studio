@@ -1,19 +1,16 @@
 /**
  * Copyright (C) 2009 BonitaSoft S.A.
  * BonitaSoft, 31 rue Gustave Eiffel - 38000 Grenoble
- *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2.0 of the License, or
  * (at your option) any later version.
- *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package org.bonitasoft.studio.diagram.custom.editPolicies;
 
@@ -63,8 +60,8 @@ public class UpdateSizePoolSelectionEditPolicy extends SelectionEditPolicy imple
 
     public static final String UPDATE_POOL_SIZE_SELECTION_FEEDBACK_ROLE = "updatePoolSizeselectionFeedback"; //$NON-NLS-1$
 
-    /*The list of figure that catch mouse event to launch the command to change the span*/
-    protected Map<String,IFigure> figures = new HashMap<String,IFigure>();
+    /* The list of figure that catch mouse event to launch the command to change the span */
+    protected Map<String, IFigure> figures = new HashMap<String, IFigure>();
 
     public static final String ADD_LEFT = "addLeft"; //$NON-NLS-1$
     public static final String ADD_RIGHT = "addRight"; //$NON-NLS-1$
@@ -75,10 +72,10 @@ public class UpdateSizePoolSelectionEditPolicy extends SelectionEditPolicy imple
     public static final String REMOVE_TOP = "removeTop"; //$NON-NLS-1$
     public static final String REMOVE_BOTTOM = "removeBottom"; //$NON-NLS-1$
 
-    /* The map used to know which place are taken by a widget*/
+    /* The map used to know which place are taken by a widget */
     protected List<List<Boolean>> map = new ArrayList<List<Boolean>>();
 
-    /* The handler layer on which the figures are draw*/
+    /* The handler layer on which the figures are draw */
     protected IFigure layer = null;
 
     private final FigureListener figureListener;
@@ -105,17 +102,15 @@ public class UpdateSizePoolSelectionEditPolicy extends SelectionEditPolicy imple
 
             public void figureMoved(IFigure source) {
                 hideSelection();
-                if(hasFocus || state == EditPart.SELECTED || state == EditPart.SELECTED_PRIMARY){
+                if (hasFocus || state == EditPart.SELECTED || state == EditPart.SELECTED_PRIMARY) {
                     showSelection();
                 }
             }
         };
     }
 
-
     /*
      * (non-Javadoc)
-     * 
      * @see org.eclipse.gef.editpolicies.SelectionEditPolicy#hideSelection()
      */
     @Override
@@ -135,36 +130,33 @@ public class UpdateSizePoolSelectionEditPolicy extends SelectionEditPolicy imple
 
     /*
      * (non-Javadoc)
-     * 
      * @see org.eclipse.gef.editpolicies.SelectionEditPolicy#showSelection()
      */
     @Override
     protected void showSelection() {
-        if(!(((IGraphicalEditPart) getHost()).resolveSemanticElement() instanceof Pool)){
-            return ;
+        if (!(((IGraphicalEditPart) getHost()).resolveSemanticElement() instanceof Pool)) {
+            return;
         }
-        if(getHost() instanceof ITextAwareEditPart || getHost() instanceof ShapeCompartmentEditPart) {
-            return ;
+        if (getHost() instanceof ITextAwareEditPart || getHost() instanceof ShapeCompartmentEditPart) {
+            return;
         }
 
-        poolEditPart = (ShapeNodeEditPart) getHost() ;
+        poolEditPart = (ShapeNodeEditPart) getHost();
 
-        haveLanes = false ;
-        for(Object o : poolEditPart.getChildren()){
-            if(o instanceof CustomPoolCompartmentEditPart){
-                if(!((CustomPoolCompartmentEditPart)o).getPoolLanes().isEmpty()){
-                    haveLanes = true ;
-                    break ;
+        haveLanes = false;
+        for (Object o : poolEditPart.getChildren()) {
+            if (o instanceof CustomPoolCompartmentEditPart) {
+                if (!((CustomPoolCompartmentEditPart) o).getPoolLanes().isEmpty()) {
+                    haveLanes = true;
+                    break;
                 }
-            } 
+            }
         }
-
 
         if (sourceFigure == null) {
             sourceFigure = poolEditPart.getFigure();
             sourceFigure.addFigureListener(figureListener);
         }
-
 
         hideSelection();
         layer = getLayer(LayerConstants.HANDLE_LAYER);
@@ -180,75 +172,72 @@ public class UpdateSizePoolSelectionEditPolicy extends SelectionEditPolicy imple
             return;
         }
 
-
-        if(zoomManager.getZoom() > GMFTools.MINIMAL_ZOOM_DISPLAY){
+        if (zoomManager.getZoom() > GMFTools.MINIMAL_ZOOM_DISPLAY) {
 
             showSelectionForAddRight(zoomManager.getZoom());
             showSelectionForRemoveRight(zoomManager.getZoom());
 
-            if(!haveLanes){
+            if (!haveLanes) {
                 showSelectionForAddBottom(zoomManager.getZoom());
                 showSelectionForRemoveBottom(zoomManager.getZoom());
             }
         }
     }
 
-
     private ShapeNodeEditPart findPoolEditPart(EditPart host) {
-        EditPart result = host ;
+        EditPart result = host;
 
-        if(host instanceof SequenceFlowEditPart){
+        if (host instanceof SequenceFlowEditPart) {
             result = ((AbstractConnectionEditPart) host).getSource();
         }
 
-        if(host instanceof MessageFlowEditPart){
+        if (host instanceof MessageFlowEditPart) {
             result = ((AbstractConnectionEditPart) host).getSource();
         }
 
         EditPart tempEditPart = result;
-        /*first search for a CustomLaneEditPart*/
-        while(!(result instanceof CustomPoolEditPart) && result != null){
-            result = result.getParent() ;
+        /* first search for a CustomLaneEditPart */
+        while (!(result instanceof CustomPoolEditPart) && result != null) {
+            result = result.getParent();
         }
 
-        if(result == null){
-            return null ;
+        if (result == null) {
+            return null;
         }
 
         return (ShapeNodeEditPart) result;
     }
 
     private void showSelectionForAddRight(double zoom) {
-        if(sourceFigure == null){
-            if(poolEditPart == null){
+        if (sourceFigure == null) {
+            if (poolEditPart == null) {
                 poolEditPart = findPoolEditPart(getHost());
-                if(poolEditPart == null) {
-                    return ;
+                if (poolEditPart == null) {
+                    return;
                 }
             }
-            sourceFigure = poolEditPart.getFigure() ;
+            sourceFigure = poolEditPart.getFigure();
         }
         Rectangle ref = sourceFigure.getBounds();
         IFigure f = new ImageFigure(Pics.getImage(PicsConstants.plusBlack));
         f.setSize(20, 20);
         f.setLocation(ref.getRight().translate(10, -20));
-        f.getBounds().performScale(zoom) ;
+        f.getBounds().performScale(zoom);
         f.addMouseListener(new MouseListenerForSpan(UpdateSizePoolSelectionEditPolicy.ADD_RIGHT));
         layer.add(f);
-        figures.put(UpdateSizePoolSelectionEditPolicy.ADD_RIGHT,f);
+        figures.put(UpdateSizePoolSelectionEditPolicy.ADD_RIGHT, f);
 
     }
 
-
     private void showSelectionForAddBottom(double zoom) {
-        if(sourceFigure == null){
-            if(poolEditPart == null){
+        if (sourceFigure == null) {
+            if (poolEditPart == null) {
                 poolEditPart = findPoolEditPart(getHost());
-                if(poolEditPart == null) {
-                    return ;
+                if (poolEditPart == null) {
+                    return;
                 }
             }
-            sourceFigure = poolEditPart.getFigure() ;
+            sourceFigure = poolEditPart.getFigure();
         }
         Rectangle ref = sourceFigure.getBounds();
         IFigure f = new ImageFigure(Pics.getImage(PicsConstants.plusBlack));
@@ -257,19 +246,19 @@ public class UpdateSizePoolSelectionEditPolicy extends SelectionEditPolicy imple
         f.addMouseListener(new MouseListenerForSpan(UpdateSizePoolSelectionEditPolicy.ADD_BOTTOM));
         f.getBounds().performScale(zoom);
         layer.add(f);
-        figures.put(UpdateSizePoolSelectionEditPolicy.ADD_BOTTOM,f);
+        figures.put(UpdateSizePoolSelectionEditPolicy.ADD_BOTTOM, f);
 
     }
 
     private void showSelectionForRemoveBottom(double zoom) {
-        if(sourceFigure == null){
-            if(poolEditPart == null){
+        if (sourceFigure == null) {
+            if (poolEditPart == null) {
                 poolEditPart = findPoolEditPart(getHost());
-                if(poolEditPart == null) {
-                    return ;
+                if (poolEditPart == null) {
+                    return;
                 }
             }
-            sourceFigure = poolEditPart.getFigure() ;
+            sourceFigure = poolEditPart.getFigure();
         }
         Rectangle ref = sourceFigure.getBounds();
         IFigure f = new ImageFigure(Pics.getImage(PicsConstants.minusBlack));
@@ -278,7 +267,7 @@ public class UpdateSizePoolSelectionEditPolicy extends SelectionEditPolicy imple
         f.getBounds().performScale(zoom);
         f.addMouseListener(new MouseListenerForSpan(UpdateSizePoolSelectionEditPolicy.REMOVE_BOTTOM));
         layer.add(f);
-        figures.put(UpdateSizePoolSelectionEditPolicy.REMOVE_BOTTOM,f);
+        figures.put(UpdateSizePoolSelectionEditPolicy.REMOVE_BOTTOM, f);
 
     }
 
@@ -286,14 +275,14 @@ public class UpdateSizePoolSelectionEditPolicy extends SelectionEditPolicy imple
      * 
      */
     private void showSelectionForRemoveRight(double zoom) {
-        if(sourceFigure == null){
-            if(poolEditPart == null){
+        if (sourceFigure == null) {
+            if (poolEditPart == null) {
                 poolEditPart = findPoolEditPart(getHost());
-                if(poolEditPart == null) {
-                    return ;
+                if (poolEditPart == null) {
+                    return;
                 }
             }
-            sourceFigure = poolEditPart.getFigure() ;
+            sourceFigure = poolEditPart.getFigure();
         }
         Rectangle ref = sourceFigure.getBounds();
         IFigure f = new ImageFigure(Pics.getImage(PicsConstants.minusBlack));
@@ -303,10 +292,9 @@ public class UpdateSizePoolSelectionEditPolicy extends SelectionEditPolicy imple
         f.addMouseListener(new MouseListenerForSpan(UpdateSizePoolSelectionEditPolicy.REMOVE_RIGHT));
         f.getBounds().performScale(zoom);
         layer.add(f);
-        figures.put(UpdateSizePoolSelectionEditPolicy.REMOVE_RIGHT,f);
+        figures.put(UpdateSizePoolSelectionEditPolicy.REMOVE_RIGHT, f);
 
     }
-
 
     protected void refresh() {
         hideSelection();
@@ -317,17 +305,18 @@ public class UpdateSizePoolSelectionEditPolicy extends SelectionEditPolicy imple
     public void activate() {
         super.activate();
         zoomManager = ((DiagramRootEditPart) getHost().getRoot()).getZoomManager();
-        zoomManager.addZoomListener(this) ;
+        zoomManager.addZoomListener(this);
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see org.eclipse.gef.editpolicies.SelectionEditPolicy#deactivate()
      */
     @Override
     public void deactivate() {
         super.deactivate();
-        zoomManager.removeZoomListener(this) ;
-        if(sourceFigure != null){
+        zoomManager.removeZoomListener(this);
+        if (sourceFigure != null) {
             sourceFigure.removeFigureListener(figureListener);
             sourceFigure = null;
         }
@@ -335,7 +324,8 @@ public class UpdateSizePoolSelectionEditPolicy extends SelectionEditPolicy imple
         figures.clear();
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see org.eclipse.gef.editpolicies.SelectionEditPolicy#setFocus(boolean)
      */
     @Override
@@ -344,7 +334,8 @@ public class UpdateSizePoolSelectionEditPolicy extends SelectionEditPolicy imple
         super.setFocus(value);
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see org.eclipse.gef.editpolicies.SelectionEditPolicy#setSelectedState(int)
      */
     @Override
@@ -353,7 +344,7 @@ public class UpdateSizePoolSelectionEditPolicy extends SelectionEditPolicy imple
         super.setSelectedState(type);
     }
 
-    private class MouseListenerForSpan extends MouseListener.Stub{
+    private class MouseListenerForSpan extends MouseListener.Stub {
 
         private final String type;
 
@@ -368,31 +359,28 @@ public class UpdateSizePoolSelectionEditPolicy extends SelectionEditPolicy imple
         public void mousePressed(MouseEvent me) {
             try {
 
-                IFigure  f = ((CustomMainProcessEditPart) poolEditPart.getParent()).getFigure() ;
-                IFigure p = f ;
-                while(!(p instanceof Viewport)){
+                IFigure f = ((CustomMainProcessEditPart) poolEditPart.getParent()).getFigure();
+                IFigure p = f;
+                while (!(p instanceof Viewport)) {
                     p = p.getParent();
                 }
 
-                int y = ((Viewport)p).getVerticalRangeModel().getValue() ;
-                int x = ((Viewport)p).getHorizontalRangeModel().getValue() ;
-
+                int y = ((Viewport) p).getVerticalRangeModel().getValue();
+                int x = ((Viewport) p).getHorizontalRangeModel().getValue();
 
                 IUndoableOperation c = new UpdatePoolSizeCommand(poolEditPart, type);
-                OperationHistoryFactory.getOperationHistory().execute(c,null,null);
+                OperationHistoryFactory.getOperationHistory().execute(c, null, null);
                 me.consume();
-
 
                 poolEditPart.getViewer().setSelection(new StructuredSelection(poolEditPart));
                 refresh();
                 poolEditPart.getViewer().setSelection(new StructuredSelection(getHost()));
 
-                if(type.equals(ADD_RIGHT)){
-                    ((Viewport)p).setHorizontalLocation(x+150);
+                if (type.equals(ADD_RIGHT)) {
+                    ((Viewport) p).setHorizontalLocation(x + 150);
                 }
 
-                ((Viewport)p).setVerticalLocation(y);
-
+                ((Viewport) p).setVerticalLocation(y);
 
             } catch (ExecutionException e) {
                 e.printStackTrace();
@@ -400,11 +388,11 @@ public class UpdateSizePoolSelectionEditPolicy extends SelectionEditPolicy imple
         }
     }
 
-    public IFigure getFigure(String figureId){
+    public IFigure getFigure(String figureId) {
         return figures.get(figureId);
     }
 
     public void zoomChanged(double zoom) {
-        hideSelection() ;
+        hideSelection();
     }
 }

@@ -5,14 +5,12 @@
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2.0 of the License, or
  * (at your option) any later version.
- *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package org.bonitasoft.studio.connector.model.definition.wizard;
 
@@ -50,10 +48,8 @@ import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 
-
 /**
  * @author Romain Bioteau
- *
  */
 public class DefinitionPageWizardPage extends WizardPage implements ISelectionChangedListener {
 
@@ -78,160 +74,169 @@ public class DefinitionPageWizardPage extends WizardPage implements ISelectionCh
 
     private final DefinitionResourceProvider messageProvider;
 
-    public DefinitionPageWizardPage(ConnectorDefinition definition,Properties messages,DefinitionResourceProvider messageProvider) {
+    public DefinitionPageWizardPage(ConnectorDefinition definition, Properties messages, DefinitionResourceProvider messageProvider) {
         super(DefinitionPageWizardPage.class.getName());
-        setTitle(Messages.connectorPageDefinitionTitle) ;
-        setDescription(Messages.connectorPageDefinitionDesc) ;
-        this.definition = definition ;
+        setTitle(Messages.connectorPageDefinitionTitle);
+        setDescription(Messages.connectorPageDefinitionDesc);
+        this.definition = definition;
         this.messages = messages;
-        this.messageProvider = messageProvider ;
+        this.messageProvider = messageProvider;
     }
 
     @Override
     public void dispose() {
         super.dispose();
-        if(context != null){
-            context.dispose() ;
+        if (context != null) {
+            context.dispose();
         }
-        if(pageSupport != null){
-            pageSupport.dispose() ;
+        if (pageSupport != null) {
+            pageSupport.dispose();
         }
 
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see org.eclipse.jface.dialogs.IDialogPage#createControl(org.eclipse.swt.widgets.Composite)
      */
     @Override
     public void createControl(Composite parent) {
-        context = new EMFDataBindingContext() ;
-        final Composite mainComposite = new Composite(parent, SWT.NONE) ;
-        mainComposite.setLayoutData(GridDataFactory.fillDefaults().grab(true, true).create()) ;
-        mainComposite.setLayout(GridLayoutFactory.fillDefaults().numColumns(2).margins(15, 15).create()) ;
+        context = new EMFDataBindingContext();
+        final Composite mainComposite = new Composite(parent, SWT.NONE);
+        mainComposite.setLayoutData(GridDataFactory.fillDefaults().grab(true, true).create());
+        mainComposite.setLayout(GridLayoutFactory.fillDefaults().numColumns(2).margins(15, 15).create());
 
-        pagesViewer = new TableViewer(mainComposite, SWT.BORDER | SWT.FULL_SELECTION) ;
-        pagesViewer.getTable().setLayoutData(GridDataFactory.fillDefaults().grab(true, true).create()) ;
-        pagesViewer.getTable().setHeaderVisible(true) ;
-        pagesViewer.getTable().setLinesVisible(true) ;
-        pagesViewer.addSelectionChangedListener(this) ;
+        pagesViewer = new TableViewer(mainComposite, SWT.BORDER | SWT.FULL_SELECTION);
+        pagesViewer.getTable().setLayoutData(GridDataFactory.fillDefaults().grab(true, true).create());
+        pagesViewer.getTable().setHeaderVisible(true);
+        pagesViewer.getTable().setLinesVisible(true);
+        pagesViewer.addSelectionChangedListener(this);
 
-        final TableLayout layout = new TableLayout() ;
-        layout.addColumnData(new ColumnWeightData(25)) ;
-        layout.addColumnData(new ColumnWeightData(25)) ;
-        layout.addColumnData(new ColumnWeightData(50)) ;
-        pagesViewer.getTable().setLayout(layout) ;
-        pagesViewer.setContentProvider(new ArrayContentProvider()) ;
+        final TableLayout layout = new TableLayout();
+        layout.addColumnData(new ColumnWeightData(25));
+        layout.addColumnData(new ColumnWeightData(25));
+        layout.addColumnData(new ColumnWeightData(50));
+        pagesViewer.getTable().setLayout(layout);
+        pagesViewer.setContentProvider(new ArrayContentProvider());
 
         TableViewerColumn pageIdColumn = new TableViewerColumn(pagesViewer, SWT.FILL);
-        pageIdColumn.getColumn().setText(Messages.pageId) ;
-        pageIdColumn.setLabelProvider(new ColumnLabelProvider(){
+        pageIdColumn.getColumn().setText(Messages.pageId);
+        pageIdColumn.setLabelProvider(new ColumnLabelProvider() {
+
             @Override
             public String getText(Object element) {
-                return ((Page)element).getId();
+                return ((Page) element).getId();
             }
         });
 
         TableViewerColumn pageDisplayNameColumn = new TableViewerColumn(pagesViewer, SWT.FILL);
-        pageDisplayNameColumn.getColumn().setText(Messages.displayName) ;
-        pageDisplayNameColumn.setLabelProvider(new ColumnLabelProvider(){
+        pageDisplayNameColumn.getColumn().setText(Messages.displayName);
+        pageDisplayNameColumn.setLabelProvider(new ColumnLabelProvider() {
+
             @Override
             public String getText(Object element) {
-                return messageProvider.getPageTitle(messages, ((Page)element).getId()) ;
+                return messageProvider.getPageTitle(messages, ((Page) element).getId());
             }
         });
-
 
         TableViewerColumn pageDescriptionColumn = new TableViewerColumn(pagesViewer, SWT.FILL);
-        pageDescriptionColumn.getColumn().setText(Messages.pageDescLabel) ;
-        pageDescriptionColumn.setLabelProvider(new ColumnLabelProvider(){
+        pageDescriptionColumn.getColumn().setText(Messages.pageDescLabel);
+        pageDescriptionColumn.setLabelProvider(new ColumnLabelProvider() {
+
             @Override
             public String getText(Object element) {
-                return messageProvider.getPageDescription(messages, ((Page)element).getId()) ;
+                return messageProvider.getPageDescription(messages, ((Page) element).getId());
             }
         });
 
-        context.bindValue(ViewersObservables.observeInput(pagesViewer), EMFObservables.observeValue(definition, ConnectorDefinitionPackage.Literals.CONNECTOR_DEFINITION__PAGE)) ;
+        context.bindValue(ViewersObservables.observeInput(pagesViewer),
+                EMFObservables.observeValue(definition, ConnectorDefinitionPackage.Literals.CONNECTOR_DEFINITION__PAGE));
 
-        final Composite buttonComposite = new Composite(mainComposite, SWT.NONE) ;
-        buttonComposite.setLayoutData(GridDataFactory.fillDefaults().grab(false, true).create()) ;
-        buttonComposite.setLayout(GridLayoutFactory.fillDefaults().numColumns(1).margins(0, 0).spacing(0, 3).create()) ;
+        final Composite buttonComposite = new Composite(mainComposite, SWT.NONE);
+        buttonComposite.setLayoutData(GridDataFactory.fillDefaults().grab(false, true).create());
+        buttonComposite.setLayout(GridLayoutFactory.fillDefaults().numColumns(1).margins(0, 0).spacing(0, 3).create());
 
-        final Button addButton = new Button(buttonComposite, SWT.FLAT) ;
-        addButton.setText(Messages.add) ;
-        addButton.setLayoutData(GridDataFactory.fillDefaults().grab(true, false).hint(DEFAULT_BUTTON_WIDTH_HINT, SWT.DEFAULT).create()) ;
+        final Button addButton = new Button(buttonComposite, SWT.FLAT);
+        addButton.setText(Messages.add);
+        addButton.setLayoutData(GridDataFactory.fillDefaults().grab(true, false).hint(DEFAULT_BUTTON_WIDTH_HINT, SWT.DEFAULT).create());
         addButton.addSelectionListener(new SelectionAdapter() {
+
             @Override
             public void widgetSelected(SelectionEvent e) {
-                Page newPage = ConnectorDefinitionFactory.eINSTANCE.createPage() ;
-                editingPage = null ;
-                IWizardPage page = new PageWidgetsWizardPage(definition,null,newPage, messages,messageProvider) ;
-                page.setWizard(getWizard()) ;
-                getContainer().showPage(page) ;
+                Page newPage = ConnectorDefinitionFactory.eINSTANCE.createPage();
+                editingPage = null;
+                IWizardPage page = new PageWidgetsWizardPage(definition, null, newPage, messages, messageProvider);
+                page.setWizard(getWizard());
+                getContainer().showPage(page);
             }
-        }) ;
+        });
 
-        editButton = new Button(buttonComposite, SWT.FLAT) ;
-        editButton.setText(Messages.update) ;
-        editButton.setLayoutData(GridDataFactory.fillDefaults().grab(true, false).hint(DEFAULT_BUTTON_WIDTH_HINT, SWT.DEFAULT).create()) ;
+        editButton = new Button(buttonComposite, SWT.FLAT);
+        editButton.setText(Messages.update);
+        editButton.setLayoutData(GridDataFactory.fillDefaults().grab(true, false).hint(DEFAULT_BUTTON_WIDTH_HINT, SWT.DEFAULT).create());
         editButton.addSelectionListener(new SelectionAdapter() {
+
             @Override
             public void widgetSelected(SelectionEvent e) {
-                Page page = (Page) ((IStructuredSelection) pagesViewer.getSelection()).getFirstElement() ;
-                editingPage = page ;
-                IWizardPage wizPage = new PageWidgetsWizardPage(definition,page,EcoreUtil.copy(page), messages,messageProvider) ;
-                wizPage.setWizard(getWizard()) ;
-                getContainer().showPage(wizPage) ;
+                Page page = (Page) ((IStructuredSelection) pagesViewer.getSelection()).getFirstElement();
+                editingPage = page;
+                IWizardPage wizPage = new PageWidgetsWizardPage(definition, page, EcoreUtil.copy(page), messages, messageProvider);
+                wizPage.setWizard(getWizard());
+                getContainer().showPage(wizPage);
             }
-        }) ;
+        });
 
-        upButton = new Button(buttonComposite, SWT.FLAT) ;
-        upButton.setText(Messages.up) ;
-        upButton.setLayoutData(GridDataFactory.fillDefaults().grab(true, false).hint(DEFAULT_BUTTON_WIDTH_HINT, SWT.DEFAULT).create()) ;
+        upButton = new Button(buttonComposite, SWT.FLAT);
+        upButton.setText(Messages.up);
+        upButton.setLayoutData(GridDataFactory.fillDefaults().grab(true, false).hint(DEFAULT_BUTTON_WIDTH_HINT, SWT.DEFAULT).create());
         upButton.addSelectionListener(new SelectionAdapter() {
+
             @Override
             public void widgetSelected(SelectionEvent e) {
-                Page selectedPage = (Page) ((IStructuredSelection) pagesViewer.getSelection()).getFirstElement() ;
-                int index = definition.getPage().indexOf(selectedPage) ;
-                if(index > 0){
-                    definition.getPage().move(index-1, selectedPage) ;
+                Page selectedPage = (Page) ((IStructuredSelection) pagesViewer.getSelection()).getFirstElement();
+                int index = definition.getPage().indexOf(selectedPage);
+                if (index > 0) {
+                    definition.getPage().move(index - 1, selectedPage);
                 }
-                pagesViewer.refresh() ;
+                pagesViewer.refresh();
             }
-        }) ;
+        });
 
-        downButton = new Button(buttonComposite, SWT.FLAT) ;
-        downButton.setText(Messages.down) ;
-        downButton.setLayoutData(GridDataFactory.fillDefaults().grab(true, false).hint(DEFAULT_BUTTON_WIDTH_HINT, SWT.DEFAULT).create()) ;
+        downButton = new Button(buttonComposite, SWT.FLAT);
+        downButton.setText(Messages.down);
+        downButton.setLayoutData(GridDataFactory.fillDefaults().grab(true, false).hint(DEFAULT_BUTTON_WIDTH_HINT, SWT.DEFAULT).create());
         downButton.addSelectionListener(new SelectionAdapter() {
+
             @Override
             public void widgetSelected(SelectionEvent e) {
-                Page selectedPage = (Page) ((IStructuredSelection) pagesViewer.getSelection()).getFirstElement() ;
-                int index = definition.getPage().indexOf(selectedPage) ;
-                if(index < definition.getPage().size()-1){
-                    definition.getPage().move(index+1, selectedPage) ;
+                Page selectedPage = (Page) ((IStructuredSelection) pagesViewer.getSelection()).getFirstElement();
+                int index = definition.getPage().indexOf(selectedPage);
+                if (index < definition.getPage().size() - 1) {
+                    definition.getPage().move(index + 1, selectedPage);
                 }
             }
-        }) ;
+        });
 
-        removeButton = new Button(buttonComposite, SWT.FLAT) ;
-        removeButton.setText(Messages.remove) ;
-        removeButton.setLayoutData(GridDataFactory.fillDefaults().grab(true, false).hint(DEFAULT_BUTTON_WIDTH_HINT, SWT.DEFAULT).create()) ;
+        removeButton = new Button(buttonComposite, SWT.FLAT);
+        removeButton.setText(Messages.remove);
+        removeButton.setLayoutData(GridDataFactory.fillDefaults().grab(true, false).hint(DEFAULT_BUTTON_WIDTH_HINT, SWT.DEFAULT).create());
         removeButton.addSelectionListener(new SelectionAdapter() {
+
             @Override
             public void widgetSelected(SelectionEvent e) {
-                definition.getPage().removeAll(((IStructuredSelection) pagesViewer.getSelection()).toList()) ;
-                pagesViewer.refresh() ;
+                definition.getPage().removeAll(((IStructuredSelection) pagesViewer.getSelection()).toList());
+                pagesViewer.refresh();
             }
-        }) ;
+        });
 
-        updateButtons(new StructuredSelection()) ;
-        pageSupport = WizardPageSupport.create(this, context) ;
-        setControl(mainComposite) ;
+        updateButtons(new StructuredSelection());
+        pageSupport = WizardPageSupport.create(this, context);
+        setControl(mainComposite);
     }
 
-    public void refresh(){
-        if(pagesViewer != null && !pagesViewer.getTable().isDisposed()){
-            pagesViewer.refresh() ;
+    public void refresh() {
+        if (pagesViewer != null && !pagesViewer.getTable().isDisposed()) {
+            pagesViewer.refresh();
         }
     }
 
@@ -249,24 +254,24 @@ public class DefinitionPageWizardPage extends WizardPage implements ISelectionCh
 
     @Override
     public void selectionChanged(SelectionChangedEvent event) {
-        updateButtons(event.getSelection()) ;
+        updateButtons(event.getSelection());
     }
 
     private void updateButtons(ISelection selection) {
-        if(editButton != null && !editButton.isDisposed()){
-            editButton.setEnabled(!selection.isEmpty()) ;
+        if (editButton != null && !editButton.isDisposed()) {
+            editButton.setEnabled(!selection.isEmpty());
         }
 
-        if(upButton != null && !upButton.isDisposed()){
-            upButton.setEnabled(!selection.isEmpty()) ;
+        if (upButton != null && !upButton.isDisposed()) {
+            upButton.setEnabled(!selection.isEmpty());
         }
 
-        if(downButton != null && !downButton.isDisposed()){
-            downButton.setEnabled(!selection.isEmpty()) ;
+        if (downButton != null && !downButton.isDisposed()) {
+            downButton.setEnabled(!selection.isEmpty());
         }
 
-        if(removeButton != null && !removeButton.isDisposed()){
-            removeButton.setEnabled(!selection.isEmpty()) ;
+        if (removeButton != null && !removeButton.isDisposed()) {
+            removeButton.setEnabled(!selection.isEmpty());
         }
     }
 }

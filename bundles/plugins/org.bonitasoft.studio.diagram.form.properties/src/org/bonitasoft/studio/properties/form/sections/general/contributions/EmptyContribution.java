@@ -14,39 +14,39 @@ import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetWidgetFactory;
 
 public class EmptyContribution implements IExtensibleGridPropertySectionContribution {
 
-	private EClass eClass;
+    private EClass eClass;
 
-	public EmptyContribution(EClass eClass) {
-		this.eClass = eClass;
-	}
-	
-	public void createControl(Composite composite, TabbedPropertySheetWidgetFactory widgetFactory, ExtensibleGridPropertySection extensibleGridPropertySection) {
-		composite.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, true, false,2,1));
-		composite.setLayout(new GridLayout(2, false));
-	}
+    public EmptyContribution(EClass eClass) {
+        this.eClass = eClass;
+    }
 
-	public void dispose() {
+    public void createControl(Composite composite, TabbedPropertySheetWidgetFactory widgetFactory, ExtensibleGridPropertySection extensibleGridPropertySection) {
+        composite.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, true, false, 2, 1));
+        composite.setLayout(new GridLayout(2, false));
+    }
 
-	}
+    public void dispose() {
 
-	public String getLabel() {
-		return ""; //$NON-NLS-1$
-	}
+    }
 
-	public boolean isRelevantFor(EObject eObject) {
-		return eClass.isSuperTypeOf(eObject.eClass());
-	}
+    public String getLabel() {
+        return ""; //$NON-NLS-1$
+    }
 
-	public void refresh() {
-	}
+    public boolean isRelevantFor(EObject eObject) {
+        return eClass.isSuperTypeOf(eObject.eClass());
+    }
 
-	public void setEObject(EObject object) {
-	}
+    public void refresh() {
+    }
 
-	public void setEditingDomain(TransactionalEditingDomain editingDomain) {
-	}
+    public void setEObject(EObject object) {
+    }
 
-	public void setSelection(ISelection selection) {
-	}
+    public void setEditingDomain(TransactionalEditingDomain editingDomain) {
+    }
+
+    public void setSelection(ISelection selection) {
+    }
 
 }

@@ -53,9 +53,9 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.internal.WorkbenchMessages;
+
 /**
  * @author Aurelien Pupier
- *
  */
 public abstract class FileStoreSelectDialog extends Dialog {
 
@@ -69,7 +69,7 @@ public abstract class FileStoreSelectDialog extends Dialog {
 
         @Override
         public boolean select(final Viewer viewer, final Object parentElement, final Object element) {
-            return ((AbstractFileStore)element).getName().contains(textForFiltering);
+            return ((AbstractFileStore) element).getName().contains(textForFiltering);
         }
     }
 
@@ -114,7 +114,7 @@ public abstract class FileStoreSelectDialog extends Dialog {
 
     private void createDescription(final Composite mainComposite) {
         final Label descriptionLabel = new Label(mainComposite, SWT.NONE);
-        descriptionLabel.setLayoutData(GridDataFactory.fillDefaults().grab(true, false).span(2,1).create());
+        descriptionLabel.setLayoutData(GridDataFactory.fillDefaults().grab(true, false).span(2, 1).create());
         descriptionLabel.setText(getDialogDescription());
     }
 
@@ -142,7 +142,7 @@ public abstract class FileStoreSelectDialog extends Dialog {
                 final boolean empty = event.getSelection().isEmpty();
                 getButton(IDialogConstants.OK_ID).setEnabled(!empty);
                 removeButton.setEnabled(!empty);
-                selected = (AbstractFileStore) ((IStructuredSelection)event.getSelection()).getFirstElement();
+                selected = (AbstractFileStore) ((IStructuredSelection) event.getSelection()).getFirstElement();
             }
         });
         fileStoreListViewer.getList().setFocus();
@@ -159,11 +159,11 @@ public abstract class FileStoreSelectDialog extends Dialog {
             @Override
             public void modifyText(final ModifyEvent e) {
                 final String textForFiltering = fileStoreListFilter.getText();
-                if(filter != null){
+                if (filter != null) {
                     fileStoreListViewer.removeFilter(filter);
                 }
-                if(textForFiltering != null
-                        && !textForFiltering.isEmpty()){
+                if (textForFiltering != null
+                        && !textForFiltering.isEmpty()) {
                     filter = new ViewerFilterOnFileStoreName(textForFiltering);
                     fileStoreListViewer.addFilter(filter);
                 }
@@ -191,8 +191,9 @@ public abstract class FileStoreSelectDialog extends Dialog {
             public void widgetSelected(final SelectionEvent e) {
                 final FileDialog fileDialog = new FileDialog(getShell());
                 final String fileDialogResult = fileDialog.open();
-                if(fileDialogResult != null){
-                    final AbstractRepositoryStore<IRepositoryFileStore> ars = (AbstractRepositoryStore<IRepositoryFileStore>)RepositoryManager.getInstance().getRepositoryStore(getRepositoryStoreClass());
+                if (fileDialogResult != null) {
+                    final AbstractRepositoryStore<IRepositoryFileStore> ars = (AbstractRepositoryStore<IRepositoryFileStore>) RepositoryManager.getInstance()
+                            .getRepositoryStore(getRepositoryStoreClass());
                     final File newFile = new File(fileDialogResult);
                     FileInputStream inputStream = null;
                     try {
@@ -204,7 +205,7 @@ public abstract class FileStoreSelectDialog extends Dialog {
                     } catch (final FileNotFoundException e1) {
                         BonitaStudioLog.error(e1);
                     } finally {
-                        if(inputStream != null){
+                        if (inputStream != null) {
                             try {
                                 inputStream.close();
                             } catch (final IOException e1) {
@@ -223,17 +224,19 @@ public abstract class FileStoreSelectDialog extends Dialog {
         removeButton.setLayoutData(GridDataFactory.fillDefaults().grab(true, false).create());
         removeButton.setText(Messages.remove);
         removeButton.addSelectionListener(new SelectionAdapter() {
+
             @Override
             public void widgetSelected(final SelectionEvent e) {
                 super.widgetSelected(e);
                 ((IRepositoryFileStore) ((StructuredSelection) fileStoreListViewer.getSelection()).getFirstElement()).delete();
-                final AbstractRepositoryStore<IRepositoryFileStore> ars = (AbstractRepositoryStore<IRepositoryFileStore>)RepositoryManager.getInstance().getRepositoryStore(getRepositoryStoreClass());
+                final AbstractRepositoryStore<IRepositoryFileStore> ars = (AbstractRepositoryStore<IRepositoryFileStore>) RepositoryManager.getInstance()
+                        .getRepositoryStore(getRepositoryStoreClass());
                 fileStoreListViewer.setInput(ars.getChildren());
             }
         });
     }
 
-    protected abstract Class<?> getRepositoryStoreClass() ;
+    protected abstract Class<?> getRepositoryStoreClass();
 
     protected abstract String getDialogTitle();
 

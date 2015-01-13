@@ -5,14 +5,12 @@
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2.0 of the License, or
  * (at your option) any later version.
- *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package org.bonitasoft.studio.common.repository.filestore;
 
@@ -35,7 +33,6 @@ import org.eclipse.ui.IWorkbenchPart;
 
 /**
  * @author Romain Bioteau
- *
  */
 public class URLFileStore implements IRepositoryFileStore {
 
@@ -43,29 +40,32 @@ public class URLFileStore implements IRepositoryFileStore {
     private final IRepositoryStore store;
 
     public URLFileStore(URL url, IRepositoryStore store) {
-        this.url = url ;
-        this.store = store ;
+        this.url = url;
+        this.store = store;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see org.bonitasoft.studio.common.repository.IRepositoryFileStore#getName()
      */
     @Override
     public String getName() {
-        String file = url.getFile() ;
-        String[] segments = file.split("/") ;
-        return segments[segments.length -1] ;
+        String file = url.getFile();
+        String[] segments = file.split("/");
+        return segments[segments.length - 1];
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see org.bonitasoft.studio.common.repository.IRepositoryFileStore#getDisplayName()
      */
     @Override
     public String getDisplayName() {
-        return getName() ;
+        return getName();
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see org.bonitasoft.studio.common.repository.IRepositoryFileStore#getIcon()
      */
     @Override
@@ -73,7 +73,8 @@ public class URLFileStore implements IRepositoryFileStore {
         return null;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see org.bonitasoft.studio.common.repository.IRepositoryFileStore#getParentStore()
      */
     @Override
@@ -81,7 +82,8 @@ public class URLFileStore implements IRepositoryFileStore {
         return store;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see org.bonitasoft.studio.common.repository.IRepositoryFileStore#getContent()
      */
     @Override
@@ -89,20 +91,22 @@ public class URLFileStore implements IRepositoryFileStore {
         try {
             return url.openStream();
         } catch (IOException e) {
-            BonitaStudioLog.error(e) ;
+            BonitaStudioLog.error(e);
         }
         return null;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see org.bonitasoft.studio.common.repository.IRepositoryFileStore#getFile()
      */
     @Override
     public IFile getResource() {
-        return null ;
+        return null;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see org.bonitasoft.studio.common.repository.IRepositoryFileStore#isShared()
      */
     @Override
@@ -110,15 +114,17 @@ public class URLFileStore implements IRepositoryFileStore {
         return false;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see org.bonitasoft.studio.common.repository.IRepositoryFileStore#open()
      */
     @Override
     public IWorkbenchPart open() {
-        return null ;
+        return null;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see org.bonitasoft.studio.common.repository.IRepositoryFileStore#close()
      */
     @Override
@@ -126,7 +132,8 @@ public class URLFileStore implements IRepositoryFileStore {
 
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see org.bonitasoft.studio.common.repository.IRepositoryFileStore#delete()
      */
     @Override
@@ -134,16 +141,17 @@ public class URLFileStore implements IRepositoryFileStore {
 
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see org.bonitasoft.studio.common.repository.IRepositoryFileStore#rename(java.lang.String)
      */
     @Override
     public void rename(String newName) {
 
-
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see org.bonitasoft.studio.common.repository.IRepositoryFileStore#save(java.lang.Object)
      */
     @Override
@@ -157,7 +165,7 @@ public class URLFileStore implements IRepositoryFileStore {
 
     @Override
     public boolean isReadOnly() {
-        return true ;
+        return true;
     }
 
     @Override
@@ -172,24 +180,24 @@ public class URLFileStore implements IRepositoryFileStore {
 
     @Override
     public void export(String targetAbsoluteFilePath) {
-        InputStream is = getContent() ;
-        if(is != null){
-            File to = new File(targetAbsoluteFilePath) ;
-            to.mkdirs() ;
-            FileOutputStream fos = null ;
+        InputStream is = getContent();
+        if (is != null) {
+            File to = new File(targetAbsoluteFilePath);
+            to.mkdirs();
+            FileOutputStream fos = null;
             try {
-                fos = new FileOutputStream(to) ;
-                FileUtil.copy(is, fos) ;
+                fos = new FileOutputStream(to);
+                FileUtil.copy(is, fos);
             } catch (IOException e) {
-                BonitaStudioLog.error(e) ;
-            }finally{
-                try{
-                    if(fos != null){
-                        fos.close() ;
+                BonitaStudioLog.error(e);
+            } finally {
+                try {
+                    if (fos != null) {
+                        fos.close();
                     }
-                    is.close() ;
-                }catch (Exception e) {
-                    BonitaStudioLog.error(e) ;
+                    is.close();
+                } catch (Exception e) {
+                    BonitaStudioLog.error(e);
                 }
             }
         }

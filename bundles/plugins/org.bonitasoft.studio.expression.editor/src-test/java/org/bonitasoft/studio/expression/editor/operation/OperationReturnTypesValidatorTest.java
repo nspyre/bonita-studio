@@ -159,7 +159,6 @@ public class OperationReturnTypesValidatorTest {
         Assertions.assertThat(status.isOK()).isTrue();
     }
 
-
     @Test
     public void shouldValidateSetDocumentListOperation_add_error_message_when_right_operand_is_String_in_Operation_of_Task_Or_Form() throws Exception {
         final Expression leftOperand = ExpressionHelper.createListDocumentExpressionWithDependency("doc");
@@ -208,7 +207,6 @@ public class OperationReturnTypesValidatorTest {
         // set right operand
         final Expression rightOperand = ExpressionHelper.createConstantExpression("", "", String.class.getName());
         final Operation operation = createOperation(leftOperand, rightOperand, ExpressionConstants.SET_DOCUMENT_OPERATOR);
-
 
         final OperationReturnTypesValidator validator = new OperationReturnTypesValidator();
 

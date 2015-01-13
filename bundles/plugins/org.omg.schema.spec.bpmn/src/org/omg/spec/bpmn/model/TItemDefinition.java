@@ -1,7 +1,6 @@
 /**
  * <copyright>
  * </copyright>
- *
  * $Id$
  */
 package org.omg.spec.bpmn.model;
@@ -12,13 +11,12 @@ import javax.xml.namespace.QName;
  * <!-- begin-user-doc -->
  * A representation of the model object '<em><b>TItem Definition</b></em>'.
  * <!-- end-user-doc -->
- *
  * <p>
  * The following features are supported:
  * <ul>
- *   <li>{@link org.omg.spec.bpmn.model.TItemDefinition#isIsCollection <em>Is Collection</em>}</li>
- *   <li>{@link org.omg.spec.bpmn.model.TItemDefinition#getItemKind <em>Item Kind</em>}</li>
- *   <li>{@link org.omg.spec.bpmn.model.TItemDefinition#getStructureRef <em>Structure Ref</em>}</li>
+ * <li>{@link org.omg.spec.bpmn.model.TItemDefinition#isIsCollection <em>Is Collection</em>}</li>
+ * <li>{@link org.omg.spec.bpmn.model.TItemDefinition#getItemKind <em>Item Kind</em>}</li>
+ * <li>{@link org.omg.spec.bpmn.model.TItemDefinition#getStructureRef <em>Structure Ref</em>}</li>
  * </ul>
  * </p>
  *
@@ -27,144 +25,155 @@ import javax.xml.namespace.QName;
  * @generated
  */
 public interface TItemDefinition extends TRootElement {
-	/**
-	 * Returns the value of the '<em><b>Is Collection</b></em>' attribute.
-	 * The default value is <code>"false"</code>.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Is Collection</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Is Collection</em>' attribute.
-	 * @see #isSetIsCollection()
-	 * @see #unsetIsCollection()
-	 * @see #setIsCollection(boolean)
-	 * @see org.omg.spec.bpmn.model.ModelPackage#getTItemDefinition_IsCollection()
-	 * @model default="false" unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Boolean"
-	 *        extendedMetaData="kind='attribute' name='isCollection'"
-	 * @generated
-	 */
-	boolean isIsCollection();
 
-	/**
-	 * Sets the value of the '{@link org.omg.spec.bpmn.model.TItemDefinition#isIsCollection <em>Is Collection</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Is Collection</em>' attribute.
-	 * @see #isSetIsCollection()
-	 * @see #unsetIsCollection()
-	 * @see #isIsCollection()
-	 * @generated
-	 */
-	void setIsCollection(boolean value);
+    /**
+     * Returns the value of the '<em><b>Is Collection</b></em>' attribute.
+     * The default value is <code>"false"</code>.
+     * <!-- begin-user-doc -->
+     * <p>
+     * If the meaning of the '<em>Is Collection</em>' attribute isn't clear,
+     * there really should be more of a description here...
+     * </p>
+     * <!-- end-user-doc -->
+     * 
+     * @return the value of the '<em>Is Collection</em>' attribute.
+     * @see #isSetIsCollection()
+     * @see #unsetIsCollection()
+     * @see #setIsCollection(boolean)
+     * @see org.omg.spec.bpmn.model.ModelPackage#getTItemDefinition_IsCollection()
+     * @model default="false" unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Boolean"
+     *        extendedMetaData="kind='attribute' name='isCollection'"
+     * @generated
+     */
+    boolean isIsCollection();
 
-	/**
-	 * Unsets the value of the '{@link org.omg.spec.bpmn.model.TItemDefinition#isIsCollection <em>Is Collection</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #isSetIsCollection()
-	 * @see #isIsCollection()
-	 * @see #setIsCollection(boolean)
-	 * @generated
-	 */
-	void unsetIsCollection();
+    /**
+     * Sets the value of the '{@link org.omg.spec.bpmn.model.TItemDefinition#isIsCollection <em>Is Collection</em>}' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * 
+     * @param value the new value of the '<em>Is Collection</em>' attribute.
+     * @see #isSetIsCollection()
+     * @see #unsetIsCollection()
+     * @see #isIsCollection()
+     * @generated
+     */
+    void setIsCollection(boolean value);
 
-	/**
-	 * Returns whether the value of the '{@link org.omg.spec.bpmn.model.TItemDefinition#isIsCollection <em>Is Collection</em>}' attribute is set.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return whether the value of the '<em>Is Collection</em>' attribute is set.
-	 * @see #unsetIsCollection()
-	 * @see #isIsCollection()
-	 * @see #setIsCollection(boolean)
-	 * @generated
-	 */
-	boolean isSetIsCollection();
+    /**
+     * Unsets the value of the '{@link org.omg.spec.bpmn.model.TItemDefinition#isIsCollection <em>Is Collection</em>}' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * 
+     * @see #isSetIsCollection()
+     * @see #isIsCollection()
+     * @see #setIsCollection(boolean)
+     * @generated
+     */
+    void unsetIsCollection();
 
-	/**
-	 * Returns the value of the '<em><b>Item Kind</b></em>' attribute.
-	 * The default value is <code>"Information"</code>.
-	 * The literals are from the enumeration {@link org.omg.spec.bpmn.model.TItemKind}.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Item Kind</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Item Kind</em>' attribute.
-	 * @see org.omg.spec.bpmn.model.TItemKind
-	 * @see #isSetItemKind()
-	 * @see #unsetItemKind()
-	 * @see #setItemKind(TItemKind)
-	 * @see org.omg.spec.bpmn.model.ModelPackage#getTItemDefinition_ItemKind()
-	 * @model default="Information" unsettable="true"
-	 *        extendedMetaData="kind='attribute' name='itemKind'"
-	 * @generated
-	 */
-	TItemKind getItemKind();
+    /**
+     * Returns whether the value of the '{@link org.omg.spec.bpmn.model.TItemDefinition#isIsCollection <em>Is Collection</em>}' attribute is set.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * 
+     * @return whether the value of the '<em>Is Collection</em>' attribute is set.
+     * @see #unsetIsCollection()
+     * @see #isIsCollection()
+     * @see #setIsCollection(boolean)
+     * @generated
+     */
+    boolean isSetIsCollection();
 
-	/**
-	 * Sets the value of the '{@link org.omg.spec.bpmn.model.TItemDefinition#getItemKind <em>Item Kind</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Item Kind</em>' attribute.
-	 * @see org.omg.spec.bpmn.model.TItemKind
-	 * @see #isSetItemKind()
-	 * @see #unsetItemKind()
-	 * @see #getItemKind()
-	 * @generated
-	 */
-	void setItemKind(TItemKind value);
+    /**
+     * Returns the value of the '<em><b>Item Kind</b></em>' attribute.
+     * The default value is <code>"Information"</code>.
+     * The literals are from the enumeration {@link org.omg.spec.bpmn.model.TItemKind}.
+     * <!-- begin-user-doc -->
+     * <p>
+     * If the meaning of the '<em>Item Kind</em>' attribute isn't clear,
+     * there really should be more of a description here...
+     * </p>
+     * <!-- end-user-doc -->
+     * 
+     * @return the value of the '<em>Item Kind</em>' attribute.
+     * @see org.omg.spec.bpmn.model.TItemKind
+     * @see #isSetItemKind()
+     * @see #unsetItemKind()
+     * @see #setItemKind(TItemKind)
+     * @see org.omg.spec.bpmn.model.ModelPackage#getTItemDefinition_ItemKind()
+     * @model default="Information" unsettable="true"
+     *        extendedMetaData="kind='attribute' name='itemKind'"
+     * @generated
+     */
+    TItemKind getItemKind();
 
-	/**
-	 * Unsets the value of the '{@link org.omg.spec.bpmn.model.TItemDefinition#getItemKind <em>Item Kind</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #isSetItemKind()
-	 * @see #getItemKind()
-	 * @see #setItemKind(TItemKind)
-	 * @generated
-	 */
-	void unsetItemKind();
+    /**
+     * Sets the value of the '{@link org.omg.spec.bpmn.model.TItemDefinition#getItemKind <em>Item Kind</em>}' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * 
+     * @param value the new value of the '<em>Item Kind</em>' attribute.
+     * @see org.omg.spec.bpmn.model.TItemKind
+     * @see #isSetItemKind()
+     * @see #unsetItemKind()
+     * @see #getItemKind()
+     * @generated
+     */
+    void setItemKind(TItemKind value);
 
-	/**
-	 * Returns whether the value of the '{@link org.omg.spec.bpmn.model.TItemDefinition#getItemKind <em>Item Kind</em>}' attribute is set.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return whether the value of the '<em>Item Kind</em>' attribute is set.
-	 * @see #unsetItemKind()
-	 * @see #getItemKind()
-	 * @see #setItemKind(TItemKind)
-	 * @generated
-	 */
-	boolean isSetItemKind();
+    /**
+     * Unsets the value of the '{@link org.omg.spec.bpmn.model.TItemDefinition#getItemKind <em>Item Kind</em>}' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * 
+     * @see #isSetItemKind()
+     * @see #getItemKind()
+     * @see #setItemKind(TItemKind)
+     * @generated
+     */
+    void unsetItemKind();
 
-	/**
-	 * Returns the value of the '<em><b>Structure Ref</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Structure Ref</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Structure Ref</em>' attribute.
-	 * @see #setStructureRef(QName)
-	 * @see org.omg.spec.bpmn.model.ModelPackage#getTItemDefinition_StructureRef()
-	 * @model dataType="org.eclipse.emf.ecore.xml.type.QName"
-	 *        extendedMetaData="kind='attribute' name='structureRef'"
-	 * @generated
-	 */
-	QName getStructureRef();
+    /**
+     * Returns whether the value of the '{@link org.omg.spec.bpmn.model.TItemDefinition#getItemKind <em>Item Kind</em>}' attribute is set.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * 
+     * @return whether the value of the '<em>Item Kind</em>' attribute is set.
+     * @see #unsetItemKind()
+     * @see #getItemKind()
+     * @see #setItemKind(TItemKind)
+     * @generated
+     */
+    boolean isSetItemKind();
 
-	/**
-	 * Sets the value of the '{@link org.omg.spec.bpmn.model.TItemDefinition#getStructureRef <em>Structure Ref</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Structure Ref</em>' attribute.
-	 * @see #getStructureRef()
-	 * @generated
-	 */
-	void setStructureRef(QName value);
+    /**
+     * Returns the value of the '<em><b>Structure Ref</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <p>
+     * If the meaning of the '<em>Structure Ref</em>' attribute isn't clear,
+     * there really should be more of a description here...
+     * </p>
+     * <!-- end-user-doc -->
+     * 
+     * @return the value of the '<em>Structure Ref</em>' attribute.
+     * @see #setStructureRef(QName)
+     * @see org.omg.spec.bpmn.model.ModelPackage#getTItemDefinition_StructureRef()
+     * @model dataType="org.eclipse.emf.ecore.xml.type.QName"
+     *        extendedMetaData="kind='attribute' name='structureRef'"
+     * @generated
+     */
+    QName getStructureRef();
+
+    /**
+     * Sets the value of the '{@link org.omg.spec.bpmn.model.TItemDefinition#getStructureRef <em>Structure Ref</em>}' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * 
+     * @param value the new value of the '<em>Structure Ref</em>' attribute.
+     * @see #getStructureRef()
+     * @generated
+     */
+    void setStructureRef(QName value);
 
 } // TItemDefinition

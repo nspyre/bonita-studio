@@ -47,8 +47,8 @@ public class DesignProcessDefinitionBuilderTest {
         final Document document = createBasicDocument();
         document.setDocumentType(DocumentType.NONE);
         assertThat(builder.hasADefaultValue(document))
-        .as("Document type None can't have Initial content")
-        .isFalse();
+                .as("Document type None can't have Initial content")
+                .isFalse();
     }
 
     @Test
@@ -58,8 +58,8 @@ public class DesignProcessDefinitionBuilderTest {
         document.setDocumentType(DocumentType.INTERNAL);
         document.setDefaultValueIdOfDocumentStore("internalId");
         assertThat(builder.hasADefaultValue(document))
-        .as("Document type Internal with id set should have a defautl value")
-        .isTrue();
+                .as("Document type Internal with id set should have a defautl value")
+                .isTrue();
     }
 
     @Test
@@ -68,8 +68,8 @@ public class DesignProcessDefinitionBuilderTest {
         final Document document = createBasicDocument();
         document.setDocumentType(DocumentType.INTERNAL);
         assertThat(builder.hasADefaultValue(document))
-        .as("Document type Internal without id set should not have a default value")
-        .isFalse();
+                .as("Document type Internal without id set should not have a default value")
+                .isFalse();
     }
 
     @Test
@@ -82,8 +82,8 @@ public class DesignProcessDefinitionBuilderTest {
         urlExpression.setContent("testContent");
         document.setUrl(urlExpression);
         assertThat(builder.hasADefaultValue(document))
-        .as("Document type External with id set should have a default value")
-        .isTrue();
+                .as("Document type External with id set should have a default value")
+                .isTrue();
     }
 
     @Test
@@ -94,8 +94,8 @@ public class DesignProcessDefinitionBuilderTest {
         final Expression urlExpression = ExpressionFactory.eINSTANCE.createExpression();
         document.setUrl(urlExpression);
         assertThat(builder.hasADefaultValue(document))
-        .as("Document type External with id but no url set should not have a default value")
-        .isFalse();
+                .as("Document type External with id but no url set should not have a default value")
+                .isFalse();
     }
 
     @Test
@@ -109,8 +109,8 @@ public class DesignProcessDefinitionBuilderTest {
         urlExpression.setContent("testContent");
         document.setUrl(urlExpression);
         assertThat(builder.hasADefaultValue(document))
-        .as("Mulitple Document with type External set with id set without default value should not be called")
-        .isFalse();
+                .as("Mulitple Document with type External set with id set without default value should not be called")
+                .isFalse();
     }
 
     @Test
@@ -123,8 +123,8 @@ public class DesignProcessDefinitionBuilderTest {
         urlExpression.setContent("testContent");
         document.setInitialMultipleContent(urlExpression);
         assertThat(builder.hasADefaultValue(document))
-        .as("Mulitple Document with initial multiple content set without should be called")
-        .isTrue();
+                .as("Mulitple Document with initial multiple content set without should be called")
+                .isTrue();
     }
 
     @Mock
@@ -178,8 +178,6 @@ public class DesignProcessDefinitionBuilderTest {
 
         verify(docDefinitionBuilder).addMimeType(anyString());
     }
-
-
 
     @Test
     public void testIntialContentForMultipleDocumentAdded() {

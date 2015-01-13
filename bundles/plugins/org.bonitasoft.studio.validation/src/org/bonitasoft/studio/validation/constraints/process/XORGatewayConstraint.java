@@ -1,19 +1,16 @@
 /**
  * Copyright (C) 2009 BonitaSoft S.A.
  * BonitaSoft, 31 rue Gustave Eiffel - 38000 Grenoble
- *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2.0 of the License, or
  * (at your option) any later version.
- *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package org.bonitasoft.studio.validation.constraints.process;
 
@@ -33,22 +30,20 @@ import org.eclipse.gmf.runtime.notation.NotationPackage;
 
 /**
  * @author Baptiste Mesta
- * 
  */
 public class XORGatewayConstraint extends AbstractLiveValidationMarkerConstraint {
 
-
     public static final String ID = "org.bonitasoft.studio.validation.xorGateway";
 
-	@Override
+    @Override
     protected IStatus performLiveValidation(IValidationContext ctx) {
         EStructuralFeature feature = ctx.getFeature();
-        if(feature.equals(ProcessPackage.Literals.SOURCE_ELEMENT__OUTGOING)){
+        if (feature.equals(ProcessPackage.Literals.SOURCE_ELEMENT__OUTGOING)) {
             final XORGateway gate = (XORGateway) ctx.getTarget();
             return validateXOROutgoing(ctx, gate);
-        }else if(feature.equals(NotationPackage.Literals.VIEW__ELEMENT)){
+        } else if (feature.equals(NotationPackage.Literals.VIEW__ELEMENT)) {
             Object object = ctx.getFeatureNewValue();
-            if(object instanceof XORGateway){
+            if (object instanceof XORGateway) {
                 final XORGateway gate = (XORGateway) object;
                 return validateXOROutgoing(ctx, gate);
             }
@@ -69,7 +64,7 @@ public class XORGatewayConstraint extends AbstractLiveValidationMarkerConstraint
     }
 
     private IStatus validateXOROutgoing(IValidationContext ctx, XORGateway gateway) {
-        if(gateway.getOutgoing().size() <= 1) {
+        if (gateway.getOutgoing().size() <= 1) {
             return ctx.createSuccessStatus();
         } else {
             int nbDefault = 0;
@@ -106,8 +101,8 @@ public class XORGatewayConstraint extends AbstractLiveValidationMarkerConstraint
     }
 
     protected boolean existCondition(SequenceFlow sequenceFlow) {
-        return sequenceFlow.getCondition() != null && sequenceFlow.getCondition().getContent() != null && !sequenceFlow.getCondition().getContent().trim().isEmpty();
+        return sequenceFlow.getCondition() != null && sequenceFlow.getCondition().getContent() != null
+                && !sequenceFlow.getCondition().getContent().trim().isEmpty();
     }
-
 
 }

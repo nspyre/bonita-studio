@@ -4,9 +4,8 @@
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- *
  * Contributors:
- *     IBM Corporation - initial API and implementation
+ * IBM Corporation - initial API and implementation
  ******************************************************************************/
 
 package org.eclipse.ui.views.properties.tabbed;
@@ -28,57 +27,57 @@ import org.eclipse.ui.internal.views.properties.tabbed.view.TabbedPropertyRegist
  */
 public abstract class AbstractSectionDescriptor implements ISectionDescriptor {
 
-	private TabbedPropertyRegistryClassSectionFilter classFilter;
+    private TabbedPropertyRegistryClassSectionFilter classFilter;
 
-	/**
-	 * Constructor for AbstractSectionDescriptor.
-	 */
-	public AbstractSectionDescriptor() {
-		super();
-		classFilter = new TabbedPropertyRegistryClassSectionFilter(null);
-	}
+    /**
+     * Constructor for AbstractSectionDescriptor.
+     */
+    public AbstractSectionDescriptor() {
+        super();
+        classFilter = new TabbedPropertyRegistryClassSectionFilter(null);
+    }
 
-	/**
-	 * Constructor for AbstractSectionDescriptor.
-	 * 
-	 * @param typeMapper
-	 *            the type mapper for the section.
-	 */
-	public AbstractSectionDescriptor(ITypeMapper typeMapper) {
-		super();
-		classFilter = new TabbedPropertyRegistryClassSectionFilter(typeMapper);
-	}
+    /**
+     * Constructor for AbstractSectionDescriptor.
+     * 
+     * @param typeMapper
+     *        the type mapper for the section.
+     */
+    public AbstractSectionDescriptor(ITypeMapper typeMapper) {
+        super();
+        classFilter = new TabbedPropertyRegistryClassSectionFilter(typeMapper);
+    }
 
-	/*
-	 * @see org.eclipse.ui.views.properties.tabbed.ISectionDescriptor#appliesTo(org.eclipse.ui.IWorkbenchPart,
-	 *      org.eclipse.jface.viewers.ISelection)
-	 */
-	public boolean appliesTo(IWorkbenchPart part, ISelection selection) {
-		return classFilter.appliesToSelection(this, selection);
-	}
+    /*
+     * @see org.eclipse.ui.views.properties.tabbed.ISectionDescriptor#appliesTo(org.eclipse.ui.IWorkbenchPart,
+     * org.eclipse.jface.viewers.ISelection)
+     */
+    public boolean appliesTo(IWorkbenchPart part, ISelection selection) {
+        return classFilter.appliesToSelection(this, selection);
+    }
 
-	/*
-	 * @see org.eclipse.ui.views.properties.tabbed.ISectionDescriptor#getAfterSection()
-	 */
-	public String getAfterSection() {
-		return TOP;
-	}
+    /*
+     * @see org.eclipse.ui.views.properties.tabbed.ISectionDescriptor#getAfterSection()
+     */
+    public String getAfterSection() {
+        return TOP;
+    }
 
-	/*
-	 * @see org.eclipse.ui.views.properties.tabbed.ISectionDescriptor#getEnablesFor()
-	 */
-	public int getEnablesFor() {
-		return ENABLES_FOR_ANY;
-	}
+    /*
+     * @see org.eclipse.ui.views.properties.tabbed.ISectionDescriptor#getEnablesFor()
+     */
+    public int getEnablesFor() {
+        return ENABLES_FOR_ANY;
+    }
 
-	/*
-	 * @see org.eclipse.ui.views.properties.tabbed.ISectionDescriptor#getFilter()
-	 */
-	public IFilter getFilter() {
-		return null;
-	}
+    /*
+     * @see org.eclipse.ui.views.properties.tabbed.ISectionDescriptor#getFilter()
+     */
+    public IFilter getFilter() {
+        return null;
+    }
 
-	public List getInputTypes() {
-		return new ArrayList();
-	}
+    public List getInputTypes() {
+        return new ArrayList();
+    }
 }

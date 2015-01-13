@@ -5,12 +5,10 @@
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2.0 of the License, or
  * (at your option) any later version.
- *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- *
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
@@ -48,10 +46,8 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
-
 /**
  * @author Romain Bioteau
- *
  */
 @RunWith(MockitoJUnitRunner.class)
 public class ComparisonExpressionConverterTest {
@@ -70,7 +66,6 @@ public class ComparisonExpressionConverterTest {
     private Data validVariable;
     private Expression notUnaryExpression;
     private Expression unaryExpression;
-
 
     /**
      * @throws java.lang.Exception
@@ -129,12 +124,11 @@ public class ComparisonExpressionConverterTest {
         assertThat(comparisonExpressionConverter.convert(binaryExpression)).isNull();
     }
 
-    @Test(expected=InvalidExpressionException.class)
+    @Test(expected = InvalidExpressionException.class)
     public void should_convert_a_studio_expression_into_an_engine_expression_returns_null_if_parsing_fail() throws Exception {
         when(loader.loadConditionExpression(binaryExpression.getContent(), null)).thenThrow(new ComparisonExpressionLoadException(""));
         comparisonExpressionConverter.convert(binaryExpression);
     }
-
 
     @Test
     public void should_convert_a_studio_expression_into_an_engine_expression_for_binary_operation() throws Exception {

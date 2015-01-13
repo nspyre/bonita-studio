@@ -1,19 +1,16 @@
 /**
  * Copyright (C) 2010-2011 BonitaSoft S.A.
  * BonitaSoft, 31 rue Gustave Eiffel - 38000 Grenoble
- *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2.0 of the License, or
  * (at your option) any later version.
- *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package org.bonitasoft.studio.diagram.custom.handlers;
 
@@ -55,78 +52,78 @@ import org.eclipse.ui.PlatformUI;
  */
 public class PasteHandler extends DefaultPasteHandler {
 
-	public Object execute(ExecutionEvent event) throws ExecutionException {
-		IEditorPart part = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor();		
-		GlobalAction pasteAction = GlobalActionManager.getInstance().createActionHandler(part, GlobalActionId.PASTE);
-		if(pasteAction.isHandled() && pasteAction.isRunnable()){
-			pasteAction.run() ;
-			IStructuredSelection currentSelection = ((IStructuredSelection) part.getSite().getSelectionProvider().getSelection());
-			EditPart selectedTargetEditPart = (EditPart) currentSelection.getFirstElement();
-			EditPart comp = null ; 
-			if(selectedTargetEditPart instanceof ShapeCompartmentEditPart){
-				comp = selectedTargetEditPart ;
-			}else{
-				comp = (EditPart)selectedTargetEditPart.getChildren().get(1);
-			}
-			final EditPart compartment = comp ;
-			EditPolicy ep = compartment.getEditPolicy(EditPolicy.LAYOUT_ROLE) ;
-			EditPolicy containerep = compartment.getEditPolicy(EditPolicy.CONTAINER_ROLE) ;
-			((ContainerEditPolicy)containerep).getCommand(new Request(RequestConstants.REQ_REFRESH)).execute() ;
-			if(ep instanceof XYLayoutEditPolicy){
-				ChangeBoundsRequest request = new ChangeBoundsRequest(RequestConstants.REQ_RESIZE_CHILDREN) ;
-				List editparts = new ArrayList() ;
-				for (Object c : compartment.getChildren()){
-					if(c instanceof IGraphicalEditPart){
+    public Object execute(ExecutionEvent event) throws ExecutionException {
+        IEditorPart part = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor();
+        GlobalAction pasteAction = GlobalActionManager.getInstance().createActionHandler(part, GlobalActionId.PASTE);
+        if (pasteAction.isHandled() && pasteAction.isRunnable()) {
+            pasteAction.run();
+            IStructuredSelection currentSelection = ((IStructuredSelection) part.getSite().getSelectionProvider().getSelection());
+            EditPart selectedTargetEditPart = (EditPart) currentSelection.getFirstElement();
+            EditPart comp = null;
+            if (selectedTargetEditPart instanceof ShapeCompartmentEditPart) {
+                comp = selectedTargetEditPart;
+            } else {
+                comp = (EditPart) selectedTargetEditPart.getChildren().get(1);
+            }
+            final EditPart compartment = comp;
+            EditPolicy ep = compartment.getEditPolicy(EditPolicy.LAYOUT_ROLE);
+            EditPolicy containerep = compartment.getEditPolicy(EditPolicy.CONTAINER_ROLE);
+            ((ContainerEditPolicy) containerep).getCommand(new Request(RequestConstants.REQ_REFRESH)).execute();
+            if (ep instanceof XYLayoutEditPolicy) {
+                ChangeBoundsRequest request = new ChangeBoundsRequest(RequestConstants.REQ_RESIZE_CHILDREN);
+                List editparts = new ArrayList();
+                for (Object c : compartment.getChildren()) {
+                    if (c instanceof IGraphicalEditPart) {
 
-						editparts.add(c);
-					}
-				}
-				request.setEditParts(editparts) ;
-				((XYLayoutEditPolicy)ep).getCommand(request).execute() ;
-				selectedTargetEditPart.getRoot().refresh() ;
-			}
-		}
-		return null;
-	}
+                        editparts.add(c);
+                    }
+                }
+                request.setEditParts(editparts);
+                ((XYLayoutEditPolicy) ep).getCommand(request).execute();
+                selectedTargetEditPart.getRoot().refresh();
+            }
+        }
+        return null;
+    }
 
-	@Override
-	public boolean isEnabled() {
-		if (Clipboard.hasThingsToCopy()){
-			IEditorPart part = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor();
-			IStructuredSelection currentSelection = ((IStructuredSelection) part.getSite().getSelectionProvider().getSelection());
-			Object selectedElem = currentSelection.getFirstElement();
-			if(selectedElem instanceof IGraphicalEditPart){
-//				if(((IGraphicalEditPart) selectedElem).resolveSemanticElement() instanceof MainProcess){
-//					return false;
-//				}
-//				if(((IGraphicalEditPart) selectedElem).resolveSemanticElement() instanceof SubProcessEvent){
-//					if(!((CustomSubprocessEventCompartmentEditPart)((CustomSubProcessEvent2EditPart)selectedElem).getChildren().get(1)).getCompartmentFigure().isExpanded()){
-//						return false ;
-//					}
-//				}
-//				if(((IGraphicalEditPart) selectedElem).resolveSemanticElement() instanceof Event){
-//					if(!((CustomSubprocessEventCompartmentEditPart)((CustomSubProcessEvent2EditPart)selectedElem).getChildren().get(1)).getCompartmentFigure().isExpanded()){
-//						return false ;
-//					}
-//				}
-				if(((IGraphicalEditPart) selectedElem).resolveSemanticElement() instanceof AbstractProcess){
-					return true;
-				}
-				if(((IGraphicalEditPart) selectedElem).resolveSemanticElement() instanceof Lane){
-					return true;
-				}
-				if(((IGraphicalEditPart) selectedElem).resolveSemanticElement() instanceof Form){
-					return true;
-				}
-				if(((IGraphicalEditPart) selectedElem).resolveSemanticElement() instanceof Group){
-					return true;
-				}
-				
-			}
-			return false;
-		} else {
-			return false;
-		}
-	}
+    @Override
+    public boolean isEnabled() {
+        if (Clipboard.hasThingsToCopy()) {
+            IEditorPart part = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor();
+            IStructuredSelection currentSelection = ((IStructuredSelection) part.getSite().getSelectionProvider().getSelection());
+            Object selectedElem = currentSelection.getFirstElement();
+            if (selectedElem instanceof IGraphicalEditPart) {
+                //				if(((IGraphicalEditPart) selectedElem).resolveSemanticElement() instanceof MainProcess){
+                //					return false;
+                //				}
+                //				if(((IGraphicalEditPart) selectedElem).resolveSemanticElement() instanceof SubProcessEvent){
+                //					if(!((CustomSubprocessEventCompartmentEditPart)((CustomSubProcessEvent2EditPart)selectedElem).getChildren().get(1)).getCompartmentFigure().isExpanded()){
+                //						return false ;
+                //					}
+                //				}
+                //				if(((IGraphicalEditPart) selectedElem).resolveSemanticElement() instanceof Event){
+                //					if(!((CustomSubprocessEventCompartmentEditPart)((CustomSubProcessEvent2EditPart)selectedElem).getChildren().get(1)).getCompartmentFigure().isExpanded()){
+                //						return false ;
+                //					}
+                //				}
+                if (((IGraphicalEditPart) selectedElem).resolveSemanticElement() instanceof AbstractProcess) {
+                    return true;
+                }
+                if (((IGraphicalEditPart) selectedElem).resolveSemanticElement() instanceof Lane) {
+                    return true;
+                }
+                if (((IGraphicalEditPart) selectedElem).resolveSemanticElement() instanceof Form) {
+                    return true;
+                }
+                if (((IGraphicalEditPart) selectedElem).resolveSemanticElement() instanceof Group) {
+                    return true;
+                }
+
+            }
+            return false;
+        } else {
+            return false;
+        }
+    }
 
 }

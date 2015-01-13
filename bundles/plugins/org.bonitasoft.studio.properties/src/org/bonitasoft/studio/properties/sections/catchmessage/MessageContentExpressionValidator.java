@@ -1,19 +1,16 @@
 /**
  * Copyright (C) 2012 BonitaSoft S.A.
  * BonitaSoft, 32 rue Gustave Eiffel - 38000 Grenoble
- *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2.0 of the License, or
  * (at your option) any later version.
- *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package org.bonitasoft.studio.properties.sections.catchmessage;
 
@@ -36,7 +33,6 @@ import org.eclipse.emf.edit.domain.EditingDomain;
 
 /**
  * @author aurelie Zara
- *
  */
 public class MessageContentExpressionValidator implements IExpressionValidator {
 
@@ -44,29 +40,29 @@ public class MessageContentExpressionValidator implements IExpressionValidator {
 
     @Override
     public IStatus validate(final Object value) {
-        if ( messageEvent !=null){
+        if (messageEvent != null) {
             final String expr = value.toString();
-            if(expr == null || expr.isEmpty()){
+            if (expr == null || expr.isEmpty()) {
                 return ValidationStatus.ok();
             }
             final MessageFlow incomingMessag = messageEvent.getIncomingMessag();
-            TableExpression throwMessageContent=null;
-            if(incomingMessag != null){
+            TableExpression throwMessageContent = null;
+            if (incomingMessag != null) {
                 final Message message = ModelHelper.findEvent(messageEvent, incomingMessag.getName());
-                if(message != null){
+                if (message != null) {
                     throwMessageContent = message.getMessageContent();
-                    boolean isExisting =false;
+                    boolean isExisting = false;
                     for (final ListExpression row : throwMessageContent.getExpressions()) {
-                        final List<org.bonitasoft.studio.model.expression.Expression> col =  row.getExpressions() ;
-                        if (col.size()==2){
-                            if (expr.equals(col.get(0).getName())){
-                                isExisting =true;
+                        final List<org.bonitasoft.studio.model.expression.Expression> col = row.getExpressions();
+                        if (col.size() == 2) {
+                            if (expr.equals(col.get(0).getName())) {
+                                isExisting = true;
                                 break;
                             }
                         }
                     }
-                    if (!isExisting){
-                        return ValidationStatus.warning(Messages.bind(Messages.messageContentIdExistenceWarning,expr,message.getName()));
+                    if (!isExisting) {
+                        return ValidationStatus.warning(Messages.bind(Messages.messageContentIdExistenceWarning, expr, message.getName()));
                     }
                 }
             }
@@ -76,26 +72,26 @@ public class MessageContentExpressionValidator implements IExpressionValidator {
         return ValidationStatus.OK_STATUS;
     }
 
-    public void setCatchMessageEvent(final EObject object){
-        if (object instanceof AbstractCatchMessageEvent ){
-            messageEvent = (AbstractCatchMessageEvent)object;
+    public void setCatchMessageEvent(final EObject object) {
+        if (object instanceof AbstractCatchMessageEvent) {
+            messageEvent = (AbstractCatchMessageEvent) object;
         }
     }
 
-	@Override
-	public void setInputExpression(final Expression inputExpression) {
+    @Override
+    public void setInputExpression(final Expression inputExpression) {
         //Nothing
-	}
+    }
 
-	@Override
-	public void setDomain(final EditingDomain domain) {
+    @Override
+    public void setDomain(final EditingDomain domain) {
         //Nothing
-	}
+    }
 
-	@Override
-	public void setContext(final EObject context) {
+    @Override
+    public void setContext(final EObject context) {
         //Nothing
-	}
+    }
 
     @Override
     public boolean isRelevantForExpressionType(final String type) {

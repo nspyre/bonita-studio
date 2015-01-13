@@ -5,22 +5,17 @@ import org.bonitasoft.studio.properties.form.sections.widget.contributions.Displ
 
 public class WidgetPropertySection extends ExtensibleGridPropertySection {
 
-	@Override
-	protected void addContributions() {
+    @Override
+    protected void addContributions() {
 
+        addContribution(new DisplayDateFormatContribution());
 
-		
-		addContribution(new DisplayDateFormatContribution());
-		
-	}
+    }
 
-	
-
-	@Override
-	public String getSectionDescription() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
+    @Override
+    public String getSectionDescription() {
+        // TODO Auto-generated method stub
+        return null;
+    }
 
 }

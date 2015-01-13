@@ -187,5 +187,4 @@ public class RenameDiagramOperation implements IRunnableWithProgress {
         this.editor = editor;
     }
 
-
 }

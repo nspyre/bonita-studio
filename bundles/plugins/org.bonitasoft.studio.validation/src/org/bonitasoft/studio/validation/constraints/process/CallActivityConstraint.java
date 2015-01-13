@@ -1,19 +1,16 @@
 /**
  * Copyright (C) 2009 BonitaSoft S.A.
  * BonitaSoft, 31 rue Gustave Eiffel - 38000 Grenoble
- *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2.0 of the License, or
  * (at your option) any later version.
- *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package org.bonitasoft.studio.validation.constraints.process;
 
@@ -37,10 +34,8 @@ import org.eclipse.gmf.runtime.diagram.ui.parts.DiagramEditor;
 
 /**
  * @author Baptiste Mesta
- * 
  */
 public class CallActivityConstraint extends AbstractLiveValidationMarkerConstraint {
-
 
     @Override
     protected IStatus performLiveValidation(IValidationContext ctx) {
@@ -52,14 +47,14 @@ public class CallActivityConstraint extends AbstractLiveValidationMarkerConstrai
         CallActivity subProcess = (CallActivity) ctx.getTarget();
         final DiagramRepositoryStore diagramStore = (DiagramRepositoryStore) RepositoryManager.getInstance().getRepositoryStore(DiagramRepositoryStore.class);
         final Expression subprocessName = subProcess.getCalledActivityName();
-        if(subprocessName == null || subprocessName.getContent() == null || subprocessName.getContent().isEmpty()){
+        if (subprocessName == null || subprocessName.getContent() == null || subprocessName.getContent().isEmpty()) {
             return ctx.createFailureStatus(new Object[] { Messages.Validation_NoSubProcess });
         }
         final Expression subprocessVersion = subProcess.getCalledActivityVersion();
         AbstractProcess subProc = diagramStore.findProcess(subprocessName.getContent(), subprocessVersion.getContent());
 
-        if(subProc == null){
-            return ctx.createSuccessStatus( );
+        if (subProc == null) {
+            return ctx.createSuccessStatus();
         }
 
         //        if(subProcesses.isEmpty()){
@@ -95,20 +90,24 @@ public class CallActivityConstraint extends AbstractLiveValidationMarkerConstrai
 
         List<Data> data = ModelHelper.getAccessibleData(subProc);
 
-        for(OutputMapping out : subProcess.getOutputMappings()){
-            if(out.getProcessTarget() == null){
-                return ctx.createFailureStatus(new Object[] {Messages.bind(Messages.Validation_Subprocess_OutputMapping_SourceData_Not_Found,out.getSubprocessSource())});
+        for (OutputMapping out : subProcess.getOutputMappings()) {
+            if (out.getProcessTarget() == null) {
+                return ctx.createFailureStatus(new Object[] { Messages.bind(Messages.Validation_Subprocess_OutputMapping_SourceData_Not_Found,
+                        out.getSubprocessSource()) });
             }
-            if(!exist(out.getSubprocessSource(),data)){
-                return ctx.createFailureStatus(new Object[] {Messages.bind(Messages.Validation_Subprocess_OutputMapping_SourceData_Not_Found,out.getSubprocessSource())});
+            if (!exist(out.getSubprocessSource(), data)) {
+                return ctx.createFailureStatus(new Object[] { Messages.bind(Messages.Validation_Subprocess_OutputMapping_SourceData_Not_Found,
+                        out.getSubprocessSource()) });
             }
         }
-        for(InputMapping in : subProcess.getInputMappings()){
-            if(in.getProcessSource() == null){
-                return ctx.createFailureStatus(new Object[] {Messages.bind(Messages.Validation_Subprocess_InputMapping_TargetData_Not_Found,in.getSubprocessTarget())});
+        for (InputMapping in : subProcess.getInputMappings()) {
+            if (in.getProcessSource() == null) {
+                return ctx.createFailureStatus(new Object[] { Messages.bind(Messages.Validation_Subprocess_InputMapping_TargetData_Not_Found,
+                        in.getSubprocessTarget()) });
             }
-            if(!exist(in.getSubprocessTarget(),data)){
-                return ctx.createFailureStatus(new Object[] {Messages.bind(Messages.Validation_Subprocess_InputMapping_TargetData_Not_Found,in.getSubprocessTarget())});
+            if (!exist(in.getSubprocessTarget(), data)) {
+                return ctx.createFailureStatus(new Object[] { Messages.bind(Messages.Validation_Subprocess_InputMapping_TargetData_Not_Found,
+                        in.getSubprocessTarget()) });
             }
         }
 
@@ -116,14 +115,13 @@ public class CallActivityConstraint extends AbstractLiveValidationMarkerConstrai
     }
 
     private boolean exist(String subprocessTarget, List<Data> data) {
-        for(Data d : data){
-            if(subprocessTarget != null && subprocessTarget.equals(d.getName())){
-                return true ;
+        for (Data d : data) {
+            if (subprocessTarget != null && subprocessTarget.equals(d.getName())) {
+                return true;
             }
         }
         return false;
     }
-
 
     @Override
     protected String getMarkerType(DiagramEditor editor) {

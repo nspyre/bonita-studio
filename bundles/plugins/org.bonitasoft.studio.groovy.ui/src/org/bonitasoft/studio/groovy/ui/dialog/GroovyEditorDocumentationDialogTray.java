@@ -5,14 +5,12 @@
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2.0 of the License, or
  * (at your option) any later version.
- *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package org.bonitasoft.studio.groovy.ui.dialog;
 
@@ -58,51 +56,50 @@ import org.eclipse.ui.browser.IWebBrowser;
 import org.eclipse.ui.dialogs.FilteredTree;
 import org.eclipse.ui.dialogs.PatternFilter;
 
-
 /**
  * @author Romain Bioteau
- *
  */
 public class GroovyEditorDocumentationDialogTray extends DialogTray {
 
-    private static final String GROOVY_DOC_LINK = "<a href=\"http://groovy.codehaus.org/Getting+Started+Guide\">"+Messages.groovyDocumentationLink+"</a>"; //$NON-NLS-1$ //$NON-NLS-2$
+    private static final String GROOVY_DOC_LINK = "<a href=\"http://groovy.codehaus.org/Getting+Started+Guide\">" + Messages.groovyDocumentationLink + "</a>"; //$NON-NLS-1$ //$NON-NLS-2$
     protected static final String GROOVY_BROWSER_ID = "org.bonitasoft.studio.groovy.browser"; //$NON-NLS-1$
     private static final int SASH_LIMIT = 40;
-    
+
     private ListViewer categoriesList;
     private FilteredTree functionsList;
     private StyledText documenationText;
     private final GroovyViewer viewer;
-	private HTMLTextPresenter fPresenter;
+    private HTMLTextPresenter fPresenter;
     private String javadocHtml;
-    private final TextPresentation fPresentation= new TextPresentation();
-    
-    public GroovyEditorDocumentationDialogTray(GroovyViewer viewer){
+    private final TextPresentation fPresentation = new TextPresentation();
+
+    public GroovyEditorDocumentationDialogTray(GroovyViewer viewer) {
         super();
-        this.viewer = viewer ;
+        this.viewer = viewer;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see org.eclipse.jface.dialogs.DialogTray#createContents(org.eclipse.swt.widgets.Composite)
      */
     @Override
-    protected Control createContents(final Composite parent) {    	
-    	
-    	final Composite mainComposite = new Composite(parent, SWT.NONE);
+    protected Control createContents(final Composite parent) {
+
+        final Composite mainComposite = new Composite(parent, SWT.NONE);
         mainComposite.setLayoutData(GridDataFactory.fillDefaults().grab(true, true).create());
         mainComposite.setLayout(GridLayoutFactory.fillDefaults().numColumns(1).margins(0, 0).create());
 
         createFunctionCategories(mainComposite);
-        
+
         final SashForm sashForm = new SashForm(mainComposite, SWT.VERTICAL);
         sashForm.setLayoutData(GridDataFactory.fillDefaults().grab(true, true).hint(250, 250).minSize(100, SWT.DEFAULT).create());
         GridLayout gridLaout = GridLayoutFactory.fillDefaults().numColumns(1).margins(0, 2).create();
         sashForm.setLayout(gridLaout);
         createFunctionsList(sashForm);
-        createFunctionDocumentaion(sashForm);  
-        
-        sashForm.setWeights(new int[]{1, 1});
-        
+        createFunctionDocumentaion(sashForm);
+
+        sashForm.setWeights(new int[] { 1, 1 });
+
         return mainComposite;
     }
 
@@ -110,9 +107,9 @@ public class GroovyEditorDocumentationDialogTray extends DialogTray {
         final Link docLinkText = new Link(parent, SWT.NONE);
         docLinkText.setText(GROOVY_DOC_LINK);
         docLinkText.addListener(SWT.Selection, new Listener() {
+
             @Override
             public void handleEvent(Event event) {
-
 
                 try {
                     IWebBrowser browser = PlatformUI.getWorkbench().getBrowserSupport().createBrowser(GROOVY_BROWSER_ID);
@@ -120,7 +117,6 @@ public class GroovyEditorDocumentationDialogTray extends DialogTray {
                 } catch (Exception e) {
                     BonitaStudioLog.error(e);
                 }
-
 
             }
         });
@@ -136,19 +132,19 @@ public class GroovyEditorDocumentationDialogTray extends DialogTray {
 
         Label catTitle = new Label(catComposite, SWT.NONE);
         catTitle.setText(Messages.categoriesTitle);
-        
+
         categoriesList = new ListViewer(catComposite, SWT.BORDER | SWT.V_SCROLL | SWT.SINGLE);
         categoriesList.setLabelProvider(new CategoryLabelProvider());
         categoriesList.setContentProvider(new FunctionCategoriesProvider());
         categoriesList.setInput(FunctionsRepositoryFactory.getFunctionCatgories());
         categoriesList.getList().setSelection(0);
-        final int categorieMinheight = categoriesList.getList().getItemHeight()*categoriesList.getList().getItemCount();
-        categoriesList.getList().setLayoutData(GridDataFactory.fillDefaults().grab(true, false).hint(SWT.DEFAULT,categorieMinheight).create());
+        final int categorieMinheight = categoriesList.getList().getItemHeight() * categoriesList.getList().getItemCount();
+        categoriesList.getList().setLayoutData(GridDataFactory.fillDefaults().grab(true, false).hint(SWT.DEFAULT, categorieMinheight).create());
         categoriesList.addSelectionChangedListener(new ISelectionChangedListener() {
 
             @Override
             public void selectionChanged(SelectionChangedEvent event) {
-                IFunctionCategory cat =(IFunctionCategory) ((IStructuredSelection)event.getSelection()).getFirstElement();
+                IFunctionCategory cat = (IFunctionCategory) ((IStructuredSelection) event.getSelection()).getFirstElement();
                 functionsList.getViewer().setInput(cat);
             }
         });
@@ -162,37 +158,37 @@ public class GroovyEditorDocumentationDialogTray extends DialogTray {
         Label funcTitle = new Label(funcComposite, SWT.NONE);
         funcTitle.setText(Messages.functionTitle);
 
-        functionsList = new FilteredTree(funcComposite,  SWT.BORDER | SWT.V_SCROLL, new PatternFilter(), true) ;
+        functionsList = new FilteredTree(funcComposite, SWT.BORDER | SWT.V_SCROLL, new PatternFilter(), true);
         functionsList.setLayoutData(GridDataFactory.fillDefaults().grab(true, true).create());
         functionsList.getViewer().setLabelProvider(new FunctionLabeProvider());
         functionsList.getViewer().setContentProvider(new FunctionContentProvider());
-        IFunctionCategory cat =(IFunctionCategory) ((IStructuredSelection)categoriesList.getSelection()).getFirstElement();
+        IFunctionCategory cat = (IFunctionCategory) ((IStructuredSelection) categoriesList.getSelection()).getFirstElement();
         functionsList.getViewer().setInput(cat);
 
         functionsList.getViewer().addSelectionChangedListener(new ISelectionChangedListener() {
 
-			@Override
+            @Override
             public void selectionChanged(SelectionChangedEvent event) {
-                IFunction f = (IFunction) ((IStructuredSelection)event.getSelection()).getFirstElement();
+                IFunction f = (IFunction) ((IStructuredSelection) event.getSelection()).getFirstElement();
                 refreshDocumentationText(f);
             }
-	
+
         });
 
         parent.addControlListener(new ControlListener() {
-			
-			@Override
-			public void controlResized(ControlEvent e) {
-				 IFunction f = (IFunction) ((IStructuredSelection)functionsList.getViewer().getSelection()).getFirstElement();
-				  refreshDocumentationText(f);
-			}
-			
-			@Override
-			public void controlMoved(ControlEvent e) {
 
-			}
-		});
-        
+            @Override
+            public void controlResized(ControlEvent e) {
+                IFunction f = (IFunction) ((IStructuredSelection) functionsList.getViewer().getSelection()).getFirstElement();
+                refreshDocumentationText(f);
+            }
+
+            @Override
+            public void controlMoved(ControlEvent e) {
+
+            }
+        });
+
         functionsList.getViewer().addDoubleClickListener(new IDoubleClickListener() {
 
             @Override
@@ -200,26 +196,26 @@ public class GroovyEditorDocumentationDialogTray extends DialogTray {
                 try {
                     final SourceViewer srcViewer = viewer.getSourceViewer();
                     IDocument document = srcViewer.getDocument();
-                    IFunction f = (IFunction) ((IStructuredSelection)event.getSelection()).getFirstElement();
-                    if(f != null){
+                    IFunction f = (IFunction) ((IStructuredSelection) event.getSelection()).getFirstElement();
+                    if (f != null) {
                         int offset = srcViewer.getTextWidget().getCaretOffset();
                         String before;
 
                         before = document.get(0, offset);
                         String toInsert = "";
-                        if(f.isStatic()) {
+                        if (f.isStatic()) {
                             toInsert += f.getOwner();
                         } else {
                             toInsert = "new " + f.getOwner() + "()";
                         }
-                        toInsert += "."+f.getName();
+                        toInsert += "." + f.getName();
                         if (f.getParametersCount() > 0) {
                             toInsert += "(" + f.getParameters() + ")";
                         } else {
                             toInsert += "()";
                         }
 
-                        if(offset == document.get().length()){
+                        if (offset == document.get().length()) {
                             document.set(before + toInsert);
                         } else {
                             String after = document.get().substring(offset, document.get().length());
@@ -237,21 +233,21 @@ public class GroovyEditorDocumentationDialogTray extends DialogTray {
         });
 
     }
-    
-	protected void refreshDocumentationText(IFunction f) {
-		if(documenationText != null && !documenationText.isDisposed() && f != null && f.getDocumentation() != null) {
-        	try {
-        		fPresentation.clear();
-        		Rectangle size=  documenationText.getClientArea();
-				javadocHtml= fPresenter.updatePresentation(documenationText, f.getDocumentation(), fPresentation, size.width, size.height);
-			} catch (IllegalArgumentException ex) {
-				// the javadoc might no longer be valid
-				return;
-			}
-        	documenationText.setText(javadocHtml);
-        	TextPresentation.applyTextPresentation(fPresentation, documenationText);
+
+    protected void refreshDocumentationText(IFunction f) {
+        if (documenationText != null && !documenationText.isDisposed() && f != null && f.getDocumentation() != null) {
+            try {
+                fPresentation.clear();
+                Rectangle size = documenationText.getClientArea();
+                javadocHtml = fPresenter.updatePresentation(documenationText, f.getDocumentation(), fPresentation, size.width, size.height);
+            } catch (IllegalArgumentException ex) {
+                // the javadoc might no longer be valid
+                return;
+            }
+            documenationText.setText(javadocHtml);
+            TextPresentation.applyTextPresentation(fPresentation, documenationText);
         }
-	}
+    }
 
     private void createFunctionDocumentaion(Composite parent) {
         Composite docComposite = new Composite(parent, SWT.NONE);
@@ -260,11 +256,11 @@ public class GroovyEditorDocumentationDialogTray extends DialogTray {
 
         Label docTitle = new Label(docComposite, SWT.NONE);
         docTitle.setText(Messages.functionDocTitle);
-        
+
         documenationText = new StyledText(docComposite, SWT.BORDER | SWT.V_SCROLL | SWT.H_SCROLL);
         documenationText.setLayoutData(GridDataFactory.fillDefaults().grab(true, true).hint(SWT.DEFAULT, 90).create());
         documenationText.setEditable(false);
-		fPresenter= new HTMLTextPresenter(false);
+        fPresenter = new HTMLTextPresenter(false);
     }
 
 }

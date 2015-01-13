@@ -1,19 +1,16 @@
 /**
  * Copyright (C) 2009 BonitaSoft S.A.
  * BonitaSoft, 31 rue Gustave Eiffel - 38000 Grenoble
- *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2.0 of the License, or
  * (at your option) any later version.
- *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package org.bonitasoft.studio.connectors.test.swtbot;
 
@@ -39,7 +36,6 @@ import org.junit.runner.RunWith;
 
 /**
  * @author Aur�lie Zara
- * 
  */
 @RunWith(SWTBotJunit4ClassRunner.class)
 public class SWTBotConnectorDefinitionTest extends SWTBotGefTestCase {
@@ -127,16 +123,15 @@ public class SWTBotConnectorDefinitionTest extends SWTBotGefTestCase {
                 .getInstance().getRepositoryStore(
                         ConnectorDefRepositoryStore.class);
         ConnectorDefinition connectorDef = store.getDefinition(id, version);
-        assertEquals("category size should be equal to 1", 1,connectorDef
+        assertEquals("category size should be equal to 1", 1, connectorDef
                 .getCategory().size());
     }
-
 
     @Test
     public void testNewCategory() throws Exception {
         final String id = "test3";
         final String version = "1.0.0";
-        final String categoryId="category1";
+        final String categoryId = "category1";
         SWTBotConnectorTestUtil.activateConnectorDefinitionShell(bot);
         SWTBotConnectorTestUtil.createConnectorDefinition(bot, id, version);
         SWTBotConnectorTestUtil.createNewCategory(bot, categoryId);
@@ -150,41 +145,39 @@ public class SWTBotConnectorDefinitionTest extends SWTBotGefTestCase {
                 .getCategory().size(), 1);
     }
 
-
     @Test
     public void testCreateExistingCategory() throws Exception {
         final String id = "test7";
         final String version = "1.0.0";
-        final String categoryId="category3";
+        final String categoryId = "category3";
         SWTBotConnectorTestUtil.activateConnectorDefinitionShell(bot);
         SWTBotConnectorTestUtil.createConnectorDefinition(bot, id, version);
         SWTBotConnectorTestUtil.createNewCategory(bot, categoryId);
         bot.button("New...").click();
         bot.textWithLabel("Id").setText(categoryId);
-        assertFalse("Ok button should be disabled when trying to create an existing category",bot.button(IDialogConstants.OK_LABEL).isEnabled());
+        assertFalse("Ok button should be disabled when trying to create an existing category", bot.button(IDialogConstants.OK_LABEL).isEnabled());
         bot.button(IDialogConstants.CANCEL_LABEL).click();
         bot.button(IDialogConstants.FINISH_LABEL).click();
     }
 
-
-//    @Test
-//    public void testRemoveCategory() throws Exception {
-//        final String id = "test4";
-//        final String version = "1.0.0";
-//        final String categoryId="category2";
-//        SWTBotConnectorTestUtil.activateConnectorDefinitionShell(bot);
-//        SWTBotConnectorTestUtil.createConnectorDefinition(bot, id, version);
-//        SWTBotConnectorTestUtil.createNewCategory(bot, categoryId);
-//        bot.tableWithLabel("Categories").select(0);
-//        bot.button("Remove").click();
-//        bot.button(IDialogConstants.FINISH_LABEL).click();
-//        ConnectorDefRepositoryStore store = (ConnectorDefRepositoryStore) RepositoryManager
-//                .getInstance().getRepositoryStore(
-//                        ConnectorDefRepositoryStore.class);
-//        ConnectorDefinition connectorDef = store.getDefinition(id, version);
-//        assertEquals("category list size should be equal to 0", connectorDef
-//                .getCategory().size(), 0);
-//    }
+    //    @Test
+    //    public void testRemoveCategory() throws Exception {
+    //        final String id = "test4";
+    //        final String version = "1.0.0";
+    //        final String categoryId="category2";
+    //        SWTBotConnectorTestUtil.activateConnectorDefinitionShell(bot);
+    //        SWTBotConnectorTestUtil.createConnectorDefinition(bot, id, version);
+    //        SWTBotConnectorTestUtil.createNewCategory(bot, categoryId);
+    //        bot.tableWithLabel("Categories").select(0);
+    //        bot.button("Remove").click();
+    //        bot.button(IDialogConstants.FINISH_LABEL).click();
+    //        ConnectorDefRepositoryStore store = (ConnectorDefRepositoryStore) RepositoryManager
+    //                .getInstance().getRepositoryStore(
+    //                        ConnectorDefRepositoryStore.class);
+    //        ConnectorDefinition connectorDef = store.getDefinition(id, version);
+    //        assertEquals("category list size should be equal to 0", connectorDef
+    //                .getCategory().size(), 0);
+    //    }
 
     @Test
     public void testAddInputs() throws Exception {
@@ -261,8 +254,6 @@ public class SWTBotConnectorDefinitionTest extends SWTBotGefTestCase {
         assertEquals("wrong output name", output.getName(), outputName);
         assertEquals("wrong type of output", output.getType(), type);
     }
-
-
 
     private void testButtonDisabled(String id, String label) throws Exception {
         bot.textWithLabel(label).setText(id);

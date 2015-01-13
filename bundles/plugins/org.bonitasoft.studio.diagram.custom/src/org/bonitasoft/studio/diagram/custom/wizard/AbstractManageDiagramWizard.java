@@ -5,14 +5,12 @@
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2.0 of the License, or
  * (at your option) any later version.
- *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package org.bonitasoft.studio.diagram.custom.wizard;
 
@@ -36,41 +34,39 @@ import org.eclipse.osgi.util.NLS;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.PlatformUI;
 
-
 /**
  * @author aurelie zara
  */
 public abstract class AbstractManageDiagramWizard extends Wizard implements IWizard {
-
 
     public boolean deleteDiagrams(final AbstractManageDiagramWizardPage page) {
 
         if (page.getDiagramTree().isEnabled() && !page.getDiagramTree().getViewer().getSelection().isEmpty()) {
             try {
                 final List<DiagramFileStore> files = page.getDiagrams();
-                final StringBuilder stringBuilder = new StringBuilder(files.size()==1?"":"\n");
+                final StringBuilder stringBuilder = new StringBuilder(files.size() == 1 ? "" : "\n");
                 for (final DiagramFileStore file : files) {
                     stringBuilder.append(file.getName());
                     stringBuilder.append("\n");
                 }
                 if (MessageDialog.openQuestion(page.getMainComposite().getShell(), Messages.confirmProcessDeleteTitle,
-                        NLS.bind(Messages.confirmProcessDeleteMessage,stringBuilder.toString()))) {
+                        NLS.bind(Messages.confirmProcessDeleteMessage, stringBuilder.toString()))) {
                     for (final DiagramFileStore file : files) {
-                        for(final AbstractProcess process : file.getProcesses()){
-                            final String uuid = ModelHelper.getEObjectID(process) ;
+                        for (final AbstractProcess process : file.getProcesses()) {
+                            final String uuid = ModelHelper.getEObjectID(process);
                             final IRepositoryFileStore resourceFolder = page.getApplicationResourceStore().getChild(uuid);
-                            if(resourceFolder != null){
-                                resourceFolder.delete() ;
+                            if (resourceFolder != null) {
+                                resourceFolder.delete();
                             }
                             final IRepositoryFileStore confFile = page.getProcessConfStore()
                                     .getChild(uuid + "." + ProcessConfigurationRepositoryStore.CONF_EXT);
-                            if(confFile != null){
-                                confFile.delete() ;
+                            if (confFile != null) {
+                                confFile.delete();
                             }
                         }
 
-                        for(final IEditorPart editor : PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getDirtyEditors() ){
-                            if(editor.getEditorInput().getName().equals(file.getName()) ){
+                        for (final IEditorPart editor : PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getDirtyEditors()) {
+                            if (editor.getEditorInput().getName().equals(file.getName())) {
                                 file.save(editor);
                                 break;
                             }
@@ -79,11 +75,11 @@ public abstract class AbstractManageDiagramWizard extends Wizard implements IWiz
                         parameters.put(AbstractFileStore.ASK_ACTION_ON_CLOSE, false);
                         file.setParameters(parameters);
                         file.close();
-                        file.delete() ;
+                        file.delete();
                     }
 
                     page.getDiagramTree().getViewer().setInput(new Object());
-                    if(PlatformUtil.isIntroOpen()){
+                    if (PlatformUtil.isIntroOpen()) {
                         PlatformUtil.closeIntro();
                         PlatformUtil.openIntro();
                     }

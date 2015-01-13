@@ -1,19 +1,16 @@
 /**
  * Copyright (C) 2009 BonitaSoft S.A.
  * BonitaSoft, 31 rue Gustave Eiffel - 38000 Grenoble
- * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2.0 of the License, or
  * (at your option) any later version.
- *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
 package org.bonitasoft.studio.diagram.form.custom.providers;
@@ -35,39 +32,38 @@ import org.eclipse.gmf.runtime.diagram.ui.services.editpolicy.IEditPolicyProvide
 
 /**
  * @author Aurelien Pupier
- * 
  */
 public class CustomEditPolicyProvider implements IEditPolicyProvider {
 
-	public void createEditPolicies(EditPart editPart) {
-		
-		/*install editPolicy to allow modifications of span*/
-		if (!(editPart instanceof ITextAwareEditPart)) {// DO NOT INSTALL EDIT
-														// POLICIES ON LABELS
-			if (((IGraphicalEditPart) editPart).resolveSemanticElement() instanceof Widget) {
-				editPart.installEditPolicy(AbstractChangeSpanOnSelectionEditPolicy.CHANGE_SPAN_ON_SELECTION_FEEDBACK_ROLE,
-						new ChangeSpanOnSelectionEditPolicy());
-			}
-		}
+    public void createEditPolicies(EditPart editPart) {
 
-		/* Remove unwanted Editpolicy */
-		editPart.removeEditPolicy(EditPolicyRoles.CONNECTION_HANDLES_ROLE);
-		editPart.removeEditPolicy(EditPolicyRoles.POPUPBAR_ROLE);
-	}
+        /* install editPolicy to allow modifications of span */
+        if (!(editPart instanceof ITextAwareEditPart)) {// DO NOT INSTALL EDIT
+                                                        // POLICIES ON LABELS
+            if (((IGraphicalEditPart) editPart).resolveSemanticElement() instanceof Widget) {
+                editPart.installEditPolicy(AbstractChangeSpanOnSelectionEditPolicy.CHANGE_SPAN_ON_SELECTION_FEEDBACK_ROLE,
+                        new ChangeSpanOnSelectionEditPolicy());
+            }
+        }
 
-	public void addProviderChangeListener(IProviderChangeListener listener) {
-	}
+        /* Remove unwanted Editpolicy */
+        editPart.removeEditPolicy(EditPolicyRoles.CONNECTION_HANDLES_ROLE);
+        editPart.removeEditPolicy(EditPolicyRoles.POPUPBAR_ROLE);
+    }
 
-	public boolean provides(IOperation operation) {
-		if (operation instanceof CreateEditPoliciesOperation && ((CreateEditPoliciesOperation)operation).getEditPart() instanceof GraphicalEditPart) {
-			GraphicalEditPart editPart = (GraphicalEditPart) ((CreateEditPoliciesOperation)operation).getEditPart();
-			if(editPart.getRoot().getContents() instanceof FormEditPart)
-				return editPart.resolveSemanticElement() instanceof Element;
-		}
-		return false;
-	}
+    public void addProviderChangeListener(IProviderChangeListener listener) {
+    }
 
-	public void removeProviderChangeListener(IProviderChangeListener listener) {
-	}
+    public boolean provides(IOperation operation) {
+        if (operation instanceof CreateEditPoliciesOperation && ((CreateEditPoliciesOperation) operation).getEditPart() instanceof GraphicalEditPart) {
+            GraphicalEditPart editPart = (GraphicalEditPart) ((CreateEditPoliciesOperation) operation).getEditPart();
+            if (editPart.getRoot().getContents() instanceof FormEditPart)
+                return editPart.resolveSemanticElement() instanceof Element;
+        }
+        return false;
+    }
+
+    public void removeProviderChangeListener(IProviderChangeListener listener) {
+    }
 
 }

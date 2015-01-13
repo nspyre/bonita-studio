@@ -5,14 +5,12 @@
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2.0 of the License, or
  * (at your option) any later version.
- *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package org.bonitasoft.studio.actors.repository;
 
@@ -59,18 +57,18 @@ import org.eclipse.swt.graphics.Image;
 
 /**
  * @author Romain Bioteau
- *
  */
 public class OrganizationRepositoryStore extends AbstractEMFRepositoryStore<OrganizationFileStore> {
 
     private static final String STORE_NAME = "organizations";
     public static final String ORGANIZATION_EXT = "organization";
-    private static final Set<String> extensions = new HashSet<String>() ;
-    static{
-        extensions.add(ORGANIZATION_EXT) ;
+    private static final Set<String> extensions = new HashSet<String>();
+    static {
+        extensions.add(ORGANIZATION_EXT);
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see org.bonitasoft.studio.common.repository.model.IRepositoryStore#createRepositoryFileStore(java.lang.String)
      */
     @Override
@@ -78,7 +76,8 @@ public class OrganizationRepositoryStore extends AbstractEMFRepositoryStore<Orga
         return new OrganizationFileStore(fileName, this);
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see org.bonitasoft.studio.common.repository.model.IRepositoryStore#getName()
      */
     @Override
@@ -86,7 +85,8 @@ public class OrganizationRepositoryStore extends AbstractEMFRepositoryStore<Orga
         return STORE_NAME;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see org.bonitasoft.studio.common.repository.model.IRepositoryStore#getDisplayName()
      */
     @Override
@@ -94,15 +94,17 @@ public class OrganizationRepositoryStore extends AbstractEMFRepositoryStore<Orga
         return Messages.organizations;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see org.bonitasoft.studio.common.repository.model.IRepositoryStore#getIcon()
      */
     @Override
     public Image getIcon() {
-        return Pics.getImage("organization.png",ActorsPlugin.getDefault());
+        return Pics.getImage("organization.png", ActorsPlugin.getDefault());
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see org.bonitasoft.studio.common.repository.model.IRepositoryStore#getCompatibleExtensions()
      */
     @Override
@@ -111,66 +113,66 @@ public class OrganizationRepositoryStore extends AbstractEMFRepositoryStore<Orga
     }
 
     @Override
-    protected OrganizationFileStore doImportInputStream(final String fileName,final InputStream inputStream) {
-        final String newFileName = fileName.replace(".xml", "."+ORGANIZATION_EXT) ;
+    protected OrganizationFileStore doImportInputStream(final String fileName, final InputStream inputStream) {
+        final String newFileName = fileName.replace(".xml", "." + ORGANIZATION_EXT);
         final IFile file = getResource().getFile(newFileName);
         OrganizationFileStore fileStore = null;
-        try{
-            if(file.exists()){
-                if(FileActionDialog.overwriteQuestion(newFileName)){
+        try {
+            if (file.exists()) {
+                if (FileActionDialog.overwriteQuestion(newFileName)) {
                     file.setContents(inputStream, true, false, Repository.NULL_PROGRESS_MONITOR);
-                }else{
+                } else {
                     inputStream.close();
                 }
             } else {
                 file.create(inputStream, true, Repository.NULL_PROGRESS_MONITOR);
             }
             fileStore = createRepositoryFileStore(newFileName);
-            if(file != null && fileStore != null){
-                final Organization orga = fileStore.getContent() ;
-                if(orga != null && (orga.getName() == null || orga.getName().isEmpty())){
-                    orga.setName(newFileName.substring(0,newFileName.length()-ORGANIZATION_EXT.length() - 1)) ;
+            if (file != null && fileStore != null) {
+                final Organization orga = fileStore.getContent();
+                if (orga != null && (orga.getName() == null || orga.getName().isEmpty())) {
+                    orga.setName(newFileName.substring(0, newFileName.length() - ORGANIZATION_EXT.length() - 1));
                     fileStore.save(orga);
                 }
             }
-        }catch(final Exception e){
-            BonitaStudioLog.error(e) ;
+        } catch (final Exception e) {
+            BonitaStudioLog.error(e);
             return null;
         }
-        return fileStore ;
+        return fileStore;
     }
 
     @Override
     protected void addAdapterFactory(final ComposedAdapterFactory adapterFactory) {
-        adapterFactory.addAdapterFactory(new OrganizationAdapterFactory()) ;
+        adapterFactory.addAdapterFactory(new OrganizationAdapterFactory());
     }
 
     @Override
-    protected Resource getTmpEMFResource(String fileName,final InputStream inputStream) {
+    protected Resource getTmpEMFResource(String fileName, final InputStream inputStream) {
         FileOutputStream fos = null;
-        File tmpFile = null ;
-        try{
+        File tmpFile = null;
+        try {
             fileName = fileName.replaceAll(".xml", ".organization");
             tmpFile = File.createTempFile("tmp", fileName, ProjectUtil.getBonitaStudioWorkFolder());
             fos = new FileOutputStream(tmpFile);
             FileUtil.copy(inputStream, fos);
             final Resource resource = new OrganizationResourceFactoryImpl().createResource(URI.createFileURI(tmpFile.getAbsolutePath()));
             return resource;
-        }catch (final Exception e) {
+        } catch (final Exception e) {
             BonitaStudioLog.error(e, CommonRepositoryPlugin.PLUGIN_ID);
-        }finally{
-            if(fos != null){
+        } finally {
+            if (fos != null) {
                 try {
                     fos.close();
                 } catch (final IOException e) {
-                    BonitaStudioLog.error(e,CommonRepositoryPlugin.PLUGIN_ID);
+                    BonitaStudioLog.error(e, CommonRepositoryPlugin.PLUGIN_ID);
                 }
             }
-            if(inputStream != null){
-                try{
+            if (inputStream != null) {
+                try {
                     inputStream.close();
                 } catch (final IOException e) {
-                    BonitaStudioLog.error(e,CommonRepositoryPlugin.PLUGIN_ID);
+                    BonitaStudioLog.error(e, CommonRepositoryPlugin.PLUGIN_ID);
                 }
             }
         }
@@ -178,9 +180,8 @@ public class OrganizationRepositoryStore extends AbstractEMFRepositoryStore<Orga
         return null;
     }
 
-
     @Override
-    protected void performMigration(final Migrator migrator, final URI resourceURI , final Release release) throws MigrationException {
+    protected void performMigration(final Migrator migrator, final URI resourceURI, final Release release) throws MigrationException {
         migrator.setLevel(ValidationLevel.RELEASE);
         final ResourceSet rSet = migrator.migrateAndLoad(
                 Collections.singletonList(resourceURI), release,
@@ -213,6 +214,5 @@ public class OrganizationRepositoryStore extends AbstractEMFRepositoryStore<Orga
             }
         }
     }
-
 
 }

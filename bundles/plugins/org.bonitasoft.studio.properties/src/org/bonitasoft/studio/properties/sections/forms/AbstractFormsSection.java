@@ -1,19 +1,16 @@
 /**
  * Copyright (C) 2010 BonitaSoft S.A.
  * BonitaSoft, 31 rue Gustave Eiffel - 38000 Grenoble
- *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2.0 of the License, or
  * (at your option) any later version.
- *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package org.bonitasoft.studio.properties.sections.forms;
 
@@ -91,7 +88,7 @@ import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
 
 /**
  * @author Aurelien Pupier
- * Provides the filteredTree and the buttons aside it
+ *         Provides the filteredTree and the buttons aside it
  */
 public abstract class AbstractFormsSection extends AbstractBonitaDescriptionSection {
 
@@ -111,7 +108,6 @@ public abstract class AbstractFormsSection extends AbstractBonitaDescriptionSect
     private IChangeListener formListener;
     private IObservableList observeFormListName;
     protected TabbedPropertySheetPage aTabbedPropertySheetPage;
-
 
     @Override
     public void createControls(final Composite parent,
@@ -150,26 +146,28 @@ public abstract class AbstractFormsSection extends AbstractBonitaDescriptionSect
 
     /**
      * To be overriden when necessary
+     * 
      * @param mainComposite
      * @override
-     *
      */
     protected Composite createRadioButtons(final Composite mainComposite) {
         return null;
     }
 
     protected abstract EReference getPageFlowFormFeature();
+
     protected abstract EReference getPageFlowTransitionsFeature();
+
     protected abstract EAttribute getPageFlowTypeFeature();
+
     protected abstract EReference getPageFlowRedirectionURLFeature();
 
     private void createTableBinding() {
-        if(getEObject() != null){
+        if (getEObject() != null) {
             final EMFListFeatureTreeContentProvider contentProvider = new EMFListFeatureTreeContentProvider(getPageFlowFormFeature());
             tree.getViewer().setContentProvider(contentProvider);
 
-
-            if(observeFormList != null && formListener != null && observeFormListName != null){
+            if (observeFormList != null && formListener != null && observeFormListName != null) {
                 observeFormList.removeChangeListener(formListener);
                 observeFormListName.removeChangeListener(formListener);
                 observeFormList.dispose();
@@ -192,9 +190,9 @@ public abstract class AbstractFormsSection extends AbstractBonitaDescriptionSect
             observeFormList.addChangeListener(formListener);
             observeFormListName.addChangeListener(formListener);
 
-            if(getEObject() instanceof Lane){
+            if (getEObject() instanceof Lane) {
                 viewer.setInput(getEObject().eContainer());
-            }else{
+            } else {
                 viewer.setInput(getEObject());
             }
         }
@@ -202,34 +200,35 @@ public abstract class AbstractFormsSection extends AbstractBonitaDescriptionSect
 
     @Override
     protected EObject getEObject() {
-        if(super.getEObject() instanceof Lane){
-            return super.getEObject().eContainer() ;
-        }else{
+        if (super.getEObject() instanceof Lane) {
+            return super.getEObject().eContainer();
+        } else {
             return super.getEObject();
         }
     }
 
-
     protected void refreshFormTree() {
-        if(getEObject() != null && tree != null && tree.getViewer() != null && tree.getViewer().getContentProvider() != null){
-            tree.getViewer().setInput(getEObject()) ;
+        if (getEObject() != null && tree != null && tree.getViewer() != null && tree.getViewer().getContentProvider() != null) {
+            tree.getViewer().setInput(getEObject());
         }
     }
 
     protected FilteredTree createFilteredTree(final Composite mainComposite) {
         tree = new FilteredTree(mainComposite, SWT.BORDER | SWT.MULTI, new PatternFilter(), true);
-        tree.getViewer().getTree().setData(SWTBotConstants.SWTBOT_WIDGET_ID_KEY,SWTBotConstants.APPLICATION_SECTION_FORMS_SELECTION_TREE);
-        getWidgetFactory().adapt(tree, false, false) ;
+        tree.getViewer().getTree().setData(SWTBotConstants.SWTBOT_WIDGET_ID_KEY, SWTBotConstants.APPLICATION_SECTION_FORMS_SELECTION_TREE);
+        getWidgetFactory().adapt(tree, false, false);
         tree.setLayoutData(createPageFlowTreeGridData());
 
         tree.getViewer().setLabelProvider(new FormLabelProvider());
         tree.getViewer().addSelectionChangedListener(new ISelectionChangedListener() {
+
             @Override
             public void selectionChanged(final SelectionChangedEvent event) {
                 updateButtons();
             }
         });
         tree.getViewer().addDoubleClickListener(new IDoubleClickListener() {
+
             @Override
             public void doubleClick(final DoubleClickEvent event) {
                 editFormInTree();
@@ -243,6 +242,7 @@ public abstract class AbstractFormsSection extends AbstractBonitaDescriptionSect
         source.setTransfer(types);
         final Form[] dragSourceForm = new Form[1];
         source.addDragListener(new DragSourceListener() {
+
             @Override
             public void dragStart(final DragSourceEvent event) {
 
@@ -275,6 +275,7 @@ public abstract class AbstractFormsSection extends AbstractBonitaDescriptionSect
         final DropTarget target = new DropTarget(tree.getViewer().getTree(), DND.DROP_MOVE);
         target.setTransfer(types);
         target.addDropListener(new DropTargetAdapter() {
+
             @Override
             public void dragOver(final DropTargetEvent event) {
                 event.feedback = DND.FEEDBACK_EXPAND | DND.FEEDBACK_SCROLL;
@@ -377,7 +378,8 @@ public abstract class AbstractFormsSection extends AbstractBonitaDescriptionSect
 
             @Override
             public void handleEvent(final Event event) {
-                new WizardDialog(AbstractFormsSection.this.getPart().getSite().getShell(), new SelectFormWizard(getPageFlow(), feature, getEditingDomain())).open();
+                new WizardDialog(AbstractFormsSection.this.getPart().getSite().getShell(), new SelectFormWizard(getPageFlow(), feature, getEditingDomain()))
+                        .open();
                 tree.getViewer().refresh();
             }
         });
@@ -388,6 +390,7 @@ public abstract class AbstractFormsSection extends AbstractBonitaDescriptionSect
         final Button editButton = getWidgetFactory().createButton(buttonsComposite, Messages.editForm, SWT.FLAT);
         editButton.setLayoutData(GridDataFactory.fillDefaults().grab(true, false).minSize(IDialogConstants.BUTTON_WIDTH, SWT.DEFAULT).create());
         editButton.addSelectionListener(new SelectionAdapter() {
+
             @Override
             public void widgetSelected(final SelectionEvent e) {
                 editFormInTree();
@@ -401,6 +404,7 @@ public abstract class AbstractFormsSection extends AbstractBonitaDescriptionSect
         downButton = getWidgetFactory().createButton(buttonsComposite, Messages.formDown, SWT.FLAT);
         downButton.setLayoutData(GridDataFactory.fillDefaults().grab(true, false).minSize(IDialogConstants.BUTTON_WIDTH, SWT.DEFAULT).create());
         downButton.addListener(SWT.Selection, new Listener() {
+
             @Override
             public void handleEvent(final Event event) {
                 if (tree != null && ((ITreeSelection) tree.getViewer().getSelection()).size() > 0) {
@@ -423,6 +427,7 @@ public abstract class AbstractFormsSection extends AbstractBonitaDescriptionSect
         upButton = getWidgetFactory().createButton(buttonsComposite, Messages.formUp, SWT.FLAT);
         upButton.setLayoutData(GridDataFactory.fillDefaults().grab(true, false).minSize(IDialogConstants.BUTTON_WIDTH, SWT.DEFAULT).create());
         upButton.addListener(SWT.Selection, new Listener() {
+
             @Override
             public void handleEvent(final Event event) {
                 final Form form = (Form) ((ITreeSelection) tree.getViewer().getSelection()).getFirstElement();
@@ -437,7 +442,6 @@ public abstract class AbstractFormsSection extends AbstractBonitaDescriptionSect
         upButton.setEnabled(false);
         return upButton;
     }
-
 
     private Button createRemoveFormButton(final Composite buttonsComposite) {
         final Button removeButton = getWidgetFactory().createButton(buttonsComposite, Messages.removeForm, SWT.FLAT);
@@ -473,14 +477,12 @@ public abstract class AbstractFormsSection extends AbstractBonitaDescriptionSect
         return removeButton;
     }
 
-
     public Element getPageFlow() {
         return pageFlow;
     }
 
     /*
      * (non-Javadoc)
-     *
      * @see org.eclipse.gmf.runtime.diagram.ui.properties.sections.
      * AbstractModelerPropertySection#setInput(org.eclipse.ui.IWorkbenchPart,
      * org.eclipse.jface.viewers.ISelection)
@@ -489,25 +491,24 @@ public abstract class AbstractFormsSection extends AbstractBonitaDescriptionSect
     public void setInput(final IWorkbenchPart part, final ISelection selection) {
         final ISelection old = getSelection();
         super.setInput(part, selection);
-        if(old == getSelection()){
-            return ;
+        if (old == getSelection()) {
+            return;
         }
 
-        if(context != null){
+        if (context != null) {
             context.dispose();
         }
         Element tempPageFlow = null;
         if (getEObject() instanceof Lane) {
-            tempPageFlow =  (Element) getEObject().eContainer();
+            tempPageFlow = (Element) getEObject().eContainer();
         }
         if (getEObject() instanceof PageFlow || getEObject() instanceof ViewPageFlow) {
-            tempPageFlow =  (Element) getEObject();
+            tempPageFlow = (Element) getEObject();
         }
         pageFlow = tempPageFlow;
 
-
         context = new EMFDataBindingContext();
-        createTableBinding() ;
+        createTableBinding();
     }
 
     /**
@@ -565,7 +566,7 @@ public abstract class AbstractFormsSection extends AbstractBonitaDescriptionSect
     public void dispose() {
         super.dispose();
 
-        if(context != null){
+        if (context != null) {
             context.dispose();
         }
 

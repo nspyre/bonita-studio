@@ -5,17 +5,14 @@
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2.0 of the License, or
  * (at your option) any later version.
- *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package org.bonitasoft.studio.connectors.ui.property.section;
-
 
 import static org.bonitasoft.studio.common.Messages.bosProductName;
 
@@ -69,8 +66,8 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
+
 /**
- *
  * @author Romain Bioteau
  */
 public class ConnectorSection extends AbstractBonitaDescriptionSection implements IDoubleClickListener, ISelectionChangedListener {
@@ -84,7 +81,6 @@ public class ConnectorSection extends AbstractBonitaDescriptionSection implement
 
     /*
      * (non-Javadoc)
-     *
      * @see
      * org.bonitasoft.studio.properties.sections.data.DataSection#createControls
      * (org.eclipse.swt.widgets.Composite,
@@ -96,17 +92,16 @@ public class ConnectorSection extends AbstractBonitaDescriptionSection implement
         mainComposite = getWidgetFactory().createComposite(parent);
         mainComposite.setLayout(GridLayoutFactory.fillDefaults().numColumns(1).margins(20, 15).create());
         mainComposite.setLayoutData(GridDataFactory.fillDefaults().grab(true, true).create());
-        final Composite viewerComposite = getWidgetFactory().createComposite(mainComposite) ;
-        viewerComposite.setLayoutData(GridDataFactory.fillDefaults().grab(true, true).create()) ;
-        viewerComposite.setLayout(GridLayoutFactory.fillDefaults().numColumns(2).margins(0, 0).create()) ;
+        final Composite viewerComposite = getWidgetFactory().createComposite(mainComposite);
+        viewerComposite.setLayoutData(GridDataFactory.fillDefaults().grab(true, true).create());
+        viewerComposite.setLayout(GridLayoutFactory.fillDefaults().numColumns(2).margins(0, 0).create());
         createConnectorComposite(viewerComposite);
     }
 
-
     private void createConnectorComposite(final Composite parent) {
         final Composite buttonsComposite = getWidgetFactory().createPlainComposite(parent, SWT.NONE);
-        buttonsComposite.setLayoutData(GridDataFactory.fillDefaults().grab(false, true).create()) ;
-        buttonsComposite.setLayout(GridLayoutFactory.fillDefaults().numColumns(1).margins(5,0).spacing(0, 3).create());
+        buttonsComposite.setLayoutData(GridDataFactory.fillDefaults().grab(false, true).create());
+        buttonsComposite.setLayout(GridLayoutFactory.fillDefaults().numColumns(1).margins(5, 0).spacing(0, 3).create());
 
         createAddConnectorButton(buttonsComposite);
         updateConnectorButton = createUpdateConnectorButton(buttonsComposite);
@@ -115,10 +110,8 @@ public class ConnectorSection extends AbstractBonitaDescriptionSection implement
         downConnectorButton = createDownConnectorButton(buttonsComposite);
         createMoveConnectorButton(buttonsComposite);
 
-
-
         tableViewer = new TableViewer(parent, SWT.BORDER | SWT.MULTI | SWT.NO_FOCUS);
-        getWidgetFactory().adapt(tableViewer.getTable(), false, false) ;
+        getWidgetFactory().adapt(tableViewer.getTable(), false, false);
         tableViewer.getTable().setLayoutData(GridDataFactory.fillDefaults().grab(true, true).hint(SWT.DEFAULT, 120).create());
 
         tableViewer.addDoubleClickListener(this);
@@ -128,7 +121,6 @@ public class ConnectorSection extends AbstractBonitaDescriptionSection implement
         tableViewer.setLabelProvider(new StyledConnectorLabelProvider());
 
     }
-
 
     private void updateButtons() {
         if (tableViewer != null) {
@@ -140,22 +132,22 @@ public class ConnectorSection extends AbstractBonitaDescriptionSection implement
 
             final boolean isAnElementSelected = selection.size() == 1;
             final boolean hasMoreThanOneItemInTheTable = tableViewer.getTable().getItemCount() > 1;
-            if(!downConnectorButton.isDisposed()){
-                downConnectorButton.setEnabled(isAnElementSelected && hasMoreThanOneItemInTheTable) ;
+            if (!downConnectorButton.isDisposed()) {
+                downConnectorButton.setEnabled(isAnElementSelected && hasMoreThanOneItemInTheTable);
             }
 
-            if(!upConnectorButton.isDisposed()){
-                upConnectorButton.setEnabled(isAnElementSelected && hasMoreThanOneItemInTheTable) ;
+            if (!upConnectorButton.isDisposed()) {
+                upConnectorButton.setEnabled(isAnElementSelected && hasMoreThanOneItemInTheTable);
             }
 
-            if(!updateConnectorButton.isDisposed()){
-                if(isAnElementSelected){
-                    final Connector connector = (Connector) selection.getFirstElement() ;
-                    final ConnectorDefRepositoryStore connectorDefStore = RepositoryManager.getInstance().getRepositoryStore(ConnectorDefRepositoryStore.class) ;
-                    final ConnectorDefinition def = connectorDefStore.getDefinition(connector.getDefinitionId(),connector.getDefinitionVersion()) ;
-                    updateConnectorButton.setEnabled(def!= null) ;
-                }else{
-                    updateConnectorButton.setEnabled(false) ;
+            if (!updateConnectorButton.isDisposed()) {
+                if (isAnElementSelected) {
+                    final Connector connector = (Connector) selection.getFirstElement();
+                    final ConnectorDefRepositoryStore connectorDefStore = RepositoryManager.getInstance().getRepositoryStore(ConnectorDefRepositoryStore.class);
+                    final ConnectorDefinition def = connectorDefStore.getDefinition(connector.getDefinitionId(), connector.getDefinitionVersion());
+                    updateConnectorButton.setEnabled(def != null);
+                } else {
+                    updateConnectorButton.setEnabled(false);
                 }
 
             }
@@ -170,13 +162,14 @@ public class ConnectorSection extends AbstractBonitaDescriptionSection implement
         final Button removeButton = getWidgetFactory().createButton(buttonComposite, Messages.removeData, SWT.FLAT);
         removeButton.setLayoutData(GridDataFactory.fillDefaults().minSize(IDialogConstants.BUTTON_WIDTH, SWT.DEFAULT).create());
         removeButton.addListener(SWT.Selection, new Listener() {
+
             @Override
             public void handleEvent(final Event event) {
                 if (tableViewer != null && ((IStructuredSelection) tableViewer.getSelection()).size() > 0) {
                     final List<?> selection = ((IStructuredSelection) tableViewer.getSelection()).toList();
                     if (MessageDialog.openConfirm(buttonComposite.getShell(), Messages.deleteDialogTitle, createMessage())) {
                         getEditingDomain().getCommandStack().execute(new RemoveCommand(getEditingDomain(), getEObject(), getConnectorFeature(), selection));
-                        tableViewer.refresh() ;
+                        tableViewer.refresh();
                     }
                 }
             }
@@ -206,14 +199,16 @@ public class ConnectorSection extends AbstractBonitaDescriptionSection implement
 
                 WizardDialog dialog = null;
 
-                if(tableViewer.getTable().getSelectionCount()>0){
-                    final Connector selectedConnector = (Connector)tableViewer.getTable().getItem(tableViewer.getTable().getSelectionIndex()).getData();
-                    dialog =  new WizardDialog(Display.getDefault().getActiveShell(),new ConnectorContainerSwitchWizard(getEditingDomain(),ModelHelper.getParentProcess(getEObject()), selectedConnector));
+                if (tableViewer.getTable().getSelectionCount() > 0) {
+                    final Connector selectedConnector = (Connector) tableViewer.getTable().getItem(tableViewer.getTable().getSelectionIndex()).getData();
+                    dialog = new WizardDialog(Display.getDefault().getActiveShell(), new ConnectorContainerSwitchWizard(getEditingDomain(), ModelHelper
+                            .getParentProcess(getEObject()), selectedConnector));
                 } else {
-                    dialog =  new WizardDialog(Display.getDefault().getActiveShell(),new ConnectorContainerSwitchWizard(getEditingDomain(),ModelHelper.getParentProcess(getEObject())));
+                    dialog = new WizardDialog(Display.getDefault().getActiveShell(), new ConnectorContainerSwitchWizard(getEditingDomain(), ModelHelper
+                            .getParentProcess(getEObject())));
 
                 }
-                if(dialog.open() == Dialog.OK){
+                if (dialog.open() == Dialog.OK) {
                     tableViewer.refresh();
                 }
             }
@@ -229,7 +224,7 @@ public class ConnectorSection extends AbstractBonitaDescriptionSection implement
             @Override
             public void widgetSelected(final SelectionEvent e) {
                 final WizardDialog wizardDialog = new ConnectorDefinitionWizardDialog(Display.getCurrent().getActiveShell(), createAddConnectorWizard());
-                if(wizardDialog.open() == Dialog.OK){
+                if (wizardDialog.open() == Dialog.OK) {
                     tableViewer.refresh();
                 }
             }
@@ -259,27 +254,26 @@ public class ConnectorSection extends AbstractBonitaDescriptionSection implement
         return updateButton;
     }
 
-
     private void updateConnectorAction() {
         final IStructuredSelection selection = (IStructuredSelection) tableViewer.getSelection();
         if (selection.size() != 1) {
             MessageDialog.openInformation(Display.getCurrent().getActiveShell(), Messages.selectOnlyOneElementTitle, Messages.selectOnlyOneElementMessage);
         } else {
-            final Connector connector = (Connector) selection.getFirstElement() ;
-            final ConnectorDefRepositoryStore connectorDefStore = RepositoryManager.getInstance().getRepositoryStore(ConnectorDefRepositoryStore.class) ;
-            final ConnectorDefinition def = connectorDefStore.getDefinition(connector.getDefinitionId(),connector.getDefinitionVersion()) ;
-            if(def != null){
-                final WizardDialog wizardDialog = new ConnectorDefinitionWizardDialog(Display.getCurrent().getActiveShell(), createEditConnectorWizard(connector));
-                if(wizardDialog.open() == Dialog.OK){
-                    tableViewer.refresh() ;
+            final Connector connector = (Connector) selection.getFirstElement();
+            final ConnectorDefRepositoryStore connectorDefStore = RepositoryManager.getInstance().getRepositoryStore(ConnectorDefRepositoryStore.class);
+            final ConnectorDefinition def = connectorDefStore.getDefinition(connector.getDefinitionId(), connector.getDefinitionVersion());
+            if (def != null) {
+                final WizardDialog wizardDialog = new ConnectorDefinitionWizardDialog(Display.getCurrent().getActiveShell(),
+                        createEditConnectorWizard(connector));
+                if (wizardDialog.open() == Dialog.OK) {
+                    tableViewer.refresh();
                 }
             }
         }
     }
 
-
     protected ConnectorWizard createEditConnectorWizard(final Connector connector) {
-        return new ConnectorWizard(connector,getConnectorFeature(),getConnectorFeatureToCheckUniqueID());
+        return new ConnectorWizard(connector, getConnectorFeature(), getConnectorFeatureToCheckUniqueID());
     }
 
     protected boolean getShowAutoGenerateForm() {
@@ -296,13 +290,11 @@ public class ConnectorSection extends AbstractBonitaDescriptionSection implement
         return res;
     }
 
-
     protected void refreshBindings() {
         if (tableViewer != null && getEObject() != null) {
             bindTree();
         }
     }
-
 
     private void bindTree() {
         final IEMFEditListProperty list = EMFEditProperties.list(getEditingDomain(), getConnectorFeature());
@@ -311,7 +303,7 @@ public class ConnectorSection extends AbstractBonitaDescriptionSection implement
 
             @Override
             public void handleChange(final ChangeEvent event) {
-                if(!tableViewer.getTable().isDisposed()){
+                if (!tableViewer.getTable().isDisposed()) {
                     tableViewer.setInput(getEObject());
                 }
             }
@@ -320,16 +312,14 @@ public class ConnectorSection extends AbstractBonitaDescriptionSection implement
         updateButtons();
     }
 
-
     protected void refreshTree() {
-        if(!tableViewer.getTable().isDisposed()){
+        if (!tableViewer.getTable().isDisposed()) {
             tableViewer.setInput(getEObject());
         }
     }
 
     /*
      * (non-Javadoc)
-     *
      * @see org.eclipse.gmf.runtime.diagram.ui.properties.sections.
      * AbstractModelerPropertySection#setEObject(org.eclipse.emf.ecore.EObject)
      */
@@ -341,7 +331,6 @@ public class ConnectorSection extends AbstractBonitaDescriptionSection implement
 
     /*
      * (non-Javadoc)
-     *
      * @see org.eclipse.gmf.runtime.diagram.ui.properties.sections.
      * AbstractModelerPropertySection#getEObject()
      */
@@ -354,13 +343,13 @@ public class ConnectorSection extends AbstractBonitaDescriptionSection implement
         return eObject;
     }
 
-
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see org.eclipse.gmf.runtime.diagram.ui.properties.sections.AbstractModelerPropertySection#dispose()
      */
     @Override
     public void dispose() {
-        super.dispose() ;
+        super.dispose();
     }
 
     @Override
@@ -370,7 +359,7 @@ public class ConnectorSection extends AbstractBonitaDescriptionSection implement
 
     @Override
     public void selectionChanged(final SelectionChangedEvent event) {
-        updateButtons() ;
+        updateButtons();
     }
 
     /**
@@ -381,6 +370,7 @@ public class ConnectorSection extends AbstractBonitaDescriptionSection implement
         final Button addConnectorButton = getWidgetFactory().createButton(buttonsComposite, Messages.up, SWT.FLAT);
         addConnectorButton.setLayoutData(GridDataFactory.fillDefaults().minSize(IDialogConstants.BUTTON_WIDTH, SWT.DEFAULT).create());
         addConnectorButton.addListener(SWT.Selection, new Listener() {
+
             @Override
             public void handleEvent(final Event event) {
                 moveSelectedConnector(-1);
@@ -397,6 +387,7 @@ public class ConnectorSection extends AbstractBonitaDescriptionSection implement
         final Button addConnectorButton = getWidgetFactory().createButton(buttonsComposite, Messages.down, SWT.FLAT);
         addConnectorButton.setLayoutData(GridDataFactory.fillDefaults().minSize(IDialogConstants.BUTTON_WIDTH, SWT.DEFAULT).create());
         addConnectorButton.addListener(SWT.Selection, new Listener() {
+
             @Override
             public void handleEvent(final Event event) {
                 moveSelectedConnector(+1);
@@ -405,19 +396,15 @@ public class ConnectorSection extends AbstractBonitaDescriptionSection implement
         return addConnectorButton;
     }
 
-
-
     private void moveSelectedConnector(final int diff) {
-        final EObject selectConnector = (EObject) ((IStructuredSelection) tableViewer.getSelection()).getFirstElement() ;
+        final EObject selectConnector = (EObject) ((IStructuredSelection) tableViewer.getSelection()).getFirstElement();
         @SuppressWarnings("unchecked")
-        final
-        EList<Connector> connectors = (EList<Connector>) getEObject().eGet(getConnectorFeature());
+        final EList<Connector> connectors = (EList<Connector>) getEObject().eGet(getConnectorFeature());
         final int destIndex = connectors.indexOf(selectConnector) + diff;
         final Command c = new MoveCommand(getEditingDomain(), connectors, selectConnector, destIndex);
         getEditingDomain().getCommandStack().execute(c);
         refresh();
     }
-
 
     @Override
     public String getSectionDescription() {

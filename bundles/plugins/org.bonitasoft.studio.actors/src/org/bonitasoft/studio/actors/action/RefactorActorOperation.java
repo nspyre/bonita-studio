@@ -5,12 +5,10 @@
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2.0 of the License, or
  * (at your option) any later version.
- *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- *
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
@@ -61,7 +59,8 @@ public class RefactorActorOperation extends AbstractRefactorOperation<String, Ac
         monitor.beginTask(Messages.updateActorReferences, IProgressMonitor.UNKNOWN);
         final String id = ModelHelper.getEObjectID(process);
         final String fileName = id + ".conf";
-        final ProcessConfigurationRepositoryStore processConfStore = (ProcessConfigurationRepositoryStore) RepositoryManager.getInstance().getCurrentRepository()
+        final ProcessConfigurationRepositoryStore processConfStore = (ProcessConfigurationRepositoryStore) RepositoryManager.getInstance()
+                .getCurrentRepository()
                 .getRepositoryStore(ProcessConfigurationRepositoryStore.class);
         final ProcessConfigurationFileStore file = processConfStore.getChild(fileName);
         Configuration localeConfiguration = null;
@@ -79,7 +78,7 @@ public class RefactorActorOperation extends AbstractRefactorOperation<String, Ac
         if (compoundCommand == null) {
             compoundCommand = new CompoundCommand();
         }
-        for(final ActorRefactorPair pairToRefactor : pairsToRefactor){
+        for (final ActorRefactorPair pairToRefactor : pairsToRefactor) {
             final Actor actor = pairToRefactor.getOldValue();
             for (final Configuration configuration : configurations) {
                 if (configuration.getActorMappings() != null) {
@@ -101,7 +100,8 @@ public class RefactorActorOperation extends AbstractRefactorOperation<String, Ac
 
     @Override
     protected AbstractScriptExpressionRefactoringAction<ActorRefactorPair> getScriptExpressionRefactoringAction(final List<ActorRefactorPair> pairsToRefactor,
-            final List<Expression> scriptExpressions, final List<Expression> refactoredScriptExpression, final CompoundCommand compoundCommand, final EditingDomain domain,
+            final List<Expression> scriptExpressions, final List<Expression> refactoredScriptExpression, final CompoundCommand compoundCommand,
+            final EditingDomain domain,
             final RefactoringOperationType operationType) {
         return null;
     }

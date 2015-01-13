@@ -5,14 +5,12 @@
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2.0 of the License, or
  * (at your option) any later version.
- *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package org.bonitasoft.studio.engine.operation;
 
@@ -36,7 +34,6 @@ import org.junit.Test;
 
 /**
  * @author Romain Bioteau
- *
  */
 public class ApplicationURLBuilderTest {
 
@@ -58,7 +55,7 @@ public class ApplicationURLBuilderTest {
         doReturn("bpm").when(applicationURLBuilder).getDefaultPassword();
         doReturn(configuration).when(applicationURLBuilder).getConfiguration();
         loginURL = "http://fakeLoginURL";
-        doReturn(loginURL).when(applicationURLBuilder).buildLoginUrl(anyString(),anyString());
+        doReturn(loginURL).when(applicationURLBuilder).buildLoginUrl(anyString(), anyString());
     }
 
     /**
@@ -75,11 +72,12 @@ public class ApplicationURLBuilderTest {
     public void shouldToURL_RetursAValidURL() throws Exception {
         final URL url = applicationURLBuilder.toURL(Repository.NULL_PROGRESS_MONITOR);
         assertThat(url).isNotNull();
-        final String validApplicationPath = URLEncoder.encode("portal/homepage","UTF-8");
-        final String validProcessReference = URLEncoder.encode("form=","UTF-8");
-        final String validMode = URLEncoder.encode("mode=app","UTF-8");
-        final String validLocale = URLEncoder.encode("locale=fr","UTF-8");
-        assertThat(url.toString()).contains(validApplicationPath).contains(validProcessReference).contains(validMode).contains(validLocale).startsWith(loginURL);
+        final String validApplicationPath = URLEncoder.encode("portal/homepage", "UTF-8");
+        final String validProcessReference = URLEncoder.encode("form=", "UTF-8");
+        final String validMode = URLEncoder.encode("mode=app", "UTF-8");
+        final String validLocale = URLEncoder.encode("locale=fr", "UTF-8");
+        assertThat(url.toString()).contains(validApplicationPath).contains(validProcessReference).contains(validMode).contains(validLocale)
+                .startsWith(loginURL);
     }
 
 }

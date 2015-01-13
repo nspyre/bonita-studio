@@ -5,14 +5,12 @@
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2.0 of the License, or
  * (at your option) any later version.
- *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package org.bonitasoft.studio.importer.bar.custom.migration;
 
@@ -25,17 +23,16 @@ import org.eclipse.emf.edapt.migration.Model;
 
 /**
  * @author Romain Bioteau
- *
  */
 public class UpdateModelVersion extends CustomMigration {
 
-	@Override
-	public void migrateAfter(Model model, Metamodel metamodel)
-			throws MigrationException {
-		for(Instance mainProc : model.getAllInstances("process.MainProcess")){
-			mainProc.set("bonitaVersion", ProductVersion.VERSION_6_0_0_ALPHA);
-			mainProc.set("bonitaModelVersion", ProductVersion.VERSION_6_0_0_ALPHA);
-		}
-	}
-	
+    @Override
+    public void migrateAfter(Model model, Metamodel metamodel)
+            throws MigrationException {
+        for (Instance mainProc : model.getAllInstances("process.MainProcess")) {
+            mainProc.set("bonitaVersion", ProductVersion.VERSION_6_0_0_ALPHA);
+            mainProc.set("bonitaModelVersion", ProductVersion.VERSION_6_0_0_ALPHA);
+        }
+    }
+
 }

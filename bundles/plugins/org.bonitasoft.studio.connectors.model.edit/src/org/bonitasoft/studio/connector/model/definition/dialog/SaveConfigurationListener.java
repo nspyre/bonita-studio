@@ -5,14 +5,12 @@
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2.0 of the License, or
  * (at your option) any later version.
- *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package org.bonitasoft.studio.connector.model.definition.dialog;
 
@@ -26,30 +24,31 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
 
-
 /**
  * @author Romain Bioteau
- *
  */
 public class SaveConfigurationListener implements Listener {
 
     private final IRepositoryStore<? extends IRepositoryFileStore> store;
     private final ConnectorConfiguration configuration;
     private final WizardDialog dialog;
-    public SaveConfigurationListener(WizardDialog dialog,ConnectorConfiguration configuration,IRepositoryStore<? extends IRepositoryFileStore> configurationStore) {
-        store = configurationStore ;
-        this.configuration = configuration ;
-        this.dialog = dialog ;
+
+    public SaveConfigurationListener(WizardDialog dialog, ConnectorConfiguration configuration,
+            IRepositoryStore<? extends IRepositoryFileStore> configurationStore) {
+        store = configurationStore;
+        this.configuration = configuration;
+        this.dialog = dialog;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see org.eclipse.swt.widgets.Listener#handleEvent(org.eclipse.swt.widgets.Event)
      */
     @Override
     public void handleEvent(Event event) {
-        WizardDialog saveDialog = new WizardDialog(Display.getDefault().getActiveShell(), new SaveConnectorConfigurationWizard(configuration,store)) ;
-        if(saveDialog.open() == Dialog.OK){
-            dialog.updateButtons() ;
+        WizardDialog saveDialog = new WizardDialog(Display.getDefault().getActiveShell(), new SaveConnectorConfigurationWizard(configuration, store));
+        if (saveDialog.open() == Dialog.OK) {
+            dialog.updateButtons();
         }
     }
 

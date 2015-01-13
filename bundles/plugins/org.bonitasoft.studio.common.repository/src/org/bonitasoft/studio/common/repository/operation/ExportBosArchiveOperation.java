@@ -5,14 +5,12 @@
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2.0 of the License, or
  * (at your option) any later version.
- *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package org.bonitasoft.studio.common.repository.operation;
 
@@ -43,10 +41,8 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.ui.internal.wizards.datatransfer.ArchiveFileExportOperation;
 
-
 /**
  * @author Romain Bioteau
- *
  */
 public class ExportBosArchiveOperation {
 
@@ -62,78 +58,77 @@ public class ExportBosArchiveOperation {
     private IFile manifestFile;
     private Set<IResource> resourcesToReOpen;
 
-    public IStatus run(final IProgressMonitor monitor){
-        status = Status.OK_STATUS ;
+    public IStatus run(final IProgressMonitor monitor) {
+        status = Status.OK_STATUS;
 
-        Assert.isNotNull(destPath) ;
-        Assert.isNotNull(resources) ;
+        Assert.isNotNull(destPath);
+        Assert.isNotNull(resources);
 
         final File destFile = new File(destPath);
-        if(destFile.exists()){
-            if(FileActionDialog.overwriteQuestion(destFile.getName())){
-                PlatformUtil.delete(destFile, monitor) ;
-            }else{
-                status = Status.CANCEL_STATUS ;
-                return status ;
+        if (destFile.exists()) {
+            if (FileActionDialog.overwriteQuestion(destFile.getName())) {
+                PlatformUtil.delete(destFile, monitor);
+            } else {
+                status = Status.CANCEL_STATUS;
+                return status;
             }
         }
 
-        if(!destFile.getParentFile().exists()){
-            destFile.getParentFile().mkdirs() ;
+        if (!destFile.getParentFile().exists()) {
+            destFile.getParentFile().mkdirs();
         }
 
-
         status = addManifest();
-        if(!status.isOK()){
+        if (!status.isOK()) {
             return status;
         }
 
-        final ArchiveFileExportOperation op = new ArchiveFileExportOperation(null, new ArrayList<IResource>(resources),destPath) ;
+        final ArchiveFileExportOperation op = new ArchiveFileExportOperation(null, new ArrayList<IResource>(resources), destPath);
         op.setCreateLeadupStructure(true);
         op.setUseCompression(true);
         op.setUseTarFormat(false);
         try {
-            op.run(monitor) ;
-            if(manifestFile != null && manifestFile.exists()){
+            op.run(monitor);
+            if (manifestFile != null && manifestFile.exists()) {
                 manifestFile.delete(true, Repository.NULL_PROGRESS_MONITOR);
             }
         } catch (final InvocationTargetException e) {
-            BonitaStudioLog.error(e) ;
+            BonitaStudioLog.error(e);
         } catch (final InterruptedException e) {
-            BonitaStudioLog.error(e) ;
+            BonitaStudioLog.error(e);
         } catch (final CoreException e) {
-            status = new Status(IStatus.ERROR, CommonRepositoryPlugin.PLUGIN_ID,  e.getMessage(),e);
+            status = new Status(IStatus.ERROR, CommonRepositoryPlugin.PLUGIN_ID, e.getMessage(), e);
             return status;
         }
 
         status = op.getStatus();
-        return  status;
+        return status;
     }
 
     protected IStatus addManifest() {
         manifestFile = RepositoryManager.getInstance().getCurrentRepository().getProject().getFile(BOS_ARCHIVE_MANIFEST);
-        if(manifestFile.exists()){
+        if (manifestFile.exists()) {
             try {
-                manifestFile.delete(true,  Repository.NULL_PROGRESS_MONITOR);
+                manifestFile.delete(true, Repository.NULL_PROGRESS_MONITOR);
             } catch (final CoreException e) {
                 BonitaStudioLog.error(e);
-                return new Status(IStatus.ERROR, CommonRepositoryPlugin.PLUGIN_ID,  e.getMessage(),e);
+                return new Status(IStatus.ERROR, CommonRepositoryPlugin.PLUGIN_ID, e.getMessage(), e);
             }
         }
         final Properties prop = new Properties();
         prop.put(VERSION, ProductVersion.CURRENT_VERSION);
 
-        if(resourcesToReOpen != null &&!resourcesToReOpen.isEmpty()){
+        if (resourcesToReOpen != null && !resourcesToReOpen.isEmpty()) {
             final StringBuilder sb = new StringBuilder();
-            for(final IResource r : resourcesToReOpen){
+            for (final IResource r : resourcesToReOpen) {
                 sb.append(r.getName());
                 sb.append(",");
             }
-            if(sb.length() > 0){
-                sb.delete(sb.length()-1, sb.length());
+            if (sb.length() > 0) {
+                sb.delete(sb.length() - 1, sb.length());
             }
             prop.put(TO_OPEN, sb.toString());
-        }else{
+        } else {
             prop.put(TO_OPEN, NONE);
         }
 
@@ -142,32 +137,32 @@ public class ExportBosArchiveOperation {
             prop.store(w, BOS_MANIFEST_COMMENT);
         } catch (final IOException e) {
             BonitaStudioLog.error(e);
-            return new Status(IStatus.ERROR, CommonRepositoryPlugin.PLUGIN_ID,  e.getMessage(),e);
+            return new Status(IStatus.ERROR, CommonRepositoryPlugin.PLUGIN_ID, e.getMessage(), e);
         }
 
         final InputStream source = new ByteArrayInputStream(w.toString().getBytes());
         try {
             manifestFile.create(source, IResource.FORCE, Repository.NULL_PROGRESS_MONITOR);
         } catch (final CoreException e1) {
-            return new Status(IStatus.ERROR, CommonRepositoryPlugin.PLUGIN_ID,  e1.getMessage(),e1);
+            return new Status(IStatus.ERROR, CommonRepositoryPlugin.PLUGIN_ID, e1.getMessage(), e1);
         }
         resources.add(manifestFile);
-        return Status.OK_STATUS ;
+        return Status.OK_STATUS;
     }
 
-    public IStatus getStatus(){
-        return status ;
+    public IStatus getStatus() {
+        return status;
     }
 
-    public void setResources(final Set<IResource> resourcesToExport){
-        resources = resourcesToExport ;
+    public void setResources(final Set<IResource> resourcesToExport) {
+        resources = resourcesToExport;
     }
 
-    public void setResourcesToOpen(final Set<IResource> resourcesToReopenAtImport){
-        resourcesToReOpen = resourcesToReopenAtImport ;
+    public void setResourcesToOpen(final Set<IResource> resourcesToReopenAtImport) {
+        resourcesToReOpen = resourcesToReopenAtImport;
     }
 
-    public void setDestinationPath(final String destPath){
-        this.destPath = destPath ;
+    public void setDestinationPath(final String destPath) {
+        this.destPath = destPath;
     }
 }

@@ -315,7 +315,7 @@ public class SWTBotTestUtil implements SWTBotConstants {
         final SWTBotTree tree = bot.treeWithId(BONITA_OVERVIEW_TREE_ID);
         tree.setFocus();
         tree.getTreeItem(poolName).click();
-        if (laneName==null){
+        if (laneName == null) {
             tree.expandNode(poolName).select(eventName);
         } else {
             tree.expandNode(poolName).expandNode(laneName);
@@ -591,7 +591,6 @@ public class SWTBotTestUtil implements SWTBotConstants {
     }
 
     /**
-     *
      * @param bot
      * @param taskName
      * @param newDiagramName
@@ -610,11 +609,10 @@ public class SWTBotTestUtil implements SWTBotConstants {
         bot.waitUntil(Conditions.widgetIsEnabled(bot.button(org.bonitasoft.studio.common.Messages.edit)));
         bot.button(org.bonitasoft.studio.common.Messages.edit).click();
 
-
         // Open new Shell
         bot.waitUntil(Conditions.shellIsActive(org.bonitasoft.studio.common.Messages.openNameAndVersionDialogTitle));
 
-        bot.textWithLabel(org.bonitasoft.studio.common.Messages.name,0).setText(newDiagramName);
+        bot.textWithLabel(org.bonitasoft.studio.common.Messages.name, 0).setText(newDiagramName);
         bot.button(IDialogConstants.OK_LABEL).click();
 
     }
@@ -1052,7 +1050,6 @@ public class SWTBotTestUtil implements SWTBotConstants {
         }
 
     }
-
 
     public static void selectExpressionProposal(final SWTBot bot, final String storageExpressionName, final String returnType, final int index) {
         bot.toolbarButtonWithId(SWTBOT_ID_EXPRESSIONVIEWER_DROPDOWN, index).click();

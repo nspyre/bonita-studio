@@ -5,12 +5,10 @@
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2.0 of the License, or
  * (at your option) any later version.
- *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- *
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
@@ -49,9 +47,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetWidgetFactory;
 
 /**
- *
  * @author Baptiste Mesta
- *
  */
 public class DefaultValueContribution implements IExtensibleGridPropertySectionContribution {
 
@@ -68,7 +64,8 @@ public class DefaultValueContribution implements IExtensibleGridPropertySectionC
 
     private InitialValueExpressionFilter expressionFilter;
 
-    public void createControl(final Composite composite, final TabbedPropertySheetWidgetFactory widgetFactory, final ExtensibleGridPropertySection extensibleGridPropertySection) {
+    public void createControl(final Composite composite, final TabbedPropertySheetWidgetFactory widgetFactory,
+            final ExtensibleGridPropertySection extensibleGridPropertySection) {
         final GridLayout layout = new GridLayout(2, false);
 
         layout.marginHeight = InitialValueContribution.MARGIN_HEIGHT;

@@ -33,12 +33,10 @@ public class BotFormDiagramPropertiesViewFolder extends BotBase {
         return new BotGeneralFormPropertiesView(bot);
     }
 
-
     public void selectAppearanceTab() {
         bot.viewById(SWTBotTestUtil.VIEWS_PROPERTIES_APPEARANCE).show();
         //TODO:
     }
-
 
     public void selectValidationStatusTab() {
         bot.viewById(SWTBotTestUtil.VIEWS_PROPERTIES_VALIDATION_STATUS).show();

@@ -5,14 +5,12 @@
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2.0 of the License, or
  * (at your option) any later version.
- *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package org.bonitasoft.studio.connector.model.definition.wizard;
 
@@ -38,10 +36,8 @@ import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 
-
 /**
  * @author Romain Bioteau
- *
  */
 public abstract class AbstractConnectorConfigurationWizardPage extends WizardPage implements IBonitaVariableContext {
 
@@ -52,40 +48,39 @@ public abstract class AbstractConnectorConfigurationWizardPage extends WizardPag
     private final EMFDataBindingContext context;
     private WizardPageSupport supportPage;
     private DefinitionResourceProvider messageProvider;
-    private AvailableExpressionTypeFilter connectorExpressionContentTypeFilter ;
+    private AvailableExpressionTypeFilter connectorExpressionContentTypeFilter;
     private boolean isPageFlowContext = false;
 
-    public AbstractConnectorConfigurationWizardPage(){
-        this(AbstractConnectorConfigurationWizardPage.class.getName()) ;
+    public AbstractConnectorConfigurationWizardPage() {
+        this(AbstractConnectorConfigurationWizardPage.class.getName());
     }
 
-    public AbstractConnectorConfigurationWizardPage(final String pageName){
-        super(pageName) ;
-        context = new EMFDataBindingContext() ;
+    public AbstractConnectorConfigurationWizardPage(final String pageName) {
+        super(pageName);
+        context = new EMFDataBindingContext();
     }
-
 
     @Override
     public final void createControl(final Composite parent) {
         final Control control = doCreateControl(parent, context);
-        supportPage = WizardPageSupport.create(this, context) ;
+        supportPage = WizardPageSupport.create(this, context);
         setControl(control);
     }
 
-    protected EMFDataBindingContext getDatabindingContext(){
-    	return context;
+    protected EMFDataBindingContext getDatabindingContext() {
+        return context;
     }
 
-    protected abstract Control doCreateControl(Composite parent,EMFDataBindingContext context) ;
+    protected abstract Control doCreateControl(Composite parent, EMFDataBindingContext context);
 
     @Override
     public void dispose() {
         super.dispose();
-        if(supportPage != null){
-            supportPage.dispose() ;
+        if (supportPage != null) {
+            supportPage.dispose();
         }
-        if(context != null){
-            context.dispose() ;
+        if (context != null) {
+            context.dispose();
         }
     }
 
@@ -103,12 +98,11 @@ public abstract class AbstractConnectorConfigurationWizardPage extends WizardPag
 
     public void setPage(final Page page) {
         this.page = page;
-        if(messageProvider != null){
-            setTitle(messageProvider.getPageTitle(definition, page.getId())) ;
-            setDescription(messageProvider.getPageDescription(definition, page.getId())) ;
+        if (messageProvider != null) {
+            setTitle(messageProvider.getPageTitle(definition, page.getId()));
+            setDescription(messageProvider.getPageDescription(definition, page.getId()));
         }
     }
-
 
     public EObject getElementContainer() {
         return elementContainer;
@@ -135,85 +129,85 @@ public abstract class AbstractConnectorConfigurationWizardPage extends WizardPag
     }
 
     protected Input getInput(final String inputName) {
-		for(final Input input : getDefinition().getInput()){
-			if(input.getName().equals(inputName)){
-				return input;
-			}
-		}
-		throw new IllegalArgumentException("Input "+inputName +" not found in connector definition "+getDefinition().getId());
-	}
+        for (final Input input : getDefinition().getInput()) {
+            if (input.getName().equals(inputName)) {
+                return input;
+            }
+        }
+        throw new IllegalArgumentException("Input " + inputName + " not found in connector definition " + getDefinition().getId());
+    }
 
     protected ConnectorParameter getConnectorParameter(final Input input) {
-		for(final ConnectorParameter param : configuration.getParameters()){
-			if(param.getKey().equals(input.getName())){
-				if(param.getExpression() == null){
-					param.setExpression(createExpression(input)) ;
-				}
-				return param ;
-			}
-		}
+        for (final ConnectorParameter param : configuration.getParameters()) {
+            if (param.getKey().equals(input.getName())) {
+                if (param.getExpression() == null) {
+                    param.setExpression(createExpression(input));
+                }
+                return param;
+            }
+        }
 
-		final ConnectorParameter parameter = ConnectorConfigurationFactory.eINSTANCE.createConnectorParameter() ;
-		parameter.setKey(input.getName()) ;
-		parameter.setExpression(createExpression(input)) ;
-		getConfiguration().getParameters().add(parameter) ;
+        final ConnectorParameter parameter = ConnectorConfigurationFactory.eINSTANCE.createConnectorParameter();
+        parameter.setKey(input.getName());
+        parameter.setExpression(createExpression(input));
+        getConfiguration().getParameters().add(parameter);
 
-		return parameter ;
-	}
+        return parameter;
+    }
 
-	protected AbstractExpression createExpression(final Input input) {
-		final String inputClassName = input.getType() ;
-		final Expression expression = ExpressionFactory.eINSTANCE.createExpression() ;
-		expression.setReturnType(inputClassName) ;
-		expression.setReturnTypeFixed(true) ;
-		expression.setType(ExpressionConstants.CONSTANT_TYPE) ;
-		expression.setName(input.getDefaultValue()) ;
-		expression.setContent(input.getDefaultValue()) ;
-		return expression ;
-	}
+    protected AbstractExpression createExpression(final Input input) {
+        final String inputClassName = input.getType();
+        final Expression expression = ExpressionFactory.eINSTANCE.createExpression();
+        expression.setReturnType(inputClassName);
+        expression.setReturnTypeFixed(true);
+        expression.setType(ExpressionConstants.CONSTANT_TYPE);
+        expression.setName(input.getDefaultValue());
+        expression.setContent(input.getDefaultValue());
+        return expression;
+    }
 
     @Override
     public IWizardPage getPreviousPage() {
         final IWizard wizard = getWizard();
-        if(wizard != null){
+        if (wizard != null) {
             return wizard.getPreviousPage(this);
         }
         return super.getPreviousPage();
     }
 
-	public AvailableExpressionTypeFilter getExpressionTypeFilter() {
-		return connectorExpressionContentTypeFilter;
-	}
+    public AvailableExpressionTypeFilter getExpressionTypeFilter() {
+        return connectorExpressionContentTypeFilter;
+    }
 
-	public void setExpressionTypeFilter(final AvailableExpressionTypeFilter connectorExpressionContentTypeFilter) {
-		this.connectorExpressionContentTypeFilter = connectorExpressionContentTypeFilter;
-	}
+    public void setExpressionTypeFilter(final AvailableExpressionTypeFilter connectorExpressionContentTypeFilter) {
+        this.connectorExpressionContentTypeFilter = connectorExpressionContentTypeFilter;
+    }
 
-	@Override
-	public boolean isPageFlowContext() {
+    @Override
+    public boolean isPageFlowContext() {
 
-		return isPageFlowContext;
-	}
+        return isPageFlowContext;
+    }
 
-	@Override
-	public void setIsPageFlowContext(final boolean isPageFlowContext) {
-		this.isPageFlowContext = isPageFlowContext;
-	}
+    @Override
+    public void setIsPageFlowContext(final boolean isPageFlowContext) {
+        this.isPageFlowContext = isPageFlowContext;
+    }
 
+    /*
+     * (non-Javadoc)
+     * @see org.bonitasoft.studio.common.IBonitaVariableContext#isOverViewContext()
+     */
+    @Override
+    public boolean isOverViewContext() {
+        return false;
+    }
 
-
-	/* (non-Javadoc)
-	 * @see org.bonitasoft.studio.common.IBonitaVariableContext#isOverViewContext()
-	 */
-	@Override
-	public boolean isOverViewContext() {
-		return false;
-	}
-
-	/* (non-Javadoc)
-	 * @see org.bonitasoft.studio.common.IBonitaVariableContext#setIsOverviewContext(boolean)
-	 */
-	@Override
-	public void setIsOverviewContext(final boolean isOverviewContext) {
-	}
+    /*
+     * (non-Javadoc)
+     * @see org.bonitasoft.studio.common.IBonitaVariableContext#setIsOverviewContext(boolean)
+     */
+    @Override
+    public void setIsOverviewContext(final boolean isOverviewContext) {
+    }
 }

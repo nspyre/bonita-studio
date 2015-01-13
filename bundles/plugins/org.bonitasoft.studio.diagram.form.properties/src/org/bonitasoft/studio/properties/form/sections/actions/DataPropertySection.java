@@ -30,7 +30,6 @@ import org.eclipse.swt.layout.GridData;
 
 public class DataPropertySection extends ExtensibleGridPropertySection {
 
-
     public static final int FIELD_WIDTH = 200;
     public static final GridData GRID_DATA = new GridData(SWT.FILL, SWT.FILL, false, false);
 
@@ -38,7 +37,6 @@ public class DataPropertySection extends ExtensibleGridPropertySection {
         super();
         GRID_DATA.widthHint = FIELD_WIDTH;
     }
-
 
     @Override
     protected void addContributions() {
@@ -54,8 +52,8 @@ public class DataPropertySection extends ExtensibleGridPropertySection {
                     this.getClass().getName())) {
                 try {
                     contribs
-                    .add((IExtensibleGridPropertySectionContribution) elem
-                            .createExecutableExtension("class"));
+                            .add((IExtensibleGridPropertySectionContribution) elem
+                                    .createExecutableExtension("class"));
                 } catch (final CoreException e) {
                     BonitaStudioLog.error(e);
                 }
@@ -85,18 +83,12 @@ public class DataPropertySection extends ExtensibleGridPropertySection {
         addContribution(new OutputSectionContribution());
         addContribution(new ItemAlignmentContribution());
 
-
     }
-
-
-
-
 
     @Override
     public String getSectionDescription() {
         // TODO Auto-generated method stub
         return null;
     }
-
 
 }

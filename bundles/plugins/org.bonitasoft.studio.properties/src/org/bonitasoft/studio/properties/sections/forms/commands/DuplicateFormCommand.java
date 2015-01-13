@@ -5,14 +5,12 @@
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2.0 of the License, or
  * (at your option) any later version.
- *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package org.bonitasoft.studio.properties.sections.forms.commands;
 
@@ -41,13 +39,12 @@ import org.eclipse.gmf.runtime.common.core.command.CommandResult;
 import org.eclipse.gmf.runtime.emf.commands.core.command.AbstractTransactionalCommand;
 
 /**
- * 
- *  allow to duplicate an existing Form
+ * allow to duplicate an existing Form
  * 
  * @author Baptiste Mesta
  * @author Aurelien Pupier - use AbstractTransactionalCommand to avoid memory leaks (instead of Command)
  */
-public class DuplicateFormCommand  extends AbstractTransactionalCommand {
+public class DuplicateFormCommand extends AbstractTransactionalCommand {
 
     private final Element pageFlow;
     private final Form baseForm;
@@ -55,7 +52,8 @@ public class DuplicateFormCommand  extends AbstractTransactionalCommand {
     private final String formDesc;
     private final EStructuralFeature feature;
 
-    public DuplicateFormCommand(Element pageFlow, EStructuralFeature feature, Form baseForm, String id, String formDesc, TransactionalEditingDomain editingDomain) {
+    public DuplicateFormCommand(Element pageFlow, EStructuralFeature feature, Form baseForm, String id, String formDesc,
+            TransactionalEditingDomain editingDomain) {
         super(editingDomain, "Duplicate form", getWorkspaceFiles(pageFlow));
         this.pageFlow = pageFlow;
         this.baseForm = baseForm;
@@ -64,26 +62,25 @@ public class DuplicateFormCommand  extends AbstractTransactionalCommand {
         this.feature = feature;
     }
 
-
     @SuppressWarnings("unchecked")
     @Override
     protected CommandResult doExecuteWithResult(IProgressMonitor monitor,
             IAdaptable info) throws ExecutionException {
 
         Form form;
-        if(baseForm instanceof ViewForm){
-            if(feature.getEType().equals(FormPackage.Literals.VIEW_FORM)){
+        if (baseForm instanceof ViewForm) {
+            if (feature.getEType().equals(FormPackage.Literals.VIEW_FORM)) {
                 //nothing to convert
                 form = EcoreUtil.copy(baseForm);
-            }else{
+            } else {
                 form = FormFactory.eINSTANCE.createForm();
                 CopyEObjectFeaturesCommand.copyFeatures(EcoreUtil.copy(baseForm), form);
             }
-        }else{
-            if(feature.getEType().equals(FormPackage.Literals.FORM)){
+        } else {
+            if (feature.getEType().equals(FormPackage.Literals.FORM)) {
                 //nothing to convert
                 form = EcoreUtil.copy(baseForm);
-            }else{
+            } else {
                 form = FormFactory.eINSTANCE.createViewForm();
                 CopyEObjectFeaturesCommand.copyFeatures(EcoreUtil.copy(baseForm), form);
                 cleanWidgetsContingenciesPropertiesOfForm(form);
@@ -94,42 +91,40 @@ public class DuplicateFormCommand  extends AbstractTransactionalCommand {
         form.setDocumentation(formDesc);
         ((List<Form>) pageFlow.eGet(feature)).add(form);
         //remove data out of the scope
-        ModelHelper.removedReferencedEObjects(form,pageFlow);
+        ModelHelper.removedReferencedEObjects(form, pageFlow);
 
         FormsUtils.createDiagram(form, getEditingDomain(), pageFlow);
-        FormsUtils.openDiagram(form,getEditingDomain());
+        FormsUtils.openDiagram(form, getEditingDomain());
         return CommandResult.newOKCommandResult(form);
     }
 
-
-    protected void cleanWidgetsContingenciesPropertiesOfForm(Form form){
+    protected void cleanWidgetsContingenciesPropertiesOfForm(Form form) {
         List<Widget> widgets = form.getWidgets();
-        for(Widget widget : widgets){
-            if( widget.getDependOn() != null ){
+        for (Widget widget : widgets) {
+            if (widget.getDependOn() != null) {
                 widget.getDependOn().clear();
             }
             Expression displayAfterEventDependsOnConditionScript = widget.getDisplayAfterEventDependsOnConditionScript();
-            if(displayAfterEventDependsOnConditionScript != null){
+            if (displayAfterEventDependsOnConditionScript != null) {
                 ExpressionHelper.clearExpression(displayAfterEventDependsOnConditionScript);
             }
-            Expression displayDependentWidgetOnlyAfterFirstEventTriggeredAndCondition = widget.getDisplayDependentWidgetOnlyAfterFirstEventTriggeredAndCondition();
-            if(displayDependentWidgetOnlyAfterFirstEventTriggeredAndCondition != null){
+            Expression displayDependentWidgetOnlyAfterFirstEventTriggeredAndCondition = widget
+                    .getDisplayDependentWidgetOnlyAfterFirstEventTriggeredAndCondition();
+            if (displayDependentWidgetOnlyAfterFirstEventTriggeredAndCondition != null) {
                 ExpressionHelper.clearExpression(displayDependentWidgetOnlyAfterFirstEventTriggeredAndCondition);
             }
             Expression afterEventExpression = widget.getAfterEventExpression();
-            if(afterEventExpression != null){
+            if (afterEventExpression != null) {
                 ExpressionHelper.clearExpression(afterEventExpression);
             }
-            if(widget instanceof MultipleValuatedFormField){
-                Expression defaultExpressionAfterEvent = ((MultipleValuatedFormField)widget).getDefaultExpressionAfterEvent();
-                if(defaultExpressionAfterEvent != null){
+            if (widget instanceof MultipleValuatedFormField) {
+                Expression defaultExpressionAfterEvent = ((MultipleValuatedFormField) widget).getDefaultExpressionAfterEvent();
+                if (defaultExpressionAfterEvent != null) {
                     ExpressionHelper.clearExpression(defaultExpressionAfterEvent);
                 }
             }
 
-
         }
     }
-
 
 }

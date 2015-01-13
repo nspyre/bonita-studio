@@ -5,14 +5,12 @@
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2.0 of the License, or
  * (at your option) any later version.
- *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package org.bonitasoft.studio.debug.coolbar;
 
@@ -46,11 +44,11 @@ import org.eclipse.ui.commands.ICommandService;
 
 /**
  * @author Romain Bioteau
- *
  */
 public class DebugCoolbarItem implements IBonitaContributionItem {
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see org.eclipse.jface.action.IContributionItem#dispose()
      */
     @Override
@@ -58,19 +56,24 @@ public class DebugCoolbarItem implements IBonitaContributionItem {
 
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see org.eclipse.jface.action.IContributionItem#fill(org.eclipse.swt.widgets.Composite)
      */
     @Override
-    public void fill(Composite parent) {}
+    public void fill(Composite parent) {
+    }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see org.eclipse.jface.action.IContributionItem#fill(org.eclipse.swt.widgets.Menu, int)
      */
     @Override
-    public void fill(Menu parent, int index) {}
+    public void fill(Menu parent, int index) {
+    }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see org.eclipse.jface.action.IContributionItem#fill(org.eclipse.swt.widgets.ToolBar, int)
      */
     @Override
@@ -79,18 +82,21 @@ public class DebugCoolbarItem implements IBonitaContributionItem {
     }
 
     private Command getCommand() {
-        ICommandService service = (ICommandService)PlatformUI.getWorkbench().getService(ICommandService.class);
-        Command cmd = service.getCommand("org.bonitasoft.studio.debug.debugProcess") ;
+        ICommandService service = (ICommandService) PlatformUI.getWorkbench().getService(ICommandService.class);
+        Command cmd = service.getCommand("org.bonitasoft.studio.debug.debugProcess");
         return cmd;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see org.eclipse.jface.action.IContributionItem#fill(org.eclipse.swt.widgets.CoolBar, int)
      */
     @Override
-    public void fill(CoolBar parent, int index) {}
+    public void fill(CoolBar parent, int index) {
+    }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see org.eclipse.jface.action.IContributionItem#getId()
      */
     @Override
@@ -98,7 +104,8 @@ public class DebugCoolbarItem implements IBonitaContributionItem {
         return "org.bonitasoft.studio.coolbar.debug";
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see org.eclipse.jface.action.IContributionItem#isEnabled()
      */
     @Override
@@ -108,28 +115,28 @@ public class DebugCoolbarItem implements IBonitaContributionItem {
     }
 
     private boolean isSelectionRunnable() {
-        IEditorPart editor = PlatformUI.getWorkbench().getWorkbenchWindows()[0].getActivePage().getActiveEditor() ;
+        IEditorPart editor = PlatformUI.getWorkbench().getWorkbenchWindows()[0].getActivePage().getActiveEditor();
         boolean isADiagram = editor != null && editor instanceof DiagramEditor;
-        if(isADiagram){
-            EObject rootElement = ((DiagramEditor)editor).getDiagramEditPart().resolveSemanticElement();
-            if(rootElement instanceof Form){
-                if(ModelHelper.getParentProcess(rootElement) != null){
-                    return true ;
+        if (isADiagram) {
+            EObject rootElement = ((DiagramEditor) editor).getDiagramEditPart().resolveSemanticElement();
+            if (rootElement instanceof Form) {
+                if (ModelHelper.getParentProcess(rootElement) != null) {
+                    return true;
                 }
             }
-            List selectedEditParts = ((DiagramEditor)editor).getDiagramGraphicalViewer().getSelectedEditParts();
-            if(selectedEditParts != null && !selectedEditParts.isEmpty()){
-                Object selectedEp = selectedEditParts.iterator().next() ;
-                if(selectedEp != null){
-                    return true ;
+            List selectedEditParts = ((DiagramEditor) editor).getDiagramGraphicalViewer().getSelectedEditParts();
+            if (selectedEditParts != null && !selectedEditParts.isEmpty()) {
+                Object selectedEp = selectedEditParts.iterator().next();
+                if (selectedEp != null) {
+                    return true;
                 }
             }
         }
         return false;
     }
 
-
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see org.eclipse.jface.action.IContributionItem#isDirty()
      */
     @Override
@@ -137,7 +144,8 @@ public class DebugCoolbarItem implements IBonitaContributionItem {
         return false;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see org.eclipse.jface.action.IContributionItem#isDynamic()
      */
     @Override
@@ -145,7 +153,8 @@ public class DebugCoolbarItem implements IBonitaContributionItem {
         return false;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see org.eclipse.jface.action.IContributionItem#isGroupMarker()
      */
     @Override
@@ -153,7 +162,8 @@ public class DebugCoolbarItem implements IBonitaContributionItem {
         return false;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see org.eclipse.jface.action.IContributionItem#isSeparator()
      */
     @Override
@@ -161,7 +171,8 @@ public class DebugCoolbarItem implements IBonitaContributionItem {
         return false;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see org.eclipse.jface.action.IContributionItem#isVisible()
      */
     @Override
@@ -169,43 +180,44 @@ public class DebugCoolbarItem implements IBonitaContributionItem {
         return BonitaProfilesManager.getInstance().isEnabled(IBonitaActivitiesCategory.EXECUTION);
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see org.eclipse.jface.action.IContributionItem#saveWidgetState()
      */
     @Override
     public void saveWidgetState() {
 
-
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see org.eclipse.jface.action.IContributionItem#setParent(org.eclipse.jface.action.IContributionManager)
      */
     @Override
     public void setParent(IContributionManager parent) {
 
-
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see org.eclipse.jface.action.IContributionItem#setVisible(boolean)
      */
     @Override
     public void setVisible(boolean visible) {
 
-
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see org.eclipse.jface.action.IContributionItem#update()
      */
     @Override
     public void update() {
 
-
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see org.eclipse.jface.action.IContributionItem#update(java.lang.String)
      */
     @Override
@@ -215,18 +227,19 @@ public class DebugCoolbarItem implements IBonitaContributionItem {
 
     @Override
     public void fill(ToolBar toolbar, int index, int iconSize) {
-        ToolItem item = new ToolItem(toolbar,  SWT.PUSH) ;
-        item.setToolTipText(Messages.DebugProcessButtonLabel) ;
-        if(iconSize < 0 ){
-            item.setText(Messages.DebugProcessButtonLabel) ;
-            item.setImage(Pics.getImage(PicsConstants.coolbar_debug_48)) ;
+        ToolItem item = new ToolItem(toolbar, SWT.PUSH);
+        item.setToolTipText(Messages.DebugProcessButtonLabel);
+        if (iconSize < 0) {
+            item.setText(Messages.DebugProcessButtonLabel);
+            item.setImage(Pics.getImage(PicsConstants.coolbar_debug_48));
             item.setDisabledImage(Pics.getImage(PicsConstants.coolbar_debug_disabled_48));
-        }else{
+        } else {
             item.setImage(Pics.getImage(PicsConstants.coolbar_debug_16));
             item.setDisabledImage(Pics.getImage(PicsConstants.coolbar_debug_16));
         }
         item.setEnabled(false);
         item.addSelectionListener(new SelectionAdapter() {
+
             @Override
             public void widgetSelected(SelectionEvent e) {
                 Command cmd = getCommand();
@@ -236,7 +249,7 @@ public class DebugCoolbarItem implements IBonitaContributionItem {
                     BonitaStudioLog.error(ex);
                 }
             }
-        }) ;
+        });
     }
 
 }

@@ -1,7 +1,6 @@
 /**
  * <copyright>
  * </copyright>
- *
  * $Id$
  */
 package org.w3._1999.xhtml.validation;
@@ -38,29 +37,52 @@ import org.w3._1999.xhtml.UlType;
  * This can be disabled with -vmargs -Dorg.eclipse.emf.examples.generator.validator=false.
  */
 public interface BlockValidator {
-	boolean validate();
 
-	boolean validateGroup(FeatureMap value);
-	boolean validateP(EList<PType> value);
-	boolean validateH1(EList<H1Type> value);
-	boolean validateH2(EList<H2Type> value);
-	boolean validateH3(EList<H3Type> value);
-	boolean validateH4(EList<H4Type> value);
-	boolean validateH5(EList<H5Type> value);
-	boolean validateH6(EList<H6Type> value);
-	boolean validateDiv(EList<DivType> value);
-	boolean validateUl(EList<UlType> value);
-	boolean validateOl(EList<OlType> value);
-	boolean validateDl(EList<DlType> value);
-	boolean validatePre(EList<PreType> value);
-	boolean validateHr(EList<HrType> value);
-	boolean validateBlockquote(EList<BlockquoteType> value);
-	boolean validateAddress(EList<AddressType> value);
-	boolean validateFieldset(EList<FieldsetType> value);
-	boolean validateTable(EList<TableType> value);
-	boolean validateForm(EList<FormType> value);
-	boolean validateNoscript(EList<NoscriptType> value);
-	boolean validateIns(EList<InsType> value);
-	boolean validateDel(EList<DelType> value);
-	boolean validateScript(EList<ScriptType> value);
+    boolean validate();
+
+    boolean validateGroup(FeatureMap value);
+
+    boolean validateP(EList<PType> value);
+
+    boolean validateH1(EList<H1Type> value);
+
+    boolean validateH2(EList<H2Type> value);
+
+    boolean validateH3(EList<H3Type> value);
+
+    boolean validateH4(EList<H4Type> value);
+
+    boolean validateH5(EList<H5Type> value);
+
+    boolean validateH6(EList<H6Type> value);
+
+    boolean validateDiv(EList<DivType> value);
+
+    boolean validateUl(EList<UlType> value);
+
+    boolean validateOl(EList<OlType> value);
+
+    boolean validateDl(EList<DlType> value);
+
+    boolean validatePre(EList<PreType> value);
+
+    boolean validateHr(EList<HrType> value);
+
+    boolean validateBlockquote(EList<BlockquoteType> value);
+
+    boolean validateAddress(EList<AddressType> value);
+
+    boolean validateFieldset(EList<FieldsetType> value);
+
+    boolean validateTable(EList<TableType> value);
+
+    boolean validateForm(EList<FormType> value);
+
+    boolean validateNoscript(EList<NoscriptType> value);
+
+    boolean validateIns(EList<InsType> value);
+
+    boolean validateDel(EList<DelType> value);
+
+    boolean validateScript(EList<ScriptType> value);
 }

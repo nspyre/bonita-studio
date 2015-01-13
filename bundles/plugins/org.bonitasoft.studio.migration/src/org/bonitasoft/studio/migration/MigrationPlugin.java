@@ -1,6 +1,5 @@
 package org.bonitasoft.studio.migration;
 
-
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 

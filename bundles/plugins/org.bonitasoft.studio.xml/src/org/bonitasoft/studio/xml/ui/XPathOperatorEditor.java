@@ -5,14 +5,12 @@
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2.0 of the License, or
  * (at your option) any later version.
- *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package org.bonitasoft.studio.xml.ui;
 
@@ -48,10 +46,8 @@ import org.eclipse.xsd.XSDElementDeclaration;
 import org.eclipse.xsd.XSDNamedComponent;
 import org.eclipse.xsd.XSDParticle;
 
-
 /**
  * @author Romain Bioteau
- *
  */
 public class XPathOperatorEditor implements IOperatorEditor {
 
@@ -59,7 +55,8 @@ public class XPathOperatorEditor implements IOperatorEditor {
     private final List<ISelectionChangedListener> listeners = new ArrayList<ISelectionChangedListener>();
     private TreeViewer xsdViewer;
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see org.bonitasoft.studio.expression.editor.provider.IOpeartorEditor#appliesTo(java.lang.String)
      */
     @Override
@@ -69,15 +66,16 @@ public class XPathOperatorEditor implements IOperatorEditor {
 
     @Override
     public boolean appliesTo(Expression expression) {
-        return expression != null 
-        		&& expression.getContent() != null
-        		&& !expression.getContent().isEmpty() 
-        		&& ExpressionConstants.VARIABLE_TYPE.equals(expression.getType())
-        		&& !expression.getReferencedElements().isEmpty()
-        		&& expression.getReferencedElements().get(0) instanceof XMLData;
+        return expression != null
+                && expression.getContent() != null
+                && !expression.getContent().isEmpty()
+                && ExpressionConstants.VARIABLE_TYPE.equals(expression.getType())
+                && !expression.getReferencedElements().isEmpty()
+                && expression.getReferencedElements().get(0) instanceof XMLData;
     }
-    
-    /* (non-Javadoc)
+
+    /*
+     * (non-Javadoc)
      * @see org.bonitasoft.studio.expression.editor.provider.IOpeartorEditor#canFinish()
      */
     @Override
@@ -85,22 +83,23 @@ public class XPathOperatorEditor implements IOperatorEditor {
         return xpathText != null && !xpathText.getText().isEmpty();
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see org.bonitasoft.studio.expression.editor.provider.IOpeartorEditor#createOpeartorEditor(org.eclipse.swt.widgets.Composite)
      */
     @Override
-    public Composite createOpeartorEditor(Composite parent,final Operator operator,final Expression sourceExpression) {
+    public Composite createOpeartorEditor(Composite parent, final Operator operator, final Expression sourceExpression) {
         Composite composite = new Composite(parent, SWT.NONE);
-        composite.setLayoutData(GridDataFactory.fillDefaults().grab(true,true).create()) ;
+        composite.setLayoutData(GridDataFactory.fillDefaults().grab(true, true).create());
         composite.setLayout(GridLayoutFactory.fillDefaults().numColumns(1).margins(0, 0).spacing(0, 5).create());
 
-        final XMLData data = (XMLData) sourceExpression.getReferencedElements().get(0) ;
-        String namespace = data.getNamespace() ;
+        final XMLData data = (XMLData) sourceExpression.getReferencedElements().get(0);
+        String namespace = data.getNamespace();
         String element = data.getType();
-        XSDRepositoryStore xsdStore = (XSDRepositoryStore) RepositoryManager.getInstance().getRepositoryStore(XSDRepositoryStore.class) ;
+        XSDRepositoryStore xsdStore = (XSDRepositoryStore) RepositoryManager.getInstance().getRepositoryStore(XSDRepositoryStore.class);
 
         XSDElementDeclaration root = xsdStore.findElementDeclaration(namespace, element);
-        final XSDContentProvider provider =   new XSDContentProvider(true) ;
+        final XSDContentProvider provider = new XSDContentProvider(true);
         provider.setElement(root);
 
         xsdViewer = new TreeViewer(composite);
@@ -110,21 +109,21 @@ public class XPathOperatorEditor implements IOperatorEditor {
         xsdViewer.getControl().setLayoutData(GridDataFactory.fillDefaults().grab(true, true).hint(SWT.DEFAULT, 200).create());
         xsdViewer.setInput(new Object());
 
-        String content = operator.getExpression() ;
-        if(content == null){
-            content = "" ;
+        String content = operator.getExpression();
+        if (content == null) {
+            content = "";
         }
         xsdViewer.setSelection(new StructuredSelection(createTreePath(content, provider)));
 
         xpathText = new Text(composite, SWT.WRAP | SWT.BORDER);
         xpathText.setLayoutData(GridDataFactory.fillDefaults().hint(SWT.DEFAULT, 40).grab(true, false).create());
         xpathText.addModifyListener(new ModifyListener() {
+
             @Override
             public void modifyText(ModifyEvent e) {
-                operator.setExpression(xpathText.getText()) ;
+                operator.setExpression(xpathText.getText());
             }
         });
-
 
         xsdViewer.addSelectionChangedListener(new ISelectionChangedListener() {
 
@@ -132,19 +131,18 @@ public class XPathOperatorEditor implements IOperatorEditor {
             public void selectionChanged(SelectionChangedEvent event) {
                 ITreeSelection selection = (ITreeSelection) xsdViewer.getSelection();
                 String xpath = computeXPath(selection, false);
-                if(xpath == null || xpath.isEmpty()){
+                if (xpath == null || xpath.isEmpty()) {
                     xpathText.setText(data.getName());
-                }else{
+                } else {
                     xpathText.setText(xpath);
                 }
 
                 xpathText.redraw();
-                fireSelectionChange(event) ;
+                fireSelectionChange(event);
             }
         });
-        return composite ;
+        return composite;
     }
-
 
     protected String computeXPath(ITreeSelection selection) {
         return computeXPath(selection, false);
@@ -159,8 +157,6 @@ public class XPathOperatorEditor implements IOperatorEditor {
         return computeXPath(path, useQualifiedName);
     }
 
-
-
     protected String computeXPath(TreePath path, boolean useQualifiedName) {
         StringBuilder pathBuilder = new StringBuilder();
         for (int i = 1; i < path.getSegmentCount(); i++) {
@@ -169,19 +165,19 @@ public class XPathOperatorEditor implements IOperatorEditor {
             }
 
             pathBuilder.append('/');
-            XSDNamedComponent item = (XSDNamedComponent)path.getSegment(i);
+            XSDNamedComponent item = (XSDNamedComponent) path.getSegment(i);
             if (item instanceof XSDAttributeDeclaration) {
                 pathBuilder.append('@');
             }
-            if(useQualifiedName){
+            if (useQualifiedName) {
                 pathBuilder.append(item.getQName());
             } else {
                 pathBuilder.append(item.getName());
             }
             if (item instanceof XSDElementDeclaration) {
-                XSDElementDeclaration element = (XSDElementDeclaration)item;
+                XSDElementDeclaration element = (XSDElementDeclaration) item;
                 if (element.getContainer() instanceof XSDParticle) {
-                    XSDParticle particle = (XSDParticle)element.getContainer();
+                    XSDParticle particle = (XSDParticle) element.getContainer();
                     if (particle.getMaxOccurs() < 0 || particle.getMinOccurs() > 1) {
                         pathBuilder.append("[1]");
                     }
@@ -189,7 +185,7 @@ public class XPathOperatorEditor implements IOperatorEditor {
             }
         }
         if (path.getLastSegment() instanceof XSDElementDeclaration &&
-                ((XSDElementDeclaration)path.getLastSegment()).getType().getSimpleType() != null) {
+                ((XSDElementDeclaration) path.getLastSegment()).getType().getSimpleType() != null) {
             pathBuilder.append("/text()");
         }
         if (path.getLastSegment() instanceof XSDContentProvider.Append) {
@@ -207,7 +203,7 @@ public class XPathOperatorEditor implements IOperatorEditor {
         details = pieces[0];
         List<String> segments = new ArrayList<String>();
         for (String segment : details.split("/")) {
-            if (segment.length() != 0 && ! segment.equals("text()")) {
+            if (segment.length() != 0 && !segment.equals("text()")) {
                 if (segment.startsWith("@")) {
                     segments.add(segment.substring(1));
                 } else if (segment.contains("[")) {
@@ -222,7 +218,7 @@ public class XPathOperatorEditor implements IOperatorEditor {
         res.add(current);
         for (String segment : segments) {
             for (Object item : provider.getChildren(current)) {
-                if (item instanceof XSDNamedComponent && ((XSDNamedComponent)item).getName().equals(segment)) {
+                if (item instanceof XSDNamedComponent && ((XSDNamedComponent) item).getName().equals(segment)) {
                     current = item;
                     res.add(current);
                     break;
@@ -237,12 +233,12 @@ public class XPathOperatorEditor implements IOperatorEditor {
 
     @Override
     public void addSelectionChangedListener(ISelectionChangedListener listener) {
-        listeners.add(listener) ;
+        listeners.add(listener);
     }
 
     protected void fireSelectionChange(SelectionChangedEvent event) {
-        for(ISelectionChangedListener l : listeners){
-            l.selectionChanged(event) ;
+        for (ISelectionChangedListener l : listeners) {
+            l.selectionChanged(event);
         }
     }
 
@@ -253,11 +249,11 @@ public class XPathOperatorEditor implements IOperatorEditor {
 
     @Override
     public void removeSelectionChangedListener(ISelectionChangedListener listener) {
-        listeners.remove(listener) ;
+        listeners.remove(listener);
     }
 
     @Override
     public void setSelection(ISelection selection) {
-        xsdViewer.setSelection(selection) ;
+        xsdViewer.setSelection(selection);
     }
 }

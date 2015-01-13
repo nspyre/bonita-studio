@@ -5,14 +5,12 @@
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2.0 of the License, or
  * (at your option) any later version.
- *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package org.bonitasoft.studio.configuration.ui.wizard.page;
 
@@ -31,30 +29,31 @@ import org.eclipse.swt.graphics.Image;
 
 /**
  * @author Romain Bioteau
- *
  */
 public class ApplicationDependenciesConfigurationWizardPage extends AbstractDependenciesConfigurationWizardPage {
 
     public ApplicationDependenciesConfigurationWizardPage() {
         super(ApplicationDependenciesConfigurationWizardPage.class.getName());
-        setTitle(Messages.applicationDependencies) ;
-        setDescription(Messages.applicationDependenciesConfigurationDescription) ;
+        setTitle(Messages.applicationDependencies);
+        setDescription(Messages.applicationDependenciesConfigurationDescription);
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see org.bonitasoft.studio.configuration.extension.IProcessConfigurationWizardPage#isConfigurationPageValid()
      */
     @Override
     public String isConfigurationPageValid(Configuration configuration) {
-        if(configuration !=null) {
-            final DependencyRepositoryStore store = (DependencyRepositoryStore) RepositoryManager.getInstance().getRepositoryStore(DependencyRepositoryStore.class) ;
-            for(EObject f : ModelHelper.getAllItemsOfType(configuration,ConfigurationPackage.Literals.FRAGMENT)){
-                if(f instanceof Fragment && ((Fragment) f).isExported() && isAnApplicationDependency(f)){
-                    String jarName = ((Fragment) f).getValue() ;
-                    if(jarName.endsWith(DependencyRepositoryStore.JAR_EXT)){
-                        IRepositoryFileStore jarFile =  store.getChild(jarName) ;
-                        if(jarFile == null){
-                            return Messages.bind(Messages.missingJarFileInRepository, ((Fragment) f).getValue()) ;
+        if (configuration != null) {
+            final DependencyRepositoryStore store = (DependencyRepositoryStore) RepositoryManager.getInstance().getRepositoryStore(
+                    DependencyRepositoryStore.class);
+            for (EObject f : ModelHelper.getAllItemsOfType(configuration, ConfigurationPackage.Literals.FRAGMENT)) {
+                if (f instanceof Fragment && ((Fragment) f).isExported() && isAnApplicationDependency(f)) {
+                    String jarName = ((Fragment) f).getValue();
+                    if (jarName.endsWith(DependencyRepositoryStore.JAR_EXT)) {
+                        IRepositoryFileStore jarFile = store.getChild(jarName);
+                        if (jarFile == null) {
+                            return Messages.bind(Messages.missingJarFileInRepository, ((Fragment) f).getValue());
                         }
                     }
                 }
@@ -67,13 +66,13 @@ public class ApplicationDependenciesConfigurationWizardPage extends AbstractDepe
         return ConfigurationPackage.Literals.CONFIGURATION__APPLICATION_DEPENDENCIES.equals(getContainingFeature(f));
     }
 
-
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see org.bonitasoft.studio.configuration.extension.IProcessConfigurationWizardPage#getConfigurationImage()
      */
     @Override
     public Image getConfigurationImage() {
-        return Pics.getImage("dependencies.png",ConfigurationPlugin.getDefault());
+        return Pics.getImage("dependencies.png", ConfigurationPlugin.getDefault());
     }
 
     @Override
@@ -85,7 +84,5 @@ public class ApplicationDependenciesConfigurationWizardPage extends AbstractDepe
     public boolean isDefault() {
         return false;
     }
-
-
 
 }

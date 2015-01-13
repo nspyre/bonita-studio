@@ -89,7 +89,6 @@ public abstract class AbstractSwitch extends ProcessSwitch<Element> {
         }
     }
 
-
     private boolean isGroovyConnector(final Connector connector) {
         return "scripting-groovy-script".equals(connector.getDefinitionId());
     }

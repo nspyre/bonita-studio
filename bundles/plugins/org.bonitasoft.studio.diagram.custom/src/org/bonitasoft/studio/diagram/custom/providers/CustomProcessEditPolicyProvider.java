@@ -1,19 +1,16 @@
 /**
  * Copyright (C) 2009 BonitaSoft S.A.
  * BonitaSoft, 31 rue Gustave Eiffel - 38000 Grenoble
- *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2.0 of the License, or
  * (at your option) any later version.
- *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package org.bonitasoft.studio.diagram.custom.providers;
 
@@ -61,108 +58,106 @@ import org.eclipse.gmf.runtime.diagram.ui.services.editpolicy.IEditPolicyProvide
 
 /**
  * @author Mickael Istria
- *
  */
 public class CustomProcessEditPolicyProvider implements IEditPolicyProvider {
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.gmf.runtime.diagram.ui.services.editpolicy.IEditPolicyProvider#createEditPolicies(org.eclipse.gef.EditPart)
-	 */
-	public void createEditPolicies(EditPart editPart) {
-		
-		EObject resolveSemanticElement = ((GraphicalEditPart)editPart).resolveSemanticElement();
-		if(!(editPart instanceof ITextAwareEditPart)){//DO NOT INSTALL EDIT POLICIES ON LABELS
-			if ((resolveSemanticElement instanceof FlowElement
-					|| resolveSemanticElement instanceof BoundaryEvent
-					|| resolveSemanticElement instanceof SubProcessEvent) 
-					&& !(resolveSemanticElement instanceof Pool)) {
-				editPart.installEditPolicy(SelectionFeedbackEditPolicy.BONITA_SELECTION_FEEDBACK_ROLE, new SelectionFeedbackEditPolicy(((IGraphicalEditPart)editPart).resolveSemanticElement().eClass()));
-			}
-			
-			if ((resolveSemanticElement instanceof FlowElement
-					 ||resolveSemanticElement instanceof BoundaryEvent 
-					 || resolveSemanticElement instanceof TextAnnotation) 
-					&& !(resolveSemanticElement instanceof Pool)
-					&& !(resolveSemanticElement instanceof SubProcessEvent)) {
+    /*
+     * (non-Javadoc)
+     * @see org.eclipse.gmf.runtime.diagram.ui.services.editpolicy.IEditPolicyProvider#createEditPolicies(org.eclipse.gef.EditPart)
+     */
+    public void createEditPolicies(EditPart editPart) {
 
-				editPart.installEditPolicy(NextElementEditPolicy.NEXT_ELEMENT_ROLE, new NextElementEditPolicy());
-			}
-		
-			if (resolveSemanticElement instanceof Activity
-					&& !(resolveSemanticElement instanceof SubProcessEvent)) {
-				editPart.installEditPolicy(ActivitySwitchEditPolicy.SWITCH_TYPE_ROLE, new ActivitySwitchEditPolicy());
-			}
+        EObject resolveSemanticElement = ((GraphicalEditPart) editPart).resolveSemanticElement();
+        if (!(editPart instanceof ITextAwareEditPart)) {//DO NOT INSTALL EDIT POLICIES ON LABELS
+            if ((resolveSemanticElement instanceof FlowElement
+                    || resolveSemanticElement instanceof BoundaryEvent
+                    || resolveSemanticElement instanceof SubProcessEvent)
+                    && !(resolveSemanticElement instanceof Pool)) {
+                editPart.installEditPolicy(SelectionFeedbackEditPolicy.BONITA_SELECTION_FEEDBACK_ROLE, new SelectionFeedbackEditPolicy(
+                        ((IGraphicalEditPart) editPart).resolveSemanticElement().eClass()));
+            }
 
-			if (resolveSemanticElement instanceof Activity
-					&& !(resolveSemanticElement instanceof SendTask)
-					&& !(resolveSemanticElement instanceof SubProcessEvent)) {
-				editPart.installEditPolicy(BoundaryEventToolEditPolicy.BOUNDARY_TOOL_ROLE, new BoundaryEventToolEditPolicy());
-			}
+            if ((resolveSemanticElement instanceof FlowElement
+                    || resolveSemanticElement instanceof BoundaryEvent
+                    || resolveSemanticElement instanceof TextAnnotation)
+                    && !(resolveSemanticElement instanceof Pool)
+                    && !(resolveSemanticElement instanceof SubProcessEvent)) {
 
-			if (resolveSemanticElement instanceof Event) {
-				editPart.installEditPolicy(ActivitySwitchEditPolicy.SWITCH_TYPE_ROLE, new ActivitySwitchEditPolicy());
-			}
-			
-			if (resolveSemanticElement instanceof Gateway) {
-				editPart.installEditPolicy(ActivitySwitchEditPolicy.SWITCH_TYPE_ROLE, new ActivitySwitchEditPolicy());
-			}
-			
-			if (resolveSemanticElement instanceof BoundaryTimerEvent) {
-				editPart.installEditPolicy(ActivitySwitchEditPolicy.SWITCH_TYPE_ROLE, new BoundaryEventSwitchEditPolicy());
-			}
+                editPart.installEditPolicy(NextElementEditPolicy.NEXT_ELEMENT_ROLE, new NextElementEditPolicy());
+            }
 
-		}
-		
-		// Override the container LAYOUT_ROLE instead of the edit part PRIMARY_DRAG_ROLE
-		// since the edit policy is created on edit part by container and there is no
-		// way to override it
-		EditPolicy layoutEditPolicy = editPart.getEditPolicy(EditPolicy.LAYOUT_ROLE);
-		if (layoutEditPolicy != null && layoutEditPolicy instanceof XYLayoutEditPolicy) {
-			editPart.removeEditPolicy(EditPolicy.LAYOUT_ROLE);
-			editPart.installEditPolicy(EditPolicy.LAYOUT_ROLE, new CustomFeedbackXYLayoutPolicy());
-		}
-		
-		if ( resolveSemanticElement instanceof Pool) {
-			editPart.installEditPolicy(SwitchPoolSelectionEditPolicy.SWITCH_POOL_SELECTION_FEEDBACK_ROLE, new SwitchPoolSelectionEditPolicy());
-			editPart.installEditPolicy(UpdateSizePoolSelectionEditPolicy.UPDATE_POOL_SIZE_SELECTION_FEEDBACK_ROLE, new UpdateSizePoolSelectionEditPolicy());
-		}
-		
-		if (resolveSemanticElement instanceof Lane) {
-			if(editPart instanceof LaneEditPart){
-				editPart.installEditPolicy(AbstractSwitchLaneSelectionEditPolicy.SWITCH_LANE_SELECTION_FEEDBACK_ROLE, new SwitchLaneSelectionEditpolicy());
-				editPart.installEditPolicy(UpdateSizeLaneSelectionEditPolicy.UPDATE_LANE_SIZE_SELECTION_FEEDBACK_ROLE, new UpdateSizeLaneSelectionEditPolicy());
-			} 
-		}
+            if (resolveSemanticElement instanceof Activity
+                    && !(resolveSemanticElement instanceof SubProcessEvent)) {
+                editPart.installEditPolicy(ActivitySwitchEditPolicy.SWITCH_TYPE_ROLE, new ActivitySwitchEditPolicy());
+            }
 
-			
-		editPart.removeEditPolicy(EditPolicyRoles.DRAG_DROP_ROLE);
-		editPart.installEditPolicy(EditPolicyRoles.DRAG_DROP_ROLE, new CustomDragDropEditPolicy());
-		
-		
-		if (!(resolveSemanticElement instanceof MainProcess)) {
-			editPart.removeEditPolicy(EditPolicyRoles.CREATION_ROLE);
-			editPart.installEditPolicy(EditPolicyRoles.CREATION_ROLE, new CustomCreationEditPolicy());
-		}
-		
-		editPart.removeEditPolicy(EditPolicyRoles.CONNECTION_HANDLES_ROLE);
-		editPart.removeEditPolicy(EditPolicyRoles.POPUPBAR_ROLE);
-		editPart.installEditPolicy(EditPolicyRoles.OPEN_ROLE, new OpenDetailsOrGoToSubProcessEditPolicy());
-	}
+            if (resolveSemanticElement instanceof Activity
+                    && !(resolveSemanticElement instanceof SendTask)
+                    && !(resolveSemanticElement instanceof SubProcessEvent)) {
+                editPart.installEditPolicy(BoundaryEventToolEditPolicy.BOUNDARY_TOOL_ROLE, new BoundaryEventToolEditPolicy());
+            }
 
-	
-	public void addProviderChangeListener(IProviderChangeListener listener) {
-	}
+            if (resolveSemanticElement instanceof Event) {
+                editPart.installEditPolicy(ActivitySwitchEditPolicy.SWITCH_TYPE_ROLE, new ActivitySwitchEditPolicy());
+            }
 
-	public boolean provides(IOperation operation) {
-		if (operation instanceof CreateEditPoliciesOperation && ((CreateEditPoliciesOperation)operation).getEditPart() instanceof GraphicalEditPart) {
-			GraphicalEditPart editPart = (GraphicalEditPart) ((CreateEditPoliciesOperation)operation).getEditPart();
-			if(editPart.getRoot().getContents() instanceof MainProcessEditPart)
-				return editPart.resolveSemanticElement() instanceof Element;
-		}
-		return false;
-	}
+            if (resolveSemanticElement instanceof Gateway) {
+                editPart.installEditPolicy(ActivitySwitchEditPolicy.SWITCH_TYPE_ROLE, new ActivitySwitchEditPolicy());
+            }
 
-	public void removeProviderChangeListener(IProviderChangeListener listener) {
-	}
+            if (resolveSemanticElement instanceof BoundaryTimerEvent) {
+                editPart.installEditPolicy(ActivitySwitchEditPolicy.SWITCH_TYPE_ROLE, new BoundaryEventSwitchEditPolicy());
+            }
+
+        }
+
+        // Override the container LAYOUT_ROLE instead of the edit part PRIMARY_DRAG_ROLE
+        // since the edit policy is created on edit part by container and there is no
+        // way to override it
+        EditPolicy layoutEditPolicy = editPart.getEditPolicy(EditPolicy.LAYOUT_ROLE);
+        if (layoutEditPolicy != null && layoutEditPolicy instanceof XYLayoutEditPolicy) {
+            editPart.removeEditPolicy(EditPolicy.LAYOUT_ROLE);
+            editPart.installEditPolicy(EditPolicy.LAYOUT_ROLE, new CustomFeedbackXYLayoutPolicy());
+        }
+
+        if (resolveSemanticElement instanceof Pool) {
+            editPart.installEditPolicy(SwitchPoolSelectionEditPolicy.SWITCH_POOL_SELECTION_FEEDBACK_ROLE, new SwitchPoolSelectionEditPolicy());
+            editPart.installEditPolicy(UpdateSizePoolSelectionEditPolicy.UPDATE_POOL_SIZE_SELECTION_FEEDBACK_ROLE, new UpdateSizePoolSelectionEditPolicy());
+        }
+
+        if (resolveSemanticElement instanceof Lane) {
+            if (editPart instanceof LaneEditPart) {
+                editPart.installEditPolicy(AbstractSwitchLaneSelectionEditPolicy.SWITCH_LANE_SELECTION_FEEDBACK_ROLE, new SwitchLaneSelectionEditpolicy());
+                editPart.installEditPolicy(UpdateSizeLaneSelectionEditPolicy.UPDATE_LANE_SIZE_SELECTION_FEEDBACK_ROLE, new UpdateSizeLaneSelectionEditPolicy());
+            }
+        }
+
+        editPart.removeEditPolicy(EditPolicyRoles.DRAG_DROP_ROLE);
+        editPart.installEditPolicy(EditPolicyRoles.DRAG_DROP_ROLE, new CustomDragDropEditPolicy());
+
+        if (!(resolveSemanticElement instanceof MainProcess)) {
+            editPart.removeEditPolicy(EditPolicyRoles.CREATION_ROLE);
+            editPart.installEditPolicy(EditPolicyRoles.CREATION_ROLE, new CustomCreationEditPolicy());
+        }
+
+        editPart.removeEditPolicy(EditPolicyRoles.CONNECTION_HANDLES_ROLE);
+        editPart.removeEditPolicy(EditPolicyRoles.POPUPBAR_ROLE);
+        editPart.installEditPolicy(EditPolicyRoles.OPEN_ROLE, new OpenDetailsOrGoToSubProcessEditPolicy());
+    }
+
+    public void addProviderChangeListener(IProviderChangeListener listener) {
+    }
+
+    public boolean provides(IOperation operation) {
+        if (operation instanceof CreateEditPoliciesOperation && ((CreateEditPoliciesOperation) operation).getEditPart() instanceof GraphicalEditPart) {
+            GraphicalEditPart editPart = (GraphicalEditPart) ((CreateEditPoliciesOperation) operation).getEditPart();
+            if (editPart.getRoot().getContents() instanceof MainProcessEditPart)
+                return editPart.resolveSemanticElement() instanceof Element;
+        }
+        return false;
+    }
+
+    public void removeProviderChangeListener(IProviderChangeListener listener) {
+    }
 
 }

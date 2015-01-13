@@ -36,25 +36,23 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-public class AttachmentDataImportTest   extends TestCase {
+public class AttachmentDataImportTest extends TestCase {
 
     private static boolean disablepopup;
 
-
-
     @BeforeClass
-    public static void disablePopup(){
+    public static void disablePopup() {
         disablepopup = FileActionDialog.getDisablePopup();
         FileActionDialog.setDisablePopup(true);
     }
 
     @AfterClass
-    public static void resetdisablePopup(){
+    public static void resetdisablePopup() {
         FileActionDialog.setDisablePopup(disablepopup);
     }
 
     @Test
-    public void testAttachmentDataProcessMigration() throws Exception{
+    public void testAttachmentDataProcessMigration() throws Exception {
         final URL fileURL2 = FileLocator.toFileURL(AttachmentDataImportTest.class.getResource("ProcessWithAttachment--1.0.bar")); //$NON-NLS-1$
         final File migratedProcess = BarImporterTestUtil.migrateBar(fileURL2);
         assertNotNull("Fail to migrate bar file", migratedProcess);
@@ -62,14 +60,14 @@ public class AttachmentDataImportTest   extends TestCase {
         final Resource resource = BarImporterTestUtil.assertIsLoadable(migratedProcess);
         final MainProcess mainProcess = BarImporterTestUtil.getMainProcess(resource);
         final List<AbstractProcess> pools = ModelHelper.getAllProcesses(mainProcess);
-        assertEquals("only one process should be defined",1, pools.size());
-        final Pool pool= (Pool)pools.get(0);
+        assertEquals("only one process should be defined", 1, pools.size());
+        final Pool pool = (Pool) pools.get(0);
         final List<Document> documents = pool.getDocuments();
         assertTrue("an attachmentData should be defined", !documents.isEmpty());
         final Document document = documents.get(0);
-        assertNotNull("no document name has been setted",document.getName());
+        assertNotNull("no document name has been setted", document.getName());
         assertTrue("document should be setted as internal", document.getDocumentType().equals(org.bonitasoft.studio.model.process.DocumentType.INTERNAL));
-        assertNotNull("default value should have been setted",document.getDefaultValueIdOfDocumentStore());
+        assertNotNull("default value should have been setted", document.getDefaultValueIdOfDocumentStore());
         final DocumentRepositoryStore store = RepositoryManager.getInstance().getRepositoryStore(DocumentRepositoryStore.class);
         assertTrue("a document file should have been imported", !store.getChildren().isEmpty());
         final DocumentFileStore fileStore = store.getChildren().get(0);

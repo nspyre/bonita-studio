@@ -26,7 +26,6 @@ import org.eclipse.emf.common.command.CompoundCommand;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.edit.domain.EditingDomain;
 
-
 public class DocumentScriptExpressionRefactoringAction extends AbstractScriptExpressionRefactoringAction<DocumentRefactorPair> {
 
     public DocumentScriptExpressionRefactoringAction(final List<DocumentRefactorPair> pairsToRefactor, final List<Expression> scriptExpressions,

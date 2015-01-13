@@ -5,14 +5,12 @@
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2.0 of the License, or
  * (at your option) any later version.
- *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package org.bonitasoft.studio.configuration.ui.wizard.page;
 
@@ -32,35 +30,34 @@ import org.eclipse.swt.graphics.Image;
 
 /**
  * @author Romain Bioteau
- *
  */
 public class ProcessDependenciesConfigurationWizardPage extends AbstractDependenciesConfigurationWizardPage {
 
     public ProcessDependenciesConfigurationWizardPage() {
         super(ProcessDependenciesConfigurationWizardPage.class.getName());
-        setTitle(Messages.processDependencies) ;
-        setDescription(Messages.processDependenciesConfigurationDescription) ;
+        setTitle(Messages.processDependencies);
+        setDescription(Messages.processDependenciesConfigurationDescription);
     }
 
-
-
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see org.bonitasoft.studio.configuration.extension.IProcessConfigurationWizardPage#isConfigurationPageValid()
      */
     @Override
     public String isConfigurationPageValid(Configuration configuration) {
-        if(configuration !=null) {
-            final DependencyRepositoryStore store = (DependencyRepositoryStore) RepositoryManager.getInstance().getRepositoryStore(DependencyRepositoryStore.class) ;
-            for(EObject f : ModelHelper.getAllItemsOfType(configuration,ConfigurationPackage.Literals.FRAGMENT)){
-                if(f instanceof Fragment && ((Fragment) f).isExported() && isAProcessDependency(f)){
-                    String jarName = ((Fragment) f).getValue() ;
-                    if(jarName.endsWith(DependencyRepositoryStore.JAR_EXT)){
-                        IRepositoryFileStore jarFile =  store.getChild(jarName) ;
-                        if(jarFile == null && isGeneratedJar(jarName,(Fragment) f)){
-                        	return null;
+        if (configuration != null) {
+            final DependencyRepositoryStore store = (DependencyRepositoryStore) RepositoryManager.getInstance().getRepositoryStore(
+                    DependencyRepositoryStore.class);
+            for (EObject f : ModelHelper.getAllItemsOfType(configuration, ConfigurationPackage.Literals.FRAGMENT)) {
+                if (f instanceof Fragment && ((Fragment) f).isExported() && isAProcessDependency(f)) {
+                    String jarName = ((Fragment) f).getValue();
+                    if (jarName.endsWith(DependencyRepositoryStore.JAR_EXT)) {
+                        IRepositoryFileStore jarFile = store.getChild(jarName);
+                        if (jarFile == null && isGeneratedJar(jarName, (Fragment) f)) {
+                            return null;
                         }
-                        if(jarFile == null){
-                            return Messages.bind(Messages.missingJarFileInRepository, ((Fragment) f).getValue()) ;
+                        if (jarFile == null) {
+                            return Messages.bind(Messages.missingJarFileInRepository, ((Fragment) f).getValue());
                         }
                     }
                 }
@@ -70,42 +67,35 @@ public class ProcessDependenciesConfigurationWizardPage extends AbstractDependen
     }
 
     private boolean isGeneratedJar(String lib, Fragment fragment) {
-    	FragmentContainer container = (FragmentContainer) fragment.eContainer();
-    	String id = container.getId();
-    	if(lib.equals(id+".jar")){
-    		return true;
-    	}
-    	return false;
-	}
+        FragmentContainer container = (FragmentContainer) fragment.eContainer();
+        String id = container.getId();
+        if (lib.equals(id + ".jar")) {
+            return true;
+        }
+        return false;
+    }
 
-	protected boolean isAProcessDependency(EObject f) {
+    protected boolean isAProcessDependency(EObject f) {
         return ConfigurationPackage.Literals.CONFIGURATION__PROCESS_DEPENDENCIES.equals(getContainingFeature(f));
     }
 
-
-
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see org.bonitasoft.studio.configuration.extension.IProcessConfigurationWizardPage#getConfigurationImage()
      */
     @Override
     public Image getConfigurationImage() {
-        return Pics.getImage("dependencies.png",ConfigurationPlugin.getDefault());
+        return Pics.getImage("dependencies.png", ConfigurationPlugin.getDefault());
     }
-
-
 
     @Override
     protected Object getViewerInput(Configuration configuration) {
         return configuration.getProcessDependencies();
     }
 
-
-
     @Override
     public boolean isDefault() {
         return false;
     }
-
-
 
 }

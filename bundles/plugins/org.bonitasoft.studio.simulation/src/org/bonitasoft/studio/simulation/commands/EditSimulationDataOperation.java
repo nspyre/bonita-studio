@@ -1,19 +1,16 @@
 /**
  * Copyright (C) 2010 BonitaSoft S.A.
  * BonitaSoft, 31 rue Gustave Eiffel - 38000 Grenoble
- *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2.0 of the License, or
  * (at your option) any later version.
- *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package org.bonitasoft.studio.simulation.commands;
 
@@ -37,10 +34,8 @@ import org.eclipse.gmf.runtime.emf.commands.core.command.AbstractTransactionalCo
 
 /**
  * @author Baptiste Mesta
- *
  */
 public class EditSimulationDataOperation extends AbstractTransactionalCommand {
-
 
     private final Expression dataExpression;
     private List<SimulationLiteral> literals;
@@ -59,8 +54,9 @@ public class EditSimulationDataOperation extends AbstractTransactionalCommand {
      * @param dataExpression2
      * @param dataDescription
      */
-    public EditSimulationDataOperation(TransactionalEditingDomain editingDomain, SimulationData data, String dataName, String dataDescription, Expression dataExpression, boolean expressionBased) {
-        super(editingDomain, "edit data operation",getWorkspaceFiles(data));
+    public EditSimulationDataOperation(TransactionalEditingDomain editingDomain, SimulationData data, String dataName, String dataDescription,
+            Expression dataExpression, boolean expressionBased) {
+        super(editingDomain, "edit data operation", getWorkspaceFiles(data));
         this.data = data;
         this.dataName = dataName;
         this.dataExpression = dataExpression;
@@ -77,7 +73,7 @@ public class EditSimulationDataOperation extends AbstractTransactionalCommand {
      * @param probabilityOfTrue
      * @param dataExpression
      */
-    public EditSimulationDataOperation(TransactionalEditingDomain editingDomain,  SimulationData data, String dataName, String dataDescription,
+    public EditSimulationDataOperation(TransactionalEditingDomain editingDomain, SimulationData data, String dataName, String dataDescription,
             double probabilityOfTrue, Expression dataExpression, boolean expressionBased) {
         this(editingDomain, data, dataName, dataDescription, dataExpression, expressionBased);
         this.probabilityOfTrue = probabilityOfTrue;
@@ -92,7 +88,7 @@ public class EditSimulationDataOperation extends AbstractTransactionalCommand {
      * @param ranges
      * @param dataExpression
      */
-    public EditSimulationDataOperation(TransactionalEditingDomain editingDomain,  SimulationData data, String dataName, String dataDescription,
+    public EditSimulationDataOperation(TransactionalEditingDomain editingDomain, SimulationData data, String dataName, String dataDescription,
             List<SimulationNumberRange> ranges, Expression dataExpression, boolean expressionBased) {
         this(editingDomain, data, dataName, dataDescription, dataExpression, expressionBased);
         this.ranges = ranges;
@@ -107,14 +103,12 @@ public class EditSimulationDataOperation extends AbstractTransactionalCommand {
      * @param literals
      * @param dataExpression
      */
-    public EditSimulationDataOperation(TransactionalEditingDomain editingDomain,  SimulationData data, String dataName, String dataDescription,
-            Expression dataExpression,List<SimulationLiteral> literals, boolean expressionBased) {
-        this(editingDomain,data,dataName,dataDescription,dataExpression, expressionBased);
+    public EditSimulationDataOperation(TransactionalEditingDomain editingDomain, SimulationData data, String dataName, String dataDescription,
+            Expression dataExpression, List<SimulationLiteral> literals, boolean expressionBased) {
+        this(editingDomain, data, dataName, dataDescription, dataExpression, expressionBased);
         this.literals = literals;
         dataClass = SimulationPackage.eINSTANCE.getSimulationLiteralData();
     }
-
-
 
     /**
      * @return the dataClass
@@ -123,18 +117,20 @@ public class EditSimulationDataOperation extends AbstractTransactionalCommand {
         return data;
     }
 
-    /* (non-Javadoc)
-     * @see org.eclipse.gmf.runtime.emf.commands.core.command.AbstractTransactionalCommand#doExecuteWithResult(org.eclipse.core.runtime.IProgressMonitor, org.eclipse.core.runtime.IAdaptable)
+    /*
+     * (non-Javadoc)
+     * @see org.eclipse.gmf.runtime.emf.commands.core.command.AbstractTransactionalCommand#doExecuteWithResult(org.eclipse.core.runtime.IProgressMonitor,
+     * org.eclipse.core.runtime.IAdaptable)
      */
     @Override
     protected CommandResult doExecuteWithResult(IProgressMonitor monitor, IAdaptable info) throws ExecutionException {
 
-        if(dataClass.equals(SimulationPackage.eINSTANCE.getSimulationLiteralData())){
+        if (dataClass.equals(SimulationPackage.eINSTANCE.getSimulationLiteralData())) {
             ((SimulationLiteralData) data).getLiterals().removeAll(((SimulationLiteralData) data).getLiterals());
             ((SimulationLiteralData) data).getLiterals().addAll(literals);
-        } else if (dataClass.equals(SimulationPackage.eINSTANCE.getSimulationBoolean())){
+        } else if (dataClass.equals(SimulationPackage.eINSTANCE.getSimulationBoolean())) {
             ((SimulationBoolean) data).setProbabilityOfTrue(probabilityOfTrue);
-        } else if (dataClass.equals(SimulationPackage.eINSTANCE.getSimulationNumberData())){
+        } else if (dataClass.equals(SimulationPackage.eINSTANCE.getSimulationNumberData())) {
             ((SimulationNumberData) data).getRanges().removeAll(((SimulationNumberData) data).getRanges());
             ((SimulationNumberData) data).getRanges().addAll(ranges);
         }

@@ -1408,4 +1408,3 @@ public class DataWizardPage extends WizardPage implements IBonitaVariableContext
 
     }
 }
-

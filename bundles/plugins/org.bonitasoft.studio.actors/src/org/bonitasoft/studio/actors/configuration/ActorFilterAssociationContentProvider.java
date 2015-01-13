@@ -5,14 +5,12 @@
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2.0 of the License, or
  * (at your option) any later version.
- *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package org.bonitasoft.studio.actors.configuration;
 
@@ -26,15 +24,13 @@ import org.eclipse.core.runtime.Assert;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.Viewer;
 
-
 /**
  * @author Romain Bioteau
- *
  */
 public class ActorFilterAssociationContentProvider implements IStructuredContentProvider {
 
-
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see org.eclipse.jface.viewers.IContentProvider#dispose()
      */
     @Override
@@ -42,7 +38,8 @@ public class ActorFilterAssociationContentProvider implements IStructuredContent
 
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see org.eclipse.jface.viewers.IContentProvider#inputChanged(org.eclipse.jface.viewers.Viewer, java.lang.Object, java.lang.Object)
      */
     @Override
@@ -51,21 +48,21 @@ public class ActorFilterAssociationContentProvider implements IStructuredContent
 
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see org.eclipse.jface.viewers.IStructuredContentProvider#getElements(java.lang.Object)
      */
     @Override
     public Object[] getElements(Object input) {
-        Assert.isTrue(input instanceof Configuration) ;
+        Assert.isTrue(input instanceof Configuration);
 
-        List<DefinitionMapping> connectorDefFragments = new ArrayList<DefinitionMapping>() ;
-        for(DefinitionMapping association : ((Configuration) input).getDefinitionMappings()){
-            if(FragmentTypes.ACTOR_FILTER.equals(association.getType())){
-                connectorDefFragments.add(association) ;
+        List<DefinitionMapping> connectorDefFragments = new ArrayList<DefinitionMapping>();
+        for (DefinitionMapping association : ((Configuration) input).getDefinitionMappings()) {
+            if (FragmentTypes.ACTOR_FILTER.equals(association.getType())) {
+                connectorDefFragments.add(association);
             }
         }
         return connectorDefFragments.toArray();
     }
-
 
 }

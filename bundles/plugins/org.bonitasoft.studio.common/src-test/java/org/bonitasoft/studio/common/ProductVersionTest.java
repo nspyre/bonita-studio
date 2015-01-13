@@ -5,14 +5,12 @@
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2.0 of the License, or
  * (at your option) any later version.
- *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package org.bonitasoft.studio.common;
 
@@ -33,66 +31,63 @@ import org.osgi.framework.Version;
 
 /**
  * @author Romain Bioteau
- *
  */
 public class ProductVersionTest {
 
-	private String pomVersion;
+    private String pomVersion;
 
+    /**
+     * @throws java.lang.Exception
+     */
+    @Before
+    public void setUp() throws Exception {
+        URL originURL = ProductVersionTest.class.getResource(ProductVersionTest.class.getSimpleName() + ".class");
+        File originFile = new File(originURL.getFile());
+        assertThat(originFile.exists()).isTrue();
+        File pomFile = originFile;
+        while (pomFile != null && !pomFile.getName().equals("pom.xml")) {
+            File[] listFiles = pomFile.getParentFile().listFiles(new FilenameFilter() {
 
-	/**
-	 * @throws java.lang.Exception
-	 */
-	@Before
-	public void setUp() throws Exception {
-		URL originURL = ProductVersionTest.class.getResource(ProductVersionTest.class.getSimpleName()+".class");
-		File originFile = new File(originURL.getFile());
-		assertThat(originFile.exists()).isTrue();
-		File pomFile = originFile;
-		while (pomFile != null && !pomFile.getName().equals("pom.xml")) {
-			File[] listFiles = pomFile.getParentFile().listFiles(new FilenameFilter() {
+                @Override
+                public boolean accept(File arg0, String arg1) {
+                    return arg1.equals("pom.xml");
+                }
+            });
+            if (listFiles == null || listFiles.length == 0) {
+                pomFile = pomFile.getParentFile();
+            } else {
+                pomFile = listFiles[0];
+            }
+        }
+        assertThat(pomFile != null && pomFile.exists() && pomFile.getName().equals("pom.xml")).isTrue();
+        URL descriptorURL = pomFile.toURI().toURL();
+        URLResource resource = new URLResource(descriptorURL);
+        PomReader domReader = new PomReader(descriptorURL, resource);
+        pomVersion = domReader.getVersion();
+        if (pomVersion.indexOf("-SNAPSHOT") != -1) {
+            pomVersion = pomVersion.substring(0, pomVersion.indexOf("-SNAPSHOT"));
+        }
+    }
 
-				@Override
-				public boolean accept(File arg0, String arg1) {
-					return arg1.equals("pom.xml");
-				}
-			});
-			if(listFiles == null || listFiles.length == 0){
-				pomFile = pomFile.getParentFile();
-			}else{
-				pomFile = listFiles[0];
-			}
-		}
-		assertThat(pomFile != null && pomFile.exists() && pomFile.getName().equals("pom.xml")).isTrue();
-		URL descriptorURL = pomFile.toURI().toURL();
-		URLResource resource = new URLResource(descriptorURL);
-		PomReader domReader = new PomReader(descriptorURL, resource);        
-		pomVersion = domReader.getVersion();
-		if(pomVersion.indexOf("-SNAPSHOT") != -1){
-			pomVersion = pomVersion.substring(0, pomVersion.indexOf("-SNAPSHOT"));
-		}
-	}
+    /**
+     * @throws java.lang.Exception
+     */
+    @After
+    public void tearDown() throws Exception {
+    }
 
-	/**
-	 * @throws java.lang.Exception
-	 */
-	@After
-	public void tearDown() throws Exception {
-	}
+    @Test
+    public void shouldCurrentProductVersionEquals_POMVersionIgnoringQualifier() throws Exception {
+        Version current = new Version(ProductVersion.CURRENT_VERSION);
+        Version osgiPomVersion = Version.parseVersion(pomVersion);
+        assertThat(current.getMajor()).isEqualTo(osgiPomVersion.getMajor());
+        assertThat(current.getMinor()).isEqualTo(osgiPomVersion.getMinor());
+        assertThat(current.getMicro()).isEqualTo(osgiPomVersion.getMicro());
+    }
 
-
-	@Test
-	public void shouldCurrentProductVersionEquals_POMVersionIgnoringQualifier() throws Exception {
-		Version current = new Version(ProductVersion.CURRENT_VERSION);
-		Version osgiPomVersion = Version.parseVersion(pomVersion);
-		assertThat(current.getMajor()).isEqualTo(osgiPomVersion.getMajor());
-		assertThat(current.getMinor()).isEqualTo(osgiPomVersion.getMinor());
-		assertThat(current.getMicro()).isEqualTo(osgiPomVersion.getMicro());
-	}
-	
-	@Test
-	public void shouldCurrentYearEquals_EffectiveCurrentYear() throws Exception {
-		String currentYear = new SimpleDateFormat("yyyy").format(new Date());
-		assertThat(ProductVersion.CURRENT_YEAR).isEqualTo(currentYear);
-	}
+    @Test
+    public void shouldCurrentYearEquals_EffectiveCurrentYear() throws Exception {
+        String currentYear = new SimpleDateFormat("yyyy").format(new Date());
+        assertThat(ProductVersion.CURRENT_YEAR).isEqualTo(currentYear);
+    }
 }

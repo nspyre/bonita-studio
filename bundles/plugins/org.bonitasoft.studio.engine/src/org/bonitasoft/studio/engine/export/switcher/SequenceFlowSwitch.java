@@ -5,14 +5,12 @@
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2.0 of the License, or
  * (at your option) any later version.
- *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package org.bonitasoft.studio.engine.export.switcher;
 
@@ -32,88 +30,88 @@ import org.bonitasoft.studio.model.process.TargetElement;
 import org.bonitasoft.studio.model.process.ThrowLinkEvent;
 import org.bonitasoft.studio.model.process.util.ProcessSwitch;
 
-
 /**
  * @author Romain Bioteau
- *
  */
 public class SequenceFlowSwitch extends ProcessSwitch<SequenceFlow> {
 
-	private final FlowElementBuilder builder;
+    private final FlowElementBuilder builder;
 
-	public SequenceFlowSwitch(FlowElementBuilder processBuilder){
-		builder = processBuilder ;
-	}
+    public SequenceFlowSwitch(FlowElementBuilder processBuilder) {
+        builder = processBuilder;
+    }
 
-	@Override
-	public SequenceFlow caseSequenceFlow(SequenceFlow sequenceFlow) {
-		SourceElement source = sequenceFlow.getSource();
-		TargetElement target = sequenceFlow.getTarget();
+    @Override
+    public SequenceFlow caseSequenceFlow(SequenceFlow sequenceFlow) {
+        SourceElement source = sequenceFlow.getSource();
+        TargetElement target = sequenceFlow.getTarget();
 
-		if(source == null ){
-			throw new RuntimeException("Source of sequenceflow is null") ;
-		}
+        if (source == null) {
+            throw new RuntimeException("Source of sequenceflow is null");
+        }
 
-		if( target == null){
-			throw new RuntimeException("Target of sequenceflow is null") ;
-		}
+        if (target == null) {
+            throw new RuntimeException("Target of sequenceflow is null");
+        }
 
-		String sourceId = source.getName();
-		String targetId = target.getName();
+        String sourceId = source.getName();
+        String targetId = target.getName();
 
-		if(target instanceof ThrowLinkEvent || source instanceof CatchLinkEvent){/*link with catch or throw link event*/
-			addLinkEvents(builder, sequenceFlow);
-		} else {
-			if(!(source instanceof ANDGateway)){
-				final SequenceFlowConditionType conditionType = sequenceFlow.getConditionType();
-				final Expression condition = sequenceFlow.getCondition();
-				
-				if(sequenceFlow.isIsDefault() && !(source instanceof BoundaryEvent)){
-					builder.addDefaultTransition(sourceId, targetId);
-				} else if(conditionType == SequenceFlowConditionType.EXPRESSION
-						&& condition != null
-						&& condition.getContent() != null
-						&& !condition.getContent().isEmpty()){
-					org.bonitasoft.engine.expression.Expression conditionExpression = EngineExpressionUtil.createExpression(condition);
-					if(conditionExpression == null){
-					    throw new RuntimeException("Condition expression "+condition.getName()+" on SequenceFlow from "+sourceId+" to "+targetId +" is invalid");
-					}
+        if (target instanceof ThrowLinkEvent || source instanceof CatchLinkEvent) {/* link with catch or throw link event */
+            addLinkEvents(builder, sequenceFlow);
+        } else {
+            if (!(source instanceof ANDGateway)) {
+                final SequenceFlowConditionType conditionType = sequenceFlow.getConditionType();
+                final Expression condition = sequenceFlow.getCondition();
+
+                if (sequenceFlow.isIsDefault() && !(source instanceof BoundaryEvent)) {
+                    builder.addDefaultTransition(sourceId, targetId);
+                } else if (conditionType == SequenceFlowConditionType.EXPRESSION
+                        && condition != null
+                        && condition.getContent() != null
+                        && !condition.getContent().isEmpty()) {
+                    org.bonitasoft.engine.expression.Expression conditionExpression = EngineExpressionUtil.createExpression(condition);
+                    if (conditionExpression == null) {
+                        throw new RuntimeException("Condition expression " + condition.getName() + " on SequenceFlow from " + sourceId + " to " + targetId
+                                + " is invalid");
+                    }
                     builder.addTransition(sourceId, targetId, conditionExpression);
-				}else if(conditionType == SequenceFlowConditionType.DECISION_TABLE){
-					builder.addTransition(sourceId, targetId, EngineExpressionUtil.createExpression(DecisionTableUtil.toGroovyScriptExpression(sequenceFlow.getDecisionTable())));
-				} else{
-					builder.addTransition(sourceId, targetId);
-				}
-			}else{
-				builder.addTransition(sourceId, targetId);
-			}
-		}
+                } else if (conditionType == SequenceFlowConditionType.DECISION_TABLE) {
+                    builder.addTransition(sourceId, targetId,
+                            EngineExpressionUtil.createExpression(DecisionTableUtil.toGroovyScriptExpression(sequenceFlow.getDecisionTable())));
+                } else {
+                    builder.addTransition(sourceId, targetId);
+                }
+            } else {
+                builder.addTransition(sourceId, targetId);
+            }
+        }
 
-		return sequenceFlow;
-	}
+        return sequenceFlow;
+    }
 
-	protected void addLinkEvents(FlowElementBuilder builder, SequenceFlow sequenceFlow) {
-		if(sequenceFlow.getTarget() instanceof ThrowLinkEvent){
-			final ThrowLinkEvent throwLink = (ThrowLinkEvent) sequenceFlow.getTarget() ;
-			if(null != throwLink.getTo()){
-				final CatchLinkEvent target = throwLink.getTo() ;
-				for(Connection c : target.getOutgoing()){
-					String sourceId = sequenceFlow.getSource().getName();
-					String targetId = c.getTarget().getName();
-					org.bonitasoft.studio.model.expression.Expression transitionCondition = sequenceFlow.getCondition();
-					if(sequenceFlow.isIsDefault()) {
-						builder.addDefaultTransition(sourceId,targetId);
-					}else if(null != transitionCondition && transitionCondition.getContent() != null && !transitionCondition.getContent().isEmpty()) {
-						builder.addTransition(sourceId,targetId,EngineExpressionUtil.createExpression(transitionCondition));
-					}else{
-						builder.addTransition(sourceId,targetId);
-					}
+    protected void addLinkEvents(FlowElementBuilder builder, SequenceFlow sequenceFlow) {
+        if (sequenceFlow.getTarget() instanceof ThrowLinkEvent) {
+            final ThrowLinkEvent throwLink = (ThrowLinkEvent) sequenceFlow.getTarget();
+            if (null != throwLink.getTo()) {
+                final CatchLinkEvent target = throwLink.getTo();
+                for (Connection c : target.getOutgoing()) {
+                    String sourceId = sequenceFlow.getSource().getName();
+                    String targetId = c.getTarget().getName();
+                    org.bonitasoft.studio.model.expression.Expression transitionCondition = sequenceFlow.getCondition();
+                    if (sequenceFlow.isIsDefault()) {
+                        builder.addDefaultTransition(sourceId, targetId);
+                    } else if (null != transitionCondition && transitionCondition.getContent() != null && !transitionCondition.getContent().isEmpty()) {
+                        builder.addTransition(sourceId, targetId, EngineExpressionUtil.createExpression(transitionCondition));
+                    } else {
+                        builder.addTransition(sourceId, targetId);
+                    }
 
-				}
-			}else{
-				throw new RuntimeException(Messages.bind(Messages.linkGoToIsNull,throwLink.getName()));
-			}
-		}
-	}
+                }
+            } else {
+                throw new RuntimeException(Messages.bind(Messages.linkGoToIsNull, throwLink.getName()));
+            }
+        }
+    }
 
 }

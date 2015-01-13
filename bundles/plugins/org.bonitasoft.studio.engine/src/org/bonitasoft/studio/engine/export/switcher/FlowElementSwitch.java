@@ -5,14 +5,12 @@
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2.0 of the License, or
  * (at your option) any later version.
- *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package org.bonitasoft.studio.engine.export.switcher;
 
@@ -111,7 +109,6 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 
 /**
  * @author Romain Bioteau
- *
  */
 public class FlowElementSwitch extends AbstractSwitch {
 
@@ -144,7 +141,7 @@ public class FlowElementSwitch extends AbstractSwitch {
 
     @Override
     public Activity caseActivity(final Activity activity) {
-        final AutomaticTaskDefinitionBuilder taskBuilder =  builder.addAutomaticTask(activity.getName());
+        final AutomaticTaskDefinitionBuilder taskBuilder = builder.addAutomaticTask(activity.getName());
         handleCommonActivity(activity, taskBuilder);
         return activity;
     }
@@ -155,7 +152,7 @@ public class FlowElementSwitch extends AbstractSwitch {
         Message message = null;
         if (!senTask.getEvents().isEmpty()) {
             message = senTask.getEvents().get(0);
-            targetProcess =	EngineExpressionUtil.createExpression(message.getTargetProcessExpression());
+            targetProcess = EngineExpressionUtil.createExpression(message.getTargetProcessExpression());
         }
         final SendTaskDefinitionBuilder taskBuilder = ((ProcessDefinitionBuilder) builder).addSendTask(senTask.getName(), message.getName(), targetProcess);
         if (message != null) {
@@ -423,9 +420,9 @@ public class FlowElementSwitch extends AbstractSwitch {
             final OperationBuilder opBuilder = new OperationBuilder();
             opBuilder.createNewInstance();
             opBuilder.setRightOperand(EngineExpressionUtil.createVariableExpression(mapping.getProcessSource()));
-            final LeftOperandBuilder builder = new LeftOperandBuilder() ;
-            builder.createNewInstance() ;
-            builder.setName(mapping.getSubprocessTarget()) ;
+            final LeftOperandBuilder builder = new LeftOperandBuilder();
+            builder.createNewInstance();
+            builder.setName(mapping.getSubprocessTarget());
             builder.setType(getLeftOperandTypeForData(mapping.getProcessSource()));
             opBuilder.setLeftOperand(builder.done());
             opBuilder.setType(OperatorType.ASSIGNMENT);
@@ -438,9 +435,9 @@ public class FlowElementSwitch extends AbstractSwitch {
             final Data d = EcoreUtil.copy(mapping.getProcessTarget());
             d.setName(mapping.getSubprocessSource());
             opBuilder.setRightOperand(EngineExpressionUtil.createVariableExpression(d));
-            final LeftOperandBuilder builder = new LeftOperandBuilder() ;
-            builder.createNewInstance() ;
-            builder.setName(mapping.getProcessTarget().getName()) ;
+            final LeftOperandBuilder builder = new LeftOperandBuilder();
+            builder.createNewInstance();
+            builder.setName(mapping.getProcessTarget().getName());
             builder.setType(getLeftOperandTypeForData(mapping.getProcessTarget()));
             opBuilder.setLeftOperand(builder.done());
             opBuilder.setType(OperatorType.ASSIGNMENT);
@@ -622,7 +619,7 @@ public class FlowElementSwitch extends AbstractSwitch {
 
     @Override
     public FlowElement caseInclusiveGateway(final org.bonitasoft.studio.model.process.InclusiveGateway gateway) {
-        final GatewayDefinitionBuilder gatewayBuilder =  builder.addGateway(gateway.getName(), GatewayType.INCLUSIVE);
+        final GatewayDefinitionBuilder gatewayBuilder = builder.addGateway(gateway.getName(), GatewayType.INCLUSIVE);
         addDisplayTitle(gatewayBuilder, gateway);
         addDisplayDescription(gatewayBuilder, gateway);
         addDisplayDescriptionAfterCompletion(gatewayBuilder, gateway);
@@ -696,7 +693,6 @@ public class FlowElementSwitch extends AbstractSwitch {
         }
     }
 
-
     protected void addExpectedDuration(final UserTaskDefinitionBuilder taskBuilder, final Task task) {
         final String duration = task.getDuration();
         if (duration != null && !duration.isEmpty()) {
@@ -750,8 +746,8 @@ public class FlowElementSwitch extends AbstractSwitch {
         }
     }
 
-    protected void addOperation(final ActivityDefinitionBuilder builder,final OperationContainer activity) {
-        for(final Operation operation : activity.getOperations()){
+    protected void addOperation(final ActivityDefinitionBuilder builder, final OperationContainer activity) {
+        for (final Operation operation : activity.getOperations()) {
             if (operation.getLeftOperand() != null
                     && operation.getLeftOperand().getContent() != null
                     && operation.getRightOperand() != null
@@ -772,19 +768,18 @@ public class FlowElementSwitch extends AbstractSwitch {
                     int idx = 1;
                     for (final SearchIndex searchIdx : searchIndexList) {
                         // get the related searchIndex to set the operation
-                        if(searchIdx.getName().getContent().equals(operation.getLeftOperand().getName())){
+                        if (searchIdx.getName().getContent().equals(operation.getLeftOperand().getName())) {
                             builder.addOperation(EngineExpressionUtil.createOperation(operation, EngineExpressionUtil.createLeftOperandIndex(idx)));
                             break;
                         }
                         idx++;
                     }
                 } else {
-                    builder.addOperation(EngineExpressionUtil.createOperation(operation)) ;
+                    builder.addOperation(EngineExpressionUtil.createOperation(operation));
                 }
             }
         }
     }
-
 
     protected void addStandardLoop(final ActivityDefinitionBuilder builder, final MultiInstantiable multiInstantiable) {
         builder.addLoop(multiInstantiable.getTestBefore(), EngineExpressionUtil.createExpression(multiInstantiable.getLoopCondition()),

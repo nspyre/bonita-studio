@@ -61,7 +61,6 @@ import org.junit.Test;
 
 /**
  * @author Aurelie Zara
- *
  */
 public class TestConditions {
 

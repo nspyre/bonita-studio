@@ -35,7 +35,6 @@ import org.junit.runner.RunWith;
 
 /**
  * @author Aurelie Zara
- * 
  */
 
 @RunWith(SWTBotJunit4ClassRunner.class)
@@ -60,7 +59,6 @@ public class ActorFilterEditionTest extends SWTBotGefTestCase {
         bot.button(IDialogConstants.CANCEL_LABEL).click();
     }
 
-
     @Test
     public void testIdRenameEdit() throws Exception {
         final String id = "testEdit1";
@@ -75,7 +73,7 @@ public class ActorFilterEditionTest extends SWTBotGefTestCase {
         assertEquals(bot.textWithLabel("Definition id *").getText(), id);
         assertEquals(bot.textWithLabel("Version *").getText(), version);
         bot.textWithLabel("Definition id *").setText(id2);
-        bot.waitUntil(new ICondition(){
+        bot.waitUntil(new ICondition() {
 
             @Override
             public boolean test() throws Exception {
@@ -91,7 +89,7 @@ public class ActorFilterEditionTest extends SWTBotGefTestCase {
                 return "Definition id was not updated with text " + id2 + ". The current value is:" + bot.textWithLabel("Definition id *").getText();
             }
 
-        },10000);
+        }, 10000);
         bot.button(IDialogConstants.FINISH_LABEL).click();
         final ActorFilterDefRepositoryStore store = RepositoryManager
                 .getInstance().getRepositoryStore(
@@ -105,6 +103,7 @@ public class ActorFilterEditionTest extends SWTBotGefTestCase {
     }
 
     final String UNCATEGORIZED_LABEL = "Uncategorized";
+
     @Test
     public void testVersionEdit() throws Exception {
         final String id = "testEdit3";
@@ -137,9 +136,9 @@ public class ActorFilterEditionTest extends SWTBotGefTestCase {
         createActorFilterDefinition(id, version);
         SWTBotActorFilterUtil.activateActorFilterDefEditionShell(bot);
         bot.waitUntil(new SelectNodeUnder(bot, id + " (" + version + ")", UNCATEGORIZED_LABEL), 10000);
-        assertTrue(id+" does not exist in tree viewer", bot.tree().expandNode("Uncategorized").select(id + " (" + version + ")").isEnabled());
+        assertTrue(id + " does not exist in tree viewer", bot.tree().expandNode("Uncategorized").select(id + " (" + version + ")").isEnabled());
         bot.tree().select("Uncategorized").expandNode("Uncategorized")
-        .select(id + " (" + version + ")");
+                .select(id + " (" + version + ")");
         bot.button(Messages.edit).click();
         bot.treeWithLabel(org.bonitasoft.studio.connector.model.i18n.Messages.categoryLabel).select(0);
         bot.button(IDialogConstants.FINISH_LABEL).click();
@@ -154,10 +153,10 @@ public class ActorFilterEditionTest extends SWTBotGefTestCase {
         SWTBotActorFilterUtil.activateActorFilterDefEditionShell(bot);
         final Category category = connectorDef.getCategory().get(0);
         String categoryLabel = messageProvider.getCategoryLabel(category);
-        if(categoryLabel == null){
+        if (categoryLabel == null) {
             categoryLabel = category.getId();
         }
-        final String connectorLabel =  new ConnectorDefinitionTreeLabelProvider(messageProvider).getText(connectorDef);
+        final String connectorLabel = new ConnectorDefinitionTreeLabelProvider(messageProvider).getText(connectorDef);
 
         assertNotNull(
                 "could not find " + connectorLabel,

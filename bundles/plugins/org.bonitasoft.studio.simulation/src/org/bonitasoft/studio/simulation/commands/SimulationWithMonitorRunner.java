@@ -1,19 +1,16 @@
 /**
  * Copyright (C) 2010 BonitaSoft S.A.
  * BonitaSoft, 31 rue Gustave Eiffel - 38000 Grenoble
- *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2.0 of the License, or
  * (at your option) any later version.
- *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package org.bonitasoft.studio.simulation.commands;
 
@@ -43,13 +40,11 @@ import org.eclipse.swt.widgets.Display;
 
 /**
  * @author Baptiste Mesta
- * 
  */
 public class SimulationWithMonitorRunner implements IRunnableWithProgress {
 
     /**
      * @author Baptiste Mesta
-     * 
      */
     private class SimulationRunnerThread extends Thread {
 
@@ -57,8 +52,8 @@ public class SimulationWithMonitorRunner implements IRunnableWithProgress {
 
         public SimulationRunnerThread(AbstractProcess process) {
             super("Simulation Runner");
-            simulationProcess = process ;
-            new Color(255) ;//FIX CLASSLOADER ISSUE
+            simulationProcess = process;
+            new Color(255);//FIX CLASSLOADER ISSUE
         }
 
         private SimulationEngine simulationEngine;
@@ -69,7 +64,7 @@ public class SimulationWithMonitorRunner implements IRunnableWithProgress {
             }
         }
 
-        public long getCurrentTime(){
+        public long getCurrentTime() {
             return SimulationEngine.currentTime;
         }
 
@@ -77,8 +72,9 @@ public class SimulationWithMonitorRunner implements IRunnableWithProgress {
         public void run() {
             try {
                 SimulationExporter exporter = new SimulationExporter();
-                SimProcess simProc = exporter.createSimulationProcess(simulationProcess) ;
-                IRepositoryFileStore file = RepositoryManager.getInstance().getRepositoryStore(SimulationLoadProfileRepositoryStore.class).getChild(loadProfileId+"."+SimulationLoadProfileRepositoryStore.SIMULATION_LOADPROFILE_EXT) ;
+                SimProcess simProc = exporter.createSimulationProcess(simulationProcess);
+                IRepositoryFileStore file = RepositoryManager.getInstance().getRepositoryStore(SimulationLoadProfileRepositoryStore.class)
+                        .getChild(loadProfileId + "." + SimulationLoadProfileRepositoryStore.SIMULATION_LOADPROFILE_EXT);
 
                 if (file != null) {
                     LoadProfile profile = (LoadProfile) file.getContent();
@@ -91,12 +87,13 @@ public class SimulationWithMonitorRunner implements IRunnableWithProgress {
 
                     simulationEngine = new SimulationEngine(simProc, loadProfile, exporter.getSimProcessResources(simProc.getName()), executionProperties);
                     simulationEngine.start();
-                    cancelled = simulationEngine.isStopped() ;
-                    reportFile = simulationEngine.getReportFile() ;
+                    cancelled = simulationEngine.isStopped();
+                    reportFile = simulationEngine.getReportFile();
                 }
             } catch (final Exception e) {
                 BonitaStudioLog.error(e);
                 Display.getDefault().syncExec(new Runnable() {
+
                     @Override
                     public void run() {
                         ErrorDialog.openError(Display.getCurrent().getActiveShell(), "Error during simulation",
@@ -108,18 +105,18 @@ public class SimulationWithMonitorRunner implements IRunnableWithProgress {
         }
 
         public boolean isGeneratingReport() {
-            if(simulationEngine != null){
+            if (simulationEngine != null) {
                 return simulationEngine.isGeneratingReport();
-            }else{
-                return false ;
+            } else {
+                return false;
             }
         }
 
         public int getExecutedInstances() {
-            if(simulationEngine != null){
+            if (simulationEngine != null) {
                 return simulationEngine.getTotalInstances();
             }
-            return 0 ;
+            return 0;
         }
     }
 
@@ -127,27 +124,25 @@ public class SimulationWithMonitorRunner implements IRunnableWithProgress {
     private final AbstractProcess selectedProcess;
     private final String loadProfileId;
     private final long timespan;
-    private boolean cancelled = false ;
+    private boolean cancelled = false;
     private String reportFile;
     private final SimpleDateFormat format;
-
 
     /**
      * @param selectedProcess
      * @param path
      * @param loadProfileId
      */
-    public SimulationWithMonitorRunner(AbstractProcess selectedProcess, String path, String loadProfileId,long timespan) {
+    public SimulationWithMonitorRunner(AbstractProcess selectedProcess, String path, String loadProfileId, long timespan) {
         this.selectedProcess = selectedProcess;
         this.path = path;
         this.loadProfileId = loadProfileId;
-        this.timespan = timespan ;
-        format = new SimpleDateFormat("dd MMM yyyy - hh:mm:ss") ;
+        this.timespan = timespan;
+        format = new SimpleDateFormat("dd MMM yyyy - hh:mm:ss");
     }
 
     /*
      * (non-Javadoc)
-     * 
      * @see
      * org.eclipse.jface.operation.IRunnableWithProgress#run(org.eclipse.core
      * .runtime.IProgressMonitor)
@@ -158,34 +153,35 @@ public class SimulationWithMonitorRunner implements IRunnableWithProgress {
         SimulationRunnerThread t = new SimulationRunnerThread(selectedProcess);
         t.start();
 
-        IRepositoryFileStore file = RepositoryManager.getInstance().getRepositoryStore(SimulationLoadProfileRepositoryStore.class).getChild(loadProfileId+"."+SimulationLoadProfileRepositoryStore.SIMULATION_LOADPROFILE_EXT) ;
-        LoadProfile profile = (LoadProfile) file.getContent() ;
+        IRepositoryFileStore file = RepositoryManager.getInstance().getRepositoryStore(SimulationLoadProfileRepositoryStore.class)
+                .getChild(loadProfileId + "." + SimulationLoadProfileRepositoryStore.SIMULATION_LOADPROFILE_EXT);
+        LoadProfile profile = (LoadProfile) file.getContent();
         EList<InjectionPeriod> periods = profile.getInjectionPeriods();
-        long start=Long.MAX_VALUE;
-        long end=0;
+        long start = Long.MAX_VALUE;
+        long end = 0;
         for (InjectionPeriod injectionPeriod : periods) {
-            start =Math.min(injectionPeriod.getBegin(),start);
+            start = Math.min(injectionPeriod.getBegin(), start);
             end = Math.max(end, injectionPeriod.getEnd());
         }
 
-        monitor.beginTask(Messages.RunningSimulation,100);
-        long total = end - start ;
-        int worked = 0 ;
+        monitor.beginTask(Messages.RunningSimulation, 100);
+        long total = end - start;
+        int worked = 0;
 
         while (t.isAlive()) {
             long currentTime = t.getCurrentTime();
-            int progress =(int) (((double)(currentTime - start)/(double)total) * 100 );
-            int work = Math.abs(progress-worked) ;
-            if(work > 0 && work <=100){
+            int progress = (int) (((double) (currentTime - start) / (double) total) * 100);
+            int work = Math.abs(progress - worked);
+            if (work > 0 && work <= 100) {
                 monitor.worked(work);
-                worked = worked + work ;
+                worked = worked + work;
             }
 
-            if(t.isGeneratingReport()){
-                monitor.subTask(Messages.generatingReport) ;
-            }else{
-                if(t.getCurrentTime() != 0){
-                    monitor.subTask(format.format(new Date(t.getCurrentTime())) +"\n" + "Finished instances : "+t.getExecutedInstances()) ;
+            if (t.isGeneratingReport()) {
+                monitor.subTask(Messages.generatingReport);
+            } else {
+                if (t.getCurrentTime() != 0) {
+                    monitor.subTask(format.format(new Date(t.getCurrentTime())) + "\n" + "Finished instances : " + t.getExecutedInstances());
                 }
             }
 
@@ -202,7 +198,7 @@ public class SimulationWithMonitorRunner implements IRunnableWithProgress {
     }
 
     public String getReportFile() {
-        return reportFile ;
+        return reportFile;
     }
 
 }

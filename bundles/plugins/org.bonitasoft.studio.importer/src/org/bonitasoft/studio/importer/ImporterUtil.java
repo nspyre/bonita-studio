@@ -1,19 +1,16 @@
 /**
  * Copyright (C) 2010 BonitaSoft S.A.
  * BonitaSoft, 31 rue Gustave Eiffel - 38000 Grenoble
- * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2.0 of the License, or
  * (at your option) any later version.
- *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
 package org.bonitasoft.studio.importer;
@@ -36,21 +33,20 @@ import org.eclipse.gmf.runtime.diagram.ui.editparts.ITextAwareEditPart;
 
 /**
  * @author Romain Bioteau
- *
  */
 public class ImporterUtil {
 
-    public static  void updateActiviesSize(DiagramEditPart root) {
+    public static void updateActiviesSize(DiagramEditPart root) {
         resizeActivities(root);
-        for(Object o : root.getChildren()){
-            if(o instanceof PoolEditPart){
-                for(Object child :((PoolEditPart) o).getChildren()){
-                    if(child instanceof PoolPoolCompartmentEditPart){
+        for (Object o : root.getChildren()) {
+            if (o instanceof PoolEditPart) {
+                for (Object child : ((PoolEditPart) o).getChildren()) {
+                    if (child instanceof PoolPoolCompartmentEditPart) {
                         resizeActivities((EditPart) child);
-                        for(Object laneChild : ((PoolPoolCompartmentEditPart) child).getChildren()){
-                            if(laneChild instanceof LaneEditPart){
-                                for(Object child2 : ((LaneEditPart) laneChild).getChildren()){
-                                    if(child2 instanceof LaneLaneCompartmentEditPart){
+                        for (Object laneChild : ((PoolPoolCompartmentEditPart) child).getChildren()) {
+                            if (laneChild instanceof LaneEditPart) {
+                                for (Object child2 : ((LaneEditPart) laneChild).getChildren()) {
+                                    if (child2 instanceof LaneLaneCompartmentEditPart) {
                                         resizeActivities((EditPart) child2);
                                     }
                                 }
@@ -62,28 +58,28 @@ public class ImporterUtil {
         }
     }
 
-    public static void resizeActivities(EditPart root){
-        for(Object o : root.getChildren()){
-            if(o instanceof ActivityEditPart){
+    public static void resizeActivities(EditPart root) {
+        for (Object o : root.getChildren()) {
+            if (o instanceof ActivityEditPart) {
                 FiguresHelper.resizeActivitiesFigure((IGraphicalEditPart) o, getTextFromEditPart((EditPart) o));
-            }else if(o instanceof Activity2EditPart){
+            } else if (o instanceof Activity2EditPart) {
                 FiguresHelper.resizeActivitiesFigure((IGraphicalEditPart) o, getTextFromEditPart((EditPart) o));
-            }else if(o instanceof TaskEditPart){
+            } else if (o instanceof TaskEditPart) {
                 FiguresHelper.resizeActivitiesFigure((IGraphicalEditPart) o, getTextFromEditPart((EditPart) o));
-            }else if(o instanceof Task2EditPart){
+            } else if (o instanceof Task2EditPart) {
                 FiguresHelper.resizeActivitiesFigure((IGraphicalEditPart) o, getTextFromEditPart((EditPart) o));
-            }else if(o instanceof CallActivity2EditPart){
+            } else if (o instanceof CallActivity2EditPart) {
                 FiguresHelper.resizeActivitiesFigure((IGraphicalEditPart) o, getTextFromEditPart((EditPart) o));
-            }else if(o instanceof CallActivityEditPart){
+            } else if (o instanceof CallActivityEditPart) {
                 FiguresHelper.resizeActivitiesFigure((IGraphicalEditPart) o, getTextFromEditPart((EditPart) o));
             }
         }
     }
 
     private static String getTextFromEditPart(EditPart o) {
-        for(Object obj : o.getChildren()){
-            if(obj instanceof ITextAwareEditPart){
-                return ((ITextAwareEditPart)obj).getEditText();
+        for (Object obj : o.getChildren()) {
+            if (obj instanceof ITextAwareEditPart) {
+                return ((ITextAwareEditPart) obj).getEditText();
             }
         }
         return null;

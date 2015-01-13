@@ -81,13 +81,13 @@ import org.eclipse.ui.views.properties.tabbed.ITabDescriptor;
  * @author Romain Bioteau
  */
 public abstract class AbstractDependenciesConfigurationWizardPage extends WizardPage implements IProcessConfigurationWizardPage, ICheckStateListener,
-ICheckStateProvider {
+        ICheckStateProvider {
 
     /**
      * Label provider for the ListViewer.
      */
     class TabbedPropertySheetPageLabelProvider
-    extends LabelProvider {
+            extends LabelProvider {
 
         @Override
         public String getText(final Object element) {

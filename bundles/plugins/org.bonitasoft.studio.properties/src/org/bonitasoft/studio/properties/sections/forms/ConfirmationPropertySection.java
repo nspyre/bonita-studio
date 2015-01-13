@@ -5,14 +5,12 @@
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2.0 of the License, or
  * (at your option) any later version.
- *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package org.bonitasoft.studio.properties.sections.forms;
 
@@ -96,9 +94,10 @@ public class ConfirmationPropertySection extends AbstractBonitaDescriptionSectio
             }
             String res = fd.open();
             if (res != null) {
-                final ApplicationResourceRepositoryStore resourceStore = RepositoryManager.getInstance().getRepositoryStore(ApplicationResourceRepositoryStore.class) ;
-                final AbstractProcess process = ModelHelper.getParentProcess(getEObject()) ;
-                final String processUUID = ModelHelper.getEObjectID(process) ;
+                final ApplicationResourceRepositoryStore resourceStore = RepositoryManager.getInstance().getRepositoryStore(
+                        ApplicationResourceRepositoryStore.class);
+                final AbstractProcess process = ModelHelper.getParentProcess(getEObject());
+                final String processUUID = ModelHelper.getEObjectID(process);
                 ApplicationResourceFileStore artifact = (ApplicationResourceFileStore) resourceStore.getChild(processUUID);
                 if (artifact == null) {
                     artifact = (ApplicationResourceFileStore) resourceStore.createRepositoryFileStore(processUUID);
@@ -152,6 +151,7 @@ public class ConfirmationPropertySection extends AbstractBonitaDescriptionSectio
         final Button download = getWidgetFactory().createButton(templates, Messages.Download, SWT.FLAT);
         download.setLayoutData(new GridData(GridData.END, GridData.FILL, false, false, 1, 1));
         download.addSelectionListener(new SelectionAdapter() {
+
             @Override
             public void widgetSelected(final SelectionEvent e) {
                 ResourcePropertySection.downloadDefaultTemplate("bonita_default_confirm.html", "WEB-INF/classes/html/");
@@ -189,9 +189,10 @@ public class ConfirmationPropertySection extends AbstractBonitaDescriptionSectio
 
         final Label confirmationMessageLabel = getWidgetFactory().createLabel(templates, Messages.confirmationMessage);
         confirmationMessageLabel.setLayoutData(new GridData(GridData.FILL, GridData.FILL, true, false, 4, 1));
-        confirmationMessage = new ExpressionViewer(templates, SWT.BORDER, getWidgetFactory(), getEditingDomain(), ProcessPackage.Literals.PAGE_FLOW__CONFIRMATION_MESSAGE);
+        confirmationMessage = new ExpressionViewer(templates, SWT.BORDER, getWidgetFactory(), getEditingDomain(),
+                ProcessPackage.Literals.PAGE_FLOW__CONFIRMATION_MESSAGE);
         confirmationMessage.getControl().setLayoutData(new GridData(GridData.FILL, GridData.FILL, true, false, 4, 1));
-        confirmationMessage.setMessage(Messages.confirmationMessageTooltip,IStatus.INFO);
+        confirmationMessage.setMessage(Messages.confirmationMessageTooltip, IStatus.INFO);
 
     }
 
@@ -224,9 +225,11 @@ public class ConfirmationPropertySection extends AbstractBonitaDescriptionSectio
 
         context = new EMFDataBindingContext();
         Expression confirmationMessageExpression = getPageFlow().getConfirmationMessage();
-        if(confirmationMessageExpression == null){
+        if (confirmationMessageExpression == null) {
             confirmationMessageExpression = ExpressionFactory.eINSTANCE.createExpression();
-            getEditingDomain().getCommandStack().execute(SetCommand.create(getEditingDomain(), getPageFlow(), ProcessPackage.Literals.PAGE_FLOW__CONFIRMATION_MESSAGE, confirmationMessageExpression));
+            getEditingDomain().getCommandStack().execute(
+                    SetCommand
+                            .create(getEditingDomain(), getPageFlow(), ProcessPackage.Literals.PAGE_FLOW__CONFIRMATION_MESSAGE, confirmationMessageExpression));
         }
         context.bindValue(
                 ViewerProperties.singleSelection().observe(confirmationMessage),

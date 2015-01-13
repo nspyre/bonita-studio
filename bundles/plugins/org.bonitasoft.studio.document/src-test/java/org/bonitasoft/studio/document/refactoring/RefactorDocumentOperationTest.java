@@ -68,7 +68,6 @@ public class RefactorDocumentOperationTest {
         parentProcess.getElements().add(task);
     }
 
-
     private void createLeftOperandWithType(final String documentType) {
         leftOperand = ExpressionFactory.eINSTANCE.createExpression();
         leftOperand.setName(document.getName());

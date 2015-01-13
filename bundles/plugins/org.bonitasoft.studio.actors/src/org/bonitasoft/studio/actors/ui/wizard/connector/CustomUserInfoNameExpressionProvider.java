@@ -27,13 +27,10 @@ import org.bonitasoft.studio.model.expression.Expression;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 
-
 /**
  * @author Elias Ricken de Medeiros
- *
  */
 public class CustomUserInfoNameExpressionProvider implements IExpressionNatureProvider {
-
 
     private final OrganizationRepositoryStore store;
     private final String activeOrgFileName;
@@ -53,7 +50,7 @@ public class CustomUserInfoNameExpressionProvider implements IExpressionNaturePr
 
     private Expression[] getExpressions(final CustomUserInfoDefinitions infoDefContainer) {
         final List<Expression> exprList = new ArrayList<Expression>();
-        if(infoDefContainer != null) {
+        if (infoDefContainer != null) {
             final EList<CustomUserInfoDefinition> infoDefElements = infoDefContainer.getCustomUserInfoDefinition();
             for (final CustomUserInfoDefinition infoDefinition : infoDefElements) {
                 exprList.add(ExpressionHelper.createConstantExpression(infoDefinition.getName(), String.class.getName()));

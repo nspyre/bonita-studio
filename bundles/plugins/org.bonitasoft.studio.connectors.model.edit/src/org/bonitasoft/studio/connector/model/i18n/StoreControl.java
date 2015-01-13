@@ -5,14 +5,12 @@
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2.0 of the License, or
  * (at your option) any later version.
- *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package org.bonitasoft.studio.connector.model.i18n;
 
@@ -26,30 +24,27 @@ import java.util.PropertyResourceBundle;
 import java.util.ResourceBundle;
 import java.util.ResourceBundle.Control;
 
-
 /**
  * @author Romain Bioteau
- *
  */
 public class StoreControl extends Control {
 
     private final String pathToBundles;
 
-    public StoreControl(String pathToBundles){
-        this.pathToBundles = pathToBundles ;
+    public StoreControl(String pathToBundles) {
+        this.pathToBundles = pathToBundles;
     }
 
     @Override
     public ResourceBundle newBundle(String baseName, Locale locale, String format, ClassLoader loader, boolean reload)
             throws IllegalAccessException, InstantiationException, IOException {
 
-        if(!format.equals("java.properties")){
-            return null ;
+        if (!format.equals("java.properties")) {
+            return null;
         }
 
         String bundleName = toBundleName(baseName, locale);
         ResourceBundle bundle = null;
-
 
         InputStreamReader reader = null;
         FileInputStream fis = null;
@@ -63,11 +58,11 @@ public class StoreControl extends Control {
                 bundle = new PropertyResourceBundle(reader);
             }
         } finally {
-            if(reader != null){
-                reader.close() ;
+            if (reader != null) {
+                reader.close();
             }
-            if(fis != null){
-                fis.close() ;
+            if (fis != null) {
+                fis.close();
             }
         }
         return bundle;
@@ -75,7 +70,7 @@ public class StoreControl extends Control {
 
     @Override
     public String toBundleName(String baseName, Locale locale) {
-        if(locale == null || locale.toString().isEmpty()){
+        if (locale == null || locale.toString().isEmpty()) {
             return baseName + ".properties";
         }
         return baseName + "_" + locale.toString() + ".properties";

@@ -4,9 +4,8 @@
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- * 
  * Contributors:
- *     IBM Corporation - initial API and implementation
+ * IBM Corporation - initial API and implementation
  *******************************************************************************/
 package org.eclipse.ui.views.properties.tabbed;
 
@@ -19,14 +18,14 @@ import org.eclipse.jface.viewers.IStructuredContentProvider;
  * <p>
  * The overridable tab list is a content provider that provides both the
  * sections and the tab labels.
-
+ * 
  * @author Anthony Hunter
  * @since 3.4
  */
 public interface IOverridableTabListContentProvider extends IStructuredContentProvider {
 
-	/**
-	 * Override the tabs displayed in the tab list with a new list of tabs.
-	 */
-	public void overrideTabs();
+    /**
+     * Override the tabs displayed in the tab list with a new list of tabs.
+     */
+    public void overrideTabs();
 }

@@ -4,9 +4,8 @@
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- * 
  * Contributors:
- *     IBM Corporation - initial API and implementation
+ * IBM Corporation - initial API and implementation
  *******************************************************************************/
 package org.eclipse.ui.internal.views.properties.tabbed;
 
@@ -18,23 +17,24 @@ import org.eclipse.ui.plugin.AbstractUIPlugin;
  * @author Anthony Hunter
  */
 public class TabbedPropertyViewPlugin
-	extends AbstractUIPlugin {
+        extends AbstractUIPlugin {
 
-	private static TabbedPropertyViewPlugin plugin;
+    private static TabbedPropertyViewPlugin plugin;
 
     /**
      * Constructor for TabbedPropertyViewPlugin.
      */
-	public TabbedPropertyViewPlugin() {
-		super();
-		plugin = this;
-	}
+    public TabbedPropertyViewPlugin() {
+        super();
+        plugin = this;
+    }
 
     /**
      * Retrieve the plug-in class for this plug-in.
+     * 
      * @return the plug-in class for this plug-in.
      */
-	public static TabbedPropertyViewPlugin getPlugin() {
-		return plugin;
-	}
+    public static TabbedPropertyViewPlugin getPlugin() {
+        return plugin;
+    }
 }

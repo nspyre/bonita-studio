@@ -20,6 +20,7 @@ public class AbstractProcessAssert extends AbstractAssert<AbstractProcessAssert,
 
     /**
      * Creates a new </code>{@link AbstractProcessAssert}</code> to make assertions on actual AbstractProcess.
+     * 
      * @param actual the AbstractProcess we want to make assertions on.
      */
     public AbstractProcessAssert(AbstractProcess actual) {
@@ -29,6 +30,7 @@ public class AbstractProcessAssert extends AbstractAssert<AbstractProcessAssert,
     /**
      * An entry point for AbstractProcessAssert to follow AssertJ standard <code>assertThat()</code> statements.<br>
      * With a static import, one's can write directly : <code>assertThat(myAbstractProcess)</code> and get specific assertion with code completion.
+     * 
      * @param actual the AbstractProcess we want to make assertions on.
      * @return a new </code>{@link AbstractProcessAssert}</code>
      */
@@ -38,6 +40,7 @@ public class AbstractProcessAssert extends AbstractAssert<AbstractProcessAssert,
 
     /**
      * Verifies that the actual AbstractProcess's actors contains the given Actor elements.
+     * 
      * @param actors the given elements that should be contained in actual AbstractProcess's actors.
      * @return this assertion object.
      * @throws AssertionError if the actual AbstractProcess's actors does not contain all given Actor elements.
@@ -65,6 +68,7 @@ public class AbstractProcessAssert extends AbstractAssert<AbstractProcessAssert,
 
     /**
      * Verifies that the actual AbstractProcess has no actors.
+     * 
      * @return this assertion object.
      * @throws AssertionError if the actual AbstractProcess's actors is not empty.
      */
@@ -85,6 +89,7 @@ public class AbstractProcessAssert extends AbstractAssert<AbstractProcessAssert,
 
     /**
      * Verifies that the actual AbstractProcess's author is equal to the given one.
+     * 
      * @param author the given author to compare the actual AbstractProcess's author to.
      * @return this assertion object.
      * @throws AssertionError - if the actual AbstractProcess's author is not equal to the given one.
@@ -107,6 +112,7 @@ public class AbstractProcessAssert extends AbstractAssert<AbstractProcessAssert,
 
     /**
      * Verifies that the actual AbstractProcess's categories contains the given String elements.
+     * 
      * @param categories the given elements that should be contained in actual AbstractProcess's categories.
      * @return this assertion object.
      * @throws AssertionError if the actual AbstractProcess's categories does not contain all given String elements.
@@ -134,6 +140,7 @@ public class AbstractProcessAssert extends AbstractAssert<AbstractProcessAssert,
 
     /**
      * Verifies that the actual AbstractProcess has no categories.
+     * 
      * @return this assertion object.
      * @throws AssertionError if the actual AbstractProcess's categories is not empty.
      */
@@ -154,6 +161,7 @@ public class AbstractProcessAssert extends AbstractAssert<AbstractProcessAssert,
 
     /**
      * Verifies that the actual AbstractProcess's configurations contains the given Configuration elements.
+     * 
      * @param configurations the given elements that should be contained in actual AbstractProcess's configurations.
      * @return this assertion object.
      * @throws AssertionError if the actual AbstractProcess's configurations does not contain all given Configuration elements.
@@ -181,6 +189,7 @@ public class AbstractProcessAssert extends AbstractAssert<AbstractProcessAssert,
 
     /**
      * Verifies that the actual AbstractProcess has no configurations.
+     * 
      * @return this assertion object.
      * @throws AssertionError if the actual AbstractProcess's configurations is not empty.
      */
@@ -201,6 +210,7 @@ public class AbstractProcessAssert extends AbstractAssert<AbstractProcessAssert,
 
     /**
      * Verifies that the actual AbstractProcess's connections contains the given Connection elements.
+     * 
      * @param connections the given elements that should be contained in actual AbstractProcess's connections.
      * @return this assertion object.
      * @throws AssertionError if the actual AbstractProcess's connections does not contain all given Connection elements.
@@ -228,6 +238,7 @@ public class AbstractProcessAssert extends AbstractAssert<AbstractProcessAssert,
 
     /**
      * Verifies that the actual AbstractProcess has no connections.
+     * 
      * @return this assertion object.
      * @throws AssertionError if the actual AbstractProcess's connections is not empty.
      */
@@ -248,6 +259,7 @@ public class AbstractProcessAssert extends AbstractAssert<AbstractProcessAssert,
 
     /**
      * Verifies that the actual AbstractProcess's creationDate is equal to the given one.
+     * 
      * @param creationDate the given creationDate to compare the actual AbstractProcess's creationDate to.
      * @return this assertion object.
      * @throws AssertionError - if the actual AbstractProcess's creationDate is not equal to the given one.
@@ -270,6 +282,7 @@ public class AbstractProcessAssert extends AbstractAssert<AbstractProcessAssert,
 
     /**
      * Verifies that the actual AbstractProcess's datatypes contains the given DataType elements.
+     * 
      * @param datatypes the given elements that should be contained in actual AbstractProcess's datatypes.
      * @return this assertion object.
      * @throws AssertionError if the actual AbstractProcess's datatypes does not contain all given DataType elements.
@@ -297,6 +310,7 @@ public class AbstractProcessAssert extends AbstractAssert<AbstractProcessAssert,
 
     /**
      * Verifies that the actual AbstractProcess has no datatypes.
+     * 
      * @return this assertion object.
      * @throws AssertionError if the actual AbstractProcess's datatypes is not empty.
      */
@@ -317,6 +331,7 @@ public class AbstractProcessAssert extends AbstractAssert<AbstractProcessAssert,
 
     /**
      * Verifies that the actual AbstractProcess's modificationDate is equal to the given one.
+     * 
      * @param modificationDate the given modificationDate to compare the actual AbstractProcess's modificationDate to.
      * @return this assertion object.
      * @throws AssertionError - if the actual AbstractProcess's modificationDate is not equal to the given one.
@@ -340,6 +355,7 @@ public class AbstractProcessAssert extends AbstractAssert<AbstractProcessAssert,
 
     /**
      * Verifies that the actual AbstractProcess's parameters contains the given Parameter elements.
+     * 
      * @param parameters the given elements that should be contained in actual AbstractProcess's parameters.
      * @return this assertion object.
      * @throws AssertionError if the actual AbstractProcess's parameters does not contain all given Parameter elements.
@@ -367,6 +383,7 @@ public class AbstractProcessAssert extends AbstractAssert<AbstractProcessAssert,
 
     /**
      * Verifies that the actual AbstractProcess has no parameters.
+     * 
      * @return this assertion object.
      * @throws AssertionError if the actual AbstractProcess's parameters is not empty.
      */
@@ -387,6 +404,7 @@ public class AbstractProcessAssert extends AbstractAssert<AbstractProcessAssert,
 
     /**
      * Verifies that the actual AbstractProcess's version is equal to the given one.
+     * 
      * @param version the given version to compare the actual AbstractProcess's version to.
      * @return this assertion object.
      * @throws AssertionError - if the actual AbstractProcess's version is not equal to the given one.

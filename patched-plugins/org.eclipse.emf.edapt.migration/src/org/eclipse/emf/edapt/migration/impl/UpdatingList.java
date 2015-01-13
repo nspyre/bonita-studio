@@ -4,10 +4,9 @@
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- *
  * Contributors:
- *     BMW Car IT - Initial API and implementation
- *     Technische Universitaet Muenchen - Major refactoring and extension
+ * BMW Car IT - Initial API and implementation
+ * Technische Universitaet Muenchen - Major refactoring and extension
  *******************************************************************************/
 package org.eclipse.emf.edapt.migration.impl;
 
@@ -17,7 +16,6 @@ import java.util.Collection;
 import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.edapt.migration.Instance;
-
 
 /**
  * A list automatically updating the model.
@@ -29,42 +27,42 @@ import org.eclipse.emf.edapt.migration.Instance;
  */
 public class UpdatingList<E> extends BasicEList<E> {
 
-	/** Serial ID */
-	private static final long serialVersionUID = -4463041349924185459L;
+    /** Serial ID */
+    private static final long serialVersionUID = -4463041349924185459L;
 
-	/** Feature */
-	private EStructuralFeature feature;
-	
-	/** Instance */
-	private Instance instance;
+    /** Feature */
+    private EStructuralFeature feature;
 
-	/** Constructor */
-	public UpdatingList(Instance instance, EStructuralFeature feature) {
-		this(instance, feature, new ArrayList<E>());
-	}
-	
-	/** Constructor */
-	public UpdatingList(Instance instance, EStructuralFeature feature, Collection<E> values) {
-		super(values);
-		this.instance = instance;
-		this.feature = feature;
-	}
-	
-	/** {@inheritDoc} */
-	@Override
-	protected void didAdd(int index, Object object) {
-		instance.add(feature, index, object);
-	}
-	
-	/** {@inheritDoc} */
-	@Override
-	protected void didRemove(int index, Object object) {
-		instance.remove(feature, index);
-	}
-	
-	/** {@inheritDoc} */
-	@Override
-	protected boolean isUnique() {
-		return feature.isUnique();
-	}
+    /** Instance */
+    private Instance instance;
+
+    /** Constructor */
+    public UpdatingList(Instance instance, EStructuralFeature feature) {
+        this(instance, feature, new ArrayList<E>());
+    }
+
+    /** Constructor */
+    public UpdatingList(Instance instance, EStructuralFeature feature, Collection<E> values) {
+        super(values);
+        this.instance = instance;
+        this.feature = feature;
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    protected void didAdd(int index, Object object) {
+        instance.add(feature, index, object);
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    protected void didRemove(int index, Object object) {
+        instance.remove(feature, index);
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    protected boolean isUnique() {
+        return feature.isUnique();
+    }
 }

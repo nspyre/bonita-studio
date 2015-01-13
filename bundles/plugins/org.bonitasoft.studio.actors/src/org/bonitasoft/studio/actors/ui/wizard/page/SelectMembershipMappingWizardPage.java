@@ -5,14 +5,12 @@
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2.0 of the License, or
  * (at your option) any later version.
- *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package org.bonitasoft.studio.actors.ui.wizard.page;
 
@@ -45,7 +43,6 @@ import org.eclipse.swt.widgets.Label;
 
 /**
  * @author Romain Bioteau
- *
  */
 public class SelectMembershipMappingWizardPage extends SelectOrganizationWizardPage {
 
@@ -56,12 +53,13 @@ public class SelectMembershipMappingWizardPage extends SelectOrganizationWizardP
 
     public SelectMembershipMappingWizardPage(ActorMapping mapping) {
         super();
-        setTitle(Messages.selectMembershipTitle) ;
-        setDescription(Messages.selectMembershipDescription) ;
-        this.mapping = mapping ;
+        setTitle(Messages.selectMembershipTitle);
+        setDescription(Messages.selectMembershipDescription);
+        this.mapping = mapping;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see org.eclipse.jface.dialogs.IDialogPage#createControl(org.eclipse.swt.widgets.Composite)
      */
     @Override
@@ -69,164 +67,163 @@ public class SelectMembershipMappingWizardPage extends SelectOrganizationWizardP
         super.createControl(parent);
 
         Composite mainComposite = (Composite) getControl();
-        viewersComposite = new Composite(mainComposite, SWT.NONE) ;
-        viewersComposite.setLayoutData(GridDataFactory.fillDefaults().grab(true, true).span(2, 1).create()) ;
-        viewersComposite.setLayout(GridLayoutFactory.swtDefaults().numColumns(5).margins(0, 0).equalWidth(false).create()) ;
+        viewersComposite = new Composite(mainComposite, SWT.NONE);
+        viewersComposite.setLayoutData(GridDataFactory.fillDefaults().grab(true, true).span(2, 1).create());
+        viewersComposite.setLayout(GridLayoutFactory.swtDefaults().numColumns(5).margins(0, 0).equalWidth(false).create());
 
         createMembershipComposite(viewersComposite);
     }
 
     private void createMembershipComposite(Composite viewersComposite) {
-        final org.bonitasoft.studio.model.actormapping.Membership membership = mapping.getMemberships() ;
-        if(membership != null){
-            for(final MembershipType mType : membership.getMembership()){
-                Label groupName = new Label(viewersComposite, SWT.NONE) ;
-                groupName.setLayoutData(GridDataFactory.fillDefaults().align(SWT.END,SWT.CENTER).create()) ;
-                groupName.setText(Messages.groupName) ;
+        final org.bonitasoft.studio.model.actormapping.Membership membership = mapping.getMemberships();
+        if (membership != null) {
+            for (final MembershipType mType : membership.getMembership()) {
+                Label groupName = new Label(viewersComposite, SWT.NONE);
+                groupName.setLayoutData(GridDataFactory.fillDefaults().align(SWT.END, SWT.CENTER).create());
+                groupName.setText(Messages.groupName);
 
-                final Combo groupNameCombo = new Combo(viewersComposite, SWT.BORDER | SWT.READ_ONLY) ;
-                groupNameCombo.setLayoutData(GridDataFactory.fillDefaults().grab(true, false).minSize(100, SWT.DEFAULT).create()) ;
+                final Combo groupNameCombo = new Combo(viewersComposite, SWT.BORDER | SWT.READ_ONLY);
+                groupNameCombo.setLayoutData(GridDataFactory.fillDefaults().grab(true, false).minSize(100, SWT.DEFAULT).create());
                 groupNameCombo.addModifyListener(new ModifyListener() {
 
                     @Override
                     public void modifyText(ModifyEvent e) {
-                        String path = groupNameCombo.getText() ;
-                        if(!path.isEmpty()){
-                            mType.setGroup(path) ;
-                        }else{
-                            mType.setGroup("") ;
+                        String path = groupNameCombo.getText();
+                        if (!path.isEmpty()) {
+                            mType.setGroup(path);
+                        } else {
+                            mType.setGroup("");
                         }
-                        getContainer().updateButtons() ;
+                        getContainer().updateButtons();
                     }
-                }) ;
+                });
 
-                groupNameCombo.add("") ;
-                for(Group g : groups){
-                    groupNameCombo.add(GroupContentProvider.getGroupPath(g)) ;
+                groupNameCombo.add("");
+                for (Group g : groups) {
+                    groupNameCombo.add(GroupContentProvider.getGroupPath(g));
                 }
 
-                if(mType.getGroup()!= null && !mType.getGroup().isEmpty()){
-                    groupNameCombo.add(mType.getGroup()) ;
-                    groupNameCombo.setText(mType.getGroup()) ;
-                }else{
-                    groupNameCombo.setText("") ;
+                if (mType.getGroup() != null && !mType.getGroup().isEmpty()) {
+                    groupNameCombo.add(mType.getGroup());
+                    groupNameCombo.setText(mType.getGroup());
+                } else {
+                    groupNameCombo.setText("");
                 }
 
-                Label roleName = new Label(viewersComposite, SWT.NONE) ;
-                roleName.setLayoutData(GridDataFactory.fillDefaults().align(SWT.END,SWT.CENTER).create()) ;
-                roleName.setText(Messages.role) ;
+                Label roleName = new Label(viewersComposite, SWT.NONE);
+                roleName.setLayoutData(GridDataFactory.fillDefaults().align(SWT.END, SWT.CENTER).create());
+                roleName.setText(Messages.role);
 
-
-
-                final Combo roleNameCombo = new Combo(viewersComposite, SWT.BORDER | SWT.READ_ONLY) ;
-                roleNameCombo.setLayoutData(GridDataFactory.fillDefaults().grab(true, false).minSize(100, SWT.DEFAULT).create()) ;
-                roleNameCombo.add("") ;
-                for(Role r : roles){
-                    roleNameCombo.add(r.getName()) ;
+                final Combo roleNameCombo = new Combo(viewersComposite, SWT.BORDER | SWT.READ_ONLY);
+                roleNameCombo.setLayoutData(GridDataFactory.fillDefaults().grab(true, false).minSize(100, SWT.DEFAULT).create());
+                roleNameCombo.add("");
+                for (Role r : roles) {
+                    roleNameCombo.add(r.getName());
                 }
 
                 roleNameCombo.addModifyListener(new ModifyListener() {
 
                     @Override
                     public void modifyText(ModifyEvent e) {
-                        String roleName = roleNameCombo.getText() ;
-                        if(!roleName.isEmpty()){
-                            mType.setRole(roleName) ;
-                        }else{
-                            mType.setRole("") ;
+                        String roleName = roleNameCombo.getText();
+                        if (!roleName.isEmpty()) {
+                            mType.setRole(roleName);
+                        } else {
+                            mType.setRole("");
                         }
-                        getContainer().updateButtons() ;
+                        getContainer().updateButtons();
                     }
-                }) ;
+                });
 
-                if(mType.getRole()!= null && !mType.getRole().isEmpty()){
-                    roleNameCombo.add(mType.getRole()) ;
-                    roleNameCombo.setText(mType.getRole()) ;
-                }else{
-                    roleNameCombo.setText("") ;
+                if (mType.getRole() != null && !mType.getRole().isEmpty()) {
+                    roleNameCombo.add(mType.getRole());
+                    roleNameCombo.setText(mType.getRole());
+                } else {
+                    roleNameCombo.setText("");
                 }
 
-                Button removeMembershipButton = new Button(viewersComposite, SWT.FLAT) ;
-                removeMembershipButton.setImage(Pics.getImage("delete.png")) ;
-                removeMembershipButton.setToolTipText(Messages.delete) ;
-                removeMembershipButton.setLayoutData(GridDataFactory.swtDefaults().create()) ;
+                Button removeMembershipButton = new Button(viewersComposite, SWT.FLAT);
+                removeMembershipButton.setImage(Pics.getImage("delete.png"));
+                removeMembershipButton.setToolTipText(Messages.delete);
+                removeMembershipButton.setLayoutData(GridDataFactory.swtDefaults().create());
                 removeMembershipButton.addSelectionListener(new SelectionAdapter() {
+
                     @Override
                     public void widgetSelected(SelectionEvent e) {
-                        membership.getMembership().remove(mType) ;
-                        refreshComposite() ;
-                        getContainer().updateButtons() ;
+                        membership.getMembership().remove(mType);
+                        refreshComposite();
+                        getContainer().updateButtons();
                     }
-                }) ;
+                });
             }
         }
 
-        Button addMembershipButton = new Button(viewersComposite, SWT.PUSH) ;
-        addMembershipButton.setLayoutData(GridDataFactory.fillDefaults().grab(true, false).span(5, 1).align(SWT.END, SWT.CENTER).create()) ;
-        addMembershipButton.setText(Messages.addMembership) ;
+        Button addMembershipButton = new Button(viewersComposite, SWT.PUSH);
+        addMembershipButton.setLayoutData(GridDataFactory.fillDefaults().grab(true, false).span(5, 1).align(SWT.END, SWT.CENTER).create());
+        addMembershipButton.setText(Messages.addMembership);
         addMembershipButton.addSelectionListener(new SelectionAdapter() {
+
             @Override
             public void widgetSelected(SelectionEvent e) {
-                addMembershipAction() ;
+                addMembershipAction();
                 refreshComposite();
             }
-        }) ;
+        });
 
     }
 
-
     protected void refreshComposite() {
-        if(viewersComposite != null){
-            for(Control c : viewersComposite.getChildren()){
-                c.dispose() ;
+        if (viewersComposite != null) {
+            for (Control c : viewersComposite.getChildren()) {
+                c.dispose();
             }
-            createMembershipComposite(viewersComposite) ;
-            viewersComposite.getShell().layout(true, true) ;
+            createMembershipComposite(viewersComposite);
+            viewersComposite.getShell().layout(true, true);
         }
     }
 
     protected void addMembershipAction() {
-        MembershipType m = ActorMappingFactory.eINSTANCE.createMembershipType() ;
-        if(mapping.getMemberships()==null){
-            mapping.setMemberships(ActorMappingFactory.eINSTANCE.createMembership()) ;
+        MembershipType m = ActorMappingFactory.eINSTANCE.createMembershipType();
+        if (mapping.getMemberships() == null) {
+            mapping.setMemberships(ActorMappingFactory.eINSTANCE.createMembership());
         }
-        mapping.getMemberships().getMembership().add(m) ;
-        getContainer().updateButtons() ;
+        mapping.getMemberships().getMembership().add(m);
+        getContainer().updateButtons();
     }
 
     @Override
     protected void refreshOrganization(Organization organization) {
-        if(organization != null){
-            if(organization.getGroups() == null){
-                organization.setGroups(OrganizationFactory.eINSTANCE.createGroups()) ;
+        if (organization != null) {
+            if (organization.getGroups() == null) {
+                organization.setGroups(OrganizationFactory.eINSTANCE.createGroups());
             }
-            if(organization.getRoles() == null){
-                organization.setRoles(OrganizationFactory.eINSTANCE.createRoles()) ;
+            if (organization.getRoles() == null) {
+                organization.setRoles(OrganizationFactory.eINSTANCE.createRoles());
             }
 
-            groups = organization.getGroups().getGroup() ;
-            roles = organization.getRoles().getRole() ;
-            refreshComposite() ;
+            groups = organization.getGroups().getGroup();
+            roles = organization.getRoles().getRole();
+            refreshComposite();
         }
     }
 
     @Override
     public void selectionChanged(SelectionChangedEvent event) {
-        refreshOrganization((Organization) ((IRepositoryFileStore)((IStructuredSelection) event.getSelection()).getFirstElement()).getContent()) ;
+        refreshOrganization((Organization) ((IRepositoryFileStore) ((IStructuredSelection) event.getSelection()).getFirstElement()).getContent());
     }
 
     @Override
     public boolean isPageComplete() {
-        setErrorMessage(null) ;
-        setDescription(getDescription()) ;
-        for(MembershipType membership : mapping.getMemberships().getMembership()){
-            if(membership.getGroup() == null || membership.getGroup().isEmpty()){
-                setErrorMessage(Messages.incompleteMembership) ;
-                return false ;
+        setErrorMessage(null);
+        setDescription(getDescription());
+        for (MembershipType membership : mapping.getMemberships().getMembership()) {
+            if (membership.getGroup() == null || membership.getGroup().isEmpty()) {
+                setErrorMessage(Messages.incompleteMembership);
+                return false;
             }
-            if(membership.getRole() == null || membership.getRole().isEmpty()){
-                setErrorMessage(Messages.incompleteMembership) ;
-                return false ;
+            if (membership.getRole() == null || membership.getRole().isEmpty()) {
+                setErrorMessage(Messages.incompleteMembership);
+                return false;
             }
         }
         return super.isPageComplete();

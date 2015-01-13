@@ -18,25 +18,28 @@ import org.eclipse.emf.ecore.EClass;
  */
 public class Operation_UnaryImpl extends Unary_OperationImpl implements Operation_Unary
 {
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  protected Operation_UnaryImpl()
-  {
-    super();
-  }
 
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  @Override
-  protected EClass eStaticClass()
-  {
-    return ConditionModelPackage.Literals.OPERATION_UNARY;
-  }
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * 
+     * @generated
+     */
+    protected Operation_UnaryImpl()
+    {
+        super();
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * 
+     * @generated
+     */
+    @Override
+    protected EClass eStaticClass()
+    {
+        return ConditionModelPackage.Literals.OPERATION_UNARY;
+    }
 
 } //Operation_UnaryImpl

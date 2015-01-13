@@ -1,19 +1,16 @@
 /**
  * Copyright (C) 2009-2010 BonitaSoft S.A.
  * BonitaSoft, 31 rue Gustave Eiffel - 38000 Grenoble
- *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2.0 of the License, or
  * (at your option) any later version.
- *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package org.bonitasoft.studio.common.gmf.tools;
 
@@ -63,6 +60,7 @@ public class GMFTools {
     public static final double MINIMAL_ZOOM_DISPLAY = 0.60;
 
     public static interface ElementTypeResolver {
+
         /**
          * @param parentEditPart
          * @param targetEClass
@@ -116,7 +114,7 @@ public class GMFTools {
         TransactionalEditingDomain editingDomain = node.getEditingDomain();
         final ConvertBPMNTypeCommand cmd = new ConvertBPMNTypeCommand(editingDomain, targetEClass, node, elementTypeResolver);
         try {
-            OperationHistoryFactory.getOperationHistory().execute(cmd,null,null);
+            OperationHistoryFactory.getOperationHistory().execute(cmd, null, null);
         } catch (ExecutionException e) {
             BonitaStudioLog.error(e);
         }
@@ -124,14 +122,13 @@ public class GMFTools {
         return targetEditPart;
     }
 
-
     /**
      * returns the the appropriate snap helper(s), this method will always reach
      * for the first reachable DiagramEditPart using the passed edit part, then
      * use this Diagram edit part to get the snap helper
      * 
      * @param editPart
-     *            , edit part to get the snap helper for
+     *        , edit part to get the snap helper for
      * @return
      */
     static public Object getSnapHelper(GraphicalEditPart editPart) {
@@ -177,36 +174,35 @@ public class GMFTools {
         return new CompoundSnapToHelperEx(ss);
     }
 
-
-    public static IGraphicalEditPart findEditPart(EditPart containerEditPart,EObject elementToFind) {
+    public static IGraphicalEditPart findEditPart(EditPart containerEditPart, EObject elementToFind) {
 
         final EObject containerElement = ((IGraphicalEditPart) containerEditPart).resolveSemanticElement();
-        if (ModelHelper.getEObjectID( containerElement) != null && ModelHelper.getEObjectID(containerElement).equals(ModelHelper.getEObjectID(elementToFind))) {
+        if (ModelHelper.getEObjectID(containerElement) != null && ModelHelper.getEObjectID(containerElement).equals(ModelHelper.getEObjectID(elementToFind))) {
             return (IGraphicalEditPart) containerEditPart;
         }
 
         for (Object child : containerEditPart.getChildren()) {
             if (child instanceof IGraphicalEditPart) {
                 final EObject childResolvedSemanticElement = ((IGraphicalEditPart) child).resolveSemanticElement();
-                final String eObjectID = ModelHelper.getEObjectID( childResolvedSemanticElement);
+                final String eObjectID = ModelHelper.getEObjectID(childResolvedSemanticElement);
                 if (eObjectID != null && eObjectID.equals(ModelHelper.getEObjectID(elementToFind))) {
                     return (IGraphicalEditPart) child;
-                }else{
+                } else {
 
-                    if(!((IGraphicalEditPart)child).getTargetConnections().isEmpty() || !((IGraphicalEditPart)child).getSourceConnections().isEmpty()) {
-                        for(Object ep : ((IGraphicalEditPart)child).getTargetConnections()){
+                    if (!((IGraphicalEditPart) child).getTargetConnections().isEmpty() || !((IGraphicalEditPart) child).getSourceConnections().isEmpty()) {
+                        for (Object ep : ((IGraphicalEditPart) child).getTargetConnections()) {
                             final EObject resolveSemanticElement = ((IGraphicalEditPart) ep).resolveSemanticElement();
-                            if(resolveSemanticElement != null){
-                                if(ModelHelper.getEObjectID( resolveSemanticElement).equals(ModelHelper.getEObjectID(elementToFind))){
+                            if (resolveSemanticElement != null) {
+                                if (ModelHelper.getEObjectID(resolveSemanticElement).equals(ModelHelper.getEObjectID(elementToFind))) {
                                     return (IGraphicalEditPart) ep;
                                 }
                             }
                         }
 
-                        for(Object ep : ((IGraphicalEditPart)child).getSourceConnections()){
+                        for (Object ep : ((IGraphicalEditPart) child).getSourceConnections()) {
                             final EObject resolveSemanticElement = ((IGraphicalEditPart) ep).resolveSemanticElement();
-                            if(resolveSemanticElement != null){
-                                if(ModelHelper.getEObjectID( resolveSemanticElement).equals(ModelHelper.getEObjectID(elementToFind))){
+                            if (resolveSemanticElement != null) {
+                                if (ModelHelper.getEObjectID(resolveSemanticElement).equals(ModelHelper.getEObjectID(elementToFind))) {
                                     return (IGraphicalEditPart) ep;
                                 }
                             }
@@ -251,7 +247,7 @@ public class GMFTools {
             if (part instanceof INodeEditPart) {
                 INodeEditPart node = (INodeEditPart) part;
                 for (Object conn : node.getSourceConnections()) {
-                    ConnectionEditPart connection = (ConnectionEditPart)conn;
+                    ConnectionEditPart connection = (ConnectionEditPart) conn;
                     if (res.contains(connection.getTarget()) && !transitions.contains(conn)) {
                         transitions.add((ConnectionEditPart) conn);
                     }

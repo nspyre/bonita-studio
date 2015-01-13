@@ -8,7 +8,6 @@
  *******************************************************************************/
 package org.bonitasoft.studio.swtbot.framework.diagram.general.form.general;
 
-
 import org.bonitasoft.studio.common.jface.SWTBotConstants;
 import org.bonitasoft.studio.form.properties.i18n.Messages;
 import org.bonitasoft.studio.swtbot.framework.BotBase;
@@ -60,6 +59,7 @@ public class BotGeneralPropertySection extends BotBase {
         bot.button(IDialogConstants.OK_LABEL).click();
         return this;
     }
+
     public BotHTMLEditor editTemplate() {
         bot.button(Messages.Edit).click();
         bot.waitUntil(new DefaultCondition() {
@@ -76,7 +76,5 @@ public class BotGeneralPropertySection extends BotBase {
         });
         return new BotHTMLEditor(bot);
     }
-
-
 
 }

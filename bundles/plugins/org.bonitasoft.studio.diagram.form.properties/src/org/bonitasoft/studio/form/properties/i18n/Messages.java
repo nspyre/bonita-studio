@@ -5,14 +5,12 @@
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2.0 of the License, or
  * (at your option) any later version.
- *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package org.bonitasoft.studio.form.properties.i18n;
 
@@ -23,6 +21,7 @@ import org.eclipse.osgi.util.NLS;
  * @author Baptiste Mesta
  */
 public class Messages extends NLS {
+
     private static final String BUNDLE_NAME = "messages"; //$NON-NLS-1$
 
     public static String AppearanceSection_StyleAttr;
@@ -105,7 +104,6 @@ public class Messages extends NLS {
     public static String Widget_Date_Format4;
     public static String Widget_Date_Format5;
 
-
     public static String GridSize;
     public static String Vertical;
     public static String Horizontal;
@@ -132,7 +130,6 @@ public class Messages extends NLS {
     public static String data_tooltip_boolean;
     public static String data_tooltip_image;
 
-
     public static String headers;
     public static String AppearancePropertySection_Down;
     public static String AppearancePropertySection_Up;
@@ -144,9 +141,6 @@ public class Messages extends NLS {
     public static String selectColumnNumber;
 
     public static String Contribution_ReadOnly;
-
-
-
 
     public static String data_horizontalHeaderValues;
     public static String data_verticalHeaderValues;

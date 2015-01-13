@@ -5,14 +5,12 @@
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2.0 of the License, or
  * (at your option) any later version.
- *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package org.bonitasoft.studio.common.repository.filestore;
 
@@ -28,78 +26,77 @@ import org.eclipse.core.resources.IFile;
 
 /**
  * @author Romain Bioteau
- *
  */
 public abstract class PropertiesFileStore extends AbstractFileStore implements IRepositoryFileStore {
 
-	private Properties properties;
+    private Properties properties;
 
-	public PropertiesFileStore(String fileName,IRepositoryStore store){
-		super(fileName, store) ;
-		InputStream is = null ; 
-		if(getResource() != null && getResource().exists()){
-			try{
-				is = getResource().getContents() ;
-				this.properties = load(is) ;
-			}catch (Exception e) {
-				BonitaStudioLog.error(e) ;
-			}finally{
-				if(is != null){
-					try {
-						is.close() ;
-					} catch (IOException e) {
-						BonitaStudioLog.error(e) ;
-					}
-				}
-			}
-		}else{
-			this.properties = new Properties() ;
-		}
-	}
+    public PropertiesFileStore(String fileName, IRepositoryStore store) {
+        super(fileName, store);
+        InputStream is = null;
+        if (getResource() != null && getResource().exists()) {
+            try {
+                is = getResource().getContents();
+                this.properties = load(is);
+            } catch (Exception e) {
+                BonitaStudioLog.error(e);
+            } finally {
+                if (is != null) {
+                    try {
+                        is.close();
+                    } catch (IOException e) {
+                        BonitaStudioLog.error(e);
+                    }
+                }
+            }
+        } else {
+            this.properties = new Properties();
+        }
+    }
 
-	protected Properties load(InputStream is) {
-		final Properties properties = new Properties() ;
-		try {
-			properties.load(is) ;
-		} catch (IOException e) {
-			BonitaStudioLog.error(e) ;
-		}
-		return properties ;
-	}
+    protected Properties load(InputStream is) {
+        final Properties properties = new Properties();
+        try {
+            properties.load(is);
+        } catch (IOException e) {
+            BonitaStudioLog.error(e);
+        }
+        return properties;
+    }
 
-	/* (non-Javadoc)
-	 * @see org.bonitasoft.studio.common.repository.IRepositoryFileStore#getContent()
-	 */
-	@Override
-	public Properties getContent() {
-		return properties;
-	}
+    /*
+     * (non-Javadoc)
+     * @see org.bonitasoft.studio.common.repository.IRepositoryFileStore#getContent()
+     */
+    @Override
+    public Properties getContent() {
+        return properties;
+    }
 
-	
-	@Override
-	protected void doSave(Object content) {
-		if(content instanceof Properties){
-			this.properties = (Properties) content ;
-			FileOutputStream fos = null ;
-			try{
-				fos = new FileOutputStream(getResource().getLocation().toFile()) ; 
-				((Properties)content).store(fos, null) ;
-			}catch(Exception e){
-				BonitaStudioLog.error(e) ;
-			}finally{
-				if(fos != null){
-					try {
-						fos.close() ;
-					} catch (IOException e) {
-						BonitaStudioLog.error(e) ;
-					}
-				}
-			}
-		}
-	}
-	
-	public IFile getResource() {
-		return getParentStore().getResource().getFile(getName());
-	}
+    @Override
+    protected void doSave(Object content) {
+        if (content instanceof Properties) {
+            this.properties = (Properties) content;
+            FileOutputStream fos = null;
+            try {
+                fos = new FileOutputStream(getResource().getLocation().toFile());
+                ((Properties) content).store(fos, null);
+            } catch (Exception e) {
+                BonitaStudioLog.error(e);
+            } finally {
+                if (fos != null) {
+                    try {
+                        fos.close();
+                    } catch (IOException e) {
+                        BonitaStudioLog.error(e);
+                    }
+                }
+            }
+        }
+    }
+
+    public IFile getResource() {
+        return getParentStore().getResource().getFile(getName());
+    }
 
 }

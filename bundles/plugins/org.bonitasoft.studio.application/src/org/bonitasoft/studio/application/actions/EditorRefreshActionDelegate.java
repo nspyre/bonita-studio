@@ -15,45 +15,47 @@ import org.eclipse.ui.texteditor.IDocumentProviderExtension;
 
 /**
  * @author Romain Bioteau
- *
  */
 public class EditorRefreshActionDelegate implements IEditorActionDelegate {
 
-	private TextEditor editor;
+    private TextEditor editor;
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.ui.IActionDelegate#run(org.eclipse.jface.action.IAction)
-	 */
-	@Override
-	public void run(IAction action) {
-		if(editor != null){
-			IDocumentProvider provider = editor.getDocumentProvider() ; 
-			IDocumentProviderExtension extension= (IDocumentProviderExtension) provider;
-			try {
-				extension.synchronize(editor.getEditorInput());
-			} catch (CoreException e) {
-				BonitaStudioLog.error(e) ;
-			}
-		}
-	}
+    /*
+     * (non-Javadoc)
+     * @see org.eclipse.ui.IActionDelegate#run(org.eclipse.jface.action.IAction)
+     */
+    @Override
+    public void run(IAction action) {
+        if (editor != null) {
+            IDocumentProvider provider = editor.getDocumentProvider();
+            IDocumentProviderExtension extension = (IDocumentProviderExtension) provider;
+            try {
+                extension.synchronize(editor.getEditorInput());
+            } catch (CoreException e) {
+                BonitaStudioLog.error(e);
+            }
+        }
+    }
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.ui.IActionDelegate#selectionChanged(org.eclipse.jface.action.IAction, org.eclipse.jface.viewers.ISelection)
-	 */
-	@Override
-	public void selectionChanged(IAction action, ISelection selection) {
-		// TODO Auto-generated method stub
+    /*
+     * (non-Javadoc)
+     * @see org.eclipse.ui.IActionDelegate#selectionChanged(org.eclipse.jface.action.IAction, org.eclipse.jface.viewers.ISelection)
+     */
+    @Override
+    public void selectionChanged(IAction action, ISelection selection) {
+        // TODO Auto-generated method stub
 
-	}
+    }
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.ui.IEditorActionDelegate#setActiveEditor(org.eclipse.jface.action.IAction, org.eclipse.ui.IEditorPart)
-	 */
-	@Override
-	public void setActiveEditor(IAction action, IEditorPart targetEditor) {
-		if(targetEditor instanceof TextEditor){
-			this.editor = (TextEditor) targetEditor ;
-		}
-	}
+    /*
+     * (non-Javadoc)
+     * @see org.eclipse.ui.IEditorActionDelegate#setActiveEditor(org.eclipse.jface.action.IAction, org.eclipse.ui.IEditorPart)
+     */
+    @Override
+    public void setActiveEditor(IAction action, IEditorPart targetEditor) {
+        if (targetEditor instanceof TextEditor) {
+            this.editor = (TextEditor) targetEditor;
+        }
+    }
 
 }

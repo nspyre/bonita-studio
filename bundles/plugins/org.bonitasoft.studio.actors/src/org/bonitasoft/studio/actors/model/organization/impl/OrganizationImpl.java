@@ -1,19 +1,16 @@
 /**
  * Copyright (C) 2009-2012 BonitaSoft S.A.
  * BonitaSoft, 31 rue Gustave Eiffel - 38000 Grenoble
- * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2.0 of the License, or
  * (at your option) any later version.
- * 
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- * 
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package org.bonitasoft.studio.actors.model.organization.impl;
 
@@ -41,114 +38,125 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link org.bonitasoft.studio.actors.model.organization.impl.OrganizationImpl#getCustomUserInfoDefinitions <em>Custom User Info Definitions</em>}</li>
- *   <li>{@link org.bonitasoft.studio.actors.model.organization.impl.OrganizationImpl#getUsers <em>Users</em>}</li>
- *   <li>{@link org.bonitasoft.studio.actors.model.organization.impl.OrganizationImpl#getRoles <em>Roles</em>}</li>
- *   <li>{@link org.bonitasoft.studio.actors.model.organization.impl.OrganizationImpl#getGroups <em>Groups</em>}</li>
- *   <li>{@link org.bonitasoft.studio.actors.model.organization.impl.OrganizationImpl#getMemberships <em>Memberships</em>}</li>
- *   <li>{@link org.bonitasoft.studio.actors.model.organization.impl.OrganizationImpl#getName <em>Name</em>}</li>
- *   <li>{@link org.bonitasoft.studio.actors.model.organization.impl.OrganizationImpl#getDescription <em>Description</em>}</li>
- *   <li>{@link org.bonitasoft.studio.actors.model.organization.impl.OrganizationImpl#getModelVersion <em>Model Version</em>}</li>
+ * <li>{@link org.bonitasoft.studio.actors.model.organization.impl.OrganizationImpl#getCustomUserInfoDefinitions <em>Custom User Info Definitions</em>}</li>
+ * <li>{@link org.bonitasoft.studio.actors.model.organization.impl.OrganizationImpl#getUsers <em>Users</em>}</li>
+ * <li>{@link org.bonitasoft.studio.actors.model.organization.impl.OrganizationImpl#getRoles <em>Roles</em>}</li>
+ * <li>{@link org.bonitasoft.studio.actors.model.organization.impl.OrganizationImpl#getGroups <em>Groups</em>}</li>
+ * <li>{@link org.bonitasoft.studio.actors.model.organization.impl.OrganizationImpl#getMemberships <em>Memberships</em>}</li>
+ * <li>{@link org.bonitasoft.studio.actors.model.organization.impl.OrganizationImpl#getName <em>Name</em>}</li>
+ * <li>{@link org.bonitasoft.studio.actors.model.organization.impl.OrganizationImpl#getDescription <em>Description</em>}</li>
+ * <li>{@link org.bonitasoft.studio.actors.model.organization.impl.OrganizationImpl#getModelVersion <em>Model Version</em>}</li>
  * </ul>
  * </p>
  *
  * @generated
  */
 public class OrganizationImpl extends EObjectImpl implements Organization {
-	/**
+
+    /**
      * The cached value of the '{@link #getCustomUserInfoDefinitions() <em>Custom User Info Definitions</em>}' containment reference.
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
+     * 
      * @see #getCustomUserInfoDefinitions()
      * @generated
      * @ordered
      */
-	protected CustomUserInfoDefinitions customUserInfoDefinitions;
+    protected CustomUserInfoDefinitions customUserInfoDefinitions;
 
-	/**
+    /**
      * The cached value of the '{@link #getUsers() <em>Users</em>}' containment reference.
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
+     * 
      * @see #getUsers()
      * @generated
      * @ordered
      */
-	protected Users users;
+    protected Users users;
 
-	/**
+    /**
      * The cached value of the '{@link #getRoles() <em>Roles</em>}' containment reference.
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
+     * 
      * @see #getRoles()
      * @generated
      * @ordered
      */
-	protected Roles roles;
+    protected Roles roles;
 
-	/**
+    /**
      * The cached value of the '{@link #getGroups() <em>Groups</em>}' containment reference.
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
+     * 
      * @see #getGroups()
      * @generated
      * @ordered
      */
-	protected Groups groups;
+    protected Groups groups;
 
-	/**
+    /**
      * The cached value of the '{@link #getMemberships() <em>Memberships</em>}' containment reference.
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
+     * 
      * @see #getMemberships()
      * @generated
      * @ordered
      */
-	protected Memberships memberships;
+    protected Memberships memberships;
 
-	/**
+    /**
      * The default value of the '{@link #getName() <em>Name</em>}' attribute.
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
+     * 
      * @see #getName()
      * @generated
      * @ordered
      */
-	protected static final String NAME_EDEFAULT = null;
+    protected static final String NAME_EDEFAULT = null;
 
-	/**
+    /**
      * The cached value of the '{@link #getName() <em>Name</em>}' attribute.
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
+     * 
      * @see #getName()
      * @generated
      * @ordered
      */
-	protected String name = NAME_EDEFAULT;
+    protected String name = NAME_EDEFAULT;
 
-	/**
+    /**
      * The default value of the '{@link #getDescription() <em>Description</em>}' attribute.
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
+     * 
      * @see #getDescription()
      * @generated
      * @ordered
      */
-	protected static final String DESCRIPTION_EDEFAULT = null;
+    protected static final String DESCRIPTION_EDEFAULT = null;
 
-	/**
+    /**
      * The cached value of the '{@link #getDescription() <em>Description</em>}' attribute.
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
+     * 
      * @see #getDescription()
      * @generated
      * @ordered
      */
-	protected String description = DESCRIPTION_EDEFAULT;
+    protected String description = DESCRIPTION_EDEFAULT;
 
-	/**
+    /**
      * The default value of the '{@link #getModelVersion() <em>Model Version</em>}' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
+     * 
      * @see #getModelVersion()
      * @generated
      * @ordered
@@ -159,6 +167,7 @@ public class OrganizationImpl extends EObjectImpl implements Organization {
      * The cached value of the '{@link #getModelVersion() <em>Model Version</em>}' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
+     * 
      * @see #getModelVersion()
      * @generated
      * @ordered
@@ -167,283 +176,330 @@ public class OrganizationImpl extends EObjectImpl implements Organization {
 
     /**
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
+     * 
      * @generated
      */
-	protected OrganizationImpl() {
+    protected OrganizationImpl() {
         super();
     }
 
-	/**
+    /**
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
+     * 
      * @generated
      */
-	@Override
-	protected EClass eStaticClass() {
+    @Override
+    protected EClass eStaticClass() {
         return OrganizationPackage.Literals.ORGANIZATION;
     }
 
-	/**
+    /**
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
+     * 
      * @generated
      */
-	public CustomUserInfoDefinitions getCustomUserInfoDefinitions() {
+    public CustomUserInfoDefinitions getCustomUserInfoDefinitions() {
         return customUserInfoDefinitions;
     }
 
-	/**
+    /**
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
+     * 
      * @generated
      */
-	public NotificationChain basicSetCustomUserInfoDefinitions(CustomUserInfoDefinitions newCustomUserInfoDefinitions, NotificationChain msgs) {
+    public NotificationChain basicSetCustomUserInfoDefinitions(CustomUserInfoDefinitions newCustomUserInfoDefinitions, NotificationChain msgs) {
         CustomUserInfoDefinitions oldCustomUserInfoDefinitions = customUserInfoDefinitions;
         customUserInfoDefinitions = newCustomUserInfoDefinitions;
         if (eNotificationRequired()) {
-            ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, OrganizationPackage.ORGANIZATION__CUSTOM_USER_INFO_DEFINITIONS, oldCustomUserInfoDefinitions, newCustomUserInfoDefinitions);
-            if (msgs == null) msgs = notification; else msgs.add(notification);
+            ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, OrganizationPackage.ORGANIZATION__CUSTOM_USER_INFO_DEFINITIONS,
+                    oldCustomUserInfoDefinitions, newCustomUserInfoDefinitions);
+            if (msgs == null)
+                msgs = notification;
+            else
+                msgs.add(notification);
         }
         return msgs;
     }
 
-	/**
+    /**
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
+     * 
      * @generated
      */
-	public void setCustomUserInfoDefinitions(CustomUserInfoDefinitions newCustomUserInfoDefinitions) {
+    public void setCustomUserInfoDefinitions(CustomUserInfoDefinitions newCustomUserInfoDefinitions) {
         if (newCustomUserInfoDefinitions != customUserInfoDefinitions) {
             NotificationChain msgs = null;
             if (customUserInfoDefinitions != null)
-                msgs = ((InternalEObject)customUserInfoDefinitions).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - OrganizationPackage.ORGANIZATION__CUSTOM_USER_INFO_DEFINITIONS, null, msgs);
+                msgs = ((InternalEObject) customUserInfoDefinitions).eInverseRemove(this, EOPPOSITE_FEATURE_BASE
+                        - OrganizationPackage.ORGANIZATION__CUSTOM_USER_INFO_DEFINITIONS, null, msgs);
             if (newCustomUserInfoDefinitions != null)
-                msgs = ((InternalEObject)newCustomUserInfoDefinitions).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - OrganizationPackage.ORGANIZATION__CUSTOM_USER_INFO_DEFINITIONS, null, msgs);
+                msgs = ((InternalEObject) newCustomUserInfoDefinitions).eInverseAdd(this, EOPPOSITE_FEATURE_BASE
+                        - OrganizationPackage.ORGANIZATION__CUSTOM_USER_INFO_DEFINITIONS, null, msgs);
             msgs = basicSetCustomUserInfoDefinitions(newCustomUserInfoDefinitions, msgs);
-            if (msgs != null) msgs.dispatch();
+            if (msgs != null)
+                msgs.dispatch();
         }
         else if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, OrganizationPackage.ORGANIZATION__CUSTOM_USER_INFO_DEFINITIONS, newCustomUserInfoDefinitions, newCustomUserInfoDefinitions));
+            eNotify(new ENotificationImpl(this, Notification.SET, OrganizationPackage.ORGANIZATION__CUSTOM_USER_INFO_DEFINITIONS, newCustomUserInfoDefinitions,
+                    newCustomUserInfoDefinitions));
     }
 
-	/**
+    /**
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
+     * 
      * @generated
      */
-	public Users getUsers() {
+    public Users getUsers() {
         return users;
     }
 
-	/**
+    /**
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
+     * 
      * @generated
      */
-	public NotificationChain basicSetUsers(Users newUsers, NotificationChain msgs) {
+    public NotificationChain basicSetUsers(Users newUsers, NotificationChain msgs) {
         Users oldUsers = users;
         users = newUsers;
         if (eNotificationRequired()) {
             ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, OrganizationPackage.ORGANIZATION__USERS, oldUsers, newUsers);
-            if (msgs == null) msgs = notification; else msgs.add(notification);
+            if (msgs == null)
+                msgs = notification;
+            else
+                msgs.add(notification);
         }
         return msgs;
     }
 
-	/**
+    /**
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
+     * 
      * @generated
      */
-	public void setUsers(Users newUsers) {
+    public void setUsers(Users newUsers) {
         if (newUsers != users) {
             NotificationChain msgs = null;
             if (users != null)
-                msgs = ((InternalEObject)users).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - OrganizationPackage.ORGANIZATION__USERS, null, msgs);
+                msgs = ((InternalEObject) users).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - OrganizationPackage.ORGANIZATION__USERS, null, msgs);
             if (newUsers != null)
-                msgs = ((InternalEObject)newUsers).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - OrganizationPackage.ORGANIZATION__USERS, null, msgs);
+                msgs = ((InternalEObject) newUsers).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - OrganizationPackage.ORGANIZATION__USERS, null, msgs);
             msgs = basicSetUsers(newUsers, msgs);
-            if (msgs != null) msgs.dispatch();
+            if (msgs != null)
+                msgs.dispatch();
         }
         else if (eNotificationRequired())
             eNotify(new ENotificationImpl(this, Notification.SET, OrganizationPackage.ORGANIZATION__USERS, newUsers, newUsers));
     }
 
-	/**
+    /**
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
+     * 
      * @generated
      */
-	public Roles getRoles() {
+    public Roles getRoles() {
         return roles;
     }
 
-	/**
+    /**
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
+     * 
      * @generated
      */
-	public NotificationChain basicSetRoles(Roles newRoles, NotificationChain msgs) {
+    public NotificationChain basicSetRoles(Roles newRoles, NotificationChain msgs) {
         Roles oldRoles = roles;
         roles = newRoles;
         if (eNotificationRequired()) {
             ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, OrganizationPackage.ORGANIZATION__ROLES, oldRoles, newRoles);
-            if (msgs == null) msgs = notification; else msgs.add(notification);
+            if (msgs == null)
+                msgs = notification;
+            else
+                msgs.add(notification);
         }
         return msgs;
     }
 
-	/**
+    /**
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
+     * 
      * @generated
      */
-	public void setRoles(Roles newRoles) {
+    public void setRoles(Roles newRoles) {
         if (newRoles != roles) {
             NotificationChain msgs = null;
             if (roles != null)
-                msgs = ((InternalEObject)roles).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - OrganizationPackage.ORGANIZATION__ROLES, null, msgs);
+                msgs = ((InternalEObject) roles).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - OrganizationPackage.ORGANIZATION__ROLES, null, msgs);
             if (newRoles != null)
-                msgs = ((InternalEObject)newRoles).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - OrganizationPackage.ORGANIZATION__ROLES, null, msgs);
+                msgs = ((InternalEObject) newRoles).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - OrganizationPackage.ORGANIZATION__ROLES, null, msgs);
             msgs = basicSetRoles(newRoles, msgs);
-            if (msgs != null) msgs.dispatch();
+            if (msgs != null)
+                msgs.dispatch();
         }
         else if (eNotificationRequired())
             eNotify(new ENotificationImpl(this, Notification.SET, OrganizationPackage.ORGANIZATION__ROLES, newRoles, newRoles));
     }
 
-	/**
+    /**
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
+     * 
      * @generated
      */
-	public Groups getGroups() {
+    public Groups getGroups() {
         return groups;
     }
 
-	/**
+    /**
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
+     * 
      * @generated
      */
-	public NotificationChain basicSetGroups(Groups newGroups, NotificationChain msgs) {
+    public NotificationChain basicSetGroups(Groups newGroups, NotificationChain msgs) {
         Groups oldGroups = groups;
         groups = newGroups;
         if (eNotificationRequired()) {
             ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, OrganizationPackage.ORGANIZATION__GROUPS, oldGroups, newGroups);
-            if (msgs == null) msgs = notification; else msgs.add(notification);
+            if (msgs == null)
+                msgs = notification;
+            else
+                msgs.add(notification);
         }
         return msgs;
     }
 
-	/**
+    /**
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
+     * 
      * @generated
      */
-	public void setGroups(Groups newGroups) {
+    public void setGroups(Groups newGroups) {
         if (newGroups != groups) {
             NotificationChain msgs = null;
             if (groups != null)
-                msgs = ((InternalEObject)groups).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - OrganizationPackage.ORGANIZATION__GROUPS, null, msgs);
+                msgs = ((InternalEObject) groups).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - OrganizationPackage.ORGANIZATION__GROUPS, null, msgs);
             if (newGroups != null)
-                msgs = ((InternalEObject)newGroups).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - OrganizationPackage.ORGANIZATION__GROUPS, null, msgs);
+                msgs = ((InternalEObject) newGroups).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - OrganizationPackage.ORGANIZATION__GROUPS, null, msgs);
             msgs = basicSetGroups(newGroups, msgs);
-            if (msgs != null) msgs.dispatch();
+            if (msgs != null)
+                msgs.dispatch();
         }
         else if (eNotificationRequired())
             eNotify(new ENotificationImpl(this, Notification.SET, OrganizationPackage.ORGANIZATION__GROUPS, newGroups, newGroups));
     }
 
-	/**
+    /**
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
+     * 
      * @generated
      */
-	public Memberships getMemberships() {
+    public Memberships getMemberships() {
         return memberships;
     }
 
-	/**
+    /**
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
+     * 
      * @generated
      */
-	public NotificationChain basicSetMemberships(Memberships newMemberships, NotificationChain msgs) {
+    public NotificationChain basicSetMemberships(Memberships newMemberships, NotificationChain msgs) {
         Memberships oldMemberships = memberships;
         memberships = newMemberships;
         if (eNotificationRequired()) {
-            ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, OrganizationPackage.ORGANIZATION__MEMBERSHIPS, oldMemberships, newMemberships);
-            if (msgs == null) msgs = notification; else msgs.add(notification);
+            ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, OrganizationPackage.ORGANIZATION__MEMBERSHIPS, oldMemberships,
+                    newMemberships);
+            if (msgs == null)
+                msgs = notification;
+            else
+                msgs.add(notification);
         }
         return msgs;
     }
 
-	/**
+    /**
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
+     * 
      * @generated
      */
-	public void setMemberships(Memberships newMemberships) {
+    public void setMemberships(Memberships newMemberships) {
         if (newMemberships != memberships) {
             NotificationChain msgs = null;
             if (memberships != null)
-                msgs = ((InternalEObject)memberships).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - OrganizationPackage.ORGANIZATION__MEMBERSHIPS, null, msgs);
+                msgs = ((InternalEObject) memberships).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - OrganizationPackage.ORGANIZATION__MEMBERSHIPS, null, msgs);
             if (newMemberships != null)
-                msgs = ((InternalEObject)newMemberships).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - OrganizationPackage.ORGANIZATION__MEMBERSHIPS, null, msgs);
+                msgs = ((InternalEObject) newMemberships).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - OrganizationPackage.ORGANIZATION__MEMBERSHIPS, null, msgs);
             msgs = basicSetMemberships(newMemberships, msgs);
-            if (msgs != null) msgs.dispatch();
+            if (msgs != null)
+                msgs.dispatch();
         }
         else if (eNotificationRequired())
             eNotify(new ENotificationImpl(this, Notification.SET, OrganizationPackage.ORGANIZATION__MEMBERSHIPS, newMemberships, newMemberships));
     }
 
-	/**
+    /**
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
+     * 
      * @generated
      */
-	public String getName() {
+    public String getName() {
         return name;
     }
 
-	/**
+    /**
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
+     * 
      * @generated
      */
-	public void setName(String newName) {
+    public void setName(String newName) {
         String oldName = name;
         name = newName;
         if (eNotificationRequired())
             eNotify(new ENotificationImpl(this, Notification.SET, OrganizationPackage.ORGANIZATION__NAME, oldName, name));
     }
 
-	/**
+    /**
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
+     * 
      * @generated
      */
-	public String getDescription() {
+    public String getDescription() {
         return description;
     }
 
-	/**
+    /**
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
+     * 
      * @generated
      */
-	public void setDescription(String newDescription) {
+    public void setDescription(String newDescription) {
         String oldDescription = description;
         description = newDescription;
         if (eNotificationRequired())
             eNotify(new ENotificationImpl(this, Notification.SET, OrganizationPackage.ORGANIZATION__DESCRIPTION, oldDescription, description));
     }
 
-	/**
+    /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
+     * 
      * @generated
      */
     public String getModelVersion() {
@@ -453,6 +509,7 @@ public class OrganizationImpl extends EObjectImpl implements Organization {
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
+     * 
      * @generated
      */
     public void setModelVersion(String newModelVersion) {
@@ -464,11 +521,12 @@ public class OrganizationImpl extends EObjectImpl implements Organization {
 
     /**
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
+     * 
      * @generated
      */
-	@Override
-	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+    @Override
+    public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
         switch (featureID) {
             case OrganizationPackage.ORGANIZATION__CUSTOM_USER_INFO_DEFINITIONS:
                 return basicSetCustomUserInfoDefinitions(null, msgs);
@@ -484,13 +542,14 @@ public class OrganizationImpl extends EObjectImpl implements Organization {
         return super.eInverseRemove(otherEnd, featureID, msgs);
     }
 
-	/**
+    /**
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
+     * 
      * @generated
      */
-	@Override
-	public Object eGet(int featureID, boolean resolve, boolean coreType) {
+    @Override
+    public Object eGet(int featureID, boolean resolve, boolean coreType) {
         switch (featureID) {
             case OrganizationPackage.ORGANIZATION__CUSTOM_USER_INFO_DEFINITIONS:
                 return getCustomUserInfoDefinitions();
@@ -512,64 +571,66 @@ public class OrganizationImpl extends EObjectImpl implements Organization {
         return super.eGet(featureID, resolve, coreType);
     }
 
-	/**
+    /**
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
+     * 
      * @generated
      */
-	@Override
-	public void eSet(int featureID, Object newValue) {
+    @Override
+    public void eSet(int featureID, Object newValue) {
         switch (featureID) {
             case OrganizationPackage.ORGANIZATION__CUSTOM_USER_INFO_DEFINITIONS:
-                setCustomUserInfoDefinitions((CustomUserInfoDefinitions)newValue);
+                setCustomUserInfoDefinitions((CustomUserInfoDefinitions) newValue);
                 return;
             case OrganizationPackage.ORGANIZATION__USERS:
-                setUsers((Users)newValue);
+                setUsers((Users) newValue);
                 return;
             case OrganizationPackage.ORGANIZATION__ROLES:
-                setRoles((Roles)newValue);
+                setRoles((Roles) newValue);
                 return;
             case OrganizationPackage.ORGANIZATION__GROUPS:
-                setGroups((Groups)newValue);
+                setGroups((Groups) newValue);
                 return;
             case OrganizationPackage.ORGANIZATION__MEMBERSHIPS:
-                setMemberships((Memberships)newValue);
+                setMemberships((Memberships) newValue);
                 return;
             case OrganizationPackage.ORGANIZATION__NAME:
-                setName((String)newValue);
+                setName((String) newValue);
                 return;
             case OrganizationPackage.ORGANIZATION__DESCRIPTION:
-                setDescription((String)newValue);
+                setDescription((String) newValue);
                 return;
             case OrganizationPackage.ORGANIZATION__MODEL_VERSION:
-                setModelVersion((String)newValue);
+                setModelVersion((String) newValue);
                 return;
         }
         super.eSet(featureID, newValue);
     }
 
-	/**
+    /**
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
+     * 
      * @generated
      */
-	@Override
-	public void eUnset(int featureID) {
+    @Override
+    public void eUnset(int featureID) {
         switch (featureID) {
             case OrganizationPackage.ORGANIZATION__CUSTOM_USER_INFO_DEFINITIONS:
-                setCustomUserInfoDefinitions((CustomUserInfoDefinitions)null);
+                setCustomUserInfoDefinitions((CustomUserInfoDefinitions) null);
                 return;
             case OrganizationPackage.ORGANIZATION__USERS:
-                setUsers((Users)null);
+                setUsers((Users) null);
                 return;
             case OrganizationPackage.ORGANIZATION__ROLES:
-                setRoles((Roles)null);
+                setRoles((Roles) null);
                 return;
             case OrganizationPackage.ORGANIZATION__GROUPS:
-                setGroups((Groups)null);
+                setGroups((Groups) null);
                 return;
             case OrganizationPackage.ORGANIZATION__MEMBERSHIPS:
-                setMemberships((Memberships)null);
+                setMemberships((Memberships) null);
                 return;
             case OrganizationPackage.ORGANIZATION__NAME:
                 setName(NAME_EDEFAULT);
@@ -584,13 +645,14 @@ public class OrganizationImpl extends EObjectImpl implements Organization {
         super.eUnset(featureID);
     }
 
-	/**
+    /**
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
+     * 
      * @generated
      */
-	@Override
-	public boolean eIsSet(int featureID) {
+    @Override
+    public boolean eIsSet(int featureID) {
         switch (featureID) {
             case OrganizationPackage.ORGANIZATION__CUSTOM_USER_INFO_DEFINITIONS:
                 return customUserInfoDefinitions != null;
@@ -612,14 +674,16 @@ public class OrganizationImpl extends EObjectImpl implements Organization {
         return super.eIsSet(featureID);
     }
 
-	/**
+    /**
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
+     * 
      * @generated
      */
-	@Override
-	public String toString() {
-        if (eIsProxy()) return super.toString();
+    @Override
+    public String toString() {
+        if (eIsProxy())
+            return super.toString();
 
         StringBuffer result = new StringBuffer(super.toString());
         result.append(" (name: ");

@@ -5,12 +5,10 @@
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2.0 of the License, or
  * (at your option) any later version.
- *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- *
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
@@ -34,10 +32,8 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
-
 /**
  * @author Romain Bioteau
- *
  */
 @RunWith(MockitoJUnitRunner.class)
 public class UpdateConnectorVersionMigrationTest {
@@ -69,7 +65,7 @@ public class UpdateConnectorVersionMigrationTest {
     public void should_migrateAfter_update_definitionVersion_in_connector() throws Exception {
         //Given
         doCallRealMethod().when(updateConnectorVersionMigration).migrateAfter(model, metamodel);
-        final EList<Instance> connectorInstanceList = connectorInstanceList("id1","id2");
+        final EList<Instance> connectorInstanceList = connectorInstanceList("id1", "id2");
         final Instance oldConnectorInstance = aConnectorInstance("id1", "0.9");
         connectorInstanceList.add(oldConnectorInstance);
         when(model.getAllInstances("process.Connector")).thenReturn(connectorInstanceList);
@@ -77,7 +73,6 @@ public class UpdateConnectorVersionMigrationTest {
         when(updateConnectorVersionMigration.shouldUpdateVersion("id1")).thenReturn(true);
         when(updateConnectorVersionMigration.getOldDefinitionVersion()).thenReturn("1.0");
         when(updateConnectorVersionMigration.getNewDefinitionVersion()).thenReturn("2.0");
-
 
         //When
         updateConnectorVersionMigration.migrateAfter(model, metamodel);

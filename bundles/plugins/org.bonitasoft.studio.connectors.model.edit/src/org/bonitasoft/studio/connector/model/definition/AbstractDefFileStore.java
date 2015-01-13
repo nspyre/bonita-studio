@@ -45,20 +45,20 @@ import org.osgi.framework.Bundle;
  */
 public abstract class AbstractDefFileStore extends EMFFileStore {
 
-	AbstractEMFRepositoryStore<? extends AbstractDefFileStore> store;
-	
+    AbstractEMFRepositoryStore<? extends AbstractDefFileStore> store;
+
     public AbstractDefFileStore(final String fileName, final AbstractEMFRepositoryStore<? extends AbstractDefFileStore> store) {
         super(fileName, store);
         this.store = store;
-        
+
     }
 
     @Override
     public ConnectorDefinition getContent() {
         try {
             final DocumentRoot root = (DocumentRoot) super.getContent();
-            if(root == null){
-            	return null;
+            if (root == null) {
+                return null;
             }
             return root.getConnectorDefinition();
         } catch (final Exception e) {
@@ -94,22 +94,21 @@ public abstract class AbstractDefFileStore extends EMFFileStore {
         return null;
     }
 
-  
-  @Override
-  public void delete() {
-	  for (IResource localeResource : retrieveLocaleResources(getContent())) {
-		  try {
-			  localeResource.delete(true, new NullProgressMonitor());
-		  } catch (CoreException e) {
-			  BonitaStudioLog.error(e);
-		  }
-	  }
-	  super.delete();
-	  if (store instanceof AbstractDefinitionRepositoryStore<?>){
-		  ((AbstractDefinitionRepositoryStore<?>)store).clearCachedFileStore();
-	  }
+    @Override
+    public void delete() {
+        for (IResource localeResource : retrieveLocaleResources(getContent())) {
+            try {
+                localeResource.delete(true, new NullProgressMonitor());
+            } catch (CoreException e) {
+                BonitaStudioLog.error(e);
+            }
+        }
+        super.delete();
+        if (store instanceof AbstractDefinitionRepositoryStore<?>) {
+            ((AbstractDefinitionRepositoryStore<?>) store).clearCachedFileStore();
+        }
 
-  }
+    }
 
     @Override
     public Image getIcon() {
@@ -143,8 +142,8 @@ public abstract class AbstractDefFileStore extends EMFFileStore {
         return result;
     }
 
-	private Set<IResource> retrieveLocaleResources(final ConnectorDefinition def) {
-		final Set<IResource> localeResources = new HashSet<IResource>();
+    private Set<IResource> retrieveLocaleResources(final ConnectorDefinition def) {
+        final Set<IResource> localeResources = new HashSet<IResource>();
         final DefinitionResourceProvider resourceProvider = DefinitionResourceProvider.getInstance(getParentStore(), getBundle());
         final List<File> propertiesFile = resourceProvider.getExistingLocalesResource(def);
         for (final File propertyFile : propertiesFile) {
@@ -152,13 +151,13 @@ public abstract class AbstractDefFileStore extends EMFFileStore {
             try {
                 final IFile f = getParentStore().getResource().getFile(newFilename);
                 if (f != null && f.exists()) {
-                	localeResources.add(f);
+                    localeResources.add(f);
                 }
             } catch (final Exception e) {
                 BonitaStudioLog.error(e);
             }
         }
-		return localeResources;
-	}
+        return localeResources;
+    }
 
 }

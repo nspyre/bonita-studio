@@ -28,7 +28,6 @@ import org.eclipse.gmf.runtime.notation.NotationPackage;
 
 /**
  * @author Romain Bioteau
- *
  */
 public class SubprocessEventMigration extends CustomMigration {
 
@@ -42,28 +41,28 @@ public class SubprocessEventMigration extends CustomMigration {
     @Override
     public void migrateBefore(final Model model, final Metamodel metamodel)
             throws MigrationException {
-        for(final Instance subprocessevent : model.getAllInstances("process.SubProcessEvent")){
+        for (final Instance subprocessevent : model.getAllInstances("process.SubProcessEvent")) {
             subprocNames.put(subprocessevent.getUuid(), (String) subprocessevent.get("name"));
             subprocDescription.put(subprocessevent.getUuid(), (String) subprocessevent.get("documentation"));
             final Instance process = getParentProcess(subprocessevent);
-            if(process == null){
-                throw new MigrationException("No parent process found for subprocess event "+subprocessevent.get("name"), null);
+            if (process == null) {
+                throw new MigrationException("No parent process found for subprocess event " + subprocessevent.get("name"), null);
             }
 
             for (final Instance data : subprocessevent.<List<Instance>> get("data")) {
-                process.add("data",data.copy());
+                process.add("data", data.copy());
             }
 
-            final List<Instance> elements =  new ArrayList<Instance>();
+            final List<Instance> elements = new ArrayList<Instance>();
             for (final Instance element : subprocessevent.<List<Instance>> get("elements")) {
                 subprocessevent.remove("elements", element);
                 process.add("elements", element);
                 final Instance copy = element;
                 copy.setUuid(element.getUuid());
-                for(final Instance view : model.getAllInstances(NotationPackage.Literals.VIEW)){
-                    final Instance elem =  view.get("element");
-                    if(elem != null && elem.getUuid().equals(element.getUuid())){
-                        elementsMapping.put(element.getUuid(),view);
+                for (final Instance view : model.getAllInstances(NotationPackage.Literals.VIEW)) {
+                    final Instance elem = view.get("element");
+                    if (elem != null && elem.getUuid().equals(element.getUuid())) {
+                        elementsMapping.put(element.getUuid(), view);
                     }
                 }
                 elementsByUUID.put(element.getUuid(), copy);
@@ -79,7 +78,7 @@ public class SubprocessEventMigration extends CustomMigration {
     }
 
     private Instance getParentProcess(final Instance subprocessevent) {
-        Instance current= subprocessevent;
+        Instance current = subprocessevent;
         while (current != null && (current.equals(subprocessevent) || !current.instanceOf("process.AbstractProcess"))) {
             current = current.getContainer();
         }
@@ -89,36 +88,35 @@ public class SubprocessEventMigration extends CustomMigration {
     @Override
     public void migrateAfter(final Model model, final Metamodel metamodel)
             throws MigrationException {
-        for(final Instance subprocessevent : model.getAllInstances("process.SubProcessEvent")){
-            subprocessevent.set("name",subprocNames.get(subprocessevent.getUuid()));
-            subprocessevent.set("documentation",subprocDescription.get(subprocessevent.getUuid()));
+        for (final Instance subprocessevent : model.getAllInstances("process.SubProcessEvent")) {
+            subprocessevent.set("name", subprocNames.get(subprocessevent.getUuid()));
+            subprocessevent.set("documentation", subprocDescription.get(subprocessevent.getUuid()));
             final Instance process = getParentProcess(subprocessevent);
-            if(process == null){
-                throw new MigrationException("No parent process found for subprocess event "+subprocessevent.get("name"), null);
+            if (process == null) {
+                throw new MigrationException("No parent process found for subprocess event " + subprocessevent.get("name"), null);
             }
             final List<Instance> elements = elementsMap.get(subprocessevent.getUuid());
-            if(elements != null){
-                for(final Instance element : elements){
+            if (elements != null) {
+                for (final Instance element : elements) {
                     process.remove("elements", element);
-                    subprocessevent.add("elements",element);
-                    if(elementsMapping.containsKey(element.getUuid())){
+                    subprocessevent.add("elements", element);
+                    if (elementsMapping.containsKey(element.getUuid())) {
                         elementsMapping.get(element.getUuid()).set("element", element);
                     }
                 }
             }
 
             final List<Instance> connections = connectionsMap.get(subprocessevent.getUuid());
-            if(connections != null){
+            if (connections != null) {
                 final List<Instance> procConnections = process.get("connections");
-                for(final Instance connection : connections){
+                for (final Instance connection : connections) {
                     procConnections.add(connection);
-                    if(elementsMapping.containsKey(connection.getUuid())){
+                    if (elementsMapping.containsKey(connection.getUuid())) {
                         elementsMapping.get(connection.getUuid()).set("element", connection);
                     }
                 }
             }
         }
     }
-
 
 }

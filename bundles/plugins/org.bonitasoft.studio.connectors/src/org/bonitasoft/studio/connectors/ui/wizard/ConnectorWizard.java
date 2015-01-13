@@ -5,12 +5,10 @@
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2.0 of the License, or
  * (at your option) any later version.
- *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- *
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
@@ -108,7 +106,6 @@ import org.eclipse.swt.widgets.Display;
 
 /**
  * @author Romain Bioteau
- *
  */
 public class ConnectorWizard extends ExtensibleWizard implements IConnectorDefinitionContainer, IBonitaVariableContext {
 
@@ -161,7 +158,8 @@ public class ConnectorWizard extends ExtensibleWizard implements IConnectorDefin
 
     protected List<ConnectorDefinition> definitions;
 
-    public ConnectorWizard(final EObject container, final EStructuralFeature connectorContainmentFeature, final Set<EStructuralFeature> featureToCheckForUniqueID) {
+    public ConnectorWizard(final EObject container, final EStructuralFeature connectorContainmentFeature,
+            final Set<EStructuralFeature> featureToCheckForUniqueID) {
         this.container = container;
         connectorWorkingCopy = ProcessFactory.eINSTANCE.createConnector();
         final ConnectorConfiguration configuration = ConnectorConfigurationFactory.eINSTANCE.createConnectorConfiguration();
@@ -176,7 +174,8 @@ public class ConnectorWizard extends ExtensibleWizard implements IConnectorDefin
 
     }
 
-    public ConnectorWizard(final Connector connector, final EStructuralFeature connectorContainmentFeature, final Set<EStructuralFeature> featureToCheckForUniqueID) {
+    public ConnectorWizard(final Connector connector, final EStructuralFeature connectorContainmentFeature,
+            final Set<EStructuralFeature> featureToCheckForUniqueID) {
         Assert.isNotNull(connector);
         container = connector.eContainer();
         originalConnector = connector;
@@ -231,8 +230,7 @@ public class ConnectorWizard extends ExtensibleWizard implements IConnectorDefin
             }
 
             @SuppressWarnings("unchecked")
-            final
-            List<EObject> connectors = (List<EObject>) containerCopy.eGet(connectorContainmentFeature);
+            final List<EObject> connectors = (List<EObject>) containerCopy.eGet(connectorContainmentFeature);
             connectors.clear();
             connectors.add(connectorWorkingCopy);
         }
@@ -251,7 +249,7 @@ public class ConnectorWizard extends ExtensibleWizard implements IConnectorDefin
             addPage(selectionPage);
         }
         final IWizardPage nameAndDescriptionPage = getNameAndDescriptionPage();
-        if(nameAndDescriptionPage != null){
+        if (nameAndDescriptionPage != null) {
             addPage(nameAndDescriptionPage);
         }
 
@@ -275,7 +273,6 @@ public class ConnectorWizard extends ExtensibleWizard implements IConnectorDefin
     }
 
     /**
-     *
      * @param definition
      * @return true if configuration has been modified
      */

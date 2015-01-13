@@ -5,14 +5,12 @@
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2.0 of the License, or
  * (at your option) any later version.
- *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package org.bonitasoft.studio.validators.repository;
 
@@ -36,10 +34,8 @@ import org.eclipse.jdt.core.IType;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.IWorkbenchPart;
 
-
 /**
  * @author Romain Bioteau
- *
  */
 public class ValidatorDescriptorFileStore extends EMFFileStore {
 
@@ -54,7 +50,7 @@ public class ValidatorDescriptorFileStore extends EMFFileStore {
 
     @Override
     public Image getIcon() {
-        return Pics.getImage("Validator.png",ValidatorPlugin.getDefault());
+        return Pics.getImage("Validator.png", ValidatorPlugin.getDefault());
     }
 
     @Override
@@ -62,27 +58,29 @@ public class ValidatorDescriptorFileStore extends EMFFileStore {
         return (ValidatorDescriptor) super.getContent();
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see org.bonitasoft.studio.common.repository.filestore.AbstractFileStore#doSave(java.lang.Object)
      */
     @Override
     protected void doSave(Object content) {
-        if(content instanceof ValidatorDescriptor){
-            Resource emfResource = getEMFResource() ;
-            emfResource.getContents().clear() ;
-            emfResource.getContents().add(EcoreUtil.copy((EObject) content)) ;
-            Map<String, String> options = new HashMap<String, String>() ;
+        if (content instanceof ValidatorDescriptor) {
+            Resource emfResource = getEMFResource();
+            emfResource.getContents().clear();
+            emfResource.getContents().add(EcoreUtil.copy((EObject) content));
+            Map<String, String> options = new HashMap<String, String>();
             options.put(XMLResource.OPTION_ENCODING, "UTF-8");
             options.put(XMLResource.OPTION_XML_VERSION, "1.0");
             try {
-                emfResource.save(options) ;
+                emfResource.save(options);
             } catch (IOException e) {
-                BonitaStudioLog.error(e) ;
+                BonitaStudioLog.error(e);
             }
         }
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see org.bonitasoft.studio.common.repository.filestore.AbstractFileStore#doOpen()
      */
     @Override
@@ -90,10 +88,9 @@ public class ValidatorDescriptorFileStore extends EMFFileStore {
         return null;
     }
 
-
     public IType getValidatorClassType() {
         try {
-            IJavaProject project = RepositoryManager.getInstance().getCurrentRepository().getJavaProject() ;
+            IJavaProject project = RepositoryManager.getInstance().getCurrentRepository().getJavaProject();
             return project.findType(getContent().getClassName());
         } catch (Exception ex) {
             BonitaStudioLog.error(ex);

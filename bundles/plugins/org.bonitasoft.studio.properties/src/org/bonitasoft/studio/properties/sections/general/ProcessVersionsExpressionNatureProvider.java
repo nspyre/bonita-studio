@@ -42,30 +42,30 @@ public class ProcessVersionsExpressionNatureProvider implements IExpressionNatur
         final DiagramRepositoryStore diagramStore = RepositoryManager.getInstance().getRepositoryStore(DiagramRepositoryStore.class);
         final List<String> versions = new ArrayList<String>();
         final MainProcess diagram = ModelHelper.getMainProcess(context);
-        if(context instanceof CallActivity){
-            final Expression exp = ((CallActivity)context).getCalledActivityName();
-            if(exp != null
+        if (context instanceof CallActivity) {
+            final Expression exp = ((CallActivity) context).getCalledActivityName();
+            if (exp != null
                     && ExpressionConstants.CONSTANT_TYPE.equals(exp.getType())
                     && exp.getContent() != null
-                    && !exp.getContent().isEmpty()){
+                    && !exp.getContent().isEmpty()) {
                 final String processName = exp.getContent();
-                for(final EObject p : ModelHelper.getAllItemsOfType(diagram, ProcessPackage.Literals.POOL)){
-                    if(processName.equals(((Pool) p).getName())){
-                        if(!versions.contains(((Pool) p).getVersion())){
+                for (final EObject p : ModelHelper.getAllItemsOfType(diagram, ProcessPackage.Literals.POOL)) {
+                    if (processName.equals(((Pool) p).getName())) {
+                        if (!versions.contains(((Pool) p).getVersion())) {
                             versions.add(((Pool) p).getVersion());
                         }
                     }
                 }
-                for(final AbstractProcess p : diagramStore.getAllProcesses()){
-                    if(processName.equals(((Pool) p).getName())){
-                        if(!versions.contains(((Pool) p).getVersion())){
+                for (final AbstractProcess p : diagramStore.getAllProcesses()) {
+                    if (processName.equals(((Pool) p).getName())) {
+                        if (!versions.contains(((Pool) p).getVersion())) {
                             versions.add(((Pool) p).getVersion());
                         }
                     }
                 }
             }
         }
-        for(final String version : versions){
+        for (final String version : versions) {
             final Expression exp = ExpressionFactory.eINSTANCE.createExpression();
             exp.setName(version);
             exp.setContent(version);

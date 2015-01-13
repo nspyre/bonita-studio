@@ -5,14 +5,12 @@
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2.0 of the License, or
  * (at your option) any later version.
- *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package org.bonitasoft.studio.actors.ui.editingsupport;
 
@@ -42,7 +40,6 @@ import org.eclipse.swt.widgets.Text;
 
 /**
  * @author Florine Boudin
- *
  */
 public class CustomUserInformationDefinitionNameEditingSupport extends ObservableValueEditingSupport {
 
@@ -61,13 +58,9 @@ public class CustomUserInformationDefinitionNameEditingSupport extends Observabl
         this.dbc = dbc;
     }
 
-
-
     public void setOrganization(final Organization organization) {
         this.organization = organization;
     }
-
-
 
     @Override
     protected IObservableValue doCreateCellEditorObservable(final CellEditor cellEditor) {
@@ -84,7 +77,7 @@ public class CustomUserInformationDefinitionNameEditingSupport extends Observabl
             public void handleValueChange(final ValueChangeEvent event) {
                 final String oldInformationName = (String) event.diff.getOldValue();
                 final String newInformationName = (String) event.diff.getNewValue();
-                for(final User user : organization.getUsers().getUser()){
+                for (final User user : organization.getUsers().getUser()) {
                     updateCustomUserInformationName(user, oldInformationName, newInformationName);
                 }
             }
@@ -117,7 +110,6 @@ public class CustomUserInformationDefinitionNameEditingSupport extends Observabl
         targetToModel.setAfterGetValidator(new CustomerUserInformationDefinitionNameValidator(organization, viewer));
         return dbc.bindValue(target, model, targetToModel, null);
     }
-
 
     private void updateCustomUserInformationName(final User user, final String oldInformationName, final String newInformationName) {
         for (final CustomUserInfoValue infoValue : user.getCustomUserInfoValues().getCustomUserInfoValue()) {

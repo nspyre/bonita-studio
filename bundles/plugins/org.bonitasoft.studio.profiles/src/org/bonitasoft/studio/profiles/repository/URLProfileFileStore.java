@@ -5,14 +5,12 @@
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2.0 of the License, or
  * (at your option) any later version.
- *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package org.bonitasoft.studio.profiles.repository;
 
@@ -24,10 +22,8 @@ import org.bonitasoft.studio.common.log.BonitaStudioLog;
 import org.bonitasoft.studio.common.repository.model.IRepositoryStore;
 import org.eclipse.core.resources.IFile;
 
-
 /**
  * @author Romain Bioteau
- *
  */
 public class URLProfileFileStore extends ProfileFileStore {
 
@@ -35,22 +31,22 @@ public class URLProfileFileStore extends ProfileFileStore {
 
     public URLProfileFileStore(URL url, IRepositoryStore<?> store) {
         super(url.toString(), store);
-        this.url = url ;
+        this.url = url;
     }
 
-
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see org.bonitasoft.studio.common.repository.IRepositoryFileStore#getName()
      */
     @Override
     public String getName() {
-        String file = url.getFile() ;
-        String[] segments = file.split("/") ;
-        return segments[segments.length -1] ;
+        String file = url.getFile();
+        String[] segments = file.split("/");
+        return segments[segments.length - 1];
     }
 
-
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see org.bonitasoft.studio.common.repository.IRepositoryFileStore#getContent()
      */
     @Override
@@ -58,20 +54,22 @@ public class URLProfileFileStore extends ProfileFileStore {
         try {
             return load(url.openStream());
         } catch (IOException e) {
-            BonitaStudioLog.error(e) ;
+            BonitaStudioLog.error(e);
         }
         return null;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see org.bonitasoft.studio.common.repository.IRepositoryFileStore#getFile()
      */
     @Override
     public IFile getResource() {
-        return null ;
+        return null;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see org.bonitasoft.studio.common.repository.IRepositoryFileStore#isShared()
      */
     @Override
@@ -81,13 +79,12 @@ public class URLProfileFileStore extends ProfileFileStore {
 
     @Override
     public boolean canBeShared() {
-        return false ;
+        return false;
     }
-
 
     @Override
     public boolean canBeExported() {
-        return false ;
+        return false;
     }
 
     @Override
@@ -95,14 +92,13 @@ public class URLProfileFileStore extends ProfileFileStore {
 
     }
 
-
     public URL getUrl() {
         return url;
     }
 
     @Override
     public boolean isReadOnly() {
-        return true ;
+        return true;
     }
 
     @Override

@@ -5,14 +5,12 @@
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2.0 of the License, or
  * (at your option) any later version.
- *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package org.bonitasoft.studio.connector.model.i18n;
 
@@ -73,7 +71,6 @@ import org.osgi.framework.Bundle;
 
 /**
  * @author Romain Bioteau
- *
  */
 public class DefinitionResourceProvider {
 
@@ -341,8 +338,8 @@ public class DefinitionResourceProvider {
                             if (resourceName.substring(baseName.length())
                                     .indexOf("_") != -1
                                     && resourceName
-                                    .substring(baseName.length())
-                                    .indexOf(".") != -1) {
+                                            .substring(baseName.length())
+                                            .indexOf(".") != -1) {
                                 String language = resourceName
                                         .substring(baseName.length());
                                 language = language.substring(1,
@@ -359,7 +356,7 @@ public class DefinitionResourceProvider {
                                 }
                                 result.add(new Locale(language,
                                         country == null ? "" : country,
-                                                variant == null ? "" : variant));
+                                        variant == null ? "" : variant));
                             }
                         }
                     }
@@ -522,8 +519,6 @@ public class DefinitionResourceProvider {
         return userCategoryIds;
     }
 
-
-
     public List<Category> getAllCategories() {
         if (categories == null) {
             loadDefinitionsCategories(null);
@@ -537,7 +532,6 @@ public class DefinitionResourceProvider {
         unloadable.setId(Messages.unloadable);
         return unloadable;
     }
-
 
     public Category getUncategorizedCategory() {
         return uncategorized;
@@ -624,7 +618,6 @@ public class DefinitionResourceProvider {
         }
         return Collections.emptyList();
     }
-
 
     public void loadDefinitionsCategories(final IProgressMonitor monitor) {
         categories = new ArrayList<Category>();

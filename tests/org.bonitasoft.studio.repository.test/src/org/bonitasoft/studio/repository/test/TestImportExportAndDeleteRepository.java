@@ -1,19 +1,16 @@
 /**
  * Copyright (C) 2010 BonitaSoft S.A.
  * BonitaSoft, 31 rue Gustave Eiffel - 38000 Grenoble
- *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2.0 of the License, or
  * (at your option) any later version.
- *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package org.bonitasoft.studio.repository.test;
 
@@ -37,23 +34,21 @@ import org.junit.Test;
 
 /**
  * @author Aurelien Pupier
- *
  */
 public class TestImportExportAndDeleteRepository extends TestCase {
 
-
     @Test
-    public void testImportExportGroovy() throws Exception{
-        /*Join with the job because it adds DefaultUserScript.groovy to the artifacts*/
+    public void testImportExportGroovy() throws Exception {
+        /* Join with the job because it adds DefaultUserScript.groovy to the artifacts */
         Job.getJobManager().join(BonitaJobsFamily.INIT_GROOVY_FUNCTIONS, new NullProgressMonitor());
         GroovyRepositoryStore store = (GroovyRepositoryStore) RepositoryManager.getInstance().getRepositoryStore(GroovyRepositoryStore.class);
-        int nbOfGroovyArtifacts =store.getChildren().size();
+        int nbOfGroovyArtifacts = store.getChildren().size();
         InputStream stream = TestImportExportAndDeleteRepository.class.getResourceAsStream("GroovyScriptForTestImportExportRepository.groovy");
-        assertNotNull("Can't test groovy import because cannot retrieve the .groovy file",stream);
+        assertNotNull("Can't test groovy import because cannot retrieve the .groovy file", stream);
         GroovyFileStore artifact = store.importInputStream("GroovyScriptForTestImportExportRepository.groovy", stream);
         assertEquals("import of Groovy doesn't work", nbOfGroovyArtifacts + 1, store.getChildren().size());
         String s = System.getProperty("java.io.tmpdir");
-        File f = new File(s+File.separatorChar+"GroovyScriptForTestImportExportRepository.groovy");
+        File f = new File(s + File.separatorChar + "GroovyScriptForTestImportExportRepository.groovy");
 
         artifact.export(f.getParentFile().getAbsolutePath());
 
@@ -62,22 +57,20 @@ public class TestImportExportAndDeleteRepository extends TestCase {
         fis.close();
         f.delete();
 
-        /*Test delete of the artifact*/
+        /* Test delete of the artifact */
         artifact.delete();
         assertEquals("The delete of groovy doesn't work.", nbOfGroovyArtifacts, store.getChildren().size());
     }
 
-
-
     @Test
-    public void testImportExportJar() throws Exception{
+    public void testImportExportJar() throws Exception {
         DependencyRepositoryStore store = (DependencyRepositoryStore) RepositoryManager.getInstance().getRepositoryStore(DependencyRepositoryStore.class);
         int nbOfJarArtifacts = store.getChildren().size();
         InputStream stream = TestImportExportAndDeleteRepository.class.getResourceAsStream("JarForTestImportExportRepository.jar");
-        IRepositoryFileStore artifact = store.importInputStream("JarForTestImportExportRepository.jar", stream) ;
+        IRepositoryFileStore artifact = store.importInputStream("JarForTestImportExportRepository.jar", stream);
         assertEquals("import of jar doesn't work", nbOfJarArtifacts + 1, store.getChildren().size());
         String s = System.getProperty("java.io.tmpdir");
-        File f = new File(s+File.separatorChar+"JarForTestImportExportRepository.jar");
+        File f = new File(s + File.separatorChar + "JarForTestImportExportRepository.jar");
         f.delete();
         artifact.export(f.getParentFile().getAbsolutePath());
         FileInputStream fis = new FileInputStream(f);
@@ -85,21 +78,20 @@ public class TestImportExportAndDeleteRepository extends TestCase {
         fis.close();
         f.delete();
 
-        /*Test delete of the artifact*/
+        /* Test delete of the artifact */
         artifact.delete();
         assertEquals("The delete of jar doesn't work.", nbOfJarArtifacts, store.getChildren().size());
     }
 
-
     @Test
-    public void testImportExportAttachment() throws Exception{
+    public void testImportExportAttachment() throws Exception {
         final DocumentRepositoryStore store = (DocumentRepositoryStore) RepositoryManager.getInstance().getRepositoryStore(DocumentRepositoryStore.class);
         int nbOfAttachmentArtrifacts = store.getChildren().size();
         InputStream stream = TestImportExportAndDeleteRepository.class.getResourceAsStream("JarForTestImportExportRepository.jar");
         DocumentFileStore artifact = store.importInputStream("JarForTestImportExportRepository.jar", stream);
         assertEquals("import of attachment doesn't work", nbOfAttachmentArtrifacts + 1, store.getChildren().size());
         String s = System.getProperty("java.io.tmpdir");
-        File f = new File(s+File.separatorChar+"JarForTestImportExportRepository.jar");
+        File f = new File(s + File.separatorChar + "JarForTestImportExportRepository.jar");
         f.delete();
         artifact.export(f.getParentFile().getAbsolutePath());
 
@@ -107,7 +99,7 @@ public class TestImportExportAndDeleteRepository extends TestCase {
         assertTrue("The export of attachment doesn't work.", fis.read() > 0);
         fis.close();
 
-        /*Test delete of the artifact*/
+        /* Test delete of the artifact */
         artifact.delete();
         assertEquals("The delete of attachment doesn't work.", nbOfAttachmentArtrifacts, store.getChildren().size());
     }

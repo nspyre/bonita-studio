@@ -9,7 +9,6 @@ import org.eclipse.gmf.runtime.diagram.ui.services.decorator.IDecoratorTarget;
 
 /**
  * @author Aurelien Pupier
- *
  */
 public class MultiInstanceParalellSubprocessDecorator extends MultiInstanceSubprocessDecorator {
 
@@ -19,9 +18,9 @@ public class MultiInstanceParalellSubprocessDecorator extends MultiInstanceSubpr
 
     @Override
     protected DecoratorSVGFigure getImageDecorator() {
-        final DecoratorSVGFigure figure = FiguresHelper.getDecoratorFigure(FiguresHelper.MULTI_SUB_DECORATOR) ;
-        figure.setSize(32, 16) ;
-        return figure ;
+        final DecoratorSVGFigure figure = FiguresHelper.getDecoratorFigure(FiguresHelper.MULTI_SUB_DECORATOR);
+        figure.setSize(32, 16);
+        return figure;
     }
 
     @Override

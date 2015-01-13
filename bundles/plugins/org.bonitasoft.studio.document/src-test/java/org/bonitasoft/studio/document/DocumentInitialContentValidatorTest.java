@@ -5,14 +5,12 @@
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2.0 of the License, or
  * (at your option) any later version.
- *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package org.bonitasoft.studio.document;
 
@@ -32,10 +30,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-
 /**
  * @author aurelie Zara
- *
  */
 public class DocumentInitialContentValidatorTest {
 
@@ -44,6 +40,7 @@ public class DocumentInitialContentValidatorTest {
     private DocumentInitialContentValidator validator;
 
     final int maxLength = 1023;
+
     /**
      * @throws java.lang.Exception
      */
@@ -53,7 +50,6 @@ public class DocumentInitialContentValidatorTest {
         urlExpression = ExpressionFactory.eINSTANCE.createExpression();
         validator = new DocumentInitialContentValidator(maxLength);
     }
-
 
     /**
      * @throws java.lang.Exception
@@ -80,7 +76,6 @@ public class DocumentInitialContentValidatorTest {
         assertFalse("the status should  not be ok", status.isOK());
     }
 
-
     @Test
     public void test_Document_URL_Content_EMPTY_NOK() {
         initializeDocumentWithURL("");
@@ -104,7 +99,6 @@ public class DocumentInitialContentValidatorTest {
         assertFalse("the status should be an error " + status.getMessage(), status.isOK());
     }
 
-
     @Test
     public void test_Multiple_Document_InitialContent_Null_OK() {
         document.setMultiple(true);
@@ -126,7 +120,5 @@ public class DocumentInitialContentValidatorTest {
         urlExpression.setContent(url);
         document.setUrl(urlExpression);
     }
-
-
 
 }

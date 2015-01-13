@@ -5,14 +5,12 @@
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2.0 of the License, or
  * (at your option) any later version.
- *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package org.bonitasoft.studio.common.repository.filestore;
 
@@ -33,10 +31,8 @@ import org.eclipse.emf.ecore.xmi.impl.XMLResourceImpl;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.IWorkbenchPart;
 
-
 /**
  * @author Romain Bioteau
- *
  */
 public class DefinitionConfigurationFileStore extends EMFFileStore {
 
@@ -54,15 +50,16 @@ public class DefinitionConfigurationFileStore extends EMFFileStore {
         return getName();
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see org.bonitasoft.studio.common.repository.filestore.AbstractFileStore#doSave(java.lang.Object)
      */
     @Override
     protected void doSave(final Object content) {
-        if(content instanceof ConnectorConfiguration){
-            final Resource emfResource = getEMFResource() ;
-            emfResource.getContents().clear() ;
-            emfResource.getContents().add(EcoreUtil.copy((EObject) content)) ;
+        if (content instanceof ConnectorConfiguration) {
+            final Resource emfResource = getEMFResource();
+            emfResource.getContents().clear();
+            emfResource.getContents().add(EcoreUtil.copy((EObject) content));
             final Map<Object, Object> options = new HashMap<Object, Object>();
             options.put(XMLResource.OPTION_ENCODING, "UTF-8");
             options.put(XMLResource.OPTION_XML_VERSION, "1.0");
@@ -72,7 +69,7 @@ public class DefinitionConfigurationFileStore extends EMFFileStore {
             try {
                 emfResource.save(options);
             } catch (final IOException e) {
-                BonitaStudioLog.error(e) ;
+                BonitaStudioLog.error(e);
             }
         }
 
@@ -80,16 +77,16 @@ public class DefinitionConfigurationFileStore extends EMFFileStore {
 
     @Override
     public Image getIcon() {
-        return Pics.getImage("conf.png",CommonRepositoryPlugin.getDefault());
+        return Pics.getImage("conf.png", CommonRepositoryPlugin.getDefault());
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see org.bonitasoft.studio.common.repository.filestore.AbstractFileStore#doOpen()
      */
     @Override
     protected IWorkbenchPart doOpen() {
         return null;
     }
-
 
 }

@@ -5,14 +5,12 @@
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2.0 of the License, or
  * (at your option) any later version.
- *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package org.bonitasoft.studio.actors.ui.handler;
 
@@ -31,22 +29,22 @@ import org.eclipse.core.commands.ExecutionException;
 
 /**
  * @author Romain Bioteau
- *
  */
 public class ExportOrganizationHandler extends AbstractHandler {
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see org.eclipse.core.commands.IHandler#execute(org.eclipse.core.commands.ExecutionEvent)
      */
     @Override
     public Object execute(ExecutionEvent event) throws ExecutionException {
-        final IRepositoryStore<? extends IRepositoryFileStore> organizationStore = RepositoryManager.getInstance().getRepositoryStore(OrganizationRepositoryStore.class) ;
-        List<IRepositoryStore<? extends IRepositoryFileStore>> stores = new ArrayList<IRepositoryStore<? extends IRepositoryFileStore>>() ;
-        stores.add(organizationStore) ;
-        CommonRepositoryPlugin.exportArtifactsToFile(stores, null,Messages.exportOrganizationTitle) ;
+        final IRepositoryStore<? extends IRepositoryFileStore> organizationStore = RepositoryManager.getInstance().getRepositoryStore(
+                OrganizationRepositoryStore.class);
+        List<IRepositoryStore<? extends IRepositoryFileStore>> stores = new ArrayList<IRepositoryStore<? extends IRepositoryFileStore>>();
+        stores.add(organizationStore);
+        CommonRepositoryPlugin.exportArtifactsToFile(stores, null, Messages.exportOrganizationTitle);
 
         return null;
     }
-
 
 }

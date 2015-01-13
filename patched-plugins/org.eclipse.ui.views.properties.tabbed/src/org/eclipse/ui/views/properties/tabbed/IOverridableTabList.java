@@ -4,9 +4,8 @@
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- * 
  * Contributors:
- *     IBM Corporation - initial API and implementation
+ * IBM Corporation - initial API and implementation
  *******************************************************************************/
 package org.eclipse.ui.views.properties.tabbed;
 
@@ -22,18 +21,18 @@ package org.eclipse.ui.views.properties.tabbed;
  */
 public interface IOverridableTabList {
 
-	/**
-	 * Returns the list of tabs.
-	 * 
-	 * @return the list of tabs.
-	 */
-	public ITabItem[] getTabs();
+    /**
+     * Returns the list of tabs.
+     * 
+     * @return the list of tabs.
+     */
+    public ITabItem[] getTabs();
 
-	/**
-	 * Select the tab at the provided index.
-	 * 
-	 * @param index
-	 *            the index in the list of tabs to select.
-	 */
-	public void selectTab(int index);
+    /**
+     * Select the tab at the provided index.
+     * 
+     * @param index
+     *        the index in the list of tabs to select.
+     */
+    public void selectTab(int index);
 }

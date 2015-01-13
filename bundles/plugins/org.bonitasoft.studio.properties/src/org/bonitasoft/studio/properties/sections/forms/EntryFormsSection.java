@@ -1,22 +1,18 @@
 /**
  * Copyright (C) 2010 BonitaSoft S.A.
  * BonitaSoft, 31 rue Gustave Eiffel - 38000 Grenoble
- *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2.0 of the License, or
  * (at your option) any later version.
- *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package org.bonitasoft.studio.properties.sections.forms;
-
 
 import org.bonitasoft.studio.model.process.AbstractProcess;
 import org.bonitasoft.studio.model.process.PageFlow;
@@ -43,7 +39,6 @@ import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
 
-
 /**
  * @author Aurelien Pupier
  */
@@ -53,28 +48,28 @@ public class EntryFormsSection extends AbstractFormsSection {
     protected Button skipRadio;
     protected Button autoLoginCheckbox;
     protected DataBindingContext thisContext;
-	private EObject lastEObject;
-	private ControlDecoration checkBoxWarning;
+    private EObject lastEObject;
+    private ControlDecoration checkBoxWarning;
 
     @Override
     public void setInput(IWorkbenchPart part, ISelection selection) {
         super.setInput(part, selection);
-        if(lastEObject == null || (lastEObject != null && !lastEObject.equals(getEObject()))){
+        if (lastEObject == null || (lastEObject != null && !lastEObject.equals(getEObject()))) {
             refreshDataBinding();
-		}
+        }
     }
 
     @Override
     public PageFlow getPageFlow() {
-        return (PageFlow)super.getPageFlow();
+        return (PageFlow) super.getPageFlow();
     }
 
-    protected Object getPageFlowType(){
-        return null ;
+    protected Object getPageFlowType() {
+        return null;
     }
 
     protected void refreshDataBinding() {
-        if(thisContext != null){
+        if (thisContext != null) {
             thisContext.dispose();
         }
         thisContext = new DataBindingContext();
@@ -83,25 +78,26 @@ public class EntryFormsSection extends AbstractFormsSection {
 
         IObservableValue isAutoLogin = EMFEditObservables.observeValue(getEditingDomain(), getPageFlow(),
                 ProcessPackage.Literals.PROCESS_APPLICATION__AUTO_LOGIN);
-        
+
         context.bindValue(SWTObservables.observeSelection(autoLoginCheckbox), isAutoLogin);
         activateAutoLoginWarning();
         boolean visible = getPageFlow() instanceof AbstractProcess;
         autoLoginCheckbox.setVisible(visible);
     }
-    
-    /** Show a warning icon when the auto-login check box is selected
-     * 
+
+    /**
+     * Show a warning icon when the auto-login check box is selected
      */
-    private void activateAutoLoginWarning(){
-		if(autoLoginCheckbox.getSelection()){
-    		checkBoxWarning.show();
-    	}else{
-    		checkBoxWarning.hide();
-    	}
+    private void activateAutoLoginWarning() {
+        if (autoLoginCheckbox.getSelection()) {
+            checkBoxWarning.show();
+        } else {
+            checkBoxWarning.hide();
+        }
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see org.bonitasoft.studio.properties.sections.forms.AbstractFormsSection#getFormFeature()
      */
     @Override
@@ -109,9 +105,10 @@ public class EntryFormsSection extends AbstractFormsSection {
         return ProcessPackage.Literals.PAGE_FLOW__FORM;
     }
 
-
-    /* (non-Javadoc)
-     * @see org.bonitasoft.studio.properties.sections.forms.AbstractFormsSection#createControls(org.eclipse.swt.widgets.Composite, org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage)
+    /*
+     * (non-Javadoc)
+     * @see org.bonitasoft.studio.properties.sections.forms.AbstractFormsSection#createControls(org.eclipse.swt.widgets.Composite,
+     * org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage)
      */
     @Override
     public void createControls(Composite parent, TabbedPropertySheetPage aTabbedPropertySheetPage) {
@@ -119,7 +116,8 @@ public class EntryFormsSection extends AbstractFormsSection {
         createAutoLoginPart(pageFlowComposite);
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see org.bonitasoft.studio.properties.sections.forms.AbstractFormsSection#createRadioButtons(org.eclipse.swt.widgets.Composite)
      */
     @Override
@@ -127,7 +125,8 @@ public class EntryFormsSection extends AbstractFormsSection {
         return null;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see org.bonitasoft.studio.properties.sections.forms.AbstractFormsSection#getPageFlowTransitionsFeature()
      */
     @Override
@@ -135,7 +134,8 @@ public class EntryFormsSection extends AbstractFormsSection {
         return ProcessPackage.Literals.PAGE_FLOW__PAGE_FLOW_TRANSITIONS;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see org.bonitasoft.studio.properties.sections.forms.AbstractFormsSection#getPageFlowTypeFeature()
      */
     @Override
@@ -143,14 +143,14 @@ public class EntryFormsSection extends AbstractFormsSection {
         return ProcessPackage.Literals.PAGE_FLOW__ENTRY_PAGE_FLOW_TYPE;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see org.bonitasoft.studio.properties.sections.forms.AbstractFormsSection#getPageFlowRedirectionURLFeature()
      */
     @Override
     protected EReference getPageFlowRedirectionURLFeature() {
         return ProcessPackage.Literals.PAGE_FLOW__ENTRY_REDIRECTION_URL;
     }
-
 
     /**
      * @param templates
@@ -159,54 +159,51 @@ public class EntryFormsSection extends AbstractFormsSection {
         Composite autologinComposite = getWidgetFactory().createComposite(parent);
         autologinComposite.setLayout(new GridLayout(4, false));
         autologinComposite.setLayoutData(GridDataFactory.fillDefaults().span(4, 1).create());
-        
+
         autoLoginCheckbox = getWidgetFactory().createButton(autologinComposite, "", SWT.CHECK);
         autoLoginCheckbox.setLayoutData(GridDataFactory.fillDefaults().indent(20, 0).create());
         autoLoginCheckbox.setText(Messages.ResourceSection_AutoLogin);
-        
+
         //Auto-login checkBox tooltip 
-        ControlDecoration checkBoxToolTip =  new ControlDecoration(autoLoginCheckbox, SWT.LEFT);
+        ControlDecoration checkBoxToolTip = new ControlDecoration(autoLoginCheckbox, SWT.LEFT);
         checkBoxToolTip.setDescriptionText(Messages.ResourceSection_AutoLoginTooltip);
         checkBoxToolTip.setImage(PlatformUI.getWorkbench().getSharedImages().getImage(ISharedImages.IMG_OBJS_INFO_TSK));
         checkBoxToolTip.show();
-        
+
         // Auto-login warning when checkBox selected
         checkBoxWarning = new ControlDecoration(autoLoginCheckbox, SWT.RIGHT);
         checkBoxWarning.setImage(PlatformUI.getWorkbench().getSharedImages().getImage(ISharedImages.IMG_OBJS_WARN_TSK));
-        checkBoxWarning.setDescriptionText("An anonymous username and password must be defined in the authentification configuration") ;
-        checkBoxWarning.setShowOnlyOnFocus(false) ;
-        
+        checkBoxWarning.setDescriptionText("An anonymous username and password must be defined in the authentification configuration");
+        checkBoxWarning.setShowOnlyOnFocus(false);
+
         autoLoginCheckbox.addSelectionListener(new SelectionListener() {
-			
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				activateAutoLoginWarning();
-			}
-			
-			@Override
-			public void widgetDefaultSelected(SelectionEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-		});
+
+            @Override
+            public void widgetSelected(SelectionEvent e) {
+                activateAutoLoginWarning();
+            }
+
+            @Override
+            public void widgetDefaultSelected(SelectionEvent e) {
+                // TODO Auto-generated method stub
+
+            }
+        });
 
     }
 
     @Override
     public void dispose() {
         super.dispose();
-        if(thisContext != null){
+        if (thisContext != null) {
             thisContext.dispose();
         }
     }
 
-	@Override
-	public String getSectionDescription() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-
-
+    @Override
+    public String getSectionDescription() {
+        // TODO Auto-generated method stub
+        return null;
+    }
 
 }

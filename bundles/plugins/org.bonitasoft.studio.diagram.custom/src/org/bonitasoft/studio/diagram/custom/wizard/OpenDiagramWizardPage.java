@@ -1,19 +1,16 @@
 /**
  * Copyright (C) 2009 BonitaSoft S.A.
  * BonitaSoft, 31 rue Gustave Eiffel - 38000 Grenoble
- *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2.0 of the License, or
  * (at your option) any later version.
- *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package org.bonitasoft.studio.diagram.custom.wizard;
 
@@ -31,19 +28,15 @@ import org.eclipse.swt.widgets.Text;
 
 /**
  * @author Mickael Istria
- *
  */
 public class OpenDiagramWizardPage extends AbstractManageDiagramWizardPage {
-
 
     private Text processLocationText;
     private Button removeProcessButton;
 
-
     /**
      * @param openProcessWizard
      * @param example
-     *
      */
     public OpenDiagramWizardPage() {
         super(Messages.openProcessWizardPage_title);
@@ -53,7 +46,8 @@ public class OpenDiagramWizardPage extends AbstractManageDiagramWizardPage {
 
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see org.eclipse.jface.dialogs.IDialogPage#createControl(org.eclipse.swt.widgets.Composite)
      */
     @Override
@@ -61,7 +55,7 @@ public class OpenDiagramWizardPage extends AbstractManageDiagramWizardPage {
         super.createControl(parent);
         removeProcessButton = new Button(getMainComposite(), SWT.FLAT);
         final GridData gd = new GridData();
-        gd.widthHint = 90 ;
+        gd.widthHint = 90;
         removeProcessButton.setLayoutData(gd);
         removeProcessButton.setText(Messages.removeProcessLabel);
         removeProcessButton.addSelectionListener(new SelectionListener() {
@@ -88,17 +82,13 @@ public class OpenDiagramWizardPage extends AbstractManageDiagramWizardPage {
         setControl(getMainComposite());
     }
 
-
     protected void updateRemoveButton() {
         if (getDiagramTree().isEnabled() && !getDiagramTree().getViewer().getSelection().isEmpty()) {
             removeProcessButton.setEnabled(true);
-        }else{
+        } else {
             removeProcessButton.setEnabled(false);
         }
     }
-
-
-
 
     @Override
     public boolean isPageComplete() {
@@ -111,7 +101,6 @@ public class OpenDiagramWizardPage extends AbstractManageDiagramWizardPage {
     public boolean useIFile() {
         return !processLocationText.isEnabled();
     }
-
 
     protected Button getRemoveButton() {
         return removeProcessButton;

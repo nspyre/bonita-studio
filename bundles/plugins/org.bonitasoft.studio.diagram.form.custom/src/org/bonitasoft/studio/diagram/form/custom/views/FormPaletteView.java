@@ -5,14 +5,12 @@
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2.0 of the License, or
  * (at your option) any later version.
- *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package org.bonitasoft.studio.diagram.form.custom.views;
 
@@ -31,12 +29,12 @@ import org.eclipse.ui.part.PageBookView;
 
 /**
  * @author Romain Bioteau
- *
  */
 public class FormPaletteView extends PaletteView {
 
     public static final String ID = "org.bonitasoft.studio.form.palette_view"; //$NON-NLS-1$
     private IPerspectiveListener perspectiveListener = new IPerspectiveListener() {
+
         public void perspectiveChanged(IWorkbenchPage page,
                 IPerspectiveDescriptor perspective, String changeId) {
         }
@@ -56,13 +54,13 @@ public class FormPaletteView extends PaletteView {
 
     @Override
     protected PageRec doCreatePage(IWorkbenchPart part) {
-        if(part instanceof FormDiagramEditor){
+        if (part instanceof FormDiagramEditor) {
             // Try to get a custom palette page
             Object obj = part.getAdapter(PalettePage.class);
 
             if (obj != null && obj instanceof IPage) {
                 PageBook pageBook = getPageBook();
-                if(!pageBook.isDisposed()){
+                if (!pageBook.isDisposed()) {
                     return super.doCreatePage(part);
                 }
             }
@@ -80,7 +78,7 @@ public class FormPaletteView extends PaletteView {
     public void createPartControl(Composite parent) {
         super.createPartControl(parent);
         getSite().getPage().getWorkbenchWindow()
-        .addPerspectiveListener(perspectiveListener);
+                .addPerspectiveListener(perspectiveListener);
     }
 
     /**
@@ -90,7 +88,7 @@ public class FormPaletteView extends PaletteView {
      */
     public void dispose() {
         getSite().getPage().getWorkbenchWindow()
-        .removePerspectiveListener(perspectiveListener);
+                .removePerspectiveListener(perspectiveListener);
         super.dispose();
     }
 
@@ -106,6 +104,6 @@ public class FormPaletteView extends PaletteView {
         // in the current
         // perspective, i.e., when both this view and the given editor are on
         // the same page.
-        return viewInPage  && part instanceof IEditorPart;
+        return viewInPage && part instanceof IEditorPart;
     }
 }

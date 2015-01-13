@@ -1,19 +1,16 @@
 /**
  * Copyright (C) 2009-2012 BonitaSoft S.A.
  * BonitaSoft, 32 rue Gustave Eiffel - 38000 Grenoble
- *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2.0 of the License, or
  * (at your option) any later version.
- *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package org.bonitasoft.studio.properties.form.sections.general.contributions;
 
@@ -53,7 +50,6 @@ import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetWidgetFactory;
 /**
  * @author Aurelien Pupier
  * @author Baptiste Mesta
- *
  */
 public class ShowLabelGridPropertySectionContribution implements IExtensibleGridPropertySectionContribution {
 
@@ -63,14 +59,14 @@ public class ShowLabelGridPropertySectionContribution implements IExtensibleGrid
 
     /*
      * (non-Javadoc)
-     *
      * @see org.bonitasoft.studio.common.properties.
      * IExtensibleGridPropertySectionContribution
      * #createControl(org.eclipse.swt.widgets.Composite,
      * org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetWidgetFactory,
      * org.bonitasoft.studio.common.properties.ExtensibleGridPropertySection)
      */
-    public void createControl(final Composite composite, final TabbedPropertySheetWidgetFactory widgetFactory, final ExtensibleGridPropertySection extensibleGridPropertySection) {
+    public void createControl(final Composite composite, final TabbedPropertySheetWidgetFactory widgetFactory,
+            final ExtensibleGridPropertySection extensibleGridPropertySection) {
 
         composite.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, true, false));
         composite.setLayout(new GridLayout(3, false));
@@ -89,18 +85,20 @@ public class ShowLabelGridPropertySectionContribution implements IExtensibleGrid
                     EMFEditObservables.observeValue(editingDomain, element, FormPackage.Literals.WIDGET__SHOW_DISPLAY_LABEL));
         }
 
-        final ExpressionViewer displayLabelViewer = new ExpressionViewer(composite, SWT.BORDER, widgetFactory,editingDomain, FormPackage.Literals.WIDGET__DISPLAY_LABEL);
-        displayLabelViewer.addFilter(new AvailableExpressionTypeFilter(new String[]{
+        final ExpressionViewer displayLabelViewer = new ExpressionViewer(composite, SWT.BORDER, widgetFactory, editingDomain,
+                FormPackage.Literals.WIDGET__DISPLAY_LABEL);
+        displayLabelViewer.addFilter(new AvailableExpressionTypeFilter(new String[] {
                 ExpressionConstants.CONSTANT_TYPE,
                 ExpressionConstants.I18N_TYPE,
                 ExpressionConstants.SCRIPT_TYPE,
                 ExpressionConstants.PARAMETER_TYPE,
                 ExpressionConstants.VARIABLE_TYPE
-        })) ;
+        }));
         Expression displayLabelExpression = element.getDisplayLabel();
-        if(displayLabelExpression == null){
+        if (displayLabelExpression == null) {
             displayLabelExpression = ExpressionFactory.eINSTANCE.createExpression();
-            editingDomain.getCommandStack().execute(SetCommand.create(editingDomain, element, FormPackage.Literals.WIDGET__DISPLAY_LABEL, displayLabelExpression));
+            editingDomain.getCommandStack().execute(
+                    SetCommand.create(editingDomain, element, FormPackage.Literals.WIDGET__DISPLAY_LABEL, displayLabelExpression));
         }
 
         // add validator on the show label field when it is a form button - expression can't be empty
@@ -130,7 +128,6 @@ public class ShowLabelGridPropertySectionContribution implements IExtensibleGrid
 
     /*
      * (non-Javadoc)
-     *
      * @see org.bonitasoft.studio.common.properties.
      * IExtensibleGridPropertySectionContribution#getLabel()
      */
@@ -140,18 +137,17 @@ public class ShowLabelGridPropertySectionContribution implements IExtensibleGrid
 
     /*
      * (non-Javadoc)
-     *
      * @see org.bonitasoft.studio.common.properties.
      * IExtensibleGridPropertySectionContribution
      * #isRelevantFor(org.eclipse.emf.ecore.EObject)
      */
     public boolean isRelevantFor(final EObject eObject) {
-        return eObject instanceof Widget && !(eObject instanceof IFrameWidget) && !(eObject instanceof HiddenWidget) && !(eObject instanceof MessageInfo) && !(eObject instanceof HtmlWidget);
+        return eObject instanceof Widget && !(eObject instanceof IFrameWidget) && !(eObject instanceof HiddenWidget) && !(eObject instanceof MessageInfo)
+                && !(eObject instanceof HtmlWidget);
     }
 
     /*
      * (non-Javadoc)
-     *
      * @see org.bonitasoft.studio.common.properties.
      * IExtensibleGridPropertySectionContribution#refresh()
      */
@@ -160,7 +156,6 @@ public class ShowLabelGridPropertySectionContribution implements IExtensibleGrid
 
     /*
      * (non-Javadoc)
-     *
      * @see org.bonitasoft.studio.common.properties.
      * IExtensibleGridPropertySectionContribution
      * #setEObject(org.eclipse.emf.ecore.EObject)
@@ -172,7 +167,6 @@ public class ShowLabelGridPropertySectionContribution implements IExtensibleGrid
 
     /*
      * (non-Javadoc)
-     *
      * @see org.bonitasoft.studio.common.properties.
      * IExtensibleGridPropertySectionContribution
      * #setEditingDomain(org.eclipse.emf.transaction.TransactionalEditingDomain)
@@ -183,7 +177,6 @@ public class ShowLabelGridPropertySectionContribution implements IExtensibleGrid
 
     /*
      * (non-Javadoc)
-     *
      * @see org.bonitasoft.studio.common.properties.
      * IExtensibleGridPropertySectionContribution
      * #setSelection(org.eclipse.jface.viewers.ISelection)
@@ -194,7 +187,6 @@ public class ShowLabelGridPropertySectionContribution implements IExtensibleGrid
 
     /*
      * (non-Javadoc)
-     *
      * @see org.bonitasoft.studio.common.properties.
      * IExtensibleGridPropertySectionContribution#dispose()
      */

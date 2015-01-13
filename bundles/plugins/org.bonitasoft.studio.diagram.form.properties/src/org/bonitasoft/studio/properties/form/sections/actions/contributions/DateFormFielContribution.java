@@ -21,7 +21,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.DateTime;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetWidgetFactory;
 
-public class DateFormFielContribution extends InitialValueContribution{
+public class DateFormFielContribution extends InitialValueContribution {
 
     protected static final Object DEFAULT_DATE_FORMAT = "yyyy/MM/dd HH:mm:ss";//$NON-NLS-1$
     private DateTime timeChooser;
@@ -39,11 +39,10 @@ public class DateFormFielContribution extends InitialValueContribution{
         composite.setLayout(layout);
         composite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, true));
 
-
         dateChooser = new DateTime(composite, SWT.BORDER | SWT.DATE | SWT.DROP_DOWN);
-        widgetFactory.adapt(dateChooser,false,false);
+        widgetFactory.adapt(dateChooser, false, false);
         timeChooser = new DateTime(composite, SWT.BORDER | SWT.TIME);
-        widgetFactory.adapt(timeChooser,false,false);
+        widgetFactory.adapt(timeChooser, false, false);
         bindDateWidget();
     }
 
@@ -54,7 +53,7 @@ public class DateFormFielContribution extends InitialValueContribution{
     }
 
     private void bindDateWidget() {
-        final UpdateValueStrategy dateToInCombo = new UpdateValueStrategy().setConverter(new Converter(Date.class,String.class) {
+        final UpdateValueStrategy dateToInCombo = new UpdateValueStrategy().setConverter(new Converter(Date.class, String.class) {
 
             public Object convert(final Object fromObject) {
                 return DateUtil.getWidgetDisplayDate(dateChooser, timeChooser);
@@ -70,8 +69,7 @@ public class DateFormFielContribution extends InitialValueContribution{
                 dateToInCombo,
                 new UpdateValueStrategy(UpdateValueStrategy.POLICY_NEVER));
 
-
-        final UpdateValueStrategy dateToFormat = new UpdateValueStrategy().setConverter(new Converter(Date.class,String.class) {
+        final UpdateValueStrategy dateToFormat = new UpdateValueStrategy().setConverter(new Converter(Date.class, String.class) {
 
             public Object convert(final Object fromObject) {
                 return DateFormFielContribution.DEFAULT_DATE_FORMAT;
@@ -81,13 +79,12 @@ public class DateFormFielContribution extends InitialValueContribution{
                 EMFEditObservables.observeValue(editingDomain, widget, FormPackage.Literals.DATE_FORM_FIELD__DISPLAY_FORMAT),
                 dateToFormat,
                 new UpdateValueStrategy(UpdateValueStrategy.POLICY_NEVER));
-        dataBindingContext.bindValue(new DateTimeObservable(timeChooser), EMFEditObservables.observeValue(editingDomain, widget, FormPackage.Literals.DATE_FORM_FIELD__DISPLAY_FORMAT),
+        dataBindingContext.bindValue(new DateTimeObservable(timeChooser),
+                EMFEditObservables.observeValue(editingDomain, widget, FormPackage.Literals.DATE_FORM_FIELD__DISPLAY_FORMAT),
                 dateToFormat,
                 new UpdateValueStrategy(UpdateValueStrategy.POLICY_NEVER));
 
-
     }
-
 
     @Override
     public boolean isRelevantFor(final EObject eObject) {

@@ -46,7 +46,7 @@ public class DocumentInitialContentValidator implements IValidator {
 
     private IStatus validateSimpleDocument(final Document document) {
         final DocumentType documentType = document.getDocumentType();
-        if (DocumentType.EXTERNAL.equals(documentType)){
+        if (DocumentType.EXTERNAL.equals(documentType)) {
             return validateExternalSimpleDocument(document);
         }
         return ValidationStatus.ok();

@@ -1,7 +1,6 @@
 /**
  * <copyright>
  * </copyright>
- *
  * $Id$
  */
 package org.w3._1999.xhtml.validation;
@@ -18,30 +17,54 @@ import org.w3._1999.xhtml.IsmapType;
  * This can be disabled with -vmargs -Dorg.eclipse.emf.examples.generator.validator=false.
  */
 public interface ImgTypeValidator {
-	boolean validate();
 
-	boolean validateAlt(String value);
-	boolean validateClass(List<String> value);
-	boolean validateDir(DirType value);
-	boolean validateHeight(String value);
-	boolean validateId(String value);
-	boolean validateIsmap(IsmapType value);
-	boolean validateLang(String value);
-	boolean validateLang1(String value);
-	boolean validateLongdesc(String value);
-	boolean validateOnclick(String value);
-	boolean validateOndblclick(String value);
-	boolean validateOnkeydown(String value);
-	boolean validateOnkeypress(String value);
-	boolean validateOnkeyup(String value);
-	boolean validateOnmousedown(String value);
-	boolean validateOnmousemove(String value);
-	boolean validateOnmouseout(String value);
-	boolean validateOnmouseover(String value);
-	boolean validateOnmouseup(String value);
-	boolean validateSrc(String value);
-	boolean validateStyle(String value);
-	boolean validateTitle(String value);
-	boolean validateUsemap(String value);
-	boolean validateWidth(String value);
+    boolean validate();
+
+    boolean validateAlt(String value);
+
+    boolean validateClass(List<String> value);
+
+    boolean validateDir(DirType value);
+
+    boolean validateHeight(String value);
+
+    boolean validateId(String value);
+
+    boolean validateIsmap(IsmapType value);
+
+    boolean validateLang(String value);
+
+    boolean validateLang1(String value);
+
+    boolean validateLongdesc(String value);
+
+    boolean validateOnclick(String value);
+
+    boolean validateOndblclick(String value);
+
+    boolean validateOnkeydown(String value);
+
+    boolean validateOnkeypress(String value);
+
+    boolean validateOnkeyup(String value);
+
+    boolean validateOnmousedown(String value);
+
+    boolean validateOnmousemove(String value);
+
+    boolean validateOnmouseout(String value);
+
+    boolean validateOnmouseover(String value);
+
+    boolean validateOnmouseup(String value);
+
+    boolean validateSrc(String value);
+
+    boolean validateStyle(String value);
+
+    boolean validateTitle(String value);
+
+    boolean validateUsemap(String value);
+
+    boolean validateWidth(String value);
 }

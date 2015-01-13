@@ -45,7 +45,6 @@ import org.eclipse.ui.preferences.ScopedPreferenceStore;
 
 /**
  * @author Romain Bioteau
- * 
  */
 
 public class BonitaLanguagePreferencePage extends AbstractBonitaPreferencePage implements IWorkbenchPreferencePage {
@@ -114,11 +113,11 @@ public class BonitaLanguagePreferencePage extends AbstractBonitaPreferencePage i
         }
         super.propertyChange(event);
     }
-    
+
     @Override
     protected void performDefaults() {
-    	super.performDefaults();
-    	newLocale = getPreferenceStore().getString(BonitaPreferenceConstants.CURRENT_STUDIO_LOCALE);
+        super.performDefaults();
+        newLocale = getPreferenceStore().getString(BonitaPreferenceConstants.CURRENT_STUDIO_LOCALE);
     }
 
     /*

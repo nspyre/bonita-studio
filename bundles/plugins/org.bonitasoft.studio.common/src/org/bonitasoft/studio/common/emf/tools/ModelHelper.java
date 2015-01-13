@@ -1,19 +1,16 @@
 /**
  * Copyright (C) 2009-2012 BonitaSoft S.A.
  * BonitaSoft, 32 rue Gustave Eiffel - 38000 Grenoble
- *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2.0 of the License, or
  * (at your option) any later version.
- *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
 package org.bonitasoft.studio.common.emf.tools;
@@ -100,7 +97,6 @@ import org.eclipse.gmf.runtime.notation.Diagram;
 /**
  * @author Romain Bioteau
  * @author Baptiste Mesta
- *
  */
 public class ModelHelper {
 
@@ -120,7 +116,7 @@ public class ModelHelper {
      * To be used when dealing with scopes (for groups or datatypes)
      *
      * @param a
-     *            model object
+     *        model object
      * @return the list of parent processes for this object. Includes object if
      *         object is a process. This basically contains: * Only the Main
      *         process in case of a top level node which is contained in main
@@ -438,7 +434,7 @@ public class ModelHelper {
      */
     public static AbstractProcess getParentProcess(final EObject object) {
         EObject process = object;
-        while (process != null &&  !(process instanceof AbstractProcess && !(process instanceof SubProcessEvent))) {
+        while (process != null && !(process instanceof AbstractProcess && !(process instanceof SubProcessEvent))) {
             if (process.eContainer() != null) {
                 process = process.eContainer();
             } else {
@@ -470,7 +466,7 @@ public class ModelHelper {
 
     public static Container getParentContainer(final EObject object) {
         EObject container = object;
-        while (container != null &&  !(container instanceof Container)) {
+        while (container != null && !(container instanceof Container)) {
             if (container.eContainer() != null) {
                 container = container.eContainer();
             } else {
@@ -966,11 +962,12 @@ public class ModelHelper {
     /**
      * @param subProcessName
      * @param version
-     *            : this is not use by now
+     *        : this is not use by now
      * @param elements
      * @param processes
      */
-    private static void findProcessRecursivly(final String subProcessName, final String version, final List<? extends Element> elements, final List<AbstractProcess> processes) {
+    private static void findProcessRecursivly(final String subProcessName, final String version, final List<? extends Element> elements,
+            final List<AbstractProcess> processes) {
         // TODO : use the version argument
         for (final Element item : elements) {
             if (item instanceof AbstractProcess) {
@@ -1040,7 +1037,6 @@ public class ModelHelper {
     }
 
     /**
-     *
      * @param element
      * @param x
      * @param y
@@ -1125,7 +1121,6 @@ public class ModelHelper {
     }
 
     /**
-     *
      * return the neareast empty widget slot available
      *
      * @param near
@@ -1135,7 +1130,6 @@ public class ModelHelper {
     }
 
     /**
-     *
      * return the neareast empty widget slot available
      *
      * @param near
@@ -1267,8 +1261,7 @@ public class ModelHelper {
     public static List<Widget> getAllWidgetInsidePageFlow(final Element pageFlow, final EReference eContainmentFeature) {
         final List<Widget> res = new ArrayList<Widget>();
         @SuppressWarnings("unchecked")
-        final
-        List<Form> forms = (List<Form>) pageFlow.eGet(eContainmentFeature);
+        final List<Form> forms = (List<Form>) pageFlow.eGet(eContainmentFeature);
         for (final Form form : forms) {
             final List<Widget> widgets = getAllWidgetInsideForm(form);
             for (final Widget element : widgets) {
@@ -1484,7 +1477,6 @@ public class ModelHelper {
 
     /**
      * @return
-     *
      */
     public static String getEObjectID(final EObject eObject) {
         if (eObject == null) {
@@ -1561,7 +1553,6 @@ public class ModelHelper {
     }
 
     /**
-     *
      * remove all element that are referenced outside the object and remove
      * element that are missing required fields
      *
@@ -1633,7 +1624,6 @@ public class ModelHelper {
     }
 
     /**
-     *
      * remove all element that are referenced outside the object and remove
      * element that are missing required fields
      *
@@ -1852,7 +1842,6 @@ public class ModelHelper {
     }
 
     /**
-     *
      * Check if the form have a custome page template set
      *
      * @param element
@@ -1961,7 +1950,7 @@ public class ModelHelper {
         return (Element) element;
     }
 
-    public static  List<Widget> getAllAccessibleWidgetInsideForm(final Form form) {
+    public static List<Widget> getAllAccessibleWidgetInsideForm(final Form form) {
         final List<Widget> res = new ArrayList<Widget>();
         for (final Widget w : form.getWidgets()) {
             res.addAll(getAccessibleWidgets(w));
@@ -1987,11 +1976,11 @@ public class ModelHelper {
     public static Group getParentGroup(final EObject context) {
         Widget widget = getParentWidget(context);
 
-        if(context.equals(widget) && widget instanceof Group && widget.eContainer() instanceof Group){
+        if (context.equals(widget) && widget instanceof Group && widget.eContainer() instanceof Group) {
             widget = (Widget) widget.eContainer();
         }
 
-        if(widget != null){
+        if (widget != null) {
             Widget parentGroup = widget;
             while (parentGroup != null && !(parentGroup instanceof Group)) {
                 final EObject parent = parentGroup.eContainer();
@@ -2008,14 +1997,15 @@ public class ModelHelper {
         return null;
     }
 
-
     public static boolean isObjectIsReferencedInExpression(final Expression expr, final Object elementToDisplay) {
-        for (final EObject referencedElement:expr.getReferencedElements()){
-            if (referencedElement instanceof Parameter && elementToDisplay instanceof Parameter && ((Parameter)referencedElement).getName().equals(((Parameter)elementToDisplay).getName())){
+        for (final EObject referencedElement : expr.getReferencedElements()) {
+            if (referencedElement instanceof Parameter && elementToDisplay instanceof Parameter
+                    && ((Parameter) referencedElement).getName().equals(((Parameter) elementToDisplay).getName())) {
                 return true;
             }
 
-            if (referencedElement instanceof SearchIndex && elementToDisplay instanceof SearchIndex && ((SearchIndex)referencedElement).getName().getName().equals(((SearchIndex)elementToDisplay).getName().getName())){
+            if (referencedElement instanceof SearchIndex && elementToDisplay instanceof SearchIndex
+                    && ((SearchIndex) referencedElement).getName().getName().equals(((SearchIndex) elementToDisplay).getName().getName())) {
                 return true;
             }
 
@@ -2079,7 +2069,7 @@ public class ModelHelper {
     protected static boolean isSameContainer(final EObject referencedElement, final EObject element) {
         if (referencedElement instanceof Data) {
             final Activity stepContainer = getReferencedDataActivityContainer((Data) referencedElement);
-            if (stepContainer!=null){
+            if (stepContainer != null) {
                 return stepContainer.equals(element.eContainer());
             }
             final Pool poolContainer = getReferencedDataPoolContainer((Data) referencedElement);

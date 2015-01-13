@@ -5,14 +5,12 @@
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2.0 of the License, or
  * (at your option) any later version.
- *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package org.bonitasoft.studio.actors.ui.wizard.page;
 
@@ -69,90 +67,88 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.dialogs.FilteredTree;
 import org.eclipse.ui.dialogs.PatternFilter;
 
-
 /**
  * @author Romain Bioteau
- *
  */
 public class GroupsWizardPage extends AbstractOrganizationWizardPage {
-
 
     private final List<Membership> groupMemberShips = new ArrayList<Membership>();
     private Button addSubGroupButton;
     private IViewerObservableValue groupSingleSelectionObservable;
-    private String groupPath ;
+    private String groupPath;
     private IObservableValue groupPathObserveValue;
 
     public GroupsWizardPage() {
         super(GroupsWizardPage.class.getName());
-        setTitle(Messages.displayGroupsPageTitle) ;
-        setDescription(Messages.displayGroupsPageDesc) ;
+        setTitle(Messages.displayGroupsPageTitle);
+        setDescription(Messages.displayGroupsPageDesc);
     }
-
 
     @Override
     protected StructuredViewer createViewer(final Composite parent) {
-        final FilteredTree fileredTree = new FilteredTree(parent, SWT.BORDER | SWT.MULTI | SWT.FULL_SELECTION, new PatternFilter(), true) ;
-        ((Text)((Composite)fileredTree.getChildren()[0]).getChildren()[0]).setMessage(Messages.search) ;
-        fileredTree.setLayoutData(GridDataFactory.fillDefaults().grab(true, true).minSize(200, 200).create()) ;
-        fileredTree.getViewer().setContentProvider(new GroupContentProvider()) ;
-        fileredTree.forceFocus() ;
+        final FilteredTree fileredTree = new FilteredTree(parent, SWT.BORDER | SWT.MULTI | SWT.FULL_SELECTION, new PatternFilter(), true);
+        ((Text) ((Composite) fileredTree.getChildren()[0]).getChildren()[0]).setMessage(Messages.search);
+        fileredTree.setLayoutData(GridDataFactory.fillDefaults().grab(true, true).minSize(200, 200).create());
+        fileredTree.getViewer().setContentProvider(new GroupContentProvider());
+        fileredTree.forceFocus();
 
         groupSingleSelectionObservable = ViewersObservables.observeSingleSelection(fileredTree.getViewer());
         groupSingleSelectionObservable.addValueChangeListener(new IValueChangeListener() {
 
             @Override
             public void handleValueChange(final ValueChangeEvent event) {
-                groupMemberShips.clear() ;
-                final org.bonitasoft.studio.actors.model.organization.Group selectedGroup = (org.bonitasoft.studio.actors.model.organization.Group) event.diff.getNewValue();
-                if(selectedGroup != null){
-                    setControlEnabled(getInfoGroup(), true) ;
+                groupMemberShips.clear();
+                final org.bonitasoft.studio.actors.model.organization.Group selectedGroup = (org.bonitasoft.studio.actors.model.organization.Group) event.diff
+                        .getNewValue();
+                if (selectedGroup != null) {
+                    setControlEnabled(getInfoGroup(), true);
                     groupPathObserveValue.setValue(GroupContentProvider.getGroupPath(selectedGroup));
-                    for(final Membership m : membershipList){
-                        if(selectedGroup.getName() != null && selectedGroup.getName().equals(m.getGroupName())
-                                && (selectedGroup.getParentPath() != null && selectedGroup.getParentPath().equals(m.getGroupParentPath()) || selectedGroup.getParentPath() == null && m.getGroupParentPath() == null)){
-                            groupMemberShips.add(m) ;
+                    for (final Membership m : membershipList) {
+                        if (selectedGroup.getName() != null
+                                && selectedGroup.getName().equals(m.getGroupName())
+                                && (selectedGroup.getParentPath() != null && selectedGroup.getParentPath().equals(m.getGroupParentPath()) || selectedGroup
+                                        .getParentPath() == null && m.getGroupParentPath() == null)) {
+                            groupMemberShips.add(m);
                         }
                     }
                     addSubGroupButton.setEnabled(true);
-                }else{
+                } else {
                     addSubGroupButton.setEnabled(false);
-                    setControlEnabled(getInfoGroup(), false) ;
+                    setControlEnabled(getInfoGroup(), false);
                 }
 
             }
         });
 
-
         return fileredTree.getViewer();
     }
 
-
     @Override
     protected void configureViewer(final StructuredViewer viewer) {
-        viewer.setLabelProvider(new LabelProvider(){
+        viewer.setLabelProvider(new LabelProvider() {
+
             @Override
             public String getText(final Object element) {
-                final String displayName = ((org.bonitasoft.studio.actors.model.organization.Group)element).getDisplayName();
-                if(displayName == null || displayName.isEmpty()){
-                    return ((org.bonitasoft.studio.actors.model.organization.Group)element).getName();
+                final String displayName = ((org.bonitasoft.studio.actors.model.organization.Group) element).getDisplayName();
+                if (displayName == null || displayName.isEmpty()) {
+                    return ((org.bonitasoft.studio.actors.model.organization.Group) element).getName();
                 }
                 return displayName;
             }
-        }) ;
+        });
 
-        if(groupList != null && getViewer() != null){
-            getViewer().setInput(groupList) ;
-            ((TreeViewer)getViewer()).expandAll() ;
+        if (groupList != null && getViewer() != null) {
+            getViewer().setInput(groupList);
+            ((TreeViewer) getViewer()).expandAll();
         }
     }
 
     @Override
     public void setOrganization(final Organization organization) {
         super.setOrganization(organization);
-        if(organization != null && getViewer() != null){
-            getViewer().setInput(groupList) ;
-            ((TreeViewer)getViewer()).expandAll() ;
+        if (organization != null && getViewer() != null) {
+            getViewer().setInput(groupList);
+            ((TreeViewer) getViewer()).expandAll();
         }
     }
 
@@ -161,14 +157,15 @@ public class GroupsWizardPage extends AbstractOrganizationWizardPage {
     }
 
     protected void handleGroupParentPathChange(final ValueChangeEvent event) {
-        final org.bonitasoft.studio.actors.model.organization.Group group = (org.bonitasoft.studio.actors.model.organization.Group) groupSingleSelectionObservable.getValue();
-        final org.bonitasoft.studio.actors.model.organization.Group oldGroup = EcoreUtil.copy(group) ;
+        final org.bonitasoft.studio.actors.model.organization.Group group = (org.bonitasoft.studio.actors.model.organization.Group) groupSingleSelectionObservable
+                .getValue();
+        final org.bonitasoft.studio.actors.model.organization.Group oldGroup = EcoreUtil.copy(group);
 
         final Object oldValue = event.diff.getOldValue();
-        if(oldValue != null){
+        if (oldValue != null) {
             if (oldGroup != null) {
-                oldGroup.setParentPath(oldValue.toString()) ;
-                for(final Membership m : membershipList){
+                oldGroup.setParentPath(oldValue.toString());
+                for (final Membership m : membershipList) {
                     if (m.getGroupName() != null && m.getGroupName().equals(group.getName()) && m.getGroupParentPath() != null
                             && m.getGroupParentPath().equals(oldGroup.getParentPath())) {
                         m.setGroupParentPath(group.getParentPath());
@@ -178,81 +175,81 @@ public class GroupsWizardPage extends AbstractOrganizationWizardPage {
         }
     }
 
-
-    protected void handleGroupNameChange(final ValueChangeEvent event,final IObservableValue pathObservableValue) {
-        final org.bonitasoft.studio.actors.model.organization.Group group = (org.bonitasoft.studio.actors.model.organization.Group) groupSingleSelectionObservable.getValue();
-        final org.bonitasoft.studio.actors.model.organization.Group oldGroup = EcoreUtil.copy(group) ;
+    protected void handleGroupNameChange(final ValueChangeEvent event, final IObservableValue pathObservableValue) {
+        final org.bonitasoft.studio.actors.model.organization.Group group = (org.bonitasoft.studio.actors.model.organization.Group) groupSingleSelectionObservable
+                .getValue();
+        final org.bonitasoft.studio.actors.model.organization.Group oldGroup = EcoreUtil.copy(group);
         final Object oldValue = event.diff.getOldValue();
-        if(oldValue != null){
+        if (oldValue != null) {
             if (oldGroup != null) {
-                oldGroup.setName(oldValue.toString()) ;
-                final ITreeContentProvider provider = (ITreeContentProvider) getViewer().getContentProvider() ;
-                final String oldPath = GroupContentProvider.getGroupPath(oldGroup) + GroupContentProvider.GROUP_SEPARATOR ;
-                final String newPath = GroupContentProvider.getGroupPath(group) + GroupContentProvider.GROUP_SEPARATOR ;
+                oldGroup.setName(oldValue.toString());
+                final ITreeContentProvider provider = (ITreeContentProvider) getViewer().getContentProvider();
+                final String oldPath = GroupContentProvider.getGroupPath(oldGroup) + GroupContentProvider.GROUP_SEPARATOR;
+                final String newPath = GroupContentProvider.getGroupPath(group) + GroupContentProvider.GROUP_SEPARATOR;
 
-                if(provider != null && provider.hasChildren(oldGroup)){
-                    for(final Object child : provider.getChildren(oldGroup)){
-                        final org.bonitasoft.studio.actors.model.organization.Group childGroup = (org.bonitasoft.studio.actors.model.organization.Group) child ;
-                        updateParentPath(childGroup, oldPath, newPath, provider) ;
-                        final String parent = childGroup.getParentPath() + GroupContentProvider.GROUP_SEPARATOR ;
-                        String path = parent.replace(oldPath, newPath) ;
-                        if(path.endsWith(GroupContentProvider.GROUP_SEPARATOR )){
-                            path = path.substring(0, path.length() -1) ;
+                if (provider != null && provider.hasChildren(oldGroup)) {
+                    for (final Object child : provider.getChildren(oldGroup)) {
+                        final org.bonitasoft.studio.actors.model.organization.Group childGroup = (org.bonitasoft.studio.actors.model.organization.Group) child;
+                        updateParentPath(childGroup, oldPath, newPath, provider);
+                        final String parent = childGroup.getParentPath() + GroupContentProvider.GROUP_SEPARATOR;
+                        String path = parent.replace(oldPath, newPath);
+                        if (path.endsWith(GroupContentProvider.GROUP_SEPARATOR)) {
+                            path = path.substring(0, path.length() - 1);
                         }
-                        if(path.equals(GroupContentProvider.GROUP_SEPARATOR)){
-                            childGroup.setParentPath(null) ;
-                        }else{
-                            childGroup.setParentPath(path) ;
+                        if (path.equals(GroupContentProvider.GROUP_SEPARATOR)) {
+                            childGroup.setParentPath(null);
+                        } else {
+                            childGroup.setParentPath(path);
                         }
 
                     }
                 }
             }
             if (group != null) {
-                if(getViewer() != null && !getViewer().getControl().isDisposed()){
-                    getViewer().refresh(group) ;
+                if (getViewer() != null && !getViewer().getControl().isDisposed()) {
+                    getViewer().refresh(group);
                 }
 
-                pathObservableValue.setValue(GroupContentProvider.getGroupPath(group)) ;
+                pathObservableValue.setValue(GroupContentProvider.getGroupPath(group));
 
-                for(final Membership m : groupMemberShips){
-                    m.setGroupName(group.getName()) ;
+                for (final Membership m : groupMemberShips) {
+                    m.setGroupName(group.getName());
                 }
             }
         }
     }
 
-
-
     private void handleGroupDisplayName(final ValueChangeEvent event) {
-        final org.bonitasoft.studio.actors.model.organization.Group group = (org.bonitasoft.studio.actors.model.organization.Group) groupSingleSelectionObservable.getValue();
-        final org.bonitasoft.studio.actors.model.organization.Group oldGroup = EcoreUtil.copy(group) ;
+        final org.bonitasoft.studio.actors.model.organization.Group group = (org.bonitasoft.studio.actors.model.organization.Group) groupSingleSelectionObservable
+                .getValue();
+        final org.bonitasoft.studio.actors.model.organization.Group oldGroup = EcoreUtil.copy(group);
         final Object oldValue = event.diff.getOldValue();
-        if(oldValue != null){
+        if (oldValue != null) {
             if (oldGroup != null) {
                 oldGroup.setDisplayName(oldValue.toString());
             }
 
-            if(getViewer() != null && !getViewer().getControl().isDisposed()){
-                getViewer().refresh(group) ;
+            if (getViewer() != null && !getViewer().getControl().isDisposed()) {
+                getViewer().refresh(group);
             }
         }
 
     }
 
-    private void updateParentPath(final org.bonitasoft.studio.actors.model.organization.Group group,final String pathToReplace,final String newPath,final ITreeContentProvider provider) {
-        if(provider.hasChildren(group)){
-            for(final Object child : provider.getChildren(group)){
-                final org.bonitasoft.studio.actors.model.organization.Group childGroup = (org.bonitasoft.studio.actors.model.organization.Group) child ;
-                updateParentPath(childGroup, pathToReplace, newPath, provider) ;
-                String path = childGroup.getParentPath().replace(pathToReplace, newPath) ;
-                if(path.endsWith(GroupContentProvider.GROUP_SEPARATOR )){
-                    path = path.substring(0, path.length() -1) ;
+    private void updateParentPath(final org.bonitasoft.studio.actors.model.organization.Group group, final String pathToReplace, final String newPath,
+            final ITreeContentProvider provider) {
+        if (provider.hasChildren(group)) {
+            for (final Object child : provider.getChildren(group)) {
+                final org.bonitasoft.studio.actors.model.organization.Group childGroup = (org.bonitasoft.studio.actors.model.organization.Group) child;
+                updateParentPath(childGroup, pathToReplace, newPath, provider);
+                String path = childGroup.getParentPath().replace(pathToReplace, newPath);
+                if (path.endsWith(GroupContentProvider.GROUP_SEPARATOR)) {
+                    path = path.substring(0, path.length() - 1);
                 }
-                if(path != null && path.equals(GroupContentProvider.GROUP_SEPARATOR)){
-                    childGroup.setParentPath(null) ;
-                }else{
-                    childGroup.setParentPath(path) ;
+                if (path != null && path.equals(GroupContentProvider.GROUP_SEPARATOR)) {
+                    childGroup.setParentPath(null);
+                } else {
+                    childGroup.setParentPath(path);
                 }
             }
         }
@@ -260,8 +257,8 @@ public class GroupsWizardPage extends AbstractOrganizationWizardPage {
 
     @Override
     protected void configureInfoGroup(final Group group) {
-        group.setText(Messages.details) ;
-        group.setLayout(GridLayoutFactory.fillDefaults().numColumns(2).margins(15, 5).spacing(10,5).create()) ;
+        group.setText(Messages.details);
+        group.setLayout(GridLayoutFactory.fillDefaults().numColumns(2).margins(15, 5).spacing(10, 5).create());
 
         createNameField(group);
 
@@ -271,38 +268,38 @@ public class GroupsWizardPage extends AbstractOrganizationWizardPage {
 
         createDescriptionField(group);
 
-        getViewer().setSelection(new StructuredSelection()) ;
+        getViewer().setSelection(new StructuredSelection());
         setControlEnabled(getInfoGroup(), false);
     }
 
-
     private void createDescriptionField(final Group group) {
-        final Label descriptionLabel = new Label(group, SWT.NONE) ;
-        descriptionLabel.setLayoutData(GridDataFactory.fillDefaults().align(SWT.END,SWT.FILL).create()) ;
-        descriptionLabel.setText(Messages.description) ;
+        final Label descriptionLabel = new Label(group, SWT.NONE);
+        descriptionLabel.setLayoutData(GridDataFactory.fillDefaults().align(SWT.END, SWT.FILL).create());
+        descriptionLabel.setText(Messages.description);
 
-        final Text groupDescriptionText = new Text(group, SWT.BORDER | SWT.MULTI | SWT.WRAP | SWT.V_SCROLL) ;
-        groupDescriptionText.setLayoutData(GridDataFactory.fillDefaults().grab(true, false).hint(SWT.DEFAULT, 80).create()) ;
+        final Text groupDescriptionText = new Text(group, SWT.BORDER | SWT.MULTI | SWT.WRAP | SWT.V_SCROLL);
+        groupDescriptionText.setLayoutData(GridDataFactory.fillDefaults().grab(true, false).hint(SWT.DEFAULT, 80).create());
 
-        final IObservableValue groupDescriptionValue = EMFObservables.observeDetailValue(Realm.getDefault(), groupSingleSelectionObservable, OrganizationPackage.Literals.GROUP__DESCRIPTION);
-        context.bindValue(SWTObservables.observeText(groupDescriptionText,SWT.Modify), groupDescriptionValue);
+        final IObservableValue groupDescriptionValue = EMFObservables.observeDetailValue(Realm.getDefault(), groupSingleSelectionObservable,
+                OrganizationPackage.Literals.GROUP__DESCRIPTION);
+        context.bindValue(SWTObservables.observeText(groupDescriptionText, SWT.Modify), groupDescriptionValue);
     }
 
-
     private void createDisplayNameField(final Group group) {
-        final Label displayNameLabel = new Label(group, SWT.NONE) ;
-        displayNameLabel.setLayoutData(GridDataFactory.fillDefaults().align(SWT.END,SWT.CENTER).create()) ;
-        displayNameLabel.setText(Messages.displayName) ;
+        final Label displayNameLabel = new Label(group, SWT.NONE);
+        displayNameLabel.setLayoutData(GridDataFactory.fillDefaults().align(SWT.END, SWT.CENTER).create());
+        displayNameLabel.setText(Messages.displayName);
 
-        final Text displayNamedText = new Text(group, SWT.BORDER) ;
+        final Text displayNamedText = new Text(group, SWT.BORDER);
         displayNamedText.setMessage(Messages.groupNameExample);
-        displayNamedText.setLayoutData(GridDataFactory.fillDefaults().grab(true, false).create()) ;
+        displayNamedText.setLayoutData(GridDataFactory.fillDefaults().grab(true, false).create());
 
         final UpdateValueStrategy displayNameStrategy = new UpdateValueStrategy();
         displayNameStrategy.setAfterGetValidator(new DisplayNameValidator());
 
-        final IObservableValue displayNameValue = EMFObservables.observeDetailValue(Realm.getDefault(), groupSingleSelectionObservable, OrganizationPackage.Literals.GROUP__DISPLAY_NAME);
-        final Binding binding = context.bindValue(SWTObservables.observeText(displayNamedText,SWT.Modify), displayNameValue, displayNameStrategy, null) ;
+        final IObservableValue displayNameValue = EMFObservables.observeDetailValue(Realm.getDefault(), groupSingleSelectionObservable,
+                OrganizationPackage.Literals.GROUP__DISPLAY_NAME);
+        final Binding binding = context.bindValue(SWTObservables.observeText(displayNamedText, SWT.Modify), displayNameValue, displayNameStrategy, null);
         ControlDecorationSupport.create(binding, SWT.LEFT);
 
         displayNameValue.addValueChangeListener(new IValueChangeListener() {
@@ -317,68 +314,69 @@ public class GroupsWizardPage extends AbstractOrganizationWizardPage {
 
     }
 
-
     private void createPathField(final Group group) {
-        final Label pathLabel = new Label(group, SWT.NONE) ;
-        pathLabel.setLayoutData(GridDataFactory.fillDefaults().align(SWT.END,SWT.CENTER).create()) ;
-        pathLabel.setText(Messages.groupPath) ;
+        final Label pathLabel = new Label(group, SWT.NONE);
+        pathLabel.setLayoutData(GridDataFactory.fillDefaults().align(SWT.END, SWT.CENTER).create());
+        pathLabel.setText(Messages.groupPath);
 
-        final Text pathText = new Text(group, SWT.BORDER | SWT.READ_ONLY) ;
-        pathText.setLayoutData(GridDataFactory.fillDefaults().grab(true, false).create()) ;
+        final Text pathText = new Text(group, SWT.BORDER | SWT.READ_ONLY);
+        pathText.setLayoutData(GridDataFactory.fillDefaults().grab(true, false).create());
 
-        final IObservableValue groupParentPathValue = EMFObservables.observeDetailValue(Realm.getDefault(),groupSingleSelectionObservable, OrganizationPackage.Literals.GROUP__PARENT_PATH) ;
+        final IObservableValue groupParentPathValue = EMFObservables.observeDetailValue(Realm.getDefault(), groupSingleSelectionObservable,
+                OrganizationPackage.Literals.GROUP__PARENT_PATH);
         groupParentPathValue.addValueChangeListener(new IValueChangeListener() {
 
             @Override
             public void handleValueChange(final ValueChangeEvent event) {
                 handleGroupParentPathChange(event);
             }
-        }) ;
+        });
 
         context.bindValue(SWTObservables.observeText(pathText, SWT.Modify), groupPathObserveValue);
     }
 
-
     private void createNameField(final Group group) {
-        final Label groupNameLabel = new Label(group, SWT.NONE) ;
-        groupNameLabel.setLayoutData(GridDataFactory.fillDefaults().align(SWT.END,SWT.CENTER).create()) ;
-        groupNameLabel.setText(Messages.name+" *") ;
+        final Label groupNameLabel = new Label(group, SWT.NONE);
+        groupNameLabel.setLayoutData(GridDataFactory.fillDefaults().align(SWT.END, SWT.CENTER).create());
+        groupNameLabel.setText(Messages.name + " *");
 
-        final Text groupNameText = new Text(group, SWT.BORDER) ;
+        final Text groupNameText = new Text(group, SWT.BORDER);
         groupNameText.setMessage(Messages.groupIdExample);
-        groupNameText.setLayoutData(GridDataFactory.fillDefaults().grab(true, false).minSize(130, SWT.DEFAULT).create()) ;
+        groupNameText.setLayoutData(GridDataFactory.fillDefaults().grab(true, false).minSize(130, SWT.DEFAULT).create());
 
-        final IObservableValue groupNameValue =  EMFObservables.observeDetailValue(Realm.getDefault(), groupSingleSelectionObservable, OrganizationPackage.Literals.GROUP__NAME);
+        final IObservableValue groupNameValue = EMFObservables.observeDetailValue(Realm.getDefault(), groupSingleSelectionObservable,
+                OrganizationPackage.Literals.GROUP__NAME);
         groupPathObserveValue = PojoObservables.observeValue(this, "groupPath");
         groupNameValue.addValueChangeListener(new IValueChangeListener() {
 
             @Override
             public void handleValueChange(final ValueChangeEvent event) {
-                handleGroupNameChange(event,groupPathObserveValue);
+                handleGroupNameChange(event, groupPathObserveValue);
             }
-        }) ;
+        });
 
-        final UpdateValueStrategy strategy = new UpdateValueStrategy() ;
+        final UpdateValueStrategy strategy = new UpdateValueStrategy();
         strategy.setAfterGetValidator(new IValidator() {
 
             @Override
             public IStatus validate(final Object value) {
-                if(value.toString().isEmpty()){
-                    return ValidationStatus.error(Messages.nameIsEmpty) ;
+                if (value.toString().isEmpty()) {
+                    return ValidationStatus.error(Messages.nameIsEmpty);
                 }
-                if(value.toString().length()>NAME_SIZE){
+                if (value.toString().length() > NAME_SIZE) {
                     return ValidationStatus.error(Messages.nameLimitSize);
                 }
-                if(value.toString().contains("/")){
-                    return ValidationStatus.error(Messages.illegalCharacter) ;
+                if (value.toString().contains("/")) {
+                    return ValidationStatus.error(Messages.illegalCharacter);
                 }
-                for(final org.bonitasoft.studio.actors.model.organization.Group g : groupList){
-                    final org.bonitasoft.studio.actors.model.organization.Group selectedGroup = (org.bonitasoft.studio.actors.model.organization.Group) groupSingleSelectionObservable.getValue();
-                    if(!g.equals(selectedGroup)){
-                        if(g.getName().equals(value)
-                                &&  (g.getParentPath() != null && g.getParentPath().equals(selectedGroup.getParentPath())
-                                || g.getParentPath() == null && selectedGroup.getParentPath() == null)){
-                            return ValidationStatus.error(Messages.groupNameAlreadyExistsForLevel) ;
+                for (final org.bonitasoft.studio.actors.model.organization.Group g : groupList) {
+                    final org.bonitasoft.studio.actors.model.organization.Group selectedGroup = (org.bonitasoft.studio.actors.model.organization.Group) groupSingleSelectionObservable
+                            .getValue();
+                    if (!g.equals(selectedGroup)) {
+                        if (g.getName().equals(value)
+                                && (g.getParentPath() != null && g.getParentPath().equals(selectedGroup.getParentPath())
+                                || g.getParentPath() == null && selectedGroup.getParentPath() == null)) {
+                            return ValidationStatus.error(Messages.groupNameAlreadyExistsForLevel);
                         }
                     }
                 }
@@ -386,11 +384,12 @@ public class GroupsWizardPage extends AbstractOrganizationWizardPage {
             }
         });
 
-        final Binding binding = context.bindValue(SWTObservables.observeText(groupNameText,SWT.Modify),groupNameValue,strategy,null);
-        ControlDecorationSupport.create(binding, SWT.LEFT,group,new ControlDecorationUpdater(){
+        final Binding binding = context.bindValue(SWTObservables.observeText(groupNameText, SWT.Modify), groupNameValue, strategy, null);
+        ControlDecorationSupport.create(binding, SWT.LEFT, group, new ControlDecorationUpdater() {
+
             @Override
             protected void update(final ControlDecoration decoration, final IStatus status) {
-                if(groupSingleSelectionObservable.getValue() != null){
+                if (groupSingleSelectionObservable.getValue() != null) {
                     super.update(decoration, status);
                 }
 
@@ -400,36 +399,39 @@ public class GroupsWizardPage extends AbstractOrganizationWizardPage {
 
     @Override
     protected Button createButtons(final Composite buttonComposite) {
-        final Button addGroupButton = new Button(buttonComposite, SWT.FLAT) ;
-        addGroupButton.setLayoutData(GridDataFactory.fillDefaults().grab(true, false).create()) ;
-        addGroupButton.setText(Messages.addParentGroup) ;
+        final Button addGroupButton = new Button(buttonComposite, SWT.FLAT);
+        addGroupButton.setLayoutData(GridDataFactory.fillDefaults().grab(true, false).create());
+        addGroupButton.setText(Messages.addParentGroup);
         addGroupButton.addSelectionListener(new SelectionAdapter() {
+
             @Override
             public void widgetSelected(final SelectionEvent e) {
-                addRootGroupButtonSelected() ;
+                addRootGroupButtonSelected();
             }
-        }) ;
+        });
 
-        addSubGroupButton = new Button(buttonComposite, SWT.FLAT) ;
-        addSubGroupButton.setLayoutData(GridDataFactory.fillDefaults().grab(true, false).create()) ;
-        addSubGroupButton.setText(Messages.addSubGroup) ;
+        addSubGroupButton = new Button(buttonComposite, SWT.FLAT);
+        addSubGroupButton.setLayoutData(GridDataFactory.fillDefaults().grab(true, false).create());
+        addSubGroupButton.setText(Messages.addSubGroup);
         addSubGroupButton.addSelectionListener(new SelectionAdapter() {
+
             @Override
             public void widgetSelected(final SelectionEvent e) {
-                addButtonSelected() ;
+                addButtonSelected();
             }
-        }) ;
+        });
 
-        final Button removeButton = new Button(buttonComposite, SWT.FLAT) ;
-        removeButton.setLayoutData(GridDataFactory.fillDefaults().grab(true, false).create()) ;
-        removeButton.setText(Messages.remove) ;
+        final Button removeButton = new Button(buttonComposite, SWT.FLAT);
+        removeButton.setLayoutData(GridDataFactory.fillDefaults().grab(true, false).create());
+        removeButton.setText(Messages.remove);
         removeButton.addSelectionListener(new SelectionAdapter() {
+
             @Override
             public void widgetSelected(final SelectionEvent e) {
                 removeButtonSelected();
             }
-        }) ;
-        removeButton.setEnabled(false) ;
+        });
+        removeButton.setEnabled(false);
         return removeButton;
     }
 
@@ -438,30 +440,30 @@ public class GroupsWizardPage extends AbstractOrganizationWizardPage {
         addButtonSelected();
     }
 
-
     @Override
     protected void addButtonSelected() {
-        final org.bonitasoft.studio.actors.model.organization.Group parentGoup = (org.bonitasoft.studio.actors.model.organization.Group) ((IStructuredSelection) getViewer().getSelection()).getFirstElement() ;
-        final org.bonitasoft.studio.actors.model.organization.Group group = OrganizationFactory.eINSTANCE.createGroup() ;
-        group.setName(generateGroupname()) ;
-        group.setDisplayName(group.getName()) ;
-        if(parentGoup != null){
-            if(parentGoup.getParentPath() == null){
-                group.setParentPath(GroupContentProvider.GROUP_SEPARATOR + parentGoup.getName()) ;
-            }else{
-                group.setParentPath(parentGoup.getParentPath() + GroupContentProvider.GROUP_SEPARATOR + parentGoup.getName()) ;
+        final org.bonitasoft.studio.actors.model.organization.Group parentGoup = (org.bonitasoft.studio.actors.model.organization.Group) ((IStructuredSelection) getViewer()
+                .getSelection()).getFirstElement();
+        final org.bonitasoft.studio.actors.model.organization.Group group = OrganizationFactory.eINSTANCE.createGroup();
+        group.setName(generateGroupname());
+        group.setDisplayName(group.getName());
+        if (parentGoup != null) {
+            if (parentGoup.getParentPath() == null) {
+                group.setParentPath(GroupContentProvider.GROUP_SEPARATOR + parentGoup.getName());
+            } else {
+                group.setParentPath(parentGoup.getParentPath() + GroupContentProvider.GROUP_SEPARATOR + parentGoup.getName());
             }
         }
-        groupList.add(group) ;
-        getViewer().setInput(groupList) ;
-        ((TreeViewer) getViewer()).expandAll() ;
-        getViewer().setSelection(new StructuredSelection(group)) ;
+        groupList.add(group);
+        getViewer().setInput(groupList);
+        ((TreeViewer) getViewer()).expandAll();
+        getViewer().setSelection(new StructuredSelection(group));
     }
 
     private String generateGroupname() {
-        final Set<String> names = new HashSet<String>() ;
-        for(final org.bonitasoft.studio.actors.model.organization.Group g : groupList){
-            names.add(g.getName()) ;
+        final Set<String> names = new HashSet<String>();
+        for (final org.bonitasoft.studio.actors.model.organization.Group g : groupList) {
+            names.add(g.getName());
         }
 
         return NamingUtils.generateNewName(names, Messages.defaultGroupName);
@@ -469,45 +471,43 @@ public class GroupsWizardPage extends AbstractOrganizationWizardPage {
 
     @Override
     protected void removeButtonSelected() {
-        for(final Object sel :  ((IStructuredSelection) getViewer().getSelection()).toList()){
-            if(sel instanceof org.bonitasoft.studio.actors.model.organization.Group){
-                final ITreeContentProvider contentProvider = (ITreeContentProvider)getViewer().getContentProvider();
-                if(contentProvider.hasChildren(sel)){
-                    if(groupList.contains(sel)){
-                        if(MessageDialog.openQuestion(Display.getDefault().getActiveShell(), Messages.deleteGroupTitle, Messages.deleteGroupMsg)){
-                            removeChildren(contentProvider,sel) ;
-                        }else{
-                            return ;
+        for (final Object sel : ((IStructuredSelection) getViewer().getSelection()).toList()) {
+            if (sel instanceof org.bonitasoft.studio.actors.model.organization.Group) {
+                final ITreeContentProvider contentProvider = (ITreeContentProvider) getViewer().getContentProvider();
+                if (contentProvider.hasChildren(sel)) {
+                    if (groupList.contains(sel)) {
+                        if (MessageDialog.openQuestion(Display.getDefault().getActiveShell(), Messages.deleteGroupTitle, Messages.deleteGroupMsg)) {
+                            removeChildren(contentProvider, sel);
+                        } else {
+                            return;
                         }
                     }
                 }
-                groupList.remove(sel) ;
+                groupList.remove(sel);
             }
         }
-        getViewer().setInput(groupList) ;
-        selectionChanged(new SelectionChangedEvent(getViewer(),new StructuredSelection())) ;
-        ((TreeViewer) getViewer()).expandAll() ;
+        getViewer().setInput(groupList);
+        selectionChanged(new SelectionChangedEvent(getViewer(), new StructuredSelection()));
+        ((TreeViewer) getViewer()).expandAll();
     }
 
     private void removeChildren(final ITreeContentProvider contentProvider, final Object sel) {
-        if(contentProvider.hasChildren(sel)){
-            for(final Object child : contentProvider.getChildren(sel)){
-                removeChildren(contentProvider, child) ;
-                groupList.remove(child) ;
+        if (contentProvider.hasChildren(sel)) {
+            for (final Object child : contentProvider.getChildren(sel)) {
+                removeChildren(contentProvider, child);
+                groupList.remove(child);
             }
         }
     }
 
     @Override
     protected boolean viewerSelect(final Object element, final String searchQuery) {
-        return false ;
+        return false;
     }
-
 
     public String getGroupPath() {
         return groupPath;
     }
-
 
     public void setGroupPath(final String groupPath) {
         this.groupPath = groupPath;

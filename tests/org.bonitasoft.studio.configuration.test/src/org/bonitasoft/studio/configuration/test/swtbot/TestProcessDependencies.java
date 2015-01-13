@@ -5,14 +5,12 @@
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2.0 of the License, or
  * (at your option) any later version.
- *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package org.bonitasoft.studio.configuration.test.swtbot;
 
@@ -26,22 +24,19 @@ import org.eclipse.swtbot.swt.finder.junit.SWTBotJunit4ClassRunner;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-
 /**
  * @author Florine Boudin
- *
  */
 @RunWith(SWTBotJunit4ClassRunner.class)
 public class TestProcessDependencies extends SWTBotGefTestCase {
 
-	
     @Test
-    public void testImportAndRunProcessWithLotOfDependencies() throws IOException, ExecutionException{
-    	
-    	SWTBotTestUtil.importProcessWIthPathFromClass(bot, "DiagramWithLotOfDependencies-1.0.bos", "Bonita 6.x", "MyDiagram1", getClass(), false);
+    public void testImportAndRunProcessWithLotOfDependencies() throws IOException, ExecutionException {
 
-		IStatus status = SWTBotTestUtil.selectAndRunFirstPoolFound(bot);
-		assertTrue(status.getMessage(), status.isOK());
+        SWTBotTestUtil.importProcessWIthPathFromClass(bot, "DiagramWithLotOfDependencies-1.0.bos", "Bonita 6.x", "MyDiagram1", getClass(), false);
+
+        IStatus status = SWTBotTestUtil.selectAndRunFirstPoolFound(bot);
+        assertTrue(status.getMessage(), status.isOK());
 
     }
 

@@ -5,14 +5,12 @@
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2.0 of the License, or
  * (at your option) any later version.
- *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package org.bonitasoft.studio.connector.model.definition.dialog;
 
@@ -43,67 +41,65 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Shell;
 
-
 /**
  * @author Romain Bioteau
- *
  */
 public class CategorySelectionDialog extends Dialog {
 
     private TreeViewer categoryViewer;
-    private List<Category> categories  = new ArrayList<Category>() ;
+    private List<Category> categories = new ArrayList<Category>();
     private DataBindingContext context;
     private final DefinitionResourceProvider messageProvider;
 
-    public CategorySelectionDialog(Shell parentShell,DefinitionResourceProvider messageProvider) {
+    public CategorySelectionDialog(Shell parentShell, DefinitionResourceProvider messageProvider) {
         super(parentShell);
-        this.messageProvider = messageProvider ;
+        this.messageProvider = messageProvider;
     }
 
     @Override
     protected Control createContents(Composite parent) {
-        Control contents =  super.createContents(parent);
+        Control contents = super.createContents(parent);
         getButton(IDialogConstants.OK_ID).setEnabled(!categories.isEmpty());
-        return contents ;
+        return contents;
     }
 
     @Override
     protected Control createDialogArea(Composite parent) {
-        final Composite mainComposite = new Composite(parent, SWT.NONE) ;
-        mainComposite.setLayoutData(GridDataFactory.fillDefaults().grab(true, true).hint(300, 300).create()) ;
-        mainComposite.setLayout(GridLayoutFactory.fillDefaults().numColumns(2).margins(10,10).create()) ;
+        final Composite mainComposite = new Composite(parent, SWT.NONE);
+        mainComposite.setLayoutData(GridDataFactory.fillDefaults().grab(true, true).hint(300, 300).create());
+        mainComposite.setLayout(GridLayoutFactory.fillDefaults().numColumns(2).margins(10, 10).create());
 
-        context = new DataBindingContext() ;
+        context = new DataBindingContext();
 
-        categoryViewer = new TreeViewer(mainComposite, SWT.BORDER | SWT.MULTI | SWT.FULL_SELECTION) ;
-        categoryViewer.getTree().setLayoutData(GridDataFactory.fillDefaults().grab(true, true).create()) ;
-        categoryViewer.setContentProvider(new DefinitionCategoryContentProvider()) ;
-        categoryViewer.setLabelProvider(new ConnectorDefinitionTreeLabelProvider(messageProvider)) ;
-        categoryViewer.setInput(getAllCategories()) ;
+        categoryViewer = new TreeViewer(mainComposite, SWT.BORDER | SWT.MULTI | SWT.FULL_SELECTION);
+        categoryViewer.getTree().setLayoutData(GridDataFactory.fillDefaults().grab(true, true).create());
+        categoryViewer.setContentProvider(new DefinitionCategoryContentProvider());
+        categoryViewer.setLabelProvider(new ConnectorDefinitionTreeLabelProvider(messageProvider));
+        categoryViewer.setInput(getAllCategories());
         final IViewerObservableList observeSelection = ViewerProperties.multipleSelection().observe(categoryViewer);
         MultiValidator validator = new MultiValidator() {
 
             @Override
             protected IStatus validate() {
-                if(observeSelection.isEmpty()){
+                if (observeSelection.isEmpty()) {
                     return ValidationStatus.error("");
                 }
                 return ValidationStatus.ok();
             }
         };
         context.addValidationStatusProvider(validator);
-        context.bindList(observeSelection, validator.observeValidatedList(PojoProperties.list("categories").observe(this)), null,new UpdateListStrategy()) ;
+        context.bindList(observeSelection, validator.observeValidatedList(PojoProperties.list("categories").observe(this)), null, new UpdateListStrategy());
 
-        DialogSupport.create(this,context);
+        DialogSupport.create(this, context);
 
-        return mainComposite ;
+        return mainComposite;
     }
 
     @Override
     public boolean close() {
         boolean closed = super.close();
-        if(closed && context != null){
-            context.dispose() ;
+        if (closed && context != null) {
+            context.dispose();
         }
         return closed;
     }
@@ -112,9 +108,8 @@ public class CategorySelectionDialog extends Dialog {
         return messageProvider.getAllCategories();
     }
 
-
-    public List<Category> getCategories(){
-        return categories ;
+    public List<Category> getCategories() {
+        return categories;
     }
 
     public void setCategories(List<Category> categories) {

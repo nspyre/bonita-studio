@@ -4,10 +4,9 @@
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- *
  * Contributors:
- *     BMW Car IT - Initial API and implementation
- *     Technische Universitaet Muenchen - Major refactoring and extension
+ * BMW Car IT - Initial API and implementation
+ * Technische Universitaet Muenchen - Major refactoring and extension
  *******************************************************************************/
 package org.eclipse.emf.edapt.migration;
 
@@ -137,18 +136,18 @@ public class BackwardConverter {
                     } else {
                         if (!attributeSlot.getValues().isEmpty()) {
                             Object literal = attributeSlot.getValues().get(0);
-                            if(literal instanceof EEnumLiteral){
+                            if (literal instanceof EEnumLiteral) {
                                 eObject.eSet(targetFeature,
-                                        resolveLiteral((EEnumLiteral)literal));
-                            }else{
+                                        resolveLiteral((EEnumLiteral) literal));
+                            } else {
                                 //Patch for Notation model
-                                eObject.eSet(targetFeature,literal);
+                                eObject.eSet(targetFeature, literal);
                             }
                         }
                     }
                 } else {
-                	//Fix NPE With e4
-                	eObject.eSetDeliver(false);
+                    //Fix NPE With e4
+                    eObject.eSetDeliver(false);
                     eObject.eSet(targetFeature, element.get(sourceFeature));
                 }
             } else {
@@ -199,8 +198,8 @@ public class BackwardConverter {
                 EcorePackage.eINSTANCE.getEClass_ESuperTypes().equals(feature)
                 || EcorePackage.eINSTANCE.getETypedElement_EType().equals(
                         feature)
-                        || EcorePackage.eINSTANCE.getEOperation_EExceptions().equals(
-                                feature);
+                || EcorePackage.eINSTANCE.getEOperation_EExceptions().equals(
+                        feature);
     }
 
     /** Get the EMF model element corresponding to a node. */

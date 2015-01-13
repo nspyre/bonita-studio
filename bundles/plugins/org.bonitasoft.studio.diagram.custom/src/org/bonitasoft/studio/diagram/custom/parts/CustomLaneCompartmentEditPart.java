@@ -1,19 +1,16 @@
 /*
  * Copyright (C) 2009 BonitaSoft S.A.
  * BonitaSoft, 31 rue Gustave Eiffel - 38000 Grenoble
- * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2.0 of the License, or
  * (at your option) any later version.
- * 
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- * 
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package org.bonitasoft.studio.diagram.custom.parts;
 
@@ -46,104 +43,98 @@ import org.eclipse.gmf.runtime.notation.View;
  */
 public class CustomLaneCompartmentEditPart extends LaneLaneCompartmentEditPart {
 
-	public CustomLaneCompartmentEditPart(View view) {
-		super(view);
-	}
+    public CustomLaneCompartmentEditPart(View view) {
+        super(view);
+    }
 
+    @Override
+    protected void refreshVisuals() {
+        super.refreshVisuals();
+        figure.setToolTip(null);
+    }
 
-	@Override
-	protected void refreshVisuals() {
-		super.refreshVisuals();
-		figure.setToolTip(null);
-	}
+    protected void createDefaultEditPolicies() {
+        super.createDefaultEditPolicies();
+        installEditPolicy(EditPolicyRoles.CREATION_ROLE,
+                new CreationEditPolicy());
+        installEditPolicy(EditPolicyRoles.DRAG_DROP_ROLE,
+                new CustomDragDropEditPolicy());
+        installEditPolicy(EditPolicyRoles.CANONICAL_ROLE,
+                new LaneLaneCompartmentCanonicalEditPolicy());
+        removeEditPolicy(EditPolicyRoles.SNAP_FEEDBACK_ROLE);
+        installEditPolicy(EditPolicyRoles.SNAP_FEEDBACK_ROLE,
+                new CustomSnapFeedbackPolicy());
+    }
 
+    @Override
+    public IFigure createFigure() {
+        ShapeCompartmentFigure scf = new CustomShapeCompartmentFigure(getCompartmentName(), getMapMode());
+        scf.setBorder(null);
+        scf.getContentPane().setLayoutManager(getLayoutManager());
+        scf.getContentPane().addLayoutListener(LayoutAnimator.getDefault());
+        scf.setTitleVisibility(false);
 
-	protected void createDefaultEditPolicies() {
-		super.createDefaultEditPolicies();
-		installEditPolicy(EditPolicyRoles.CREATION_ROLE,
-				new CreationEditPolicy());
-		installEditPolicy(EditPolicyRoles.DRAG_DROP_ROLE,
-				new CustomDragDropEditPolicy());
-		installEditPolicy(EditPolicyRoles.CANONICAL_ROLE,
-				new LaneLaneCompartmentCanonicalEditPolicy());
-		removeEditPolicy(EditPolicyRoles.SNAP_FEEDBACK_ROLE);
-		installEditPolicy(EditPolicyRoles.SNAP_FEEDBACK_ROLE,
-				new CustomSnapFeedbackPolicy());
-	}
+        return scf;
+    }
 
+    @Override
+    public void showSourceFeedback(Request request) {
+        //DO NOT SHOW FEEDBACK
+    }
 
-	@Override
-	public IFigure createFigure() {
-		ShapeCompartmentFigure scf = new CustomShapeCompartmentFigure(getCompartmentName(), getMapMode());
-		scf.setBorder(null) ;
-		scf.getContentPane().setLayoutManager(getLayoutManager());
-		scf.getContentPane().addLayoutListener(LayoutAnimator.getDefault());
-		scf.setTitleVisibility(false);
+    @Override
+    public void showTargetFeedback(Request request) {
+        if (request instanceof ChangeBoundsRequest) {
+            if (!(((GraphicalEditPart) ((ChangeBoundsRequest) request).getEditParts().get(0)).resolveSemanticElement() instanceof Container)) {
+                super.showTargetFeedback(request);
+            }
+        } else {
+            super.showTargetFeedback(request);
+        }
+    }
 
-		return scf;
-	}
+    @Override
+    public void setSelected(int value) {
+        getParent().setSelected(value);
+    }
 
+    @Override
+    public DragTracker getDragTracker(Request req) {
+        if (!supportsDragSelection())
+            return super.getDragTracker(req);
 
-	@Override
-	public void showSourceFeedback(Request request) {
-		//DO NOT SHOW FEEDBACK
-	}
+        if (req instanceof SelectionRequest
+                && ((SelectionRequest) req).getLastButtonPressed() == 3)
+            return new DeselectAllTracker(this) {
 
-	@Override
-	public void showTargetFeedback(Request request) {
-		if(request instanceof ChangeBoundsRequest){
-			if(!(((GraphicalEditPart)((ChangeBoundsRequest)request).getEditParts().get(0)).resolveSemanticElement() instanceof Container)){
-				super.showTargetFeedback(request);
-			}
-		}else{
-			super.showTargetFeedback(request);
-		}
-	}
+                protected boolean handleButtonDown(int button) {
+                    getCurrentViewer().select(CustomLaneCompartmentEditPart.this);
+                    return true;
+                }
+            };
+        return new CustomRubberbandDragTracker() {
 
-	@Override
-	public void setSelected(int value) {
-		getParent().setSelected(value) ;
-	}
-	
-	
-	@Override
-	public DragTracker getDragTracker(Request req) {
-		if (!supportsDragSelection())
-			return super.getDragTracker(req);
+            protected void handleFinished() {
+                if (getViewer().getSelectedEditParts().isEmpty())
+                    getViewer().select(CustomLaneCompartmentEditPart.this);
+            }
+        };
+    }
 
-		if (req instanceof SelectionRequest
-			&& ((SelectionRequest) req).getLastButtonPressed() == 3)
-			return new DeselectAllTracker(this) {
+    /**
+     * @Generated BonitaSoft
+     */
+    @Override
+    public Object getAdapter(Class key) {
 
-				protected boolean handleButtonDown(int button) {
-					getCurrentViewer().select(CustomLaneCompartmentEditPart.this);
-					return true;
-				}
-			};
-		return new CustomRubberbandDragTracker() {
+        if (key == SnapToHelper.class) {
+            EditPart parent = getParent();
+            while (!(parent instanceof DiagramEditPart)) {
+                parent = parent.getParent();
+            }
+            return GMFTools.getSnapHelper((GraphicalEditPart) parent);
+        }
 
-			protected void handleFinished() {
-				if (getViewer().getSelectedEditParts().isEmpty())
-					getViewer().select(CustomLaneCompartmentEditPart.this);
-			}
-		};
-	}
-	
-	/**
-	 * @Generated BonitaSoft
-	 */
-	@Override
-	public Object getAdapter(Class key) {
-
-		if (key == SnapToHelper.class) {
-			EditPart parent = getParent();
-			while (!(parent instanceof DiagramEditPart)) {
-				parent = parent.getParent();
-			}
-			return GMFTools.getSnapHelper((GraphicalEditPart) parent);
-		}
-
-		return super.getAdapter(key);
-	}
+        return super.getAdapter(key);
+    }
 }
-

@@ -1,19 +1,16 @@
 /**
  * Copyright (C) 2010-2011 BonitaSoft S.A.
  * BonitaSoft, 31 rue Gustave Eiffel - 38000 Grenoble
- *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2.0 of the License, or
  * (at your option) any later version.
- *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package org.bonitasoft.studio.importer.jpdl;
 
@@ -96,13 +93,15 @@ public class JBPM3ToProc extends ToProcProcessor {
     private ProcBuilder builder;
     private File result;
 
-    /* (non-Javadoc)
-     * @see org.bonitasoft.studio.importer.ToProcProcessor#createDiagram(org.eclipse.emf.common.util.URI, org.eclipse.emf.common.util.URI, org.eclipse.core.runtime.IProgressMonitor)
+    /*
+     * (non-Javadoc)
+     * @see org.bonitasoft.studio.importer.ToProcProcessor#createDiagram(org.eclipse.emf.common.util.URI, org.eclipse.emf.common.util.URI,
+     * org.eclipse.core.runtime.IProgressMonitor)
      */
     @Override
     public File createDiagram(final URL sourceURL, final IProgressMonitor progressMonitor) throws Exception {
         progressMonitor.beginTask(Messages.importFromJBPM, IProgressMonitor.UNKNOWN);
-        URI sourceJBPMUri = URI.createURI(sourceURL.toURI().toString()) ;
+        URI sourceJBPMUri = URI.createURI(sourceURL.toURI().toString());
         final URI gpdFileName = sourceJBPMUri.trimSegments(1).appendSegment("gpd.xml");
 
         // copy files
@@ -133,7 +132,6 @@ public class JBPM3ToProc extends ToProcProcessor {
         // Update URIs
         sourceJBPMUri = URI.createURI(processDefFile.toURI().toString());
 
-
         // parse resource
         final Resource resource = new jpdl32ResourceFactoryImpl().createResource(sourceJBPMUri);
         final Map<String, String> options = new HashMap<String, String>();
@@ -159,19 +157,19 @@ public class JBPM3ToProc extends ToProcProcessor {
         progressMonitor.worked(1);
 
         builder = new ProcBuilder(progressMonitor);
-        result = File.createTempFile(diagramName, ".proc") ;
+        result = File.createTempFile(diagramName, ".proc");
         builder.createDiagram(diagramName, diagramName, "1.0", result);
         try {
             importFromJBPM(processDef);
             gpdFileTmp.delete();
             processDefFile.delete();
             tmpDir.delete();
-            builder.done() ;
+            builder.done();
             return result;
         } catch (final Exception e) {
             BonitaStudioLog.error(e);
         }
-        return null ;
+        return null;
 
     }
 
@@ -183,6 +181,7 @@ public class JBPM3ToProc extends ToProcProcessor {
             final XMLReader reader = XMLReaderFactory.createXMLReader();
             final FileInputStream fis = new FileInputStream(gpdFile);
             reader.setContentHandler(new DefaultHandler() {
+
                 @Override
                 public void startElement(final String namespaceURI, final String localName,
                         final String qualifiedName, final Attributes atts) throws SAXException {
@@ -190,12 +189,12 @@ public class JBPM3ToProc extends ToProcProcessor {
                     // Locations and sizes are mirrored to read diagram from left to right
                     if (localName.equals("root-container") || localName.equals("process-diagram")) {
                         poolSize = new Point();
-                        poolSize.x = Integer.parseInt(atts.getValue("height"))+ 50;//50 for margin
+                        poolSize.x = Integer.parseInt(atts.getValue("height")) + 50;//50 for margin
                         poolSize.y = Integer.parseInt(atts.getValue("width")) + 50;//50 for margin
                     } else if (localName.equals("node")) {
                         final Point nodeLocation = new Point();
-                        nodeLocation.x = Integer.parseInt(atts.getValue("y")) +50;//50 for margin
-                        nodeLocation.y = poolSize.x - Integer.parseInt(atts.getValue("x"))+ 50;//30 for margin
+                        nodeLocation.x = Integer.parseInt(atts.getValue("y")) + 50;//50 for margin
+                        nodeLocation.y = poolSize.x - Integer.parseInt(atts.getValue("x")) + 50;//30 for margin
                         final String nodeName = atts.getValue("name");
                         locations.put(nodeName, nodeLocation);
                     }
@@ -209,9 +208,6 @@ public class JBPM3ToProc extends ToProcProcessor {
         }
     }
 
-
-
-
     /**
      * @param processDef
      * @param modelProcess
@@ -221,14 +217,13 @@ public class JBPM3ToProc extends ToProcProcessor {
     protected void importFromJBPM(final ProcessDefinitionType processDef) throws ProcBuilderException {
 
         final String processDefNameConvertedInId = NamingUtils.convertToId(processDef.getName());
-        builder.addPool(processDefNameConvertedInId, processDef.getName(), "1.0", new Point(0,0), new Dimension(poolSize.x, poolSize.y));
-
+        builder.addPool(processDefNameConvertedInId, processDef.getName(), "1.0", new Point(0, 0), new Dimension(poolSize.x, poolSize.y));
 
         //		modelProcess.getIncludedEntries().addAll(new AddGroupPerformer(null).getEnclosingJarArtifactNames(USER_LIST_ROLE_RESOLVER));
         //		modelProcess.getIncludedEntries().addAll(new AddGroupPerformer(null).getEnclosingJarArtifactNames(MAIL_CONNECTOR_ID));
 
-
-        /* Still TODO
+        /*
+         * Still TODO
          * -TaskType -> Assignement
          * -ActionType -> Connectors
          * -EventType
@@ -238,7 +233,7 @@ public class JBPM3ToProc extends ToProcProcessor {
 
         for (final SwimlaneType swimlane : processDef.getSwimlane()) {
             final AssignmentType assignment = swimlane.getAssignment();
-            if(assignment != null){
+            if (assignment != null) {
                 final String groupId = createGroupIdFromAssignment(assignment);
                 groups.put(swimlane.getName(), groupId);
             }
@@ -265,7 +260,7 @@ public class JBPM3ToProc extends ToProcProcessor {
                 }
                 if (task.getSwimlane() != null && task.getSwimlane().trim().length() > 0) {
                     final String groupId = groups.get(task.getSwimlane());
-                    if(groupId != null){
+                    if (groupId != null) {
                         builder.addAssignableActor(groupId);
                     }
                 }
@@ -325,7 +320,7 @@ public class JBPM3ToProc extends ToProcProcessor {
             // Copy-pasted because no inheritance in jPDL Ecore
             final MailType jpdlMail = jpdl.getMail();
             if (jpdlMail != null) {
-                builder.addConnector(MAIL_CONNECTOR_ID, MAIL_CONNECTOR_ID, MAIL_CONNECTOR_ID,"1.0", ConnectorEvent.ON_FINISH, false);
+                builder.addConnector(MAIL_CONNECTOR_ID, MAIL_CONNECTOR_ID, MAIL_CONNECTOR_ID, "1.0", ConnectorEvent.ON_FINISH, false);
                 final String mailTo = jpdlMail.getTo();
                 if (mailTo != null && mailTo.trim().length() > 0) {
                     builder.addConnectorParameter(MAIL_CONNECTOR_TO, toBonitaString(mailTo));
@@ -355,7 +350,7 @@ public class JBPM3ToProc extends ToProcProcessor {
                 transitions.add(new TransitionDesc(idFromJpdl, jpdlTransition));
             }
 
-            builder.addConnector(MAIL_CONNECTOR_ID, MAIL_CONNECTOR_ID, MAIL_CONNECTOR_ID,"1.0", ConnectorEvent.ON_FINISH, false);
+            builder.addConnector(MAIL_CONNECTOR_ID, MAIL_CONNECTOR_ID, MAIL_CONNECTOR_ID, "1.0", ConnectorEvent.ON_FINISH, false);
             final String mailTo = jpdl.getTo();
             if (mailTo != null && mailTo.trim().length() > 0) {
                 builder.addConnectorParameter(MAIL_CONNECTOR_TO, toBonitaString(mailTo));
@@ -385,7 +380,7 @@ public class JBPM3ToProc extends ToProcProcessor {
                 transitions.add(new TransitionDesc(idFromJpdl, jpdlTransition));
             }
 
-            for(final VariableType jpdlVariableType : jpdl.getVariable()){
+            for (final VariableType jpdlVariableType : jpdl.getVariable()) {
                 builder.addData(jpdlVariableType.getName(), jpdlVariableType.getName(), null, false, DataType.STRING);
             }
 
@@ -404,8 +399,8 @@ public class JBPM3ToProc extends ToProcProcessor {
 
         // Transitions
         for (final TransitionDesc transition : transitions) {
-            builder.addSequenceFlow(transition.getName(), transition.getSource(), transition.getTo(), false,null,null, null);
-            if(transition.getCondition() != null && !transition.getCondition().isEmpty()){
+            builder.addSequenceFlow(transition.getName(), transition.getSource(), transition.getTo(), false, null, null, null);
+            if (transition.getCondition() != null && !transition.getCondition().isEmpty()) {
                 builder.addSequenceFlowCondition(transition.getCondition(), ExpressionConstants.GROOVY, ExpressionConstants.SCRIPT_TYPE);
             }
         }
@@ -423,7 +418,7 @@ public class JBPM3ToProc extends ToProcProcessor {
     /**
      * @param assignment
      * @return
-     * 		the group of the assignment or null if the assignment is null
+     *         the group of the assignment or null if the assignment is null
      * @throws ProcBuilderException
      */
     private String createGroupIdFromAssignment(final AssignmentType assignment) throws ProcBuilderException {
@@ -435,21 +430,21 @@ public class JBPM3ToProc extends ToProcProcessor {
             } else {
                 final String actorId = assignment.getActorId();
                 if (actorId != null && !actorId.trim().isEmpty()) {
-                    builder.addActor(actorId, "") ;
+                    builder.addActor(actorId, "");
                     ///builder.addConnectorParameter(USER_LIST_ROLE_RESOLVER_PARAM, actorId);
-                    return  actorId;
+                    return actorId;
                 } else {
                     final String expression = assignment.getExpression();
                     if (expression != null && !expression.trim().isEmpty()) {
                         final String expressionId = NamingUtils.convertToId(toBonitaString(expression));
-                        builder.addActor(expression, "") ;
+                        builder.addActor(expression, "");
                         //    builder.addConnectorParameter(USER_LIST_ROLE_RESOLVER_PARAM, toBonitaString(expression));
                         return toBonitaString(expressionId);
                     } else {
                         final String pooledActors = assignment.getPooledActors();
                         if (pooledActors != null && !pooledActors.trim().isEmpty()) {
                             final String pooledActorsId = pooledActors;
-                            builder.addActor(pooledActors, "") ;
+                            builder.addActor(pooledActors, "");
                             return pooledActorsId;
                         }
                     }
@@ -473,7 +468,8 @@ public class JBPM3ToProc extends ToProcProcessor {
         return res.toString().trim().replace("#{", "${");
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see org.bonitasoft.studio.importer.ToProcProcessor#getExtension()
      */
     @Override

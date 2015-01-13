@@ -1,7 +1,6 @@
 /**
  * <copyright>
  * </copyright>
- *
  * $Id$
  */
 package org.w3._1999.xhtml.validation;
@@ -23,32 +22,56 @@ import org.w3._1999.xhtml.ValignType;
  * This can be disabled with -vmargs -Dorg.eclipse.emf.examples.generator.validator=false.
  */
 public interface TrTypeValidator {
-	boolean validate();
 
-	boolean validateGroup(FeatureMap value);
-	boolean validateTh(EList<ThType> value);
-	boolean validateTd(EList<TdType> value);
-	boolean validateAlign(AlignType value);
-	boolean validateChar(String value);
-	boolean validateCharoff(String value);
-	boolean validateClass(String value);
+    boolean validate();
 
-	boolean validateClass(List<String> value);
-	boolean validateDir(DirType value);
-	boolean validateId(String value);
-	boolean validateLang(String value);
-	boolean validateLang1(String value);
-	boolean validateOnclick(String value);
-	boolean validateOndblclick(String value);
-	boolean validateOnkeydown(String value);
-	boolean validateOnkeypress(String value);
-	boolean validateOnkeyup(String value);
-	boolean validateOnmousedown(String value);
-	boolean validateOnmousemove(String value);
-	boolean validateOnmouseout(String value);
-	boolean validateOnmouseover(String value);
-	boolean validateOnmouseup(String value);
-	boolean validateStyle(String value);
-	boolean validateTitle(String value);
-	boolean validateValign(ValignType value);
+    boolean validateGroup(FeatureMap value);
+
+    boolean validateTh(EList<ThType> value);
+
+    boolean validateTd(EList<TdType> value);
+
+    boolean validateAlign(AlignType value);
+
+    boolean validateChar(String value);
+
+    boolean validateCharoff(String value);
+
+    boolean validateClass(String value);
+
+    boolean validateClass(List<String> value);
+
+    boolean validateDir(DirType value);
+
+    boolean validateId(String value);
+
+    boolean validateLang(String value);
+
+    boolean validateLang1(String value);
+
+    boolean validateOnclick(String value);
+
+    boolean validateOndblclick(String value);
+
+    boolean validateOnkeydown(String value);
+
+    boolean validateOnkeypress(String value);
+
+    boolean validateOnkeyup(String value);
+
+    boolean validateOnmousedown(String value);
+
+    boolean validateOnmousemove(String value);
+
+    boolean validateOnmouseout(String value);
+
+    boolean validateOnmouseover(String value);
+
+    boolean validateOnmouseup(String value);
+
+    boolean validateStyle(String value);
+
+    boolean validateTitle(String value);
+
+    boolean validateValign(ValignType value);
 }

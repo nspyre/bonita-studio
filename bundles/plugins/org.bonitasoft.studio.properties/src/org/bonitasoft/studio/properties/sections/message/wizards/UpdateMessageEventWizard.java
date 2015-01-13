@@ -1,19 +1,16 @@
 /**
  * Copyright (C) 2009-2012 BonitaSoft S.A.
  * BonitaSoft, 32 rue Gustave Eiffel - 38000 Grenoble
- * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2.0 of the License, or
  * (at your option) any later version.
- *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
 package org.bonitasoft.studio.properties.sections.message.wizards;
@@ -47,7 +44,6 @@ import org.eclipse.ui.views.properties.tabbed.ISection;
 
 /**
  * @author Romain Bioteau
- *
  */
 public class UpdateMessageEventWizard extends Wizard implements IWizard {
 
@@ -55,27 +51,28 @@ public class UpdateMessageEventWizard extends Wizard implements IWizard {
     private AddMessageEventWizardPage page;
     protected ThrowMessageEvent element;
     private final ISection callingSection;
-    protected Message originalMessage ;
-    protected Message workingCopyMessage ;
+    protected Message originalMessage;
+    protected Message workingCopyMessage;
     protected MainProcess diagram;
 
-    public UpdateMessageEventWizard(MainProcess diagram,ThrowMessageEvent element , TransactionalEditingDomain editingDomain,ISection callingSection){
-        this.editingDomain = editingDomain ;
-        this.element = element ;
-        this.callingSection = callingSection ;
+    public UpdateMessageEventWizard(MainProcess diagram, ThrowMessageEvent element, TransactionalEditingDomain editingDomain, ISection callingSection) {
+        this.editingDomain = editingDomain;
+        this.element = element;
+        this.callingSection = callingSection;
         setWindowTitle(Messages.messageEventAddWizardPageTitle);
-        this.diagram=diagram;
+        this.diagram = diagram;
     }
 
-    public UpdateMessageEventWizard(MainProcess diagram,ThrowMessageEvent element, Message firstElement,TransactionalEditingDomain editingDomain,ThrowEventSection throwEventSection) {
-        this(diagram,element,editingDomain,throwEventSection);
-        originalMessage = firstElement ;
+    public UpdateMessageEventWizard(MainProcess diagram, ThrowMessageEvent element, Message firstElement, TransactionalEditingDomain editingDomain,
+            ThrowEventSection throwEventSection) {
+        this(diagram, element, editingDomain, throwEventSection);
+        originalMessage = firstElement;
         workingCopyMessage = EcoreUtil.copy(originalMessage);
     }
 
     @Override
     public void addPages() {
-        if(workingCopyMessage == null){
+        if (workingCopyMessage == null) {
             workingCopyMessage = ProcessFactory.eINSTANCE.createMessage();
         }
         page = createAddMessageEventWizardPage();
@@ -83,10 +80,11 @@ public class UpdateMessageEventWizard extends Wizard implements IWizard {
     }
 
     protected AddMessageEventWizardPage createAddMessageEventWizardPage() {
-        return new AddMessageEventWizardPage(diagram,element, originalMessage, workingCopyMessage);
+        return new AddMessageEventWizardPage(diagram, element, originalMessage, workingCopyMessage);
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see org.eclipse.jface.wizard.Wizard#performFinish()
      */
     @Override
@@ -105,7 +103,7 @@ public class UpdateMessageEventWizard extends Wizard implements IWizard {
 
         //page.databindingContext.updateModels();
 
-        if(originalMessage != null){
+        if (originalMessage != null) {
             updateMessageFlows(originalMessage);
         } else {
             updateMessageFlows(workingCopyMessage);
@@ -116,24 +114,25 @@ public class UpdateMessageEventWizard extends Wizard implements IWizard {
     }
 
     protected void updateMessageFlows(Message eventObject) {
-        DiagramEditor editor = (DiagramEditor) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor() ;
-        List<AbstractCatchMessageEvent> events = ModelHelper.findAllCatchEventsCatching(ModelHelper.getMainProcess(element),eventObject.getName()) ;
-        for(AbstractCatchMessageEvent ev : events){
-            SetCommand setCommand = new SetCommand(editingDomain, ev, ProcessPackage.Literals.ABSTRACT_CATCH_MESSAGE_EVENT__EVENT, null) ;
-            editingDomain.getCommandStack().execute(setCommand) ;
-            if(isOnDiagram(ev)){
-                MessageFlowFactory.removeMessageFlow(editingDomain, eventObject, ev, editor.getDiagramEditPart()) ;
+        DiagramEditor editor = (DiagramEditor) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor();
+        List<AbstractCatchMessageEvent> events = ModelHelper.findAllCatchEventsCatching(ModelHelper.getMainProcess(element), eventObject.getName());
+        for (AbstractCatchMessageEvent ev : events) {
+            SetCommand setCommand = new SetCommand(editingDomain, ev, ProcessPackage.Literals.ABSTRACT_CATCH_MESSAGE_EVENT__EVENT, null);
+            editingDomain.getCommandStack().execute(setCommand);
+            if (isOnDiagram(ev)) {
+                MessageFlowFactory.removeMessageFlow(editingDomain, eventObject, ev, editor.getDiagramEditPart());
             }
         }
 
-        for(AbstractCatchMessageEvent catchEvent : events){
-        	if(eventObject.getTargetElementExpression() != null && catchEvent.getName().equals(eventObject.getTargetElementExpression().getContent())) { 
-        		if(eventObject.getTargetProcessExpression() != null && ModelHelper.getParentProcess(catchEvent).getName().equals(eventObject.getTargetProcessExpression().getContent())){
-        			if(isOnDiagram(catchEvent)){
-        				MessageFlowFactory.createMessageFlow(editingDomain,eventObject,element,catchEvent,editor.getDiagramEditPart()) ;
-        			}
-        		}
-        	}
+        for (AbstractCatchMessageEvent catchEvent : events) {
+            if (eventObject.getTargetElementExpression() != null && catchEvent.getName().equals(eventObject.getTargetElementExpression().getContent())) {
+                if (eventObject.getTargetProcessExpression() != null
+                        && ModelHelper.getParentProcess(catchEvent).getName().equals(eventObject.getTargetProcessExpression().getContent())) {
+                    if (isOnDiagram(catchEvent)) {
+                        MessageFlowFactory.createMessageFlow(editingDomain, eventObject, element, catchEvent, editor.getDiagramEditPart());
+                    }
+                }
+            }
         }
     }
 
@@ -155,7 +154,6 @@ public class UpdateMessageEventWizard extends Wizard implements IWizard {
         callingSection.refresh();
         return super.performCancel();
     }
-
 
     private boolean isOnDiagram(AbstractCatchMessageEvent ev) {
         return ev.eResource().equals(element.eResource());

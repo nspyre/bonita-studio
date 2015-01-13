@@ -35,30 +35,29 @@ import org.eclipse.ui.IEditorInput;
 
 /**
  * @author Florine Boudin
- *
  */
-public class ValidationContentProvider implements IStructuredContentProvider{
+public class ValidationContentProvider implements IStructuredContentProvider {
 
-	public ValidationContentProvider() {
-	}
+    public ValidationContentProvider() {
+    }
 
-	@Override
-	public void dispose() {
-	}
+    @Override
+    public void dispose() {
+    }
 
-	@Override
-	public void inputChanged(final Viewer viewer, final Object oldInput, final Object newInput) {
-	}
+    @Override
+    public void inputChanged(final Viewer viewer, final Object oldInput, final Object newInput) {
+    }
 
-	@Override
-	public Object[] getElements(final Object inputElement) {
-		if(inputElement instanceof DiagramEditor && !(inputElement instanceof FormDiagramEditor)){
+    @Override
+    public Object[] getElements(final Object inputElement) {
+        if (inputElement instanceof DiagramEditor && !(inputElement instanceof FormDiagramEditor)) {
             return getElementsForProcessDiagramEditor(inputElement);
-		}else if(inputElement instanceof FormDiagramEditor){
+        } else if (inputElement instanceof FormDiagramEditor) {
             return getElementsForFormDiagramEditor(inputElement);
-		}
+        }
         return new Object[0];
-	}
+    }
 
     protected Object[] getElementsForFormDiagramEditor(final Object inputElement) {
         final IEditorInput input = ((FormDiagramEditor) inputElement).getEditorInput();
@@ -104,10 +103,10 @@ public class ValidationContentProvider implements IStructuredContentProvider{
     protected DiagramFileStore retrieveDiagramFileStore(final String file, final int idxSlash) {
         final DiagramRepositoryStore store = RepositoryManager.getInstance().getRepositoryStore(DiagramRepositoryStore.class);
         DiagramFileStore dfs = null;
-        if(idxSlash <0){
-        	dfs = store.getChild(file);
-        }else{
-        	dfs = store.getChild(file.substring(idxSlash+1));
+        if (idxSlash < 0) {
+            dfs = store.getChild(file);
+        } else {
+            dfs = store.getChild(file.substring(idxSlash + 1));
         }
         return dfs;
     }
@@ -115,12 +114,12 @@ public class ValidationContentProvider implements IStructuredContentProvider{
     protected List<IMarker> findMarkersForInput(final IEditorInput input, final DiagramFileStore dfs) throws CoreException {
         final List<IMarker> markerList = new ArrayList<IMarker>();
         final IMarker[] markerTab = dfs.getResource().findMarkers("org.bonitasoft.studio.diagram.form.diagnostic", false, IResource.DEPTH_INFINITE);
-        for(int i=0; i<markerTab.length; i++ ){
-        	final Marker m = (Marker)markerTab[i];
-        	final String location = (String) m.getAttribute("location");
-        	if(location.matches(".*::"+input.getName()+"::.*")){
-        		markerList.add(m);
-        	}
+        for (int i = 0; i < markerTab.length; i++) {
+            final Marker m = (Marker) markerTab[i];
+            final String location = (String) m.getAttribute("location");
+            if (location.matches(".*::" + input.getName() + "::.*")) {
+                markerList.add(m);
+            }
         }
         return markerList;
     }

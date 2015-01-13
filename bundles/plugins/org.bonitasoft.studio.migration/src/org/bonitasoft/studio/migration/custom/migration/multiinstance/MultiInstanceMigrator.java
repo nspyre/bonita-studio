@@ -5,12 +5,10 @@
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2.0 of the License, or
  * (at your option) any later version.
- *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- *
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
@@ -24,10 +22,8 @@ import org.eclipse.emf.edapt.migration.Instance;
 import org.eclipse.emf.edapt.migration.Metamodel;
 import org.eclipse.emf.edapt.migration.Model;
 
-
 /**
  * @author Romain Bioteau
- *
  */
 public class MultiInstanceMigrator {
 
@@ -192,16 +188,16 @@ public class MultiInstanceMigrator {
         final EEnum multiInstanceType = metamodel.getEEnum("process.MultiInstanceType");
         if (isLoop) {
             return multiInstanceType.getEEnumLiteral(MultiInstanceType.STANDARD.name());
-        }else if( isParallelMultiInstantiation()){
+        } else if (isParallelMultiInstantiation()) {
             return multiInstanceType.getEEnumLiteral(MultiInstanceType.PARALLEL.name());
-        }else if(isSequentialMultiInstantiation()){
+        } else if (isSequentialMultiInstantiation()) {
             return multiInstanceType.getEEnumLiteral(MultiInstanceType.SEQUENTIAL.name());
-        }else{
+        } else {
             return multiInstanceType.getEEnumLiteral(MultiInstanceType.NONE.name());
         }
     }
 
-    private boolean isParallelMultiInstantiation(){
+    private boolean isParallelMultiInstantiation() {
         return isMulti && !isSequential;
     }
 
@@ -217,7 +213,7 @@ public class MultiInstanceMigrator {
         return (Boolean) sourceInstance.get("isMultiInstance") && sourceInstance.get("multiInstantiation") != null;
     }
 
-    private boolean isSequentialMultiInstantiation(){
+    private boolean isSequentialMultiInstantiation() {
         return isMulti && isSequential;
     }
 

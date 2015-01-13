@@ -49,14 +49,11 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 
-
 /**
  * @author Florine Boudin
- *
  */
 @RunWith(MockitoJUnitRunner.class)
-public class DocumentWizardPageTest extends AbstractSWTTestCase{
-
+public class DocumentWizardPageTest extends AbstractSWTTestCase {
 
     private DocumentWizardPage documentWizardPageUnderTest;
 
@@ -88,7 +85,6 @@ public class DocumentWizardPageTest extends AbstractSWTTestCase{
         when(expressionViewerMock.getControl()).thenReturn(control);
         when(expressionViewerMock.getTextControl()).thenReturn(mock(Text.class));
         doReturn(expressionViewerMock).when(documentWizardPageUnderTest).createExpressionViewer(Mockito.any(Composite.class), Mockito.any(EReference.class));
-
 
         when(groovyOnlyExpressionViewerMock.getControl()).thenReturn(control);
         doReturn(groovyOnlyExpressionViewerMock).when(documentWizardPageUnderTest).createExpressionViewerWithGroovyScriptOnly(Mockito.any(Composite.class));

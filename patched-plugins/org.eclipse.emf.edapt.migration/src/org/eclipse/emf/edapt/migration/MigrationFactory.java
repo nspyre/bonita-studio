@@ -4,10 +4,9 @@
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- *
  * Contributors:
- *     BMW Car IT - Initial API and implementation
- *     Technische Universitaet Muenchen - Major refactoring and extension
+ * BMW Car IT - Initial API and implementation
+ * Technische Universitaet Muenchen - Major refactoring and extension
  *******************************************************************************/
 package org.eclipse.emf.edapt.migration;
 
@@ -18,106 +17,119 @@ import org.eclipse.emf.ecore.EFactory;
  * The <b>Factory</b> for the model.
  * It provides a create method for each non-abstract class of the model.
  * <!-- end-user-doc -->
+ * 
  * @see org.eclipse.emf.edapt.migration.MigrationPackage
  * @generated
  */
 public interface MigrationFactory extends EFactory {
-	/**
-	 * The singleton instance of the factory.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	MigrationFactory eINSTANCE = org.eclipse.emf.edapt.migration.impl.MigrationFactoryImpl.init();
 
-	/**
-	 * Returns a new object of class '<em>Model</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Model</em>'.
-	 * @generated
-	 */
-	Model createModel();
+    /**
+     * The singleton instance of the factory.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * 
+     * @generated
+     */
+    MigrationFactory eINSTANCE = org.eclipse.emf.edapt.migration.impl.MigrationFactoryImpl.init();
 
-	/**
-	 * Returns a new object of class '<em>Metamodel</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Metamodel</em>'.
-	 * @generated
-	 */
-	Metamodel createMetamodel();
+    /**
+     * Returns a new object of class '<em>Model</em>'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * 
+     * @return a new object of class '<em>Model</em>'.
+     * @generated
+     */
+    Model createModel();
 
-	/**
-	 * Returns a new object of class '<em>Type</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Type</em>'.
-	 * @generated
-	 */
-	Type createType();
+    /**
+     * Returns a new object of class '<em>Metamodel</em>'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * 
+     * @return a new object of class '<em>Metamodel</em>'.
+     * @generated
+     */
+    Metamodel createMetamodel();
 
-	/**
-	 * Returns a new object of class '<em>Instance</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Instance</em>'.
-	 * @generated
-	 */
-	Instance createInstance();
+    /**
+     * Returns a new object of class '<em>Type</em>'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * 
+     * @return a new object of class '<em>Type</em>'.
+     * @generated
+     */
+    Type createType();
 
-	/**
-	 * Returns a new object of class '<em>Attribute Slot</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Attribute Slot</em>'.
-	 * @generated
-	 */
-	AttributeSlot createAttributeSlot();
+    /**
+     * Returns a new object of class '<em>Instance</em>'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * 
+     * @return a new object of class '<em>Instance</em>'.
+     * @generated
+     */
+    Instance createInstance();
 
-	/**
-	 * Returns a new object of class '<em>Reference Slot</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Reference Slot</em>'.
-	 * @generated
-	 */
-	ReferenceSlot createReferenceSlot();
+    /**
+     * Returns a new object of class '<em>Attribute Slot</em>'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * 
+     * @return a new object of class '<em>Attribute Slot</em>'.
+     * @generated
+     */
+    AttributeSlot createAttributeSlot();
 
-	/**
-	 * Returns a new object of class '<em>Repository</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Repository</em>'.
-	 * @generated
-	 */
-	Repository createRepository();
+    /**
+     * Returns a new object of class '<em>Reference Slot</em>'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * 
+     * @return a new object of class '<em>Reference Slot</em>'.
+     * @generated
+     */
+    ReferenceSlot createReferenceSlot();
 
-	/**
-	 * Returns a new object of class '<em>Model Resource</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Model Resource</em>'.
-	 * @generated
-	 */
-	ModelResource createModelResource();
+    /**
+     * Returns a new object of class '<em>Repository</em>'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * 
+     * @return a new object of class '<em>Repository</em>'.
+     * @generated
+     */
+    Repository createRepository();
 
-	/**
-	 * Returns a new object of class '<em>Metamodel Resource</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Metamodel Resource</em>'.
-	 * @generated
-	 */
-	MetamodelResource createMetamodelResource();
+    /**
+     * Returns a new object of class '<em>Model Resource</em>'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * 
+     * @return a new object of class '<em>Model Resource</em>'.
+     * @generated
+     */
+    ModelResource createModelResource();
 
-	/**
-	 * Returns the package supported by this factory.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the package supported by this factory.
-	 * @generated
-	 */
-	MigrationPackage getMigrationPackage();
+    /**
+     * Returns a new object of class '<em>Metamodel Resource</em>'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * 
+     * @return a new object of class '<em>Metamodel Resource</em>'.
+     * @generated
+     */
+    MetamodelResource createMetamodelResource();
+
+    /**
+     * Returns the package supported by this factory.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * 
+     * @return the package supported by this factory.
+     * @generated
+     */
+    MigrationPackage getMigrationPackage();
 
 } //MigrationFactory

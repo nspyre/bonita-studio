@@ -45,7 +45,7 @@ public class UpdateCMISConnectorVersionCustomMigration extends CustomMigration {
             final String defId = connectorInstance.get("definitionId");
             final String defVersion = connectorInstance.get("definitionVersion");
             if (isProvidedCMISConnectorDef(defId)) {
-                if(defVersion.equals("1.0.0")) {
+                if (defVersion.equals("1.0.0")) {
                     connectorInstance.set("definitionVersion", "2.0.1");
                     final Instance connectorConfigInstance = connectorInstance.get("configuration");
                     if (connectorConfigInstance != null) {
@@ -65,7 +65,7 @@ public class UpdateCMISConnectorVersionCustomMigration extends CustomMigration {
                             model.delete(urlExpression);
                         }
                     }
-                    if(defId.equals("cmis-downloaddocument")){
+                    if (defId.equals("cmis-downloaddocument")) {
                         updateConnectorOuputName(connectorInstance);
                     }
                 }

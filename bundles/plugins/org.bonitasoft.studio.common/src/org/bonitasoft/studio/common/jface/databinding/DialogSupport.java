@@ -4,13 +4,12 @@
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- *
  * Contributors:
- *     IBM Corporation - initial API and implementation
- *         (through WizardPageSupport.java)
- *     Matthew Hall - initial API and implementation (bug 239900)
- *     Matthew Hall - bugs 237856, 275058, 278550
- *     Ovidio Mallo - bugs 237856, 248877
+ * IBM Corporation - initial API and implementation
+ * (through WizardPageSupport.java)
+ * Matthew Hall - initial API and implementation (bug 239900)
+ * Matthew Hall - bugs 237856, 275058, 278550
+ * Ovidio Mallo - bugs 237856, 248877
  ******************************************************************************/
 
 package org.bonitasoft.studio.common.jface.databinding;
@@ -58,7 +57,6 @@ import org.eclipse.swt.widgets.Listener;
  */
 public class DialogSupport {
 
-
     class MaxSeverityValidationStatusProvider extends ComputedValue {
 
         private Collection validationStatusProviders;
@@ -92,7 +90,6 @@ public class DialogSupport {
         }
     }
 
-
     /**
      * Connect the validation result from the given data binding context to the
      * given dialog page. The page's error message will not be set at time of
@@ -106,7 +103,7 @@ public class DialogSupport {
      */
     public static DialogSupport create(Dialog dialog,
             DataBindingContext dbc) {
-        return new DialogSupport(dialog,dbc);
+        return new DialogSupport(dialog, dbc);
     }
 
     private Dialog dialog;
@@ -115,12 +112,14 @@ public class DialogSupport {
     private IObservableValue aggregateStatusProvider;
     private boolean uiChanged = false;
     private IChangeListener uiChangeListener = new IChangeListener() {
+
         @Override
         public void handleChange(ChangeEvent event) {
             handleUIChanged();
         }
     };
     private IListChangeListener validationStatusProvidersListener = new IListChangeListener() {
+
         @Override
         public void handleListChange(ListChangeEvent event) {
             ListDiff diff = event.diff;
@@ -132,23 +131,24 @@ public class DialogSupport {
                 IObservableList targets = validationStatusProvider.getTargets();
                 if (listDiffEntry.isAddition()) {
                     targets
-                    .addListChangeListener(validationStatusProviderTargetsListener);
+                            .addListChangeListener(validationStatusProviderTargetsListener);
                     for (Iterator it = targets.iterator(); it.hasNext();) {
                         ((IObservable) it.next())
-                        .addChangeListener(uiChangeListener);
+                                .addChangeListener(uiChangeListener);
                     }
                 } else {
                     targets
-                    .removeListChangeListener(validationStatusProviderTargetsListener);
+                            .removeListChangeListener(validationStatusProviderTargetsListener);
                     for (Iterator it = targets.iterator(); it.hasNext();) {
                         ((IObservable) it.next())
-                        .removeChangeListener(uiChangeListener);
+                                .removeChangeListener(uiChangeListener);
                     }
                 }
             }
         }
     };
     private IListChangeListener validationStatusProviderTargetsListener = new IListChangeListener() {
+
         @Override
         public void handleListChange(ListChangeEvent event) {
             ListDiff diff = event.diff;
@@ -185,10 +185,9 @@ public class DialogSupport {
      * message text and message type to display on the dialog page.
      * 
      * @param messageProvider
-     *            The {@link IValidationMessageProvider} to use for providing
-     *            the message text and message type to display on the dialog
-     *            page.
-     * 
+     *        The {@link IValidationMessageProvider} to use for providing
+     *        the message text and message type to display on the dialog
+     *        page.
      * @since 1.4
      */
     public void setValidationMessageProvider(
@@ -218,19 +217,22 @@ public class DialogSupport {
         }
 
         aggregateStatusProvider
-        .addValueChangeListener(new IValueChangeListener() {
-            @Override
-            public void handleValueChange(ValueChangeEvent event) {
-                statusProviderChanged();
-            }
-        });
+                .addValueChangeListener(new IValueChangeListener() {
+
+                    @Override
+                    public void handleValueChange(ValueChangeEvent event) {
+                        statusProviderChanged();
+                    }
+                });
         dialog.getShell().addListener(SWT.Dispose, new Listener() {
+
             @Override
             public void handleEvent(Event event) {
                 dispose();
             }
         });
         aggregateStatusProvider.addStaleListener(new IStaleListener() {
+
             @Override
             public void handleStale(StaleEvent staleEvent) {
                 currentStatusStale = true;
@@ -246,7 +248,7 @@ public class DialogSupport {
                     .next();
             IObservableList targets = validationStatusProvider.getTargets();
             targets
-            .addListChangeListener(validationStatusProviderTargetsListener);
+                    .addListChangeListener(validationStatusProviderTargetsListener);
             for (Iterator iter = targets.iterator(); iter.hasNext();) {
                 ((IObservable) iter.next()).addChangeListener(uiChangeListener);
             }
@@ -282,10 +284,10 @@ public class DialogSupport {
                     .next();
             IObservableList targets = validationStatusProvider.getTargets();
             targets
-            .removeListChangeListener(validationStatusProviderTargetsListener);
+                    .removeListChangeListener(validationStatusProviderTargetsListener);
             for (Iterator iter = targets.iterator(); iter.hasNext();) {
                 ((IObservable) iter.next())
-                .removeChangeListener(uiChangeListener);
+                        .removeChangeListener(uiChangeListener);
             }
         }
     }
@@ -304,25 +306,25 @@ public class DialogSupport {
             pageComplete = !currentStatus.matches(IStatus.ERROR
                     | IStatus.CANCEL);
         }
-        Composite composite = (Composite) getDialog().buttonBar ;
-        setOKbuttonEnabled(composite,pageComplete) ;
+        Composite composite = (Composite) getDialog().buttonBar;
+        setOKbuttonEnabled(composite, pageComplete);
 
     }
 
     private void setOKbuttonEnabled(Composite composite, boolean isComplete) {
-        if(composite != null){
-            boolean found = false ;
-            for(Control c : composite.getChildren()){
-                if(c.getData() != null && c.getData().equals(IDialogConstants.OK_ID)){
-                    Button okButton = (Button) c ;
-                    okButton.setEnabled(isComplete) ;
-                    found = true ;
+        if (composite != null) {
+            boolean found = false;
+            for (Control c : composite.getChildren()) {
+                if (c.getData() != null && c.getData().equals(IDialogConstants.OK_ID)) {
+                    Button okButton = (Button) c;
+                    okButton.setEnabled(isComplete);
+                    found = true;
                 }
             }
-            if(!found){
-                for(Control c : composite.getChildren()){
-                    if( c instanceof Composite){
-                        setOKbuttonEnabled((Composite) c, isComplete) ;
+            if (!found) {
+                for (Control c : composite.getChildren()) {
+                    if (c instanceof Composite) {
+                        setOKbuttonEnabled((Composite) c, isComplete);
                     }
                 }
             }
@@ -349,13 +351,13 @@ public class DialogSupport {
 
     private void logThrowable(Throwable throwable) {
         Policy
-        .getLog()
-        .log(
-                new Status(
-                        IStatus.ERROR,
-                        Policy.JFACE_DATABINDING,
-                        IStatus.OK,
-                        "Unhandled exception: " + throwable.getMessage(), throwable)); //$NON-NLS-1$
+                .getLog()
+                .log(
+                        new Status(
+                                IStatus.ERROR,
+                                Policy.JFACE_DATABINDING,
+                                IStatus.OK,
+                                "Unhandled exception: " + throwable.getMessage(), throwable)); //$NON-NLS-1$
     }
 
     /**
@@ -373,10 +375,10 @@ public class DialogSupport {
                         .next();
                 IObservableList targets = validationStatusProvider.getTargets();
                 targets
-                .removeListChangeListener(validationStatusProviderTargetsListener);
+                        .removeListChangeListener(validationStatusProviderTargetsListener);
                 for (Iterator iter = targets.iterator(); iter.hasNext();) {
                     ((IObservable) iter.next())
-                    .removeChangeListener(uiChangeListener);
+                            .removeChangeListener(uiChangeListener);
                 }
             }
             dbc.getValidationStatusProviders().removeListChangeListener(

@@ -5,14 +5,12 @@
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2.0 of the License, or
  * (at your option) any later version.
- *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package org.bonitasoft.studio.expression.editor.viewer;
 
@@ -25,35 +23,34 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.text.contentassist.CompletionProposal;
 
-
 /**
  * @author Romain Bioteau
- *
  */
-public class PatternExpressionProposalCreator{
+public class PatternExpressionProposalCreator {
 
-    public static CompletionProposal create(Expression expression,int offset,Expression patternExpression){
+    public static CompletionProposal create(Expression expression, int offset, Expression patternExpression) {
         final EList<EObject> referencedElements = patternExpression.getReferencedElements();
         int index = referencedElements.size();
-        for(EObject dep : referencedElements){
+        for (EObject dep : referencedElements) {
             int i = referencedElements.indexOf(dep);
-            String name = null ;
-            String type = null ;
-            if(dep instanceof Data){
+            String name = null;
+            String type = null;
+            if (dep instanceof Data) {
                 name = ((Data) dep).getName();
-                type = ExpressionConstants.VARIABLE_TYPE ;
-            }else if(dep instanceof Parameter){
+                type = ExpressionConstants.VARIABLE_TYPE;
+            } else if (dep instanceof Parameter) {
                 name = ((Parameter) dep).getName();
-                type = ExpressionConstants.PARAMETER_TYPE ;
+                type = ExpressionConstants.PARAMETER_TYPE;
             }
-            if(name != null && type != null && expression.getName().equals(name) && expression.getType().equals(type)){
+            if (name != null && type != null && expression.getName().equals(name) && expression.getType().equals(type)) {
                 index = i;
                 break;
             }
         }
 
-        final String patternContent =  "{"+String.valueOf(index)+"}" ;
-        return new CompletionProposal(patternContent, offset, 0 , patternContent.length(), new ExpressionLabelProvider().getImage(expression), expression.getName(), null,null);
+        final String patternContent = "{" + String.valueOf(index) + "}";
+        return new CompletionProposal(patternContent, offset, 0, patternContent.length(), new ExpressionLabelProvider().getImage(expression),
+                expression.getName(), null, null);
     }
 
 }

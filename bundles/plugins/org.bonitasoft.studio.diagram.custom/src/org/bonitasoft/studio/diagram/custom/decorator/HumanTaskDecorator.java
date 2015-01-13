@@ -1,19 +1,16 @@
 /**
  * Copyright (C) 2009 BonitaSoft S.A.
  * BonitaSoft, 31 rue Gustave Eiffel - 38000 Grenoble
- * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2.0 of the License, or
  * (at your option) any later version.
- *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
 package org.bonitasoft.studio.diagram.custom.decorator;
@@ -29,16 +26,14 @@ import org.eclipse.gmf.runtime.diagram.ui.editparts.IGraphicalEditPart;
 import org.eclipse.gmf.runtime.diagram.ui.services.decorator.IDecoratorTarget;
 import org.eclipse.gmf.runtime.diagram.ui.services.decorator.IDecoratorTarget.Direction;
 
-
-
-public class HumanTaskDecorator extends AbstractBonitaDecorator/*implements IBonitaDecorator*/ {
+public class HumanTaskDecorator extends AbstractBonitaDecorator/* implements IBonitaDecorator */{
 
     /**
      * Creates a new <code>AbstractDecorator</code> for the decorator target
      * passed in.
      * 
      * @param decoratorTarget
-     *            the object to be decorated
+     *        the object to be decorated
      * @param activityDecoratorProvider
      */
     public HumanTaskDecorator(IDecoratorTarget decoratorTarget, ActivityDecoratorProvider activityDecoratorProvider) {
@@ -48,19 +43,19 @@ public class HumanTaskDecorator extends AbstractBonitaDecorator/*implements IBon
     @Override
     protected void activateDiagramEventBroker(EObject node,
             TransactionalEditingDomain domain, EObject model) {
-        DiagramEventBroker.getInstance(domain).addNotificationListener(node,ProcessPackage.eINSTANCE.getContainer_Elements(),notificationListener);
+        DiagramEventBroker.getInstance(domain).addNotificationListener(node, ProcessPackage.eINSTANCE.getContainer_Elements(), notificationListener);
     }
 
     @Override
     protected void deactivateDiagramEventBroker(IGraphicalEditPart part) {
-        DiagramEventBroker.getInstance(part.getEditingDomain()).removeNotificationListener(part.resolveSemanticElement(),ProcessPackage.eINSTANCE.getContainer_Elements(), notificationListener);
+        DiagramEventBroker.getInstance(part.getEditingDomain()).removeNotificationListener(part.resolveSemanticElement(),
+                ProcessPackage.eINSTANCE.getContainer_Elements(), notificationListener);
     }
 
     @Override
     protected DecoratorSVGFigure getImageDecorator() {
         return FiguresHelper.getDecoratorFigure(FiguresHelper.HUMAN_DECORATOR);
     }
-
 
     @Override
     protected Direction getDirection() {

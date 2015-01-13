@@ -5,14 +5,12 @@
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2.0 of the License, or
  * (at your option) any later version.
- *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package org.bonitasoft.studio.diagram.custom.wizard;
 
@@ -38,7 +36,6 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.dialogs.FilteredTree;
 import org.eclipse.ui.dialogs.PatternFilter;
 
-
 /**
  * @author aurelie zara
  */
@@ -55,29 +52,26 @@ public abstract class AbstractManageDiagramWizardPage extends WizardPage impleme
      */
     protected AbstractManageDiagramWizardPage(final String pageName) {
         super(pageName);
-        processConfStore=getConfigurationRepositoryStore();
+        processConfStore = getConfigurationRepositoryStore();
         applicationResourceStore = getApplicationResourceRepositoryStore();
     }
-
 
     public ApplicationResourceRepositoryStore getApplicationResourceRepositoryStore() {
         return RepositoryManager.getInstance().getRepositoryStore(ApplicationResourceRepositoryStore.class);
     }
 
-
     public ProcessConfigurationRepositoryStore getConfigurationRepositoryStore() {
         return RepositoryManager.getInstance().getRepositoryStore(ProcessConfigurationRepositoryStore.class);
     }
 
-
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see org.eclipse.jface.dialogs.IDialogPage#createControl(org.eclipse.swt.widgets.Composite)
      */
     @Override
     public void createControl(final Composite parent) {
         createDiagramTreeViewer(parent);
     }
-
 
     public void createDiagramTreeViewer(final Composite parent) {
         mainComposite = new Composite(parent, SWT.NONE);
@@ -133,7 +127,6 @@ public abstract class AbstractManageDiagramWizardPage extends WizardPage impleme
     public void setMainComposite(final Composite mainComposite) {
         this.mainComposite = mainComposite;
     }
-
 
     public List<DiagramFileStore> getDiagrams() {
         if (!getDiagramTree().getViewer().getSelection().isEmpty()) {

@@ -63,41 +63,40 @@ public class CommonRepositoryPlugin extends AbstractUIPlugin {
      * open a wizard in which you can select a destination + which artifact you want to export
      * 
      * @param stores
-     *   repositories or artifacts you want to put in the tree
+     *        repositories or artifacts you want to put in the tree
      * @param showImages
-     * 	Whether to show icons on repositories/artifacts or not
+     *        Whether to show icons on repositories/artifacts or not
      * @param selectAllByDefault
      */
     public static void exportArtifactsToFile(List<IRepositoryStore<? extends IRepositoryFileStore>> stores, Set<Object> selectFilesByDefault, String dialogTitle) {
-        if(dialogTitle == null || dialogTitle.isEmpty()){
-            dialogTitle = Messages.exportRepositoryFileTitle ;
+        if (dialogTitle == null || dialogTitle.isEmpty()) {
+            dialogTitle = Messages.exportRepositoryFileTitle;
         }
-        ExportRepositoryWizard wizard = new ExportRepositoryWizard(stores,false,selectFilesByDefault,null,dialogTitle);
-        WizardDialog dialog = new CustomWizardDialog(Display.getCurrent().getActiveShell(), wizard){
-        	protected void initializeBounds() {
-        		super.initializeBounds();
-        		getShell().setSize(600, 500); 
-        	}
+        ExportRepositoryWizard wizard = new ExportRepositoryWizard(stores, false, selectFilesByDefault, null, dialogTitle);
+        WizardDialog dialog = new CustomWizardDialog(Display.getCurrent().getActiveShell(), wizard) {
+
+            protected void initializeBounds() {
+                super.initializeBounds();
+                getShell().setSize(600, 500);
+            }
         };
         dialog.setTitle(dialogTitle);
-        dialog.open() ;
+        dialog.open();
     }
 
-    public static CommonRepositoryPlugin getPlugin(){
-        return plugin ;
+    public static CommonRepositoryPlugin getPlugin() {
+        return plugin;
     }
 
-    public static String getCurrentRepository(){
-        if(CommonRepositoryPlugin.getDefault() != null){
+    public static String getCurrentRepository() {
+        if (CommonRepositoryPlugin.getDefault() != null) {
             return CommonRepositoryPlugin.getDefault().getPreferenceStore().getString(RepositoryPreferenceConstant.CURRENT_REPOSITORY);
         }
         return "default";
     }
 
-
     public static void setCurrentRepository(String repositoryName) {
         CommonRepositoryPlugin.getDefault().getPreferenceStore().setValue(RepositoryPreferenceConstant.CURRENT_REPOSITORY, repositoryName);
     }
-
 
 }

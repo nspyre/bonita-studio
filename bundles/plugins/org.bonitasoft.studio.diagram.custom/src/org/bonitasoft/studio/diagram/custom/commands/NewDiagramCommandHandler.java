@@ -37,9 +37,7 @@ import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.progress.IProgressService;
 
-
 public class NewDiagramCommandHandler extends AbstractHandler {
-
 
     @Override
     public DiagramFileStore execute(final ExecutionEvent event) throws ExecutionException {
@@ -76,6 +74,7 @@ public class NewDiagramCommandHandler extends AbstractHandler {
 
         return diagramFileStore;
     }
+
     /*
      * (non-Javadoc)
      * @see org.eclipse.core.commands.AbstractHandler#isEnabled()

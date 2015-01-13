@@ -1,19 +1,16 @@
 /**
  * Copyright (C) 2009 BonitaSoft S.A.
  * BonitaSoft, 31 rue Gustave Eiffel - 38000 Grenoble
- *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2.0 of the License, or
  * (at your option) any later version.
- *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package org.bonitasoft.studio.exporter.application;
 
@@ -48,26 +45,24 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.common.util.EMap;
 
 /**
- *
  * create a css file using widgets styles and other attributes
  *
  * @author Baptiste Mesta
- *
  */
 public class CssGenerator {
 
     public static final String HIDDEN_STYLE_CLASS = "hidden_on_instantiation";
 
-    public File createCssFile(final String targetFolder,final Element element) {
+    public File createCssFile(final String targetFolder, final Element element) {
         // TODO consultation form
         final StringBuilder cssContents = new StringBuilder();
 
         addToCss(element, cssContents);
-        addTableContainerClass(cssContents) ;
+        addTableContainerClass(cssContents);
         addHiddenStyle(cssContents);
 
         if (cssContents.toString().length() > 0) {
-            File generatedCss = new File(targetFolder  + File.separatorChar + "application" + File.separatorChar + "css"); //$NON-NLS-1$
+            File generatedCss = new File(targetFolder + File.separatorChar + "application" + File.separatorChar + "css"); //$NON-NLS-1$
             generatedCss.mkdirs();
             generatedCss = new File(generatedCss.getAbsolutePath() + File.separatorChar + "generatedcss.css"); //$NON-NLS-1$
             generatedCss.delete();
@@ -82,8 +77,8 @@ public class CssGenerator {
                 BonitaStudioLog.error(e1);
             } catch (final IOException e2) {
                 BonitaStudioLog.error(e2);
-            } finally{
-                if(writer != null){
+            } finally {
+                if (writer != null) {
                     try {
                         writer.close();
                     } catch (final IOException e) {
@@ -112,12 +107,12 @@ public class CssGenerator {
     }
 
     public void addCssToWar(final AbstractProcess process, final File destFolderFile, final IProgressMonitor monitor) {
-        final File cssFile = createCssFile(ProjectUtil.getBonitaStudioWorkFolder().getAbsolutePath(),process);
+        final File cssFile = createCssFile(ProjectUtil.getBonitaStudioWorkFolder().getAbsolutePath(), process);
         if (cssFile != null) {
             final File destFile = new File(destFolderFile.getAbsolutePath() + File.separatorChar + "application" + File.separatorChar + "css"); //$NON-NLS-1$ //$NON-NLS-2$
             destFile.mkdirs();
             PlatformUtil.copyResource(destFile, cssFile, monitor);
-            PlatformUtil.delete(cssFile.getParentFile().getParentFile(), monitor) ;
+            PlatformUtil.delete(cssFile.getParentFile().getParentFile(), monitor);
         }
     }
 
@@ -139,14 +134,14 @@ public class CssGenerator {
             for (final Form form : ((PageFlow) element).getForm()) {
                 addToCss(form, cssContents);
             }
-            if(element instanceof AbstractProcess){
+            if (element instanceof AbstractProcess) {
                 for (final Form form : ((AbstractProcess) element).getRecapForms()) {
                     addToCss(form, cssContents);
                 }
             }
         }
 
-        if(element instanceof ViewPageFlow){
+        if (element instanceof ViewPageFlow) {
             for (final Form form : ((ViewPageFlow) element).getViewForm()) {
                 addToCss(form, cssContents);
             }
@@ -192,7 +187,7 @@ public class CssGenerator {
         createRule(cssContents, map, ExporterTools.PREFIX_TABLE, widget);
         createRule(cssContents, map, ExporterTools.PREFIX_TABLE_CELLS, widget);
         createRule(cssContents, map, ExporterTools.PREFIX_TABLE_HEADERS, widget);
-        if(widget instanceof ItemContainer || widget instanceof SuggestBox){
+        if (widget instanceof ItemContainer || widget instanceof SuggestBox) {
             createRule(cssContents, map, ExporterTools.PREFIX_ITEMS, widget);
         }
 
@@ -221,7 +216,7 @@ public class CssGenerator {
     }
 
     private void createWidgetRule(final StringBuilder cssContents, final EMap<String, String> map, final Widget widget) {
-        if(widget instanceof RichTextAreaFormField){
+        if (widget instanceof RichTextAreaFormField) {
             cssContents.append("\n." + "widget_" + ExporterTools.getWidgetUID(widget) + " div.bonita_rich_text {\n"); //$NON-NLS-1$//$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
         } else {
             cssContents.append("\n." + "widget_" + ExporterTools.getWidgetUID(widget) + "{\n"); //$NON-NLS-1$//$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
@@ -229,7 +224,7 @@ public class CssGenerator {
         if (map.containsKey(ExporterTools.PREFIX_WIDGET + ExporterTools.STYLE_ATTR)) {
 
             // add style property
-            final StringTokenizer st = new StringTokenizer(map.get(ExporterTools.PREFIX_WIDGET +ExporterTools. STYLE_ATTR).replace("\n", ""), ";");
+            final StringTokenizer st = new StringTokenizer(map.get(ExporterTools.PREFIX_WIDGET + ExporterTools.STYLE_ATTR).replace("\n", ""), ";");
             while (st.hasMoreElements())
             {
                 cssContents.append("\t" + st.nextToken() + ";" + "\n"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
@@ -264,7 +259,8 @@ public class CssGenerator {
         if (element instanceof Form) {
             cssContents.append("\n." + ExporterTools.getFormUID((Form) element) + "_Row" + line.getNumber() + "{\n");
         } else {
-            cssContents.append("\n." + ExporterTools.getFormUID(ModelHelper.getForm((Widget) element)) + "_" + element.getName() + "_Row" + line.getNumber() + "{\n");
+            cssContents.append("\n." + ExporterTools.getFormUID(ModelHelper.getForm((Widget) element)) + "_" + element.getName() + "_Row" + line.getNumber()
+                    + "{\n");
         }
         try {
             // by default px format
@@ -283,7 +279,8 @@ public class CssGenerator {
         if (element instanceof Form) {
             cssContents.append("\n." + ExporterTools.getFormUID((Form) element) + "_Column" + column.getNumber() + "{\n");
         } else {
-            cssContents.append("\n." + ExporterTools.getFormUID(ModelHelper.getForm((Widget) element)) + "_" + element.getName() + "_Column" + column.getNumber() + "{\n");
+            cssContents.append("\n." + ExporterTools.getFormUID(ModelHelper.getForm((Widget) element)) + "_" + element.getName() + "_Column"
+                    + column.getNumber() + "{\n");
         }
         try {
             // by default px format
@@ -309,12 +306,11 @@ public class CssGenerator {
     }
 
     protected void createRule(final StringBuilder cssContents, final EMap<String, String> map, final String prefix, final Widget widget) {
-        if(widget instanceof RichTextAreaFormField){
+        if (widget instanceof RichTextAreaFormField) {
             cssContents.append("\n." + prefix + ExporterTools.getWidgetUID(widget) + " div.bonita_rich_text {\n");
         } else {
             cssContents.append("\n." + prefix + ExporterTools.getWidgetUID(widget) + "{\n");
         }
-
 
         if (map.containsKey(prefix + ExporterTools.STYLE_ATTR)) {
 

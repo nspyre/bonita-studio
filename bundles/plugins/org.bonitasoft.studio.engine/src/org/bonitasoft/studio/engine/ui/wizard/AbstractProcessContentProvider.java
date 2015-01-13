@@ -5,14 +5,12 @@
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2.0 of the License, or
  * (at your option) any later version.
- *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package org.bonitasoft.studio.engine.ui.wizard;
 
@@ -30,20 +28,19 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.Viewer;
 
-
 /**
  * @author Romain Bioteau
- *
  */
 public class AbstractProcessContentProvider implements ITreeContentProvider {
 
     private final DiagramRepositoryStore diagramStore;
 
-    public AbstractProcessContentProvider(){
-        diagramStore = (DiagramRepositoryStore) RepositoryManager.getInstance().getCurrentRepository().getRepositoryStore(DiagramRepositoryStore.class) ;
+    public AbstractProcessContentProvider() {
+        diagramStore = (DiagramRepositoryStore) RepositoryManager.getInstance().getCurrentRepository().getRepositoryStore(DiagramRepositoryStore.class);
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see org.eclipse.jface.viewers.IContentProvider#dispose()
      */
     @Override
@@ -51,7 +48,8 @@ public class AbstractProcessContentProvider implements ITreeContentProvider {
 
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see org.eclipse.jface.viewers.IContentProvider#inputChanged(org.eclipse.jface.viewers.Viewer, java.lang.Object, java.lang.Object)
      */
     @Override
@@ -59,59 +57,63 @@ public class AbstractProcessContentProvider implements ITreeContentProvider {
 
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see org.eclipse.jface.viewers.ITreeContentProvider#getChildren(java.lang.Object)
      */
     @Override
     public Object[] getChildren(Object element) {
-        if(element instanceof MainProcess){
-            List<Object> result = new ArrayList<Object>() ;
-            for(EObject process : ModelHelper.getAllItemsOfType((EObject) element, ProcessPackage.Literals.POOL)){
-                if(!process.equals(element)){
-                    result.add(process) ;
+        if (element instanceof MainProcess) {
+            List<Object> result = new ArrayList<Object>();
+            for (EObject process : ModelHelper.getAllItemsOfType((EObject) element, ProcessPackage.Literals.POOL)) {
+                if (!process.equals(element)) {
+                    result.add(process);
                 }
             }
-            return result.toArray() ;
+            return result.toArray();
         }
         return null;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see org.eclipse.jface.viewers.ITreeContentProvider#getElements(java.lang.Object)
      */
     @Override
     public Object[] getElements(Object element) {
-        List<Object> rootElement = new ArrayList<Object>() ;
-        for(IRepositoryFileStore file : diagramStore.getChildren()){
+        List<Object> rootElement = new ArrayList<Object>();
+        for (IRepositoryFileStore file : diagramStore.getChildren()) {
             final Object content = file.getContent();
-            if(content != null){
-                rootElement.add(content) ;
+            if (content != null) {
+                rootElement.add(content);
             }
         }
 
         return rootElement.toArray();
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see org.eclipse.jface.viewers.ITreeContentProvider#getParent(java.lang.Object)
      */
     @Override
     public Object getParent(Object element) {
-        if(element instanceof AbstractProcess){
-            return ModelHelper.getMainProcess((EObject) element) ;
+        if (element instanceof AbstractProcess) {
+            return ModelHelper.getMainProcess((EObject) element);
         }
         return null;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see org.eclipse.jface.viewers.ITreeContentProvider#hasChildren(java.lang.Object)
      */
     @Override
     public boolean hasChildren(Object element) {
-        if(element instanceof MainProcess){
+        if (element instanceof MainProcess) {
             return !((MainProcess) element).getElements().isEmpty();
         }
-        return false ;
+        return false;
 
     }
 }

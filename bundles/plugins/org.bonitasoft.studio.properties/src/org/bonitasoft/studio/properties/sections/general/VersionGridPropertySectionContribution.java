@@ -1,19 +1,16 @@
 /**
  * Copyright (C) 2009 BonitaSoft S.A.
  * BonitaSoft, 31 rue Gustave Eiffel - 38000 Grenoble
- *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2.0 of the License, or
  * (at your option) any later version.
- *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package org.bonitasoft.studio.properties.sections.general;
 
@@ -46,7 +43,6 @@ import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetWidgetFactory;
 
 /**
  * @author Mickael Istria
- *
  */
 public class VersionGridPropertySectionContribution implements IExtensibleGridPropertySectionContribution {
 
@@ -55,8 +51,10 @@ public class VersionGridPropertySectionContribution implements IExtensibleGridPr
     private TransactionalEditingDomain editingDomain;
     private EMFDataBindingContext context;
 
-    /* (non-Javadoc)
-     * @see org.bonitasoft.studio.properties.sections.general.IExtenstibleGridPropertySectionContribution#createControl(org.eclipse.swt.widgets.Composite, org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetWidgetFactory)
+    /*
+     * (non-Javadoc)
+     * @see org.bonitasoft.studio.properties.sections.general.IExtenstibleGridPropertySectionContribution#createControl(org.eclipse.swt.widgets.Composite,
+     * org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetWidgetFactory)
      */
     @Override
     public void createControl(Composite composite, TabbedPropertySheetWidgetFactory widgetFactory, ExtensibleGridPropertySection page) {
@@ -64,17 +62,16 @@ public class VersionGridPropertySectionContribution implements IExtensibleGridPr
         composite.setLayout(new RowLayout());
         text = widgetFactory.createText(composite, "", SWT.BORDER); //$NON-NLS-1$
         RowData rd = new RowData();
-        rd.width = 80 ;
+        rd.width = 80;
         text.setLayoutData(rd);
 
-        if(process instanceof MainProcess || process instanceof Pool) {
-            text.setEnabled(false) ;
+        if (process instanceof MainProcess || process instanceof Pool) {
+            text.setEnabled(false);
         }
-        context = new EMFDataBindingContext() ;
-        createBinding(context) ;
+        context = new EMFDataBindingContext();
+        createBinding(context);
 
     }
-
 
     protected void createBinding(EMFDataBindingContext context) {
         UpdateValueStrategy versionUpdate = new UpdateValueStrategy();
@@ -82,10 +79,12 @@ public class VersionGridPropertySectionContribution implements IExtensibleGridPr
         versionUpdate.setBeforeSetValidator(new UTF8InputValidator(Messages.GeneralSection_Version));
 
         ISWTObservableValue observable = SWTObservables.observeDelayedValue(400, SWTObservables.observeText(text, SWT.Modify));
-        context.bindValue(observable, EMFEditObservables.observeValue(editingDomain, process, ProcessPackage.Literals.ABSTRACT_PROCESS__VERSION),versionUpdate,versionUpdate);
+        context.bindValue(observable, EMFEditObservables.observeValue(editingDomain, process, ProcessPackage.Literals.ABSTRACT_PROCESS__VERSION),
+                versionUpdate, versionUpdate);
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see org.bonitasoft.studio.properties.sections.general.IExtenstibleGridPropertySectionContribution#getLabel()
      */
     @Override
@@ -93,7 +92,8 @@ public class VersionGridPropertySectionContribution implements IExtensibleGridPr
         return Messages.GeneralSection_Version;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see org.bonitasoft.studio.properties.sections.general.IExtenstibleGridPropertySectionContribution#refresh()
      */
     @Override
@@ -101,28 +101,31 @@ public class VersionGridPropertySectionContribution implements IExtensibleGridPr
 
     }
 
-
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see org.bonitasoft.studio.properties.sections.general.IExtenstibleGridPropertySectionContribution#setEObject(org.eclipse.emf.ecore.EObject)
      */
     @Override
     public void setEObject(EObject object) {
-        if(object instanceof Lane){
+        if (object instanceof Lane) {
             process = (AbstractProcess) ((Lane) object).eContainer();
-        }else{
+        } else {
             process = (AbstractProcess) object;
         }
     }
 
-    /* (non-Javadoc)
-     * @see org.bonitasoft.studio.properties.sections.general.IExtenstibleGridPropertySectionContribution#setEditingDomain(org.eclipse.emf.transaction.TransactionalEditingDomain)
+    /*
+     * (non-Javadoc)
+     * @see org.bonitasoft.studio.properties.sections.general.IExtenstibleGridPropertySectionContribution#setEditingDomain(org.eclipse.emf.transaction.
+     * TransactionalEditingDomain)
      */
     @Override
     public void setEditingDomain(TransactionalEditingDomain editingDomain) {
         this.editingDomain = editingDomain;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see org.bonitasoft.studio.properties.sections.general.IExtenstibleGridPropertySectionContribution#isRelevantFor(org.eclipse.emf.ecore.EObject)
      */
     @Override
@@ -130,7 +133,8 @@ public class VersionGridPropertySectionContribution implements IExtensibleGridPr
         return eObject instanceof AbstractProcess || eObject instanceof Lane;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see org.bonitasoft.studio.properties.sections.general.IExtenstibleGridPropertySectionContribution#setSelection(org.eclipse.jface.viewers.ISelection)
      */
     @Override
@@ -138,13 +142,14 @@ public class VersionGridPropertySectionContribution implements IExtensibleGridPr
         // NOTHING
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see org.bonitasoft.studio.common.properties.IExtensibleGridPropertySectionContribution#dispose()
      */
     @Override
     public void dispose() {
-        if(context != null){
-            context.dispose() ;
+        if (context != null) {
+            context.dispose();
         }
     }
 

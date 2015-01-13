@@ -1,19 +1,16 @@
 /**
  * Copyright (C) 2010 BonitaSoft S.A.
  * BonitaSoft, 31 rue Gustave Eiffel - 38000 Grenoble
- *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2.0 of the License, or
  * (at your option) any later version.
- *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package org.bonitasoft.studio.diagram.test;
 
@@ -32,7 +29,6 @@ import org.junit.runner.RunWith;
 
 /**
  * @author Romain Bioteau
- *
  */
 @RunWith(SWTBotJunit4ClassRunner.class)
 public class NewRunTest extends SWTBotGefTestCase {
@@ -49,7 +45,7 @@ public class NewRunTest extends SWTBotGefTestCase {
         bot.waitUntil(new ICondition() {
 
             public boolean test() throws Exception {
-                return getNBProcessDefinitions() == nbProcBeforeRun + 1 ;
+                return getNBProcessDefinitions() == nbProcBeforeRun + 1;
             }
 
             public void init(final SWTBot bot) {
@@ -58,29 +54,28 @@ public class NewRunTest extends SWTBotGefTestCase {
             public String getFailureMessage() {
                 return "the new+run swtbot test should be started and ready";
             }
-        },30000,2000);
+        }, 30000, 2000);
     }
 
     @After
-    public void closeEditors(){
+    public void closeEditors() {
         bot.closeAllEditors();
     }
 
-    private long getNBProcessDefinitions() throws Exception{
+    private long getNBProcessDefinitions() throws Exception {
         APISession session = null;
         long nbProc = 0;
-        try{
-            session = BOSEngineManager.getInstance().loginDefaultTenant(new NullProgressMonitor()) ;
-            final ProcessManagementAPI processAPI = BOSEngineManager.getInstance().getProcessAPI(session) ;
+        try {
+            session = BOSEngineManager.getInstance().loginDefaultTenant(new NullProgressMonitor());
+            final ProcessManagementAPI processAPI = BOSEngineManager.getInstance().getProcessAPI(session);
             nbProc = processAPI.getNumberOfProcessDeploymentInfos();
-        }finally{
-            if(session != null){
+        } finally {
+            if (session != null) {
                 BOSEngineManager.getInstance().logoutDefaultTenant(session);
             }
         }
 
         return nbProc;
     }
-
 
 }

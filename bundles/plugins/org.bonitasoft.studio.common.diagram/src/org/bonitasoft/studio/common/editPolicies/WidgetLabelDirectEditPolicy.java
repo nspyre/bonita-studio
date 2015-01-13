@@ -5,14 +5,12 @@
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2.0 of the License, or
  * (at your option) any later version.
- *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package org.bonitasoft.studio.common.editPolicies;
 
@@ -34,10 +32,8 @@ import org.eclipse.gmf.runtime.gef.ui.internal.parts.TextCellEditorEx;
 import org.eclipse.gmf.runtime.notation.View;
 import org.eclipse.swt.widgets.Text;
 
-
 /**
  * @author Romain Bioteau
- *
  */
 public class WidgetLabelDirectEditPolicy extends LabelDirectEditPolicy {
 
@@ -46,14 +42,15 @@ public class WidgetLabelDirectEditPolicy extends LabelDirectEditPolicy {
      * and an view
      */
     class EObjectAdapterEx
-    extends EObjectAdapter {
+            extends EObjectAdapter {
 
         private View view = null;
 
         /**
          * constructor
-         * @param element   element to be wrapped
-         * @param view  view to be wrapped
+         * 
+         * @param element element to be wrapped
+         * @param view view to be wrapped
          */
         public EObjectAdapterEx(EObject element, View view) {
             super(element);
@@ -81,7 +78,7 @@ public class WidgetLabelDirectEditPolicy extends LabelDirectEditPolicy {
             }
         }
 
-        String labelText = ((Text)edit.getCellEditor().getControl()).getText();
+        String labelText = ((Text) edit.getCellEditor().getControl()).getText();
 
         //for CellEditor, null is always returned for invalid values
         if (labelText == null) {
@@ -89,33 +86,33 @@ public class WidgetLabelDirectEditPolicy extends LabelDirectEditPolicy {
         }
 
         ITextAwareEditPart compartment = (ITextAwareEditPart) getHost();
-        EObject model = (EObject)compartment.getModel();
-        EObjectAdapter elementAdapter = null ;
+        EObject model = (EObject) compartment.getModel();
+        EObjectAdapter elementAdapter = null;
         if (model instanceof View) {
-            View view = (View)model;
+            View view = (View) model;
             EObject resolveSemanticElement = ViewUtil.resolveSemanticElement(view);
-           if(resolveSemanticElement instanceof Widget && !(resolveSemanticElement instanceof MessageInfo)
-        		   && !(resolveSemanticElement instanceof IFrameWidget)
-        		   && !(resolveSemanticElement instanceof HiddenWidget)
-        		   && !(resolveSemanticElement instanceof HtmlWidget)){
-        	   elementAdapter = new EObjectAdapterEx(((Widget) resolveSemanticElement).getDisplayLabel(),
-                       view);
-           }else{
-        	   elementAdapter = new EObjectAdapterEx(resolveSemanticElement,
-                       view);
-           }
-         
+            if (resolveSemanticElement instanceof Widget && !(resolveSemanticElement instanceof MessageInfo)
+                    && !(resolveSemanticElement instanceof IFrameWidget)
+                    && !(resolveSemanticElement instanceof HiddenWidget)
+                    && !(resolveSemanticElement instanceof HtmlWidget)) {
+                elementAdapter = new EObjectAdapterEx(((Widget) resolveSemanticElement).getDisplayLabel(),
+                        view);
+            } else {
+                elementAdapter = new EObjectAdapterEx(resolveSemanticElement,
+                        view);
+            }
+
         }
-        else{
-        	 if(!(model instanceof MessageInfo)
-          		   && !(model instanceof IFrameWidget)
-          		   && !(model instanceof HiddenWidget)
-          		   && !(model instanceof HtmlWidget)){
-        		  elementAdapter = new EObjectAdapterEx(((Widget)model).getDisplayLabel(), null);
-        	 }else{
-        		  elementAdapter = new EObjectAdapterEx(((Widget)model), null);
-        	 }
-          
+        else {
+            if (!(model instanceof MessageInfo)
+                    && !(model instanceof IFrameWidget)
+                    && !(model instanceof HiddenWidget)
+                    && !(model instanceof HtmlWidget)) {
+                elementAdapter = new EObjectAdapterEx(((Widget) model).getDisplayLabel(), null);
+            } else {
+                elementAdapter = new EObjectAdapterEx(((Widget) model), null);
+            }
+
         }
         // check to make sure an edit has occurred before returning a command.
         String prevText = compartment.getParser().getEditString(elementAdapter,

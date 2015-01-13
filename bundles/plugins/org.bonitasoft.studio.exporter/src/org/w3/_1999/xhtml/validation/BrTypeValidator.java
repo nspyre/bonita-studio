@@ -1,7 +1,6 @@
 /**
  * <copyright>
  * </copyright>
- *
  * $Id$
  */
 package org.w3._1999.xhtml.validation;
@@ -15,10 +14,14 @@ import java.util.List;
  * This can be disabled with -vmargs -Dorg.eclipse.emf.examples.generator.validator=false.
  */
 public interface BrTypeValidator {
-	boolean validate();
 
-	boolean validateClass(List<String> value);
-	boolean validateId(String value);
-	boolean validateStyle(String value);
-	boolean validateTitle(String value);
+    boolean validate();
+
+    boolean validateClass(List<String> value);
+
+    boolean validateId(String value);
+
+    boolean validateStyle(String value);
+
+    boolean validateTitle(String value);
 }

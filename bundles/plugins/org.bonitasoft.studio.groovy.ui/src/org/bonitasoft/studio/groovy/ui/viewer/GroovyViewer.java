@@ -215,7 +215,6 @@ public class GroovyViewer {
                 }
             }
 
-
         });
         enableContextAssitShortcut();
 
@@ -251,7 +250,7 @@ public class GroovyViewer {
                                 model.addAnnotation(
                                         new Annotation(JavaMarkerAnnotation.WARNING_ANNOTATION_TYPE, false, Messages.bind(
                                                 Messages.warningAssigningAVariableWithSameNameAsProcessVariable, declaredVariable)),
-                                                declaredVariables.get(declaredVariable));
+                                        declaredVariables.get(declaredVariable));
                             }
                         }
                         isComputing = false;
@@ -272,8 +271,6 @@ public class GroovyViewer {
             }
         });
     }
-
-
 
     public void enableContextAssitShortcut() {
         final IHandlerService handlerService = (IHandlerService) PlatformUI.getWorkbench().getAdapter(IHandlerService.class);

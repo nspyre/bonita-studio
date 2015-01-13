@@ -311,7 +311,6 @@ public class NameGridPropertySectionContribution extends AbstractNamePropertySec
         }
     }
 
-
     protected void editDiagramAndPoolNameAndVersion() {
         final MainProcess diagram = ModelHelper.getMainProcess(element);
         final DiagramRepositoryStore diagramStore = RepositoryManager.getInstance().getRepositoryStore(DiagramRepositoryStore.class);

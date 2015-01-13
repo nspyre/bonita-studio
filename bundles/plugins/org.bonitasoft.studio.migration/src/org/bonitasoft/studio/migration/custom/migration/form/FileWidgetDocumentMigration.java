@@ -25,10 +25,8 @@ import org.eclipse.emf.edapt.migration.Metamodel;
 import org.eclipse.emf.edapt.migration.MigrationException;
 import org.eclipse.emf.edapt.migration.Model;
 
-
 /**
  * @author Florine Boudin
- *
  */
 public class FileWidgetDocumentMigration extends CustomMigration {
 
@@ -48,9 +46,7 @@ public class FileWidgetDocumentMigration extends CustomMigration {
             }
         }
 
-
     }
-
 
     @Override
     public void migrateAfter(final Model model, final Metamodel metamodel) throws MigrationException {
@@ -90,6 +86,5 @@ public class FileWidgetDocumentMigration extends CustomMigration {
         }
         return null;
     }
-
 
 }

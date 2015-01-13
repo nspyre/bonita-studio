@@ -1,19 +1,16 @@
 /*
  * Copyright (C) 2009-2011 BonitaSoft S.A.
  * BonitaSoft, 31 rue Gustave Eiffel - 38000 Grenoble
- * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2.0 of the License, or
  * (at your option) any later version.
- * 
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- * 
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package org.bonitasoft.studio.engine.preferences;
 
@@ -66,7 +63,6 @@ import org.eclipse.ui.progress.IProgressService;
 
 public class BonitaUserXpPreferencePage extends AbstractBonitaPreferencePage implements IWorkbenchPreferencePage {
 
-
     private Integer newPort = new Integer(-1);
     private final Integer oldPort = BonitaStudioPreferencesPlugin.getDefault().getPreferenceStore().getInt(BonitaPreferenceConstants.CONSOLE_PORT);
     private IntegerFieldEditor port;
@@ -88,114 +84,110 @@ public class BonitaUserXpPreferencePage extends AbstractBonitaPreferencePage imp
     @Override
     public void createFieldEditors() {
 
+        createTitleBar(Messages.BonitaPreferenceDialog_UserXP_Settings, Pics.getImage(PicsConstants.preferenceLogin), false);
 
-        createTitleBar(Messages.BonitaPreferenceDialog_UserXP_Settings, Pics.getImage(PicsConstants.preferenceLogin),false) ;
-
-
-        host = new StringFieldEditor(BonitaPreferenceConstants.CONSOLE_HOST, Messages.consolePreferenceHostLabel, getFieldEditorParent()) ;
+        host = new StringFieldEditor(BonitaPreferenceConstants.CONSOLE_HOST, Messages.consolePreferenceHostLabel, getFieldEditorParent());
         addField(host);
 
-        port = new IntegerFieldEditor(BonitaPreferenceConstants.CONSOLE_PORT, Messages.consolePreferencePortLabel, getFieldEditorParent()) ;
-        addField(port) ;
+        port = new IntegerFieldEditor(BonitaPreferenceConstants.CONSOLE_PORT, Messages.consolePreferencePortLabel, getFieldEditorParent());
+        addField(port);
 
-        Group loginGroup = new Group(getFieldEditorParent(), SWT.NONE) ;
-        loginGroup.setLayout(GridLayoutFactory.fillDefaults().numColumns(2).margins(15, 15).create()) ;
-        loginGroup.setLayoutData(GridDataFactory.fillDefaults().grab(true, false).span(2, 1).create()) ;
-        loginGroup.setText(Messages.loginAs) ;
+        Group loginGroup = new Group(getFieldEditorParent(), SWT.NONE);
+        loginGroup.setLayout(GridLayoutFactory.fillDefaults().numColumns(2).margins(15, 15).create());
+        loginGroup.setLayoutData(GridDataFactory.fillDefaults().grab(true, false).span(2, 1).create());
+        loginGroup.setText(Messages.loginAs);
 
-        StringFieldEditor user = new StringFieldEditor(BonitaPreferenceConstants.USER_NAME, Messages.userNameLLabel, loginGroup) ;
+        StringFieldEditor user = new StringFieldEditor(BonitaPreferenceConstants.USER_NAME, Messages.userNameLLabel, loginGroup);
         addField(user);
-        user.getTextControl(loginGroup).setLayoutData(GridDataFactory.fillDefaults().grab(true, false).indent(0, 15).create()) ;
-        user.getLabelControl(loginGroup).setLayoutData(GridDataFactory.fillDefaults().grab(false, false).indent(0, 15).create()) ;
+        user.getTextControl(loginGroup).setLayoutData(GridDataFactory.fillDefaults().grab(true, false).indent(0, 15).create());
+        user.getLabelControl(loginGroup).setLayoutData(GridDataFactory.fillDefaults().grab(false, false).indent(0, 15).create());
 
         final PasswordFieldEditor password = new PasswordFieldEditor(BonitaPreferenceConstants.USER_PASSWORD, Messages.userPasswordLabel, loginGroup);
         addField(password);
 
-        defaultTheme = new ComboFieldEditor(BonitaPreferenceConstants.DEFAULT_USERXP_THEME, Messages.bind(Messages.defaultUserXPThemeLabel, new Object[]{bonitaPortalModuleName}),getAvailableThemes(), getFieldEditorParent()) ;
+        defaultTheme = new ComboFieldEditor(BonitaPreferenceConstants.DEFAULT_USERXP_THEME, Messages.bind(Messages.defaultUserXPThemeLabel,
+                new Object[] { bonitaPortalModuleName }), getAvailableThemes(), getFieldEditorParent());
         addField(defaultTheme);
-
-
 
     }
 
     private String[][] getAvailableThemes() {
-        LookNFeelRepositoryStore store = (LookNFeelRepositoryStore) RepositoryManager.getInstance().getRepositoryStore(LookNFeelRepositoryStore.class) ;
+        LookNFeelRepositoryStore store = (LookNFeelRepositoryStore) RepositoryManager.getInstance().getRepositoryStore(LookNFeelRepositoryStore.class);
         List<UserXpFileStore> artifacts = store.getUserXPLookNFeels();
-        String[][]  result = new String[artifacts.size()][] ;
-        for(int i = 0 ; i < artifacts.size() ; i++){
-            String[] item = {  artifacts.get(i).getDisplayName(), artifacts.get(i).getName() };
-            result[i] = item ;
+        String[][] result = new String[artifacts.size()][];
+        for (int i = 0; i < artifacts.size(); i++) {
+            String[] item = { artifacts.get(i).getDisplayName(), artifacts.get(i).getName() };
+            result[i] = item;
         }
 
         return result;
     }
 
-
     public static void updateBonitaHome() {
-//        LookNFeelRepositoryStore store = (LookNFeelRepositoryStore) RepositoryManager.getInstance().getRepositoryStore(LookNFeelRepositoryStore.class) ;
-//        String themeId = BonitaStudioPreferencesPlugin.getDefault().getPreferenceStore().getString(BonitaPreferenceConstants.DEFAULT_USERXP_THEME) ;
-//        List<UserXpFileStore> artifacts = store.getUserXPLookNFeels() ;
-//        UserXpFileStore artifact = null ;
-//        for(UserXpFileStore item : artifacts){
-//            if(item.getName().equals(themeId)){
-//                artifact = item ;
-//            }
-//        }
-//        if(artifact != null){
-//            File target = null;
-//            target = new File(BonitaHomeUtil.getBonitaHome(),WEB_CONSTANTS.getPortalThemeFolder().getAbsolutePath()+File.separatorChar+artifact.getName());
-//            target.delete() ;
-//            target.mkdirs() ;
-//            File zipFile = new File(target,artifact.getName()+".zip") ;
-//            zipFile.delete() ;
-//            artifact.export(zipFile.getAbsolutePath()) ;
-//            try{
-//            	PlatformUtil.unzipZipFiles(zipFile, target, new NullProgressMonitor()) ;
-//            }catch(Exception e){
-//            	BonitaStudioLog.error(e);
-//            }
-//            if(zipFile!=null){
-//            	zipFile.delete() ;
-//            }
-//        }
+        //        LookNFeelRepositoryStore store = (LookNFeelRepositoryStore) RepositoryManager.getInstance().getRepositoryStore(LookNFeelRepositoryStore.class) ;
+        //        String themeId = BonitaStudioPreferencesPlugin.getDefault().getPreferenceStore().getString(BonitaPreferenceConstants.DEFAULT_USERXP_THEME) ;
+        //        List<UserXpFileStore> artifacts = store.getUserXPLookNFeels() ;
+        //        UserXpFileStore artifact = null ;
+        //        for(UserXpFileStore item : artifacts){
+        //            if(item.getName().equals(themeId)){
+        //                artifact = item ;
+        //            }
+        //        }
+        //        if(artifact != null){
+        //            File target = null;
+        //            target = new File(BonitaHomeUtil.getBonitaHome(),WEB_CONSTANTS.getPortalThemeFolder().getAbsolutePath()+File.separatorChar+artifact.getName());
+        //            target.delete() ;
+        //            target.mkdirs() ;
+        //            File zipFile = new File(target,artifact.getName()+".zip") ;
+        //            zipFile.delete() ;
+        //            artifact.export(zipFile.getAbsolutePath()) ;
+        //            try{
+        //            	PlatformUtil.unzipZipFiles(zipFile, target, new NullProgressMonitor()) ;
+        //            }catch(Exception e){
+        //            	BonitaStudioLog.error(e);
+        //            }
+        //            if(zipFile!=null){
+        //            	zipFile.delete() ;
+        //            }
+        //        }
     }
 
     @Override
     public boolean performOk() {
-        boolean ok =  super.performOk();
-        if(newPort != -1 || newHost != null ){
-            updatePortConfiguration(host.getStringValue(),port.getIntValue()) ;
+        boolean ok = super.performOk();
+        if (newPort != -1 || newHost != null) {
+            updatePortConfiguration(host.getStringValue(), port.getIntValue());
         }
-        if(newTheme != null){
-            IProgressService progress = PlatformUI.getWorkbench().getProgressService() ;
+        if (newTheme != null) {
+            IProgressService progress = PlatformUI.getWorkbench().getProgressService();
             try {
-                progress.run(true, false,new IRunnableWithProgress() {
+                progress.run(true, false, new IRunnableWithProgress() {
 
                     @Override
-                    public void run(IProgressMonitor monitor) throws InvocationTargetException,InterruptedException {
-                        monitor.beginTask(Messages.applyingLooknFeel, IProgressMonitor.UNKNOWN) ;
-                        updateBonitaHome() ;
+                    public void run(IProgressMonitor monitor) throws InvocationTargetException, InterruptedException {
+                        monitor.beginTask(Messages.applyingLooknFeel, IProgressMonitor.UNKNOWN);
+                        updateBonitaHome();
                     }
                 });
             } catch (InvocationTargetException e) {
-                BonitaStudioLog.error(e) ;
+                BonitaStudioLog.error(e);
             } catch (InterruptedException e) {
-                BonitaStudioLog.error(e) ;
+                BonitaStudioLog.error(e);
             }
         }
         return ok;
     }
 
-    private void updatePortConfiguration(String host,Integer newPort) {
-        if(host.equals("localhost") || host.equals("127.0.0.1")){
-            if(!BOSWebServerManager.isPortAvailable(newPort)){
-                MessageDialog.openWarning(getShell(), Messages.portAlreadyUseTitle, Messages.bind(Messages.portAlreadyUseMsg,newPort));
+    private void updatePortConfiguration(String host, Integer newPort) {
+        if (host.equals("localhost") || host.equals("127.0.0.1")) {
+            if (!BOSWebServerManager.isPortAvailable(newPort)) {
+                MessageDialog.openWarning(getShell(), Messages.portAlreadyUseTitle, Messages.bind(Messages.portAlreadyUseMsg, newPort));
                 return;
             }
 
             try {
-                BOSWebServerManager.getInstance().updatePortConfiguration(oldPort,newPort);
-                BonitaHomeUtil.configureBonitaClient(BonitaHomeUtil.HTTP,host, newPort);
+                BOSWebServerManager.getInstance().updatePortConfiguration(oldPort, newPort);
+                BonitaHomeUtil.configureBonitaClient(BonitaHomeUtil.HTTP, host, newPort);
                 IProgressService service = PlatformUI.getWorkbench().getProgressService();
                 service.run(true, false, new IRunnableWithProgress() {
 
@@ -220,17 +212,17 @@ public class BonitaUserXpPreferencePage extends AbstractBonitaPreferencePage imp
     public void propertyChange(PropertyChangeEvent event) {
         if (event.getSource().equals(port)) {
             newPort = Integer.valueOf((String) event.getNewValue());
-        }else if(event.getSource().equals(defaultTheme)){
-            newTheme = (String) event.getNewValue() ;
-        }else if(event.getSource().equals(host)){
-            newHost = (String) event.getNewValue() ;
+        } else if (event.getSource().equals(defaultTheme)) {
+            newTheme = (String) event.getNewValue();
+        } else if (event.getSource().equals(host)) {
+            newHost = (String) event.getNewValue();
         }
 
         super.propertyChange(event);
     }
+
     /*
      * (non-Javadoc)
-     * 
      * @see
      * org.eclipse.ui.IWorkbenchPreferencePage#init(org.eclipse.ui.IWorkbench)
      */
@@ -239,12 +231,8 @@ public class BonitaUserXpPreferencePage extends AbstractBonitaPreferencePage imp
     }
 
     public static String getInstalledThemeId() {
-      //String id = PropertiesFactory.getPlatformProperties().getProperty("currentTheme") ;
-        return "default" ;
+        //String id = PropertiesFactory.getPlatformProperties().getProperty("currentTheme") ;
+        return "default";
     }
-
-
-
-
 
 }

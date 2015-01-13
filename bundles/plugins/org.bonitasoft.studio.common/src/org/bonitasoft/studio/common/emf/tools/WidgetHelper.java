@@ -21,25 +21,25 @@ import org.bonitasoft.studio.model.form.Widget;
 
 /**
  * @author Romain Bioteau
- *
  */
 public class WidgetHelper {
 
     public static final String FIELD_PREFIX = "field_";
 
-    public static String getAssociatedReturnType(final Widget widget){
-        if(widget instanceof  Duplicable && ((Duplicable) widget).isDuplicate()){
+    public static String getAssociatedReturnType(final Widget widget) {
+        if (widget instanceof Duplicable && ((Duplicable) widget).isDuplicate()) {
             return List.class.getName();
         }
         return new WidgetReturnTypeFormSwitch().doSwitch(widget);
 
     }
 
-    public static String getAssociatedInputType(final Widget widget){
-        if(widget instanceof  Duplicable && ((Duplicable) widget).isDuplicate()){
+    public static String getAssociatedInputType(final Widget widget) {
+        if (widget instanceof Duplicable && ((Duplicable) widget).isDuplicate()) {
             return List.class.getName();
         }
-        return new WidgetReturnTypeFormSwitch(){
+        return new WidgetReturnTypeFormSwitch() {
+
             @Override
             public String caseFileWidget(final org.bonitasoft.studio.model.form.FileWidget object) {
                 return String.class.getName();

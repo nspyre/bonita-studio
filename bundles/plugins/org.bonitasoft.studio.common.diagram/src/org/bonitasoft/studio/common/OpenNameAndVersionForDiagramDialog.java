@@ -1,19 +1,16 @@
 /**
  * Copyright (C) 2011 BonitaSoft S.A.
  * BonitaSoft, 31 rue Gustave Eiffel - 38000 Grenoble
- *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2.0 of the License, or
  * (at your option) any later version.
- *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package org.bonitasoft.studio.common;
 
@@ -55,7 +52,7 @@ public class OpenNameAndVersionForDiagramDialog extends OpenNameAndVersionDialog
 
     private final List<ProcessesNameVersion> pools = new ArrayList<OpenNameAndVersionForDiagramDialog.ProcessesNameVersion>();
 
-    public class ProcessesNameVersion{
+    public class ProcessesNameVersion {
 
         protected AbstractProcess abstractProcess;
         protected String newName;
@@ -93,16 +90,17 @@ public class OpenNameAndVersionForDiagramDialog extends OpenNameAndVersionDialog
      * @param name
      * @param version
      */
-    public OpenNameAndVersionForDiagramDialog(final Shell parentShell, final MainProcess diagram,final IRepositoryStore diagramStore) {
-        super(parentShell, diagram,diagramStore);
-        for(final AbstractProcess pool : ModelHelper.getAllProcesses(diagram)){
+    public OpenNameAndVersionForDiagramDialog(final Shell parentShell, final MainProcess diagram, final IRepositoryStore diagramStore) {
+        super(parentShell, diagram, diagramStore);
+        for (final AbstractProcess pool : ModelHelper.getAllProcesses(diagram)) {
             pools.add(new ProcessesNameVersion(pool));
         }
     }
 
-    public OpenNameAndVersionForDiagramDialog(final Shell parentShell, final MainProcess diagram,final IRepositoryStore diagramStore,final boolean diagramNameOrVersionChangeMandatory) {
-        super(parentShell, diagram,diagramStore,diagramNameOrVersionChangeMandatory);
-        for(final AbstractProcess pool : ModelHelper.getAllProcesses(diagram)){
+    public OpenNameAndVersionForDiagramDialog(final Shell parentShell, final MainProcess diagram, final IRepositoryStore diagramStore,
+            final boolean diagramNameOrVersionChangeMandatory) {
+        super(parentShell, diagram, diagramStore, diagramNameOrVersionChangeMandatory);
+        for (final AbstractProcess pool : ModelHelper.getAllProcesses(diagram)) {
             pools.add(new ProcessesNameVersion(pool));
         }
     }
@@ -129,7 +127,7 @@ public class OpenNameAndVersionForDiagramDialog extends OpenNameAndVersionDialog
 
     private void createDiagramComposite(final Composite res, final DataBindingContext dbc) {
         final Group diagramGroup = new Group(res, SWT.NONE);
-        diagramGroup.setLayout(GridLayoutFactory.fillDefaults().numColumns(2).margins(10,10).create());
+        diagramGroup.setLayout(GridLayoutFactory.fillDefaults().numColumns(2).margins(10, 10).create());
         diagramGroup.setLayoutData(GridDataFactory.fillDefaults().grab(true, false).create());
         diagramGroup.setText(Messages.diagram);
         createDiagramNameAndVersion(diagramGroup, dbc);
@@ -159,27 +157,28 @@ public class OpenNameAndVersionForDiagramDialog extends OpenNameAndVersionDialog
         bindPoolVersion(pnv, dbc, observePoolVersionText);
 
         final MultiValidator caseValidator = new MultiValidator() {
+
             @Override
             protected IStatus validate() {
                 final String poolName = observePoolNameText.getValue().toString();
                 final String poolVersion = observePoolVersionText.getValue().toString();
                 int countNewProcessWithSameName = 0;
-                for (final ProcessesNameVersion pool : pools){
+                for (final ProcessesNameVersion pool : pools) {
                     if (poolName.equals(pool.newName) && poolVersion.equals(pool.newVersion)) {
-                        countNewProcessWithSameName ++;
+                        countNewProcessWithSameName++;
                     }
                 }
-                if(countNewProcessWithSameName>1){
+                if (countNewProcessWithSameName > 1) {
                     return ValidationStatus.error(Messages.bind(Messages.differentCaseSameNameError, typeLabel));
                 }
                 int countOldProcessWithSameName = 0;
-                for (final ProcessesNameVersion pool : pools){
+                for (final ProcessesNameVersion pool : pools) {
                     if (poolName.equals(pool.getAbstractProcess().getName()) && poolVersion.equals(pool.getAbstractProcess().getVersion())) {
-                        countOldProcessWithSameName ++;
+                        countOldProcessWithSameName++;
                     }
                 }
-                if(countOldProcessWithSameName==1){
-                    if(diagramNameOrVersionChangeMandatory){
+                if (countOldProcessWithSameName == 1) {
+                    if (diagramNameOrVersionChangeMandatory) {
                         return ValidationStatus.error(Messages.bind(Messages.differentCaseSameNameError, typeLabel));
                     } else {
                         return ValidationStatus.ok();
@@ -201,12 +200,13 @@ public class OpenNameAndVersionForDiagramDialog extends OpenNameAndVersionDialog
     private void bindPoolVersion(final ProcessesNameVersion pnv, final DataBindingContext dbc, final ISWTObservableValue observePoolVersionText) {
         final UpdateValueStrategy poolVersionTargetToModel = new UpdateValueStrategy();
         final EmptyInputValidator poolVersionEmptyValidator = new EmptyInputValidator(Messages.version);
-        final InputLengthValidator poolVersionLenghtValidator = new InputLengthValidator(Messages.version,50);
+        final InputLengthValidator poolVersionLenghtValidator = new InputLengthValidator(Messages.version, 50);
         poolVersionTargetToModel.setAfterGetValidator(new IValidator() {
+
             @Override
             public IStatus validate(final Object value) {
                 IStatus status = poolVersionEmptyValidator.validate(value);
-                if(status.isOK()){
+                if (status.isOK()) {
                     status = poolVersionLenghtValidator.validate(value);
                 }
                 return status;
@@ -225,14 +225,14 @@ public class OpenNameAndVersionForDiagramDialog extends OpenNameAndVersionDialog
     private void bindPoolName(final ProcessesNameVersion pnv, final DataBindingContext dbc, final ISWTObservableValue observePoolNameText) {
         final UpdateValueStrategy poolNameTargetToModel = new UpdateValueStrategy();
         final EmptyInputValidator poolNameEmptyValidator = new EmptyInputValidator(Messages.name);
-        final InputLengthValidator poolNamelenghtValidator = new InputLengthValidator(Messages.name,50);
+        final InputLengthValidator poolNamelenghtValidator = new InputLengthValidator(Messages.name, 50);
 
         poolNameTargetToModel.setAfterGetValidator(new IValidator() {
 
             @Override
             public IStatus validate(final Object value) {
                 IStatus status = poolNameEmptyValidator.validate(value);
-                if(status.isOK()){
+                if (status.isOK()) {
                     status = poolNamelenghtValidator.validate(value);
                 }
                 return status;
@@ -254,7 +254,7 @@ public class OpenNameAndVersionForDiagramDialog extends OpenNameAndVersionDialog
         poolGroup.setLayout(GridLayoutFactory.fillDefaults().margins(10, 10).create());
         poolGroup.setText(Messages.pools);
 
-        for(final ProcessesNameVersion pnv : pools){
+        for (final ProcessesNameVersion pnv : pools) {
             createPNVComposite(poolGroup, pnv, dbc);
         }
     }
@@ -262,6 +262,5 @@ public class OpenNameAndVersionForDiagramDialog extends OpenNameAndVersionDialog
     public List<ProcessesNameVersion> getPools() {
         return pools;
     }
-
 
 }

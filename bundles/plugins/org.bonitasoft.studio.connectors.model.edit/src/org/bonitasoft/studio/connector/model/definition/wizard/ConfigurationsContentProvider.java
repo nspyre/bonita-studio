@@ -1,19 +1,16 @@
 /**
  * Copyright (C) 2009 BonitaSoft S.A.
  * BonitaSoft, 31 rue Gustave Eiffel - 38000 Grenoble
- *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2.0 of the License, or
  * (at your option) any later version.
- *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package org.bonitasoft.studio.connector.model.definition.wizard;
 
@@ -26,28 +23,24 @@ import org.bonitasoft.studio.model.connectorconfiguration.ConnectorConfiguration
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.Viewer;
 
-
 /**
  * @author Romain Bioteau
- *
  */
 public class ConfigurationsContentProvider implements ITreeContentProvider {
-
 
     private final IRepositoryStore<? extends IRepositoryFileStore> store;
     private final String definitionVersion;
     private final String definitionId;
 
-    public ConfigurationsContentProvider(final String definitionId,final String definitionVersion, final IRepositoryStore<? extends IRepositoryFileStore> configurationStore) {
-        store = configurationStore ;
-        this.definitionVersion = definitionVersion ;
-        this.definitionId = definitionId ;
+    public ConfigurationsContentProvider(final String definitionId, final String definitionVersion,
+            final IRepositoryStore<? extends IRepositoryFileStore> configurationStore) {
+        store = configurationStore;
+        this.definitionVersion = definitionVersion;
+        this.definitionId = definitionId;
     }
-
 
     /*
      * (non-Javadoc)
-     *
      * @see
      * org.eclipse.jface.viewers.ITreeContentProvider#getChildren(java.lang.
      * Object)
@@ -61,10 +54,8 @@ public class ConfigurationsContentProvider implements ITreeContentProvider {
         return null;
     }
 
-
     /*
      * (non-Javadoc)
-     *
      * @see
      * org.eclipse.jface.viewers.ITreeContentProvider#getParent(java.lang.Object
      * )
@@ -79,7 +70,6 @@ public class ConfigurationsContentProvider implements ITreeContentProvider {
 
     /*
      * (non-Javadoc)
-     *
      * @see
      * org.eclipse.jface.viewers.ITreeContentProvider#hasChildren(java.lang.
      * Object)
@@ -91,7 +81,6 @@ public class ConfigurationsContentProvider implements ITreeContentProvider {
 
     /*
      * (non-Javadoc)
-     *
      * @see
      * org.eclipse.jface.viewers.IStructuredContentProvider#getElements(java
      * .lang.Object)
@@ -99,20 +88,19 @@ public class ConfigurationsContentProvider implements ITreeContentProvider {
     @Override
     public Object[] getElements(final Object inputElement) {
         final List<ConnectorConfiguration> configurations = new ArrayList<ConnectorConfiguration>();
-        for(final IRepositoryFileStore f  : store.getChildren()){
-            final ConnectorConfiguration config =  (ConnectorConfiguration) f.getContent() ;
+        for (final IRepositoryFileStore f : store.getChildren()) {
+            final ConnectorConfiguration config = (ConnectorConfiguration) f.getContent();
             if (config != null) {
                 if (config.getDefinitionId().equals(definitionId) && config.getVersion().equals(definitionVersion)) {
                     configurations.add(config);
                 }
             }
         }
-        return configurations.toArray() ;
+        return configurations.toArray();
     }
 
     /*
      * (non-Javadoc)
-     *
      * @see org.eclipse.jface.viewers.IContentProvider#dispose()
      */
     @Override
@@ -121,7 +109,6 @@ public class ConfigurationsContentProvider implements ITreeContentProvider {
 
     /*
      * (non-Javadoc)
-     *
      * @see
      * org.eclipse.jface.viewers.IContentProvider#inputChanged(org.eclipse.jface
      * .viewers.Viewer, java.lang.Object, java.lang.Object)

@@ -40,7 +40,6 @@ public class LegacyTimerExpressionGenerator {
 
     private static final String CRON_DAY_OF_MONTH = "#";
 
-
     public String getTimerExpressionContent(final StartTimerEvent item) {
         switch (item.getScriptType()) {
             case GROOVY:
@@ -68,7 +67,6 @@ public class LegacyTimerExpressionGenerator {
         }
     }
 
-
     protected String dailyCron(final StartTimerEvent item) {
         Calendar calendar;
         calendar = Calendar.getInstance();
@@ -77,7 +75,6 @@ public class LegacyTimerExpressionGenerator {
                 CRON_WILDCARD, CRON_NOT_SET);
     }
 
-
     protected String weeklyCron(final StartTimerEvent item) {
         Calendar calendar;
         calendar = Calendar.getInstance();
@@ -85,7 +82,6 @@ public class LegacyTimerExpressionGenerator {
         return generateCronExpression(String.valueOf(calendar.get(Calendar.MINUTE)), String.valueOf(calendar.get(Calendar.HOUR_OF_DAY)), CRON_NOT_SET,
                 CRON_WILDCARD, String.valueOf(item.getDay()));
     }
-
 
     protected String monthlyDayOfWeekCron(final StartTimerEvent item) {
         Calendar calendar;
@@ -98,7 +94,6 @@ public class LegacyTimerExpressionGenerator {
                 item.getDay() + CRON_DAY_OF_MONTH + item.getDayNumber());
     }
 
-
     protected String monthlyDayNumberCron(final StartTimerEvent item) {
         Calendar calendar;
         calendar = Calendar.getInstance();
@@ -109,7 +104,6 @@ public class LegacyTimerExpressionGenerator {
                 CRON_WILDCARD,
                 CRON_NOT_SET);
     }
-
 
     protected String yearlyDayOfYearCron(final StartTimerEvent item) {
         final Calendar calendar = Calendar.getInstance();
@@ -122,7 +116,6 @@ public class LegacyTimerExpressionGenerator {
                 CRON_NOT_SET);
     }
 
-
     protected String yearlyDayOfMonthCron(final StartTimerEvent item) {
         final Calendar calendar = Calendar.getInstance();
         calendar.setTime(item.getAt());
@@ -133,15 +126,13 @@ public class LegacyTimerExpressionGenerator {
                 CRON_NOT_SET);
     }
 
-
     protected String conditionExpressionContent(final StartTimerEvent item) {
         final Expression condition = item.getCondition();
-        if(condition != null){
+        if (condition != null) {
             return condition.getContent();
         }
         return null;
     }
-
 
     public static boolean isCycle(final StartTimerEvent item) {
         switch (item.getScriptType()) {
@@ -163,7 +154,6 @@ public class LegacyTimerExpressionGenerator {
         }
     }
 
-
     private String generateCronExpression(final String min, final String hour, final String dayOfMonth, final String month, final String dayOfWeek) {
         final StringBuilder sb = new StringBuilder();
         sb.append("0");
@@ -180,7 +170,6 @@ public class LegacyTimerExpressionGenerator {
         return sb.toString();
     }
 
-
     public static String generateConstant(final Date date) {
         final StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("return new Date(");
@@ -188,6 +177,5 @@ public class LegacyTimerExpressionGenerator {
         stringBuilder.append(");");
         return stringBuilder.toString();
     }
-
 
 }

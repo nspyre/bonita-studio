@@ -8,7 +8,6 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-
 public class InternalConditionModelLexerTest {
 
     @Before
@@ -24,21 +23,20 @@ public class InternalConditionModelLexerTest {
         Token nextToken = new InternalConditionModelLexer(new ANTLRStringStream("varąčęėoo")).nextToken();
         assertThat(nextToken.getText()).isEqualTo("varąčęėoo");
         assertThat(nextToken.getType()).isEqualTo(InternalConditionModelLexer.RULE_ID);
-        
+
         nextToken = new InternalConditionModelLexer(new ANTLRStringStream("カタカナ")).nextToken();
         assertThat(nextToken.getText()).isEqualTo("カタカナ");
         assertThat(nextToken.getType()).isEqualTo(InternalConditionModelLexer.RULE_ID);
-        
-       
+
     }
-    
+
     @Test
     public void shouldNextToken_BuildABooleanTokenForTrueAndFalse() throws Exception {
-        Token  nextToken = new InternalConditionModelLexer(new ANTLRStringStream("true")).nextToken();
+        Token nextToken = new InternalConditionModelLexer(new ANTLRStringStream("true")).nextToken();
         assertThat(nextToken.getText()).isEqualTo("true");
         assertThat(nextToken.getType()).isEqualTo(InternalConditionModelLexer.RULE_BOOLEAN);
-        
-         nextToken = new InternalConditionModelLexer(new ANTLRStringStream("false")).nextToken();
+
+        nextToken = new InternalConditionModelLexer(new ANTLRStringStream("false")).nextToken();
         assertThat(nextToken.getText()).isEqualTo("false");
         assertThat(nextToken.getType()).isEqualTo(InternalConditionModelLexer.RULE_BOOLEAN);
     }

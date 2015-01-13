@@ -1,19 +1,16 @@
 /**
  * Copyright (C) 2010 BonitaSoft S.A.
  * BonitaSoft, 31 rue Gustave Eiffel - 38000 Grenoble
- *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2.0 of the License, or
  * (at your option) any later version.
- *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package org.bonitasoft.studio.simulation.wizards;
 
@@ -32,7 +29,6 @@ import org.eclipse.osgi.util.NLS;
 
 /**
  * @author Baptiste Mesta
- *
  */
 public class RunSimulationWizard extends Wizard {
 
@@ -52,7 +48,8 @@ public class RunSimulationWizard extends Wizard {
         setWindowTitle(Messages.RunSimulationWizard_WindowTitle);
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see org.eclipse.jface.wizard.Wizard#addPages()
      */
     @Override
@@ -62,7 +59,8 @@ public class RunSimulationWizard extends Wizard {
         super.addPages();
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see org.eclipse.jface.wizard.Wizard#performFinish()
      */
     @Override
@@ -70,20 +68,20 @@ public class RunSimulationWizard extends Wizard {
         page.setErrorMessage(null);
         path = page.getPath();
         File file = new File(path);
-        if(!file.exists()){
+        if (!file.exists()) {
             page.setErrorMessage(Messages.RunSimulationWizard_Error_folderDoesNotExists);
             return false;
         }
 
-        if(!file.isDirectory()){
+        if (!file.isDirectory()) {
             page.setErrorMessage(Messages.RunSimulationWizard_Error_folderisFile);
             return false;
         }
         loadProfileId = page.getLoadProfileId();
-        IRepositoryStore loadProfileStore = RepositoryManager.getInstance().getRepositoryStore(SimulationLoadProfileRepositoryStore.class) ;
-        IRepositoryFileStore artifact = loadProfileStore.getChild(loadProfileId+"."+SimulationLoadProfileRepositoryStore.SIMULATION_LOADPROFILE_EXT);
-        if(artifact == null ){
-            page.setErrorMessage(NLS.bind(Messages.RunSimulationWizard_Error_missingLoadProfile,loadProfileId));
+        IRepositoryStore loadProfileStore = RepositoryManager.getInstance().getRepositoryStore(SimulationLoadProfileRepositoryStore.class);
+        IRepositoryFileStore artifact = loadProfileStore.getChild(loadProfileId + "." + SimulationLoadProfileRepositoryStore.SIMULATION_LOADPROFILE_EXT);
+        if (artifact == null) {
+            page.setErrorMessage(NLS.bind(Messages.RunSimulationWizard_Error_missingLoadProfile, loadProfileId));
             return false;
         }
 
@@ -98,6 +96,7 @@ public class RunSimulationWizard extends Wizard {
     public AbstractProcess getSelectedProcess() {
         return page.getProcess();
     }
+
     /**
      * @return the path
      */

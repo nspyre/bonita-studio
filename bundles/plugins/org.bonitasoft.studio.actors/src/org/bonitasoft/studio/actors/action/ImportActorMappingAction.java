@@ -5,14 +5,12 @@
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2.0 of the License, or
  * (at your option) any later version.
- *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package org.bonitasoft.studio.actors.action;
 
@@ -42,17 +40,16 @@ import org.eclipse.swt.widgets.FileDialog;
 
 /**
  * @author Romain Bioteau
- *
  */
 public class ImportActorMappingAction extends Action implements IConfigurationImportAction {
 
     private Configuration configuration;
     private String filePath;
 
-    public ImportActorMappingAction(){
-        super() ;
-        setText(Messages.actorMapping) ;
-        setImageDescriptor(Pics.getImageDescriptor(PicsConstants.actorMapping)) ;
+    public ImportActorMappingAction() {
+        super();
+        setText(Messages.actorMapping);
+        setImageDescriptor(Pics.getImageDescriptor(PicsConstants.actorMapping));
     }
 
     @Override
@@ -61,38 +58,38 @@ public class ImportActorMappingAction extends Action implements IConfigurationIm
 
     @Override
     public void setConfiguration(Configuration configuration) {
-        this.configuration = configuration ;
+        this.configuration = configuration;
     }
 
     @Override
     public void run() {
-        if(filePath == null){
-            FileDialog dialog = new FileDialog(Display.getDefault().getActiveShell(), SWT.OPEN) ;
-            dialog.setFilterExtensions(new String[]{"*.xml"}) ;
-            filePath = dialog.open() ;
+        if (filePath == null) {
+            FileDialog dialog = new FileDialog(Display.getDefault().getActiveShell(), SWT.OPEN);
+            dialog.setFilterExtensions(new String[] { "*.xml" });
+            filePath = dialog.open();
         }
-        if(filePath != null){
-            URI uri = URI.createFileURI(filePath) ;
-            Resource resource = new ActorMappingResourceFactoryImpl().createResource(uri) ;
-            Map<String, String> options = new HashMap<String, String>() ;
+        if (filePath != null) {
+            URI uri = URI.createFileURI(filePath);
+            Resource resource = new ActorMappingResourceFactoryImpl().createResource(uri);
+            Map<String, String> options = new HashMap<String, String>();
             options.put(XMLResource.OPTION_ENCODING, "UTF-8");
             options.put(XMLResource.OPTION_XML_VERSION, "1.0");
             try {
-                resource.load(options) ;
+                resource.load(options);
             } catch (IOException e) {
-                BonitaStudioLog.error(e) ;
+                BonitaStudioLog.error(e);
             }
-            if(!resource.getContents().isEmpty()){
+            if (!resource.getContents().isEmpty()) {
                 EObject root = resource.getContents().get(0);
-                if(root instanceof DocumentRoot){
-                    ActorMappingsType mappings = ((DocumentRoot) root).getActorMappings() ;
-                    for(ActorMapping mapping : mappings.getActorMapping()){
-                        for(ActorMapping configurationMapping : configuration.getActorMappings().getActorMapping()){
-                            if(configurationMapping.getName().equals(mapping.getName())){
-                                configurationMapping.setGroups(mapping.getGroups()) ;
-                                configurationMapping.setRoles(mapping.getRoles()) ;
-                                configurationMapping.setUsers(mapping.getUsers()) ;
-                                configurationMapping.setMemberships(mapping.getMemberships()) ;
+                if (root instanceof DocumentRoot) {
+                    ActorMappingsType mappings = ((DocumentRoot) root).getActorMappings();
+                    for (ActorMapping mapping : mappings.getActorMapping()) {
+                        for (ActorMapping configurationMapping : configuration.getActorMappings().getActorMapping()) {
+                            if (configurationMapping.getName().equals(mapping.getName())) {
+                                configurationMapping.setGroups(mapping.getGroups());
+                                configurationMapping.setRoles(mapping.getRoles());
+                                configurationMapping.setUsers(mapping.getUsers());
+                                configurationMapping.setMemberships(mapping.getMemberships());
                             }
                         }
                     }
@@ -107,6 +104,5 @@ public class ImportActorMappingAction extends Action implements IConfigurationIm
     public void setFilePath(String absolutePath) {
         filePath = absolutePath;
     }
-
 
 }

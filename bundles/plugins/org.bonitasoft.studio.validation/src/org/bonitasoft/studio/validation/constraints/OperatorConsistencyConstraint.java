@@ -49,7 +49,7 @@ public class OperatorConsistencyConstraint extends AbstractLiveValidationMarkerC
             return context.createFailureStatus(
                     Messages.bind(Messages.validation_OperatorConsistency,
                             new String[] { labelProvider.getText(operator),
-                            leftOperand.getName() }));
+                                    leftOperand.getName() }));
         }
         return context.createSuccessStatus();
     }

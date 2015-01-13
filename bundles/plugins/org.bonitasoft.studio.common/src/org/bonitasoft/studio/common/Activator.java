@@ -51,7 +51,7 @@ public class Activator extends AbstractUIPlugin {
         return plugin;
     }
 
-    public ILog getLogger(){
+    public ILog getLogger() {
         return Platform.getLog(Platform.getBundle(Activator.PLUGIN_ID));
     }
 

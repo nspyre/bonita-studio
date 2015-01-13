@@ -34,25 +34,25 @@ import org.eclipse.ui.part.FileEditorInput;
 
 /**
  * @author Aurelien Pupier
- * Provider to be able to open form diagram via GMF EditorService.
+ *         Provider to be able to open form diagram via GMF EditorService.
  */
 public class DiagramEditorProvider extends AbstractEditorProvider {
 
-	@Override
-	protected boolean canOpen(final IEditorInput editorInput) {
-		//TODO : check that it's a form (and don't contain a widget group?)
-		return true;
-	}
+    @Override
+    protected boolean canOpen(final IEditorInput editorInput) {
+        //TODO : check that it's a form (and don't contain a widget group?)
+        return true;
+    }
 
-	@Override
-	protected String getEditorId(final IEditorInput editorInput) {
+    @Override
+    protected String getEditorId(final IEditorInput editorInput) {
         final URI uri = retrieveURI(editorInput);
         if (isAProcessDiagramURI(uri)) {
             return ProcessDiagramEditor.ID;
         } else {
             return CustomFormDiagramEditor.ID;
         }
-	}
+    }
 
     protected boolean isAProcessDiagramURI(final URI uri) {
         final String fragment = uri.fragment();

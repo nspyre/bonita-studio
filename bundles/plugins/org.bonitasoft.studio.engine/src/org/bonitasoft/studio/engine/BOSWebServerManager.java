@@ -210,12 +210,12 @@ public class BOSWebServerManager {
             @Override
             public void run() {
                 MessageDialog
-                .openInformation(
+                        .openInformation(
                                 PlatformUI.getWorkbench()
                                         .getActiveWorkbenchWindow()
                                         .getShell(),
-                        "",
-                        "Tomcat cannot be launched:\nthe port might be already used by another application.\nPossible causes are that another Studio or another Tomcat is already running.");
+                                "",
+                                "Tomcat cannot be launched:\nthe port might be already used by another application.\nPossible causes are that another Studio or another Tomcat is already running.");
 
             }
         });

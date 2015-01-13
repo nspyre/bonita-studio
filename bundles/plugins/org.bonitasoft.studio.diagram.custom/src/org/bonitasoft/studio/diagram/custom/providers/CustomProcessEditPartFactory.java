@@ -1,19 +1,16 @@
 /*
  * Copyright (C) 2009 BonitaSoft S.A.
  * BonitaSoft, 31 rue Gustave Eiffel - 38000 Grenoble
- * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2.0 of the License, or
  * (at your option) any later version.
- * 
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- * 
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package org.bonitasoft.studio.diagram.custom.providers;
 
@@ -129,7 +126,6 @@ import org.eclipse.gmf.runtime.notation.View;
  */
 public class CustomProcessEditPartFactory extends ProcessEditPartFactory {
 
-
     @Override
     public EditPart createEditPart(EditPart context, Object model) {
         if (model instanceof View) {
@@ -151,7 +147,6 @@ public class CustomProcessEditPartFactory extends ProcessEditPartFactory {
                 case PoolPoolCompartmentEditPart.VISUAL_ID:
                     return new CustomPoolCompartmentEditPart(view);
 
- 
                 case ActivityName2EditPart.VISUAL_ID:
                     return new CustomActivityName2EditPart(view);
 
@@ -165,7 +160,7 @@ public class CustomProcessEditPartFactory extends ProcessEditPartFactory {
                     return new CustomSubProcessEventLabel2EditPart(view);
 
                 case PoolNameEditPart.VISUAL_ID:
-                    return new CustomPoolNameEditPart(view);           
+                    return new CustomPoolNameEditPart(view);
 
                 case LaneNameEditPart.VISUAL_ID:
                     return new CustomLaneNameEditPart(view);
@@ -184,7 +179,7 @@ public class CustomProcessEditPartFactory extends ProcessEditPartFactory {
 
                 case EndTerminatedEvent2EditPart.VISUAL_ID:
                     return new CustomEndTerminatedEvent2EditPart(view);
-                    
+
                 case StartEvent2EditPart.VISUAL_ID:
                     return new CustomStartEvent2EditPart(view);
 
@@ -227,13 +222,11 @@ public class CustomProcessEditPartFactory extends ProcessEditPartFactory {
                 case InclusiveGateway2EditPart.VISUAL_ID:
                     return new CustomInclusiveGateway2EditPart(view);
 
-
                 case Activity2EditPart.VISUAL_ID:
                     return new CustomActivity2EditPart(view);
 
                 case Task2EditPart.VISUAL_ID:
                     return new CustomTask2EditPart(view);
-
 
                 case CallActivity2EditPart.VISUAL_ID:
                     return new CustomCallActivity2EditPart(view);
@@ -258,13 +251,11 @@ public class CustomProcessEditPartFactory extends ProcessEditPartFactory {
                 case MessageFlowLabelEditPart.VISUAL_ID:
                     return new CustomMessageFlowLabelEditPart(view);
 
-
                 case CatchLinkEvent2EditPart.VISUAL_ID:
                     return new CustomCatchLinkEvent2EditPart(view);
 
                 case ThrowLinkEvent2EditPart.VISUAL_ID:
                     return new CustomThrowLinkEvent2EditPart(view);
-
 
                 case SendTask2EditPart.VISUAL_ID:
                     return new CustomSendTask2EditPart(view);
@@ -290,8 +281,8 @@ public class CustomProcessEditPartFactory extends ProcessEditPartFactory {
                 case ServiceTaskLabel2EditPart.VISUAL_ID:
                     return new CustomServiceTaskLabel2EditPart(view);
 
-                case SubProcessEventSubProcessCompartment2EditPart.VISUAL_ID :
-                    return new CustomSubprocessEventCompartmentEditPart(view) ;
+                case SubProcessEventSubProcessCompartment2EditPart.VISUAL_ID:
+                    return new CustomSubprocessEventCompartmentEditPart(view);
 
             }
         }

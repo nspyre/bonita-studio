@@ -1,11 +1,9 @@
 /**
  * <copyright>
  * </copyright>
- *
  * $Id$
  */
 package org.w3._1999.xhtml.validation;
-
 
 /**
  * A sample validator interface for {@link org.w3._1999.xhtml.BaseType}.
@@ -14,8 +12,10 @@ package org.w3._1999.xhtml.validation;
  * This can be disabled with -vmargs -Dorg.eclipse.emf.examples.generator.validator=false.
  */
 public interface BaseTypeValidator {
-	boolean validate();
 
-	boolean validateHref(String value);
-	boolean validateId(String value);
+    boolean validate();
+
+    boolean validateHref(String value);
+
+    boolean validateId(String value);
 }
