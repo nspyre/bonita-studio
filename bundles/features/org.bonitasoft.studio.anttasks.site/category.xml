@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<site>
+   <feature url="features/org.bonitasoft.studio.anttasks.feature_6.5.0.qualifier.jar" id="org.bonitasoft.studio.anttasks.feature" version="6.5.0.qualifier">
+      <category name="org.bonitasoft.studio.anttasks.site"/>
+   </feature>
+   <category-def name="org.bonitasoft.studio.anttasks.site" label="BonitaSoft Ant Tasks"/>
+</site>

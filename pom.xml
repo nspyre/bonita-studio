@@ -37,7 +37,7 @@
 
 	<modules>
 		<module>patched-plugins</module>
-		<!--module>bundles</module-->
+		<module>bundles</module>
 	</modules>
 
     <repositories>

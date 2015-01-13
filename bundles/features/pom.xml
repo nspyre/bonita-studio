@@ -6,11 +6,8 @@
   <packaging>pom</packaging>
  
   <modules>
-     <module>rootfiles-feature</module>
-     <module>platform-specific-feature</module>
-     <module>studio-feature</module>
-     <module>studio-bos-specific-feature</module>
-     <module>bos-branding-feature</module>
+     <module>org.bonitasoft.studio.anttasks.feature</module>
+     <module>org.bonitasoft.studio.anttasks.site</module>
   </modules>
   
   <parent>

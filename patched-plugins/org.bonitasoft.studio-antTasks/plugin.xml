@@ -7,8 +7,17 @@
             class="org.bonitasoft.studio.antTasks.P2AllInOneBundleInfo"
             eclipseRuntime="true"
             headless="true"
-            library="bonita_antTasks.jar"
+            library="/"
             name="P2AllInOneBundleInfo">
+      </antTask>
+   </extension>
+   <extension
+         point="org.eclipse.ant.core.antTasks">
+      <antTask
+            class="org.bonitasoft.studio.antTasks.RefreshWorkspaceTask"
+            library="/"
+            name="RefreshWorkspace"
+            uri="http://ecliptical.ca/gmf/ant">
       </antTask>
    </extension>
 
